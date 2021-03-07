@@ -1,0 +1,264 @@
+{% extends 'goodidea/base.html' %}
+
+{% block header %}
+
+  <li>
+    <a href="{% url 'goodidea:detail_item' object.pk %}"><p>詳細へ戻る</p></a>
+  </li>
+
+{% endblock header %}
+
+{% block content %}
+
+<form class="container_update" action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="menu_wrapper intem0">
+    <div>
+      <input class="menu_bt" type="submit" value='更新'>
+    </div>
+    
+    <div class="delete_bt">
+      <div>削除</div>
+      {{ form.deletedItem}}
+    </div>
+  </div>
+
+
+  <dl class="item_dl item1">
+    <dt>番号</dt>
+    <dd class="itemNum">
+
+      <p class="itemNum_hidden">{{ form.itemNum}}</p>
+      
+    {% if object.ideaNum > 0 %}
+      {{ form.ideaNum}}
+    {% else %}
+      {{ form.actionNum}}-店
+    {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>登録日</dt>
+    <dd class="right_border">{{ object.submissionDate| date:"Y/m/d"}}</dd>
+  </dl>
+
+  <dl class="item_dl item3">
+    <dt>完了日</dt>
+    <dd id="completionDate" onchange="completionDate()">{{ form.completionDate}}</dd>
+  </dl>
+
+  <dl class="item_dl item4">
+    <dt>進捗</dt>
+    <dd id="progress"  onchange="progressSelect()">
+        {% if object.ideaNum > 0 %}
+            {{ form.progress }}
+        {% else %}
+            <p class="item_progress">{{ form.progress}}</p>
+            {{ object.progress }}
+        {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>分類</dt>
+    <dd>{{ form.category}}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>提案者</dt>
+    <dd>{{ form.staff}}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>所属</dt>
+    <dd>{{ form.division}}</dd>
+  </dl>
+
+  <dl class="item_dl item8">
+    <dt class="heigh_l sentence_dt">提案内容</dt>
+    <dd class="heigh_l sentence_dd">{{ form.title}}</dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="heigh_l sentence_dt">理由説明</dt>
+    <dd class="heigh_l sentence_dd">{{ form.description}}</dd>
+  </dl>
+
+  <dl class="item_dl item10 multiple_items">
+    <dt class="heigh_l">URL</dt>
+    <dd class="heigh_l">
+      <div>{{ form.refURL1 }}</div>
+      <div>{{ form.refURL2 }}</div>
+      <div>{{ form.refURL3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item11 multiple_items multiple_items_update">
+    <dt class="heigh_l">写真</dt>
+    <dd class="heigh_l">
+      <div>{{ form.picture1 }}</div>
+      <div>{{ form.picture2 }}</div>
+      <div>{{ form.picture3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item12 multiple_items multiple_items_update">
+    <dt class="heigh_l">資料</dt>
+    <dd class="heigh_l">
+      <div>{{ form.refFile1 }}</div>
+      <div>{{ form.refFile2 }}</div>
+      <div>{{ form.refFile3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item13">
+    <dt>検討日</dt>
+    <dd>{{ form.discussionDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>実施担当</dt>
+    <dd>
+      {% if object.ideaNum > 0 %}
+        {{ form.inchargeStaff}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item15">
+    <dt>担当部門</dt>
+    <dd>
+      {% if object.ideaNum > 0 %}
+        {{ form.inchargeDivision}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item16">
+    <dt class="heigh_l sentence_dt">検討内容</dt>
+    <dd class="heigh_l sentence_dd">
+      {% if object.ideaNum > 0 %}
+        {{ form.discussionNote}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt class="heigh_l sentence_dt">方針・報告</dt>
+    <dd class="heigh_l sentence_dd">
+      {% if object.ideaNum > 0 %}
+        {{ form.report}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item18">
+    <dt>管理用</dt>
+    <dd>{{ form.adminMemo}}</dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_l heigh_l">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+</form>
+<hr>
+
+
+
+
+<script>
+
+  //Progressの値に応じて completionDate の値を更新
+  function progressSelect() {
+    
+    let select = document.getElementById('progress').firstElementChild.value;
+
+    if (select==4){
+      (function setCompletionDate() {
+        let today = new Date();
+        today.setDate(today.getDate());
+        let yyyy = today.getFullYear();
+        let mm = ("0"+(today.getMonth()+1)).slice(-2);
+        let dd = ("0"+today.getDate()).slice(-2);
+        document.getElementById("completionDate").firstElementChild.value=yyyy+'-'+mm+'-'+dd;
+      }());
+
+      (function changeBoxColor(){
+        document.getElementById('progress').firstElementChild.style.backgroundColor = "rgb(221, 237, 253)";
+        document.getElementById('completionDate').firstElementChild.style.backgroundColor = "rgb(221, 237, 253)";
+      }());
+
+      console.log('test1')
+          
+    }else{
+
+    (function setCompletionDate() {
+        let today = new Date();
+        let yyyy = null;
+        let mm = null;
+        let dd = null;
+        document.getElementById("completionDate").firstElementChild.value= yyyy+'-'+mm+'-'+dd;
+    }());
+
+    (function changeBoxColor(){
+        document.getElementById('progress').firstElementChild.style.backgroundColor = "white";
+        document.getElementById('completionDate').firstElementChild.style.backgroundColor = "white";
+        }());
+      console.log('test2')
+    };
+  };
+
+    //completionDateの値に応じて Progress の値を更新
+    function completionDate() {
+    
+      let select = document.getElementById('completionDate').firstElementChild.value;
+  
+      if (!select){
+
+        (function setProgress() {
+          document.getElementById("progress").firstElementChild.value=1;
+        }());
+  
+        (function changeBoxColor(){
+          document.getElementById('progress').firstElementChild.style.backgroundColor = "white";
+          document.getElementById('completionDate').firstElementChild.style.backgroundColor = "white";
+        }());
+  
+        console.log('test4')
+      }else{
+
+        (function setProgress() {
+          document.getElementById("progress").firstElementChild.value=4;
+        }());
+  
+        (function changeBoxColor(){
+          document.getElementById('progress').firstElementChild.style.backgroundColor = "rgb(221, 237, 253)";
+          document.getElementById('completionDate').firstElementChild.style.backgroundColor = "rgb(221, 237, 253)";
+        }());
+
+        console.log('test5')
+      };
+    };
+
+
+</script>
+
+{% endblock content%}
+

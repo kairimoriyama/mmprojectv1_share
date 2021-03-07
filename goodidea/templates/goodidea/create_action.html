@@ -1,0 +1,126 @@
+{% extends 'goodidea/base.html' %}
+
+{% block header %}
+
+  <li>
+    <a href="{% url 'goodidea:list_action' %}"><p>一覧へ戻る</p></a>
+  </li>
+
+{% endblock header %}
+
+
+{% block content %}
+<form class="container_create" method="POST" enctype="multipart/form-data">{% csrf_token %}
+ 
+  <div class="menu_wrapper item0">
+    <input class="menu_bt" type="submit" value='登録実行'>
+  </div>
+
+  <dl class="item_dl item1">
+    <dt>番号</dt>
+    <dd class="itemNum">
+      <p class="itemNum_hidden">{{ form.itemNum}}</p>
+      {{ form.actionNum}}
+      <p>-店</p>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>登録日</dt>
+    <dd class="item_submissionDate" id="submissionDateInit">{{ form.submissionDate }}</dd>
+  </dl>
+      
+  <dl class="item_dl item3">
+    <dt>完了日</dt>
+    <dd>{{ form.completionDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item4">
+    <dt>進捗</dt>
+    <dd class="item_progress">
+      {{ form.progress}}
+      <p class="item_progress">完了</p>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>分類</dt>
+    <dd>{{ form.category}}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>提案者</dt>
+    <dd>{{ form.staff}}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>所属</dt>
+    <dd>{{ form.division}}</dd>
+  </dl>
+
+  <dl class="item_dl item8">
+    <dt class="heigh_l sentence_dt">実施内容</dt>
+    <dd class="heigh_l sentence_dd">{{ form.title}}</dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="heigh_l sentence_dt">理由説明</dt>
+    <dd class="heigh_l sentence_dd">{{ form.description}}</dd>
+  </dl>
+
+  <dl class="item_dl item10 multiple_items">
+    <dt class="heigh_l">URL</dt>
+    <dd class="heigh_l">
+      <div>{{ form.refURL1 }}</div>
+      <div>{{ form.refURL2 }}</div>
+      <div>{{ form.refURL3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item11 multiple_items">
+    <dt class="heigh_l">写真</dt>
+    <dd class="heigh_l">
+      <div>{{ form.picture1 }}</div>
+      <div>{{ form.picture2 }}</div>
+      <div>{{ form.picture3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item12 multiple_items">
+    <dt class="heigh_l">資料</dt>
+    <dd class="heigh_l">
+      <div>{{ form.refFile1 }}</div>
+      <div>{{ form.refFile2 }}</div>
+      <div>{{ form.refFile3 }}</div>
+    </dd>
+  </dl>
+  
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_l heigh_l">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+</form>
+<hr>
+
+<script>
+
+  //登録日の初期値
+  function submissionDateInit() {
+    let now = new Date();
+    let year = now.getFullYear();
+    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
+    let day = ("0"+ (now.getDate())).slice(-2);
+    let today =year+'/'+mon+'/'+day;
+    document.getElementById("submissionDateInit").innerHTML= today;
+    }
+  window.onload = submissionDateInit();
+</script>
+
+{% endblock content%}
+

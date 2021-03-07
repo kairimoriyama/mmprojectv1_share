@@ -1,0 +1,23 @@
+
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/style.css' %}">
+    <script type="text/javascript"  src="{% static 'jquery-2.1.3.min.js' %}"></script>
+
+    <title>
+      {% block title %}
+      {% endblock title%}
+    </title>
+  </head> 
+  
+{% block contents %}
+{% endblock contents %}
+  
+</html>
+  

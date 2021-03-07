@@ -1,0 +1,453 @@
+{% extends 'goodidea/base.html' %}
+
+
+{% block header %}
+  <li>
+    <a href="{% url 'goodidea:list_all' %}">一覧へ戻る</a>
+  </li>
+{% endblock%}
+
+{% block content %}
+
+
+  <form action="{% url 'goodidea:list_filter' %}" method="GET" class="list_filter">
+    
+  <div class="menu_wrapper">
+    <div class="filter_bt_wrapper">
+      <button id="search_btn" onclick="set_search_key()" class="menu_bt" type="submit">検索実施</button>
+      <a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:list_filter' %}">条件削除</a>
+      <p class="menu_bt menu_bt_mg_left" onclick="filter_item_bt()"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
+    </div>
+
+    <ul class="page_nav">
+      <li>
+        {% if page_obj.has_previous %}
+          <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key()">
+            ＜
+          </a>
+        {% else %}
+        {% endif %}
+      </li>
+    
+      <li>
+        {% if page_obj.has_next %}
+          <a class="menu_bt menu_bt_mg_left next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
+            ＞
+          </a>
+        {% else %}
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+
+
+    <div id="filter_items" class="list_filter_items">
+
+      <form method="POST" aciton="">
+
+      <dl>
+        <dt>提案者</dt>
+        <dd><input id="staff" name="staff" value="{{ request.GET.staff }}" type="text"></dd>
+      </dl>
+
+      <dl>
+        <dt>所属</dt>
+        <dd>
+          <select id="division" name="division" class="list_filter_select" type="number">
+            <option value=0>全部門</option>
+          {% for division in divisionSelect_list %}
+            <option value="{{ division.id }}">{{ division.name }}</option>
+          {% endfor %}
+        </select>
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>実施担当</dt>
+        <dd><input id="inchargeStaff"  name="inchargeStaff" value="{{ request.GET.inchargeStaff }}" type="text"></dd>
+      </dl>
+
+      <dl>
+        <dt>担当部門</dt>
+        <dd><input id="inchargeDivision" name="inchargeDivision" value="{{ request.GET.inchargeDivision }}" type="text"></dd>
+      </dl>
+
+      <dl>
+        <dt>進捗</dt>
+        <dd>
+          <select id="progress" onchange="progressSelect()" name="progress"  class="list_filter_select" type="number">
+              <option value=0>全進捗</option>
+            {% for progress in progressSelect_list %}
+              <option value="{{ progress.id }}">{{ progress.name }}</option>
+            {% endfor %}
+          </select>
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>キーワード</dt>
+        <dd><input id="word" name="word" value="{{ request.GET.word }}" type="text"></dd>
+      </dl>
+
+      <dl class="list_filter_date">
+        <dt>登録日</dt>
+        <dd>
+          <input id="submissionDateFrom" name="submissionDateFrom" value="{{ request.GET.submissionDateFrom }}" type="date">
+          <p>-</p>
+          <input id="submissionDateTo" name="submissionDateTo" value="{{ request.GET.submissionDateTo }}" type="date">
+        </dd>
+      </dl>
+
+      <dl class="list_filter_date" id="completionDateFilter">
+        <dt>完了日</dt>
+        <dd>
+          <input id="completionDateFrom" name="completionDateFrom" value="{{ request.GET.completionDateFrom }}" type="date">
+          <p>-</p>
+          <input id="completionDateTo" name="completionDateTo" value="{{ request.GET.completionDateTo }}" type="date"></dd>
+        </dd>
+      </dl>
+    </div>
+  </form>
+
+
+  <table class="item-table">
+
+    <tr>
+      <th class="sticky_col_th">No</th>
+      <th>登録日</th>
+      <th>進捗</th>
+      <th>提案者</th>
+      <th>所属</th>
+      <th>分類</th>
+      <th>提案・実施内容</th>
+      <th>理由説明</th>
+
+      <th class="src_col" colspan="3">URL</th>
+      <th class="src_col" colspan="3">写真</th>
+      <th class="src_col" colspan="3">資料</th>
+      
+      <th>検討日</th>
+      <th>検討内容</th>
+      <th>方針・報告</th>
+
+      <th>担当部門</th>
+      <th>担当者</th>
+      
+
+      <th>完了日</th>
+      <th>管理用</th>
+    </tr>
+    
+    </tr>
+    {% for item in object_list %}
+
+      <!-- 進捗状況に応じた色の設定 -->
+      {% if item.progress.no == 1 %}
+        <tr class="row-white">
+      {%  elif item.progress.no == 2 %}
+        <tr class="row-yellow">
+      {%  elif item.progress.no == 3 %}
+        <tr class="row-gray">
+      {%  elif item.progress.no == 4 %}
+        <tr class="row-blue">
+      {%  elif item.progress.no == 5 %}
+        <tr>
+      {% endif %}
+          <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()" >
+            {% if item.ideaNum > 0 %}
+              <a href="{% url 'goodidea:detail_filter' item.pk %}">
+                {{ item.ideaNum }}
+              </a>
+            {% else %}
+              <a href="{% url 'goodidea:detail_filter' item.pk %}">
+                {{ item.actionNum }}-店
+              </a>
+            {% endif %}
+          </td>
+          <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
+                    
+          <td>{{ item.progress.name }}</td>
+          <td>{{ item.staff }}</td>
+          <td>{{ item.division.name }}</td>
+          <td>{{ item.category.name }}</td>
+          <td class="longText">{{ item.title }}</td>
+          <td class="longText">{{ item.description }}</td>
+
+
+          <td class="src_col">
+            {% if not item.refURL1 %}
+            <p></p>
+            {% else %}
+              <a href="{{ item.refURL1 }}">1</a>
+            {% endif %}
+          </td>
+          <td class="src_col">
+            {% if not item.refURL2 %}
+            <p></p>
+            {% else %}
+              <a href="{{ item.refURL2 }}">2</a>
+            {% endif %}
+          </td>
+          <td class="src_col">
+            {% if not item.refURL3 %}
+            <p></p>
+            {% else %}
+              <a href="{{ item.refURL3 }}">3</a>
+            {% endif %}
+          </td>
+  
+          <td class="src_col">
+            {% if not item.picture1 %}
+            <p></p>
+            {% else %}
+              <a href="/media/{{ item.picture1 }}">1</a>
+            {% endif %}
+          </td>
+  
+          <td class="src_col">
+            {% if not item.picture2 %}
+            <p></p>
+            {% else %}
+              <a href="/media/{{ item.picture2 }}">2</a>
+            {% endif %}
+          </td>
+  
+          <td class="src_col">
+            {% if not item.picture3 %}
+            <p></p>
+            {% else %}
+              <a href="/media/{{ item.picture3 }}">3</a>
+            {% endif %}
+          </td>
+          
+  
+          <td class="src_col">
+            {% if not item.refFile1 %}
+              <p></p>
+            {% else %}
+              <a href="/media/{{ item.refFile1 }}">1</a>
+            {% endif %}
+          </td>
+  
+          <td class="src_col">
+            {% if not  item.refFile2 %}
+            <p></p>
+            {% else %}
+              <a href="/media/{{ item.refFile2 }}">2</a>
+            {% endif %}
+          </td>
+  
+          <td class="src_col">
+            {% if not item.refFile3 %}
+            <p></p>
+            {% else %}
+              <a href="/media/{{ item.refFile3 }}">3</a>
+            {% endif %}
+          </td>
+  
+         
+          <td  class="date_col">
+            {% if item.discussionDate != None %}
+              {{ item.discussionDate | date:"Y/m/d"}}
+            {% else %}
+              <p>-</p>
+            {% endif %}
+          </td>
+          <td class="longText">{{ item.discussionNote }}</td>
+          <td class="longText">{{ item.action }}</td>
+
+          <td>{{ item.inchargeDivision }}</td>
+          <td>{{ item.inchargeStaff }}</td>
+
+          
+          <td class="date_col">
+            {% if item.completionDate != None %}
+              {{ item.completionDate | date:"Y/m/d"}}
+            {% else %}
+              <p>-</p>
+            {% endif %}
+          </td>
+          
+          <td>{{ item.adminMemo }}</td>       
+        
+        </tr>
+      
+    {% endfor %}
+
+  </table>
+
+
+<script>
+  //表示・非表示の初期値
+  document.getElementById("filter_items").style.display ="flex";
+  document.getElementById("filter_bt_on").style.display ="block";
+  document.getElementById("filter_bt_off").style.display ="none";
+  document.getElementById("completionDateFilter").style.display ="none";
+
+
+  function filter_item_bt(){
+    const p = document.getElementById("filter_items");
+    const q = document.getElementById("filter_bt_on");
+    const r = document.getElementById("filter_bt_off");
+  
+    if(p.style.display=="none"){
+      p.style.display ="flex";
+      q.style.display ="block";
+      r.style.display ="none";
+      
+    }else{
+      p.style.display ="none";
+      q.style.display ="none";
+      r.style.display ="block";
+    }
+  };
+
+  //登録日From To の初期値
+  function submissionDateInit() {
+    
+    let p = JSON.parse(localStorage.getItem('search_key'));
+
+    if (p === null) {
+
+      let today = new Date();
+      today.setDate(today.getDate());
+      let yyyy1 = today.getFullYear()-1;
+      let yyyy2 = today.getFullYear();
+      let mm = ("0"+(today.getMonth()+1)).slice(-2);
+      let dd = ("0"+today.getDate()).slice(-2);
+      document.getElementById("submissionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
+      document.getElementById("submissionDateTo").value=yyyy2+'-'+mm+'-'+dd;
+
+    }else{};
+  };
+
+  window.onload = submissionDateInit();
+
+
+  //Progressの値に応じて completionDate の値を更新
+  function progressSelect() {
+  
+  let dataset = JSON.parse(localStorage.getItem('search_key'));
+
+    if (dataset === null) {
+
+      let select = document.getElementById('progress').value;
+
+      if (select=="4"){
+        (function updateCompletionDate() {
+          let today = new Date();
+          today.setDate(today.getDate());
+          let yyyy = today.getFullYear();
+          let mm1 = ("0"+(today.getMonth())).slice(-2);
+          let mm2 = ("0"+(today.getMonth()+1)).slice(-2);
+          let dd = ("0"+today.getDate()).slice(-2);
+          document.getElementById("completionDateFrom").value=yyyy+'-'+mm1+'-'+dd;
+          document.getElementById("completionDateTo").value=yyyy+'-'+mm2+'-'+dd;
+        }());
+        
+        //completionDateFilter の表示
+
+        (function completionDateOn(){
+          document.getElementById("completionDateFilter").style.display ="block";
+        }());
+
+        console.log('test1')
+            
+      }else{
+        (function completionDateOff(){
+          document.getElementById("completionDateFilter").style.display ="none";
+        }());
+
+        console.log('test2')
+      };
+
+    }else{};
+  };
+
+
+// 検索条件をローカルストレージへ保存（ボタン：検索、移動、詳細、戻る）
+function set_search_key(){
+
+  localStorage.setItem('count_key', '1'); //カウント1を設定
+  localStorage.removeItem('search_key');
+
+  let staff = document.getElementById('staff').value;
+  let division = document.getElementById('division').value;
+  let inchargeStaff = document.getElementById('inchargeStaff').value;
+  let inchargeDivision = document.getElementById('inchargeDivision').value;
+  let progress = document.getElementById('progress').value;
+  let word = document.getElementById('word').value;
+  let submissionDateFrom = document.getElementById('submissionDateFrom').value;
+  let submissionDateTo = document.getElementById('submissionDateTo').value;
+  let completionDateFrom = document.getElementById('completionDateFrom').value;
+  let completionDateTo = document.getElementById('completionDateTo').value;
+
+  let dataset = ({
+    "key1": staff,
+    "key2": division,
+    "key3": inchargeStaff,
+    "key4":inchargeDivision,
+    "key5": progress,
+    "key6": word,
+    "key7": submissionDateFrom,
+    "key8": submissionDateTo,
+    "key9": completionDateFrom,
+    "key10": completionDateTo
+  });
+ 
+  let datasetJSON = JSON.stringify(dataset); // JSONに変換
+  localStorage.setItem('search_key', datasetJSON); 
+};
+
+
+function count_key_clear(){
+  localStorage.removeItem('count_key'); //他のページへ遷移する場合にcount_key削除
+};
+
+
+function get_search_key() {
+
+  let dataset = JSON.parse(localStorage.getItem('search_key'));
+
+  if (dataset === null) {
+
+  }else{
+
+    // 検索条件をフォームに入力
+    document.getElementById('staff').value= dataset["key1"];
+    document.getElementById('division').value = dataset["key2"];
+    document.getElementById('inchargeStaff').value= dataset["key3"];
+    document.getElementById('inchargeDivision').value= dataset["key4"];
+    document.getElementById('progress').value= dataset["key5"];
+    document.getElementById('word').value= dataset["key6"];
+    document.getElementById('submissionDateFrom').value= dataset["key7"];
+    document.getElementById('submissionDateTo').value= dataset["key8"];
+    document.getElementById('completionDateFrom').value= dataset["key9"];
+    document.getElementById('completionDateTo').value= dataset["key10"];
+
+    if (dataset["key5"]==4) {
+      document.getElementById("completionDateFilter").style.display ="block";
+    }else{
+      document.getElementById("completionDateFilter").style.display ="none";
+    };
+
+
+    // 更新・他のページからの遷移の際に検索実施
+    if (parseInt(localStorage.getItem('count_key'))==1) { //カウント1であればそのまま実行
+
+      localStorage.removeItem('count_key'); 
+      localStorage.removeItem('search_key');
+      
+    }else{
+      localStorage.setItem('count_key', '1'); //カウント1を設定
+      document.getElementById('search_btn').click(); //検索条件による抽出実行
+    };
+  };
+};
+
+window.onload = get_search_key(); //読み込み時に遷移前の検索条件を入力
+
+
+</script>
+
+{% endblock content%}
