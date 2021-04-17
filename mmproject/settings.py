@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-<<<<<<< HEAD
 
 ]
 
@@ -55,23 +54,6 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MIDDLEWARE = [
     'global_login_required.GlobalLoginRequiredMiddleware', #一括ログイン
-=======
-]
-
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#     'SCOPE': [
-#         'profile',
-#         'email',
-#     ],
-#     'AUTH_PARAMS': {
-#         'access_type': 'online',
-#     }
-# }
-# }
-
-MIDDLEWARE = [
->>>>>>> origin/main
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
