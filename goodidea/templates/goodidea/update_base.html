@@ -1,0 +1,329 @@
+
+<form class="container_update" action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+    <div class="menu_wrapper_inner item0">
+      <div>
+        <input class="menu_bt" type="submit" value='更新'>
+      </div>
+      
+      <div class="delete_bt">
+        <div>削除</div>
+        {{ form.deletedItem}}
+      </div>
+    </div>
+
+
+    <dl class="item_dl item1">
+      <dt>番号</dt>
+      <dd class="itemNum">
+        
+        <p class="itemNum_hidden">{{ form.itemNum}}</p>
+
+      {% if object.ideaNum > 0 %}
+          {{ form.ideaNum}}
+      {% else %}
+          {{ form.actionNum}}-共
+      {% endif %}
+      </dd>
+    </dl>
+
+
+    <dl class="item_dl item2">
+      <dt>登録日</dt>
+      <dd>{{ object.submissionDate| date:"Y/m/d"}}</dd>
+    </dl>
+
+    <dl class="item_dl item3">
+      <dt>
+        {% if object.ideaNum > 0 %}
+          <select class="due_complete_select" id="due_complete_select" onchange="due_complete_change()">
+            <option value="完了日">完了日</option>
+            <option value="期日">期日</option>
+          </select>
+        {% else %}
+          完了日
+        {% endif %}
+      </dt>
+      {% if object.ideaNum > 0 %}
+        <dd  id="dueDate">
+          {{ form.dueDate}}
+        </dd>
+  
+        <dd id="completionDate">
+          {{ form.completionDate}}
+        </dd>    
+      {% else %}
+        <dd>{{ form.completionDate}}</dd>
+      {% endif %}
+    </dl>
+  
+    <dl class="item_dl item4">
+      <dt>進捗</dt>
+      <dd id="progress"  onchange="progressSelect()">
+          {% if object.ideaNum > 0 %}
+              {{ form.progress }}
+          {% else %}
+              <p class="item_progress">{{ form.progress}}</p>
+              {{ object.progress }}
+          {% endif %}
+      </dd>
+    </dl>
+  
+
+    <dl class="item_dl item5">
+      <dt>分類</dt>
+      <dd>{{ form.category}}</dd>
+    </dl>
+
+    <dl class="item_dl item6">
+      <dt>提案者</dt>
+      <dd>{{ form.staff}}</dd>
+    </dl>
+
+    <dl class="item_dl item7">
+      <dt>所属</dt>
+      <dd>{{ form.division}}</dd>
+    </dl>
+
+    <dl class="item_dl item8">
+      <dt class="height_l sentence_dt">提案内容</dt>
+      <dd class="height_l sentence_dd">{{ form.title}}</dd>
+    </dl>
+
+    <dl class="item_dl item9">
+      <dt class="height_l sentence_dt">根拠</dt>
+      <dd class="height_l sentence_dd">{{ form.description}}</dd>
+    </dl>
+
+    <dl class="item_dl item10 multiple_items">
+      <dt class="height_l">URL</dt>
+      <dd class="height_l">
+        <div>{{ form.refURL1 }}</div>
+        <div>{{ form.refURL2 }}</div>
+        <div>{{ form.refURL3 }}</div>
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item11 multiple_items multiple_items_update">
+      <dt class="height_l">写真</dt>
+      <dd class="height_l">
+        <div>{{ form.picture1 }}</div>
+        <div>{{ form.picture2 }}</div>
+        <div>{{ form.picture3 }}</div>
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item12 multiple_items multiple_items_update">
+      <dt class="height_l">資料</dt>
+      <dd class="height_l">
+        <div>{{ form.refFile1 }}</div>
+        <div>{{ form.refFile2 }}</div>
+        <div>{{ form.refFile3 }}</div>
+      </dd>
+    </dl>
+
+    <dl class="item_dl item13">
+      <dt>検討日</dt>
+      <dd>
+        {% if object.ideaNum > 0 %}
+          {{ form.discussionDate }}
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </dd>
+    </dl>
+
+    <dl class="item_dl item14">
+      <dt>実施担当</dt>
+      <dd>
+      {% if object.ideaNum > 0 %}
+        {{ form.inchargeStaff}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+      </dd>
+    </dl>
+
+
+    <dl class="item_dl item15">
+      <dt>担当部門</dt>
+      <dd>
+        {% if object.ideaNum > 0 %}
+          {{ form.inchargeDivision}}
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item16">
+      <dt class="height_l sentence_dt">議事録</dt>
+      <dd class="height_l sentence_dd">
+        {% if object.ideaNum > 0 %}
+          {{ form.discussionNote}}
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item17">
+      <dt class="height_l sentence_dt">方針・報告</dt>
+      <dd class="height_l sentence_dd">
+        {% if object.ideaNum > 0 %}
+          {{ form.report}}
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </dd>
+    </dl>
+
+    <dl class="item_dl item18">
+      <dt>管理用</dt>
+      <dd>{{ form.adminMemo}}</dd>
+    </dl>
+
+
+
+    <dl class="item_dl item_dl_dummy_s">
+      <dt></dt>
+      <dd></dd>
+    </dl>
+  
+    <dl class="item_dl item_dl_dummy_l">
+      <dt class="height_l"></dt>
+      <dd class="height_l"></dd>
+    </dl>
+
+</form>
+<hr>
+
+
+
+
+<script>
+
+
+// 完了日削除
+function clearCompletionDate() {
+        let today = new Date();
+        let yyyy = null;
+        let mm = null;
+        let dd = null;
+        document.getElementById("completionDate").firstElementChild.value= yyyy+'-'+mm+'-'+dd;
+};
+
+// 完了日自動入力
+function setCompletionDate() {
+        let today = new Date();
+        today.setDate(today.getDate());
+        let yyyy = today.getFullYear();
+        let mm = ("0"+(today.getMonth()+1)).slice(-2);
+        let dd = ("0"+today.getDate()).slice(-2);
+        document.getElementById("completionDate").firstElementChild.value=yyyy+'-'+mm+'-'+dd;
+};
+
+// 期日削除
+function clearDueDate() {
+        let today = new Date();
+        let yyyy = null;
+        let mm = null;
+        let dd = null;
+        document.getElementById("dueDate").firstElementChild.value= yyyy+'-'+mm+'-'+dd;
+};
+
+// 期日自動入力
+function setDueDate() {
+        let today = new Date();
+        today.setDate(today.getDate());
+        let yyyy = today.getFullYear();
+        let mm = ("0"+(today.getMonth()+1)).slice(-2);
+        let dd = ("0"+today.getDate()).slice(-2);
+        document.getElementById("dueDate").firstElementChild.value=yyyy+'-'+mm+'-'+dd;
+};
+
+function changeBoxColor_blue(){
+        document.getElementById('progress').firstElementChild.style.backgroundColor = "rgb(221, 237, 253)";
+        document.getElementById('completionDate').firstElementChild.style.backgroundColor = "rgb(221, 237, 253)";
+};
+
+function changeBoxColor_white(){
+        document.getElementById('progress').firstElementChild.style.backgroundColor = "white";
+        document.getElementById('completionDate').firstElementChild.style.backgroundColor = "white";
+};
+
+
+
+
+ //期日・完了日の表示切り替え条件
+ function due_complete_set(){
+    let s =document.getElementById("completionDate").firstElementChild.value;
+
+    console.log(s)
+
+    if(s == null || s =="" || s === undefined){
+      document.getElementById("dueDate").style.display ="flex";
+      document.getElementById("completionDate").style.display ="none";
+      document.getElementById("due_complete_select").value="期日"
+      changeBoxColor_white();
+    }else{
+      document.getElementById("dueDate").style.display ="none";
+      document.getElementById("completionDate").style.display ="flex";
+      document.getElementById("due_complete_select").value="完了日"
+      changeBoxColor_blue();
+    }
+  };  
+  // 画面開いた際に実行
+  window.onload = due_complete_set(); 
+
+
+  // 期日・完了日の切り替えに応じて表示変更
+  function due_complete_change(){
+    let p = document.getElementById("due_complete_select").value;
+
+  
+    if(p == "期日"){
+      document.getElementById("dueDate").style.display ="flex";
+      document.getElementById("completionDate").style.display ="none";
+      changeBoxColor_white();
+      clearCompletionDate();
+      document.getElementById("progress").firstElementChild.value=2;
+      setDueDate();
+      
+    }else{
+      document.getElementById("dueDate").style.display ="none";
+      document.getElementById("completionDate").style.display ="flex";
+      changeBoxColor_blue();
+      setCompletionDate();
+      document.getElementById("progress").firstElementChild.value=4;
+      clearDueDate();
+    }
+  };
+
+
+  //Progressの値に応じて completionDate の値を更新
+  function progressSelect() {
+    
+    let select = document.getElementById('progress').firstElementChild.value;
+
+    if (select==4){
+      document.getElementById("due_complete_select").value="完了日"
+      document.getElementById("dueDate").style.display ="none";
+      document.getElementById("completionDate").style.display ="flex";
+      changeBoxColor_blue();
+      setCompletionDate();
+      clearDueDate();
+    }else{
+      document.getElementById("due_complete_select").value="期日"
+      document.getElementById("dueDate").style.display ="flex";
+      document.getElementById("completionDate").style.display ="none";
+      changeBoxColor_white();
+      clearCompletionDate();
+      setDueDate();
+    };
+  };
+
+
+
+</script>

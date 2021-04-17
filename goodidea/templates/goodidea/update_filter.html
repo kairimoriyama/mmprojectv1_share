@@ -1,0 +1,17 @@
+{% extends 'goodidea/base.html' %}
+
+{% block header %}
+  <li>
+    <a href="{% url 'goodidea:detail_filter' object.pk %}"><p>詳細へ戻る</p></a>
+  </li>
+
+{% endblock header %}
+
+{% block content %}
+
+
+{% include 'goodidea/update_base.html' %}
+
+
+{% endblock content%}
+

@@ -1,0 +1,75 @@
+{% extends 'goodidea/base.html' %}
+
+{% block header %}
+
+  <li>
+    {% if object.ideaNum > 0 %}
+    <a href="{% url 'goodidea:list_idea' %}"><p>一覧へ戻る</p></a>
+    {% else %}
+    <a href="{% url 'goodidea:list_action' %}"><p>一覧へ戻る</p></a>
+    {% endif %}
+  </li>
+
+{% endblock header %}
+
+{% block content %}
+
+<div class="menu_wrapper">
+
+  <div class="detail_nav">
+    <a class="menu_bt" href="{% url 'goodidea:update_sub' object.id %}">編集</a>
+    {% if object.deletedItem == True %}
+      <div><p  class="detail_deletedItem">削除済み</p></div>
+    {% endif %}
+  </div>
+
+  <ul class="page_nav">
+
+    {% if object.ideaNum > 0 %}
+
+      <li>
+        {% with prev=item.get_prev_idea_by_itemNum %}
+          {% if prev %}
+            <a class="menu_bt next_bt" href="{% url 'goodidea:detail_sub' prev.pk %}">＜</a>
+          {% endif %}
+        {% endwith %}
+      </li>
+
+      <li>
+        {% with next=item.get_next_idea_by_itemNum %}
+          {% if next %}
+            <a class="menu_bt menu_bt_mg_left next_bt" href="{% url 'goodidea:detail_sub' next.pk %}">＞</a>
+          {% endif %}
+        {% endwith %}
+      </li>
+
+    {% else %}
+
+      <li>
+        {% with prev=item.get_prev_action_by_itemNum %}
+          {% if prev %}
+            <a class="menu_bt next_bt" href="{% url 'goodidea:detail_sub' prev.pk %}">＜</a>
+          {% endif %}
+        {% endwith %}
+      </li>
+
+      <li>
+        {% with next=item.get_next_action_by_itemNum %}
+          {% if next %}
+            <a class="menu_bt menu_bt_mg_left next_bt" href="{% url 'goodidea:detail_sub' next.pk %}">＞</a>
+          {% endif %}
+        {% endwith %}
+      </li>
+    
+    {% endif %}
+
+  </ul>
+
+</div>
+
+
+{% include 'goodidea/detail_base.html' %}
+  
+
+{% endblock content%}
+

@@ -1,0 +1,151 @@
+html{
+    /* 1rem = 100pxと定義 */
+    font-size: 10px;
+    font-family:'Meiryo', sans-serif;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1600px; 
+}
+
+
+@media screen and (min-width: 0px) and (max-width: 400px){
+    html {
+        font-size: 42%; /*スマホサイズ*/
+    }
+}
+
+
+@media screen and (min-width: 400px) and (max-width: 800px) {
+    html {
+        font-size: 47%; /*スマホサイズ*/
+    }
+}
+
+
+@media screen and (min-width: 800px) and (max-width: 1800px) {
+    html {
+        font-size: 52%; /*PCサイズ*/
+    }
+}
+
+body{
+    width:100%;
+    margin: 0;
+}
+
+input, textarea, select{
+    font-family:'Meiryo', sans-serif;
+}
+
+
+.excel_output{
+    display: none;
+}
+@media screen and (min-width: 600px) {
+    .excel_output{
+        display: block;
+    }
+}
+
+/* header */
+
+header{
+    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:2rem 1.5rem 1rem 1.5rem;
+}
+
+header nav li{
+    padding-left: 2rem;  
+}
+
+
+h1{
+    color: black;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    line-height: 5rem;
+}
+
+h2{
+    color: black;
+    font-size: 1.8rem;
+}
+
+header ul{
+    margin-top: 0rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+header li{
+    display: flex;
+    align-items: center;
+
+}
+
+header a{
+    text-decoration: none;
+    color: #222222;
+    font-size: 1.8rem;
+}
+
+button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-decoration: none;
+    border: none;
+    background-color: #fff;
+}
+
+/* menu ボタンのwrapper */
+
+.menu_wrapper{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+
+.menu_bt{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+    border: solid 0.2rem  #bfbfbf;
+    border-radius: 0.5rem;
+    outline: none;
+    background: transparent;
+    text-decoration: none;
+    display: block;
+
+    color: #222222;
+    margin-bottom: 0.8rem;
+    margin: 0;
+    width:10rem;
+    line-height: 3rem;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.menu_bt_mg_left{
+    margin-left: 1rem;
+}
+
+/* ページ移動ボタン */
+
+.page_nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+.next_bt{
+    width: 4rem;
+}
+
