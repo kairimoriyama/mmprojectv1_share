@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+<<<<<<< HEAD
 
 ]
 
@@ -54,6 +55,23 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MIDDLEWARE = [
     'global_login_required.GlobalLoginRequiredMiddleware', #一括ログイン
+=======
+]
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#     'SCOPE': [
+#         'profile',
+#         'email',
+#     ],
+#     'AUTH_PARAMS': {
+#         'access_type': 'online',
+#     }
+# }
+# }
+
+MIDDLEWARE = [
+>>>>>>> origin/main
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,19 +103,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mmproject.wsgi.application'
 
+<<<<<<< HEAD
 AUTH_USER_MODEL = 'accounts.User'
+=======
+>>>>>>> origin/main
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mmproject',
         'USER': 'postgres',
         'PASSWORD': 'PASSWORD',
         'HOST': 'localhost',
         'PORT': '',
+=======
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+>>>>>>> origin/main
     }
 }
 
@@ -148,6 +174,7 @@ MEDIA_ROOT = os.path.join( BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
 
+<<<<<<< HEAD
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -162,16 +189,31 @@ PUBLIC_PATHS = [
 SITE_ID = 1
 # ログイン・ログアウト後の画面
 LOGIN_REDIRECT_URL = '/'
+=======
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+SITE_ID = 1
+# ログイン・ログアウト後の画面
+LOGIN_REDIRECT_URL = 'home'
+>>>>>>> origin/main
 LOGIN_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
+<<<<<<< HEAD
 
 AUTHENTICATION_BACKENDS = (
     # 管理サイト用
     'django.contrib.auth.backends.ModelBackend',
     # 一般ユーザー用
     'allauth.account.auth_backends.AuthenticationBackend',
+=======
+AUTHENTICATION_BACKENDS = (
+    # 一般ユーザー用
+    'allauth.account.auth_backends.AuthenticationBackend',
+    # 管理サイト用
+    'django.contrib.auth.backends.ModelBackend',
+>>>>>>> origin/main
 )
 
 # 認証方法 メールアドレス

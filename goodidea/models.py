@@ -41,12 +41,15 @@ class ItemManager(models.Manager):
         ).filter(deletedItem=False
         ).filter(actionNum__gt=0)
 
+<<<<<<< HEAD
     def due_list(self):
         return super().get_queryset(
         ).filter(deletedItem=False
         ).filter(ideaNum__gt=0
         ).exclude(dueDate__isnull=True)
 
+=======
+>>>>>>> origin/main
 
 class ItemQuerySet(models.QuerySet):
 
@@ -61,9 +64,12 @@ class ItemQuerySet(models.QuerySet):
 
     def item_action(self):
         return self.filter(actionNum__gt=0)
+<<<<<<< HEAD
 
     def item_due(self):
         return self.filter(dueDate__isnull=False)
+=======
+>>>>>>> origin/main
         
 
 class Item(models.Model):
@@ -96,7 +102,10 @@ class Item(models.Model):
     inchargeDivision = models.CharField(max_length=50,blank=True)
     inchargeStaff = models.CharField(max_length=50,blank=True)
     completionDate = models.DateField(blank=True,null=True)
+<<<<<<< HEAD
     dueDate = models.DateField(blank=True,null=True)
+=======
+>>>>>>> origin/main
     adminMemo = models.CharField(max_length=100,blank=True)
     deletedItem = models.BooleanField(default=False)
  
@@ -139,6 +148,7 @@ class Item(models.Model):
 
     def get_next_action_by_itemNum(self):
         """次のactoinを取得"""
+<<<<<<< HEAD
         return type(self).objects.item_alive().item_action().filter(actionNum__gt=self.actionNum).order_by('itemNum').first()
 
 
@@ -149,3 +159,6 @@ class Item(models.Model):
     def get_next_idea_by_dueDate(self):
         """期日が次のideaを取得"""
         return type(self).objects.item_alive().item_due().filter(dueDate__gt=self.dueDate).order_by('dueDate').first()
+=======
+        return type(self).objects.item_alive().item_action().filter(actionNum__gt=self.actionNum).order_by('itemNum').first()
+>>>>>>> origin/main

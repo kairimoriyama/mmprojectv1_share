@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 <div class="container">
     <h1>管理ツール</h1>
 
@@ -35,6 +36,28 @@
     {% endif %}
 
 </div>
+=======
+  
+    {% if user.is_authenticated %}
+    <h2>
+        ユーザ名： {{ user.get_username }} <br>
+        メールアドレス： {{ user.email }}<br>
+        セッション開始時刻: {{ user.last_login }}
+    </h2>
+    <p><a href="{% url 'account_logout' %}">ログアウト</a></p>
+
+    <ul>
+        <li>
+        <a href="{% url 'goodidea:list_all' %}"><p>Good idea</p></a>
+        </li>
+    </ul>
+
+    {% else %}
+    <p><a href="/accounts/login/">ログイン画面へ</a></p>
+    {% endif %}
+
+
+>>>>>>> origin/main
 </body>
   
 </html>

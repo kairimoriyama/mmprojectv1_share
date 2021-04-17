@@ -82,6 +82,14 @@ header ul{
 }
 
 
+<<<<<<< HEAD
+=======
+header li{
+    display: flex;
+    align-items: center;
+
+}
+>>>>>>> origin/main
 
 header a{
     text-decoration: none;
@@ -105,11 +113,14 @@ button{
     justify-content: space-between;
     margin: 1rem;
 }
+<<<<<<< HEAD
 .menu_wrapper_inner{
     display: flex;
     justify-content: space-between;
     margin: 1rem 0rem;
 }
+=======
+>>>>>>> origin/main
 
 
 .menu_bt{
@@ -155,11 +166,14 @@ button{
     margin: 1rem;
 }
 
+<<<<<<< HEAD
 .due_img img{
     height:auto;
     width:2rem;
 }
 
+=======
+>>>>>>> origin/main
 .item-table{
     display: block;
     max-height: 90rem;
@@ -232,13 +246,21 @@ button{
     position: sticky;
     left: 0;
     /* ヘッダー行内の他のセルより手前に表示 */
+<<<<<<< HEAD
     background-color: #fff;
+=======
+    background-color: rgb(243, 245, 247);
+>>>>>>> origin/main
 }
 
 .sticky_col_td a{
     text-decoration: none;
+<<<<<<< HEAD
     color:rgb(0, 51, 141);
     font-weight: bold;
+=======
+    color:black;
+>>>>>>> origin/main
 }
 
 
@@ -257,7 +279,11 @@ button{
 }
 
 .row-blue{
+<<<<<<< HEAD
     background-color: rgb(192, 222, 236);
+=======
+    background-color: rgb(221, 237, 253);
+>>>>>>> origin/main
 }
 
 
@@ -373,8 +399,13 @@ button{
     width: 100%;
 }
 
+<<<<<<< HEAD
 .item_dl .height_l{
     height: 16rem;
+=======
+.item_dl .heigh_l{
+    height: 12rem;
+>>>>>>> origin/main
 }
 
 
@@ -388,17 +419,25 @@ button{
     border-style: solid;
     border-color: #bfbfbf;
 
+<<<<<<< HEAD
     background-color: rgb(0,51,141);
 
+=======
+>>>>>>> origin/main
     display: flex;
     align-items: center;
     justify-items: left;
 
+<<<<<<< HEAD
     padding: 0 0.7rem;
+=======
+    padding: 0 1.5rem 0 1rem;
+>>>>>>> origin/main
     width: 20%;
     border-top-width: 0.15rem;
     height: 5rem;
     font-size: 1.4rem;
+<<<<<<< HEAD
     font-weight: bold;
     color:#fff;
     line-height: 2rem;
@@ -411,6 +450,12 @@ button{
     background-color: #fff;
 }
 
+=======
+    color:rgb(0, 51, 141);
+    line-height: 2rem;
+}
+
+>>>>>>> origin/main
 
 .item_dl dd{
     box-sizing: border-box;
@@ -420,7 +465,11 @@ button{
     display: flex;
     align-items: center;
 
+<<<<<<< HEAD
     padding: 0 1rem;
+=======
+    padding: 0 1rem 0 0;
+>>>>>>> origin/main
     width: 80%;
 
     /* 縮小の最小値を設定*/
@@ -433,7 +482,11 @@ button{
 
 
 .item_dl .sentence_dd_scroll{
+<<<<<<< HEAD
     padding: 0.7rem 1rem 0 1rem;
+=======
+    padding: 0.7rem 1rem 0 0;
+>>>>>>> origin/main
     word-wrap: pre-wrap;
     white-space:pre-wrap;
     word-break: break-all;
@@ -472,10 +525,17 @@ button{
 }
 @media screen and (min-width: 800px) {
     .item_dl .sentence_dt{
+<<<<<<< HEAD
         width: 6.65%;
     }
     .item_dl .sentence_dd{
         width : 93.35%;
+=======
+        width: 6.5%;
+    }
+    .item_dl .sentence_dd{
+        width : 93.5%;
+>>>>>>> origin/main
     }
 }
 @media screen and (min-width: 1200px) {
@@ -503,7 +563,10 @@ hr{
     display: grid;
     grid-template-rows: repeat(18, auto);
     grid-template-columns: 100%;
+<<<<<<< HEAD
     margin: 0 1rem;
+=======
+>>>>>>> origin/main
 }
 
 @media screen and (min-width: 500px) {
@@ -523,7 +586,11 @@ hr{
         "area16 area17"
 
         "area10 area11"
+<<<<<<< HEAD
         "area12 dummy_l"
+=======
+        "area12 dummy_s2"
+>>>>>>> origin/main
 
         "area18 dummy_s"; 
     }
@@ -552,8 +619,13 @@ hr{
         display: flex;
     }
 
+<<<<<<< HEAD
     .item_dl_dummy_l{
         grid-area: dummy_l;
+=======
+    .item_dl_dummy_s2{
+        grid-area: dummy_s2;
+>>>>>>> origin/main
         display: flex;
     }
    
@@ -565,8 +637,13 @@ hr{
         grid-template-rows: repeat(9, auto);
         grid-template-columns: 33.33% 33.33% 33.33%;
         grid-template-areas:
+<<<<<<< HEAD
         "area1 area2 area13"
         "area4 area3 area5"
+=======
+        "area1 area2 area3"
+        "area4 area5 area13"
+>>>>>>> origin/main
         "area6 area7 dummy_s"
         "area8 area8 area8"
         "area9 area9 area9"
@@ -620,7 +697,10 @@ hr{
     display: grid;
     grid-template-rows: repeat(13, auto);
     grid-template-columns: 100%;
+<<<<<<< HEAD
     margin: 0 1rem;
+=======
+>>>>>>> origin/main
 }
 .container_create .item_dl_dummy_s,
 .container_create .item_dl_dummy_l{
@@ -696,10 +776,17 @@ hr{
 
 @media screen and (min-width: 800px) {
     .container_create .item_dl .sentence_dt{
+<<<<<<< HEAD
         width: 6.65%;
     }
     .container_create .item_dl .sentence_dd{
         width : 93.35%;
+=======
+        width: 6.5%;
+    }
+    .container_create .item_dl .sentence_dd{
+        width : 93.5%;
+>>>>>>> origin/main
     }
 }
 
@@ -710,7 +797,10 @@ hr{
     display: grid;
     grid-template-rows: repeat(19, auto);
     grid-template-columns: 100%;
+<<<<<<< HEAD
     margin: 0 1rem;
+=======
+>>>>>>> origin/main
 }
 .container_update .item_dl_dummy_s,
 .container_update .item_dl_dummy_l{
@@ -725,7 +815,11 @@ hr{
         grid-template-areas:
         "area0 area0"
         "area1 area2"
+<<<<<<< HEAD
         "area3 area13"
+=======
+        "area13 area3"
+>>>>>>> origin/main
         "area4 area5"
         "area6 area7"
         "area8 area8"
@@ -779,8 +873,13 @@ hr{
         grid-template-columns: 33.33% 33.33% 33.33%;
         grid-template-areas:
         "area0 area0 area0"
+<<<<<<< HEAD
         "area1 area2 area13"
         "area3 area4 area5"
+=======
+        "area1 area2 area3"
+        "area13 area4 area5"
+>>>>>>> origin/main
         "area6 area7 dummy_s"
         "area8 area8 area8"
         "area9 area9 area9"
@@ -805,10 +904,17 @@ hr{
 
 @media screen and (min-width: 800px) {
     .container_update .item_dl .sentence_dt{
+<<<<<<< HEAD
         width: 6.65%;
     }
     .container_update .item_dl .sentence_dd{
         width : 93.35%;
+=======
+        width: 6.5%;
+    }
+    .container_update .item_dl .sentence_dd{
+        width : 93.5%;
+>>>>>>> origin/main
     }
 }
 
@@ -827,8 +933,11 @@ hr{
 
 /* create・updateのdl内 */
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/main
 /* input型 */
 .item_dl input[type="date"],
 .item_dl input[type="url"],
@@ -900,7 +1009,11 @@ hr{
     display: block;
     resize: none;
     width: 100%;
+<<<<<<< HEAD
     height: 14rem;
+=======
+    height: 10rem;
+>>>>>>> origin/main
     border:solid 0.1rem #bfbfbf;
     font-size: 1.4rem;
     padding: 0.5rem;
@@ -974,6 +1087,7 @@ hr{
     width: 2rem;
 }
 
+<<<<<<< HEAD
 .item_dl .due_complete_select{
     /* -webkit-appearance: none;
     -moz-appearance: none; */
@@ -998,3 +1112,5 @@ hr{
     margin: 0;
 }
 
+=======
+>>>>>>> origin/main

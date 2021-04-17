@@ -14,10 +14,18 @@
 
 {% block content %}
 
+<<<<<<< HEAD
 <div class="menu_wrapper">
 
   <div class="detail_nav">
     <a class="menu_bt" href="{% url 'goodidea:update_sub' object.id %}">編集</a>
+=======
+
+<div class="menu_wrapper">
+
+  <div class="detail_nav">
+    <a class="menu_bt" href="{% url 'goodidea:update_item' object.id %}">編集</a>
+>>>>>>> origin/main
     {% if object.deletedItem == True %}
       <div><p  class="detail_deletedItem">削除済み</p></div>
     {% endif %}
@@ -65,11 +73,233 @@
 
   </ul>
 
+<<<<<<< HEAD
 </div>
 
 
 {% include 'goodidea/detail_base.html' %}
   
+=======
+
+</div>
+
+
+<div class="container">
+
+  <dl class="item_dl item1">
+    <dt>番号</dt>
+    <dd class="itemNum">
+
+      {% if object.ideaNum > 0 %}
+          {{ object.ideaNum }}
+      {% else %}
+          {{ object.actionNum }}-店
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>登録日</dt>
+    <dd class="right_border">{{ object.submissionDate | date:"Y/m/d"}}</dd>
+  </dl>
+
+  <dl class="item_dl item3">
+    <dt>完了日</dt>
+    <dd>
+      {% if object.completionDate != None %}
+        {{ object.completionDate  | date:"Y/m/d"}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <!-- 進捗状況に応じた色の設定 -->
+  {% if object.progress.no == 1 %}
+    <dl class="item_dl item4 row-white">
+  {%  elif object.progress.no == 2 %}
+    <dl class="item_dl item4 row-yellow">
+  {%  elif object.progress.no == 3 %}
+    <dl class="item_dl item4 row-gray">
+  {%  elif object.progress.no == 4 %}
+    <dl class="item_dl item4 row-blue">
+  {%  elif object.progress.no == 5 %}
+    <dl class="item_dl item4">
+  {% endif %}
+    <dt>進捗</dt>
+    <dd class="right_border">{{ object.progress}}</dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>分類</dt>
+    <dd>{{ object.category}}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>提案者</dt>
+    <dd class="right_border">{{ object.staff}}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>所属</dt>
+    <dd>{{ object.division}}</dd>
+  </dl>
+
+
+  <dl class="item_dl item8">
+    <dt class="heigh_l sentence_dt">
+      {% if object.ideaNum > 0 %}
+      提案内容
+      {% else %}
+      実施内容
+      {% endif %}
+    </dt>
+    <dd class="heigh_l sentence_dd sentence_dd_scroll">{{ object.title}}</dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="heigh_l sentence_dt">理由説明</dt>
+    <dd class="heigh_l sentence_dd sentence_dd_scroll">{{ object.description}}</dd>
+  </dl>
+
+  <dl class="item_dl item10 multiple_items">
+    <dt class="heigh_l">URL</dt>
+    <dd class="heigh_l">
+      {% if not object.refURL1 %}
+      {% else %}
+      <div class="multiple_items_src" ><a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a></div>
+      {% endif %}
+
+      {% if not object.refURL2 %}
+      {% else %}
+      <div class="multiple_items_src" ><a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a></div>
+      {% endif %}
+
+      {% if not object.refURL3 %}
+      {% else %}
+      <div class="multiple_items_src" ><a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a></div>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item11 multiple_items">
+    <dt class="heigh_l">写真</dt>
+    <dd class="heigh_l">
+
+      {% if not object.picture1 %}
+      {% else %}
+      <div class="multiple_items_src" ><a href="/media/{{ object.picture1 }}">{{ object.picture1 }}</a></div>
+      {% endif %}
+
+      {% if not object.picture2 %}
+      {% else %}
+      <div class="multiple_items_src"><a href="/media/{{ object.picture2 }}">{{ object.picture2 }}</a></div>
+      {% endif %}
+
+      {% if not object.picture3 %}
+      {% else %}
+      <div class="multiple_items_src"><a href="/media/{{ object.picture3 }}">{{ object.picture3 }}</a></div>
+      {% endif %}
+
+    </dd>
+  </dl>
+
+  <dl class="item_dl item12 multiple_items">
+    <dt class="heigh_l">資料</dt>
+    <dd class="heigh_l">
+
+      {% if not object.refFile1 %}
+      {% else %}
+      <div class="multiple_items_src"><a href="/media/{{ object.refFile1 }}">{{ object.refFile1 }}</a></div>
+      {% endif %}
+
+      {% if not object.refFile2 %}
+      {% else %}
+      <div class="multiple_items_src"><a href="/media/{{ object.refFile2 }}">{{ object.refFile2 }}</a></div>
+      {% endif %}
+
+      {% if not object.refFile3 %}
+      {% else %}
+      <div class="multiple_items_src"><a href="/media/{{ object.refFile3 }}">{{ object.refFile3 }}</a></div>
+      {% endif %}
+      
+    </dd>
+  </dl>
+
+  
+  <dl class="item_dl item13">
+    <dt>検討日</dt>
+    <dd>
+      {% if object.discussionDate != None %}
+        {{ object.discussionDate | date:"Y/m/d"}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+  
+  {% if object.ideaNum > 0 %}
+
+    <dl class="item_dl item14">
+      <dt class="heigh_l sentence_dt">検討内容</dt>
+      <dd class="heigh_l sentence_dd sentence_dd_scroll">{{ object.discussionNote}}</dd>
+    </dl>
+
+    <dl class="item_dl item15">
+      <dt class="heigh_l sentence_dt">方針・報告</dt>
+      <dd class="heigh_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
+    </dl>
+
+  {% else %}
+  {% endif %}
+
+  <dl class="item_dl item16">
+    <dt>実施担当</dt>
+    <dd>
+      {% if object.ideaNum > 0 %}
+        {{ object.inchargeStaff}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>    
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt>担当部門</dt>
+    <dd>
+      {% if object.ideaNum > 0 %}
+        {{ object.inchargeDivision}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </dd>
+  </dl>
+
+
+  <dl class="item_dl item18">
+    <dt>管理用</dt>
+    <dd>{{ object.adminMemo}}</dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+
+  <dl class="item_dl item_dl_dummy_s2">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+  
+</div>
+
+<hr>
+
+
+
+>>>>>>> origin/main
 
 {% endblock content%}
 

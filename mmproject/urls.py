@@ -9,4 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),    
     path('goodidea/', include('goodidea.urls')),
+<<<<<<< HEAD
 ]+ static( settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )
+=======
+]+ static( settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )
+>>>>>>> origin/main

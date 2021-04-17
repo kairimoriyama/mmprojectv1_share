@@ -134,9 +134,15 @@ class ItemUpdateFrom(ModelForm):
 
     class Meta:
         model  = Item
+<<<<<<< HEAD
         fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
 
         widgets = { 'discussionDate': DateInput(), 'completionDate': DateInput(), 'dueDate': DateInput()}
+=======
+        fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','adminMemo','deletedItem')
+
+        widgets = { 'discussionDate': DateInput(), 'completionDate': DateInput()}
+>>>>>>> origin/main
     
     def __init__(self, *args, **kwargs):
         super(ItemUpdateFrom, self).__init__(*args, **kwargs)
