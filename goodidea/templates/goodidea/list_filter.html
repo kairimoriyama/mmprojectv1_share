@@ -3,11 +3,7 @@
 
 {% block header %}
   <li>
-<<<<<<< HEAD
     <a href="{% url 'goodidea:list_all' %}">全件一覧</a>
-=======
-    <a href="{% url 'goodidea:list_all' %}">一覧へ戻る</a>
->>>>>>> origin/main
   </li>
 {% endblock%}
 
@@ -114,179 +110,9 @@
   </form>
 
 
-<<<<<<< HEAD
   {% include 'goodidea/list_base.html' %}
 
   
-=======
-  <table class="item-table">
-
-    <tr>
-      <th class="sticky_col_th">No</th>
-      <th>登録日</th>
-      <th>進捗</th>
-      <th>提案者</th>
-      <th>所属</th>
-      <th>分類</th>
-      <th>提案・実施内容</th>
-      <th>理由説明</th>
-
-      <th class="src_col" colspan="3">URL</th>
-      <th class="src_col" colspan="3">写真</th>
-      <th class="src_col" colspan="3">資料</th>
-      
-      <th>検討日</th>
-      <th>検討内容</th>
-      <th>方針・報告</th>
-
-      <th>担当部門</th>
-      <th>担当者</th>
-      
-
-      <th>完了日</th>
-      <th>管理用</th>
-    </tr>
-    
-    </tr>
-    {% for item in object_list %}
-
-      <!-- 進捗状況に応じた色の設定 -->
-      {% if item.progress.no == 1 %}
-        <tr class="row-white">
-      {%  elif item.progress.no == 2 %}
-        <tr class="row-yellow">
-      {%  elif item.progress.no == 3 %}
-        <tr class="row-gray">
-      {%  elif item.progress.no == 4 %}
-        <tr class="row-blue">
-      {%  elif item.progress.no == 5 %}
-        <tr>
-      {% endif %}
-          <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()" >
-            {% if item.ideaNum > 0 %}
-              <a href="{% url 'goodidea:detail_filter' item.pk %}">
-                {{ item.ideaNum }}
-              </a>
-            {% else %}
-              <a href="{% url 'goodidea:detail_filter' item.pk %}">
-                {{ item.actionNum }}-店
-              </a>
-            {% endif %}
-          </td>
-          <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
-                    
-          <td>{{ item.progress.name }}</td>
-          <td>{{ item.staff }}</td>
-          <td>{{ item.division.name }}</td>
-          <td>{{ item.category.name }}</td>
-          <td class="longText">{{ item.title }}</td>
-          <td class="longText">{{ item.description }}</td>
-
-
-          <td class="src_col">
-            {% if not item.refURL1 %}
-            <p></p>
-            {% else %}
-              <a href="{{ item.refURL1 }}">1</a>
-            {% endif %}
-          </td>
-          <td class="src_col">
-            {% if not item.refURL2 %}
-            <p></p>
-            {% else %}
-              <a href="{{ item.refURL2 }}">2</a>
-            {% endif %}
-          </td>
-          <td class="src_col">
-            {% if not item.refURL3 %}
-            <p></p>
-            {% else %}
-              <a href="{{ item.refURL3 }}">3</a>
-            {% endif %}
-          </td>
-  
-          <td class="src_col">
-            {% if not item.picture1 %}
-            <p></p>
-            {% else %}
-              <a href="/media/{{ item.picture1 }}">1</a>
-            {% endif %}
-          </td>
-  
-          <td class="src_col">
-            {% if not item.picture2 %}
-            <p></p>
-            {% else %}
-              <a href="/media/{{ item.picture2 }}">2</a>
-            {% endif %}
-          </td>
-  
-          <td class="src_col">
-            {% if not item.picture3 %}
-            <p></p>
-            {% else %}
-              <a href="/media/{{ item.picture3 }}">3</a>
-            {% endif %}
-          </td>
-          
-  
-          <td class="src_col">
-            {% if not item.refFile1 %}
-              <p></p>
-            {% else %}
-              <a href="/media/{{ item.refFile1 }}">1</a>
-            {% endif %}
-          </td>
-  
-          <td class="src_col">
-            {% if not  item.refFile2 %}
-            <p></p>
-            {% else %}
-              <a href="/media/{{ item.refFile2 }}">2</a>
-            {% endif %}
-          </td>
-  
-          <td class="src_col">
-            {% if not item.refFile3 %}
-            <p></p>
-            {% else %}
-              <a href="/media/{{ item.refFile3 }}">3</a>
-            {% endif %}
-          </td>
-  
-         
-          <td  class="date_col">
-            {% if item.discussionDate != None %}
-              {{ item.discussionDate | date:"Y/m/d"}}
-            {% else %}
-              <p>-</p>
-            {% endif %}
-          </td>
-          <td class="longText">{{ item.discussionNote }}</td>
-          <td class="longText">{{ item.action }}</td>
-
-          <td>{{ item.inchargeDivision }}</td>
-          <td>{{ item.inchargeStaff }}</td>
-
-          
-          <td class="date_col">
-            {% if item.completionDate != None %}
-              {{ item.completionDate | date:"Y/m/d"}}
-            {% else %}
-              <p>-</p>
-            {% endif %}
-          </td>
-          
-          <td>{{ item.adminMemo }}</td>       
-        
-        </tr>
-      
-    {% endfor %}
-
-  </table>
-
-
->>>>>>> origin/main
 <script>
   //表示・非表示の初期値
   document.getElementById("filter_items").style.display ="flex";
@@ -321,11 +147,7 @@
 
       let today = new Date();
       today.setDate(today.getDate());
-<<<<<<< HEAD
       let yyyy1 = today.getFullYear()-10;
-=======
-      let yyyy1 = today.getFullYear()-1;
->>>>>>> origin/main
       let yyyy2 = today.getFullYear();
       let mm = ("0"+(today.getMonth()+1)).slice(-2);
       let dd = ("0"+today.getDate()).slice(-2);

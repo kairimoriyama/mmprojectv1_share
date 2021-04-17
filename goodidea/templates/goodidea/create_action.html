@@ -12,11 +12,7 @@
 {% block content %}
 <form class="container_create" method="POST" enctype="multipart/form-data">{% csrf_token %}
  
-<<<<<<< HEAD
   <div class="menu_wrapper_inner item0">
-=======
-  <div class="menu_wrapper item0">
->>>>>>> origin/main
     <input class="menu_bt" type="submit" value='登録実行'>
   </div>
 
@@ -25,11 +21,7 @@
     <dd class="itemNum">
       <p class="itemNum_hidden">{{ form.itemNum}}</p>
       {{ form.actionNum}}
-<<<<<<< HEAD
       <p>-共</p>
-=======
-      <p>-店</p>
->>>>>>> origin/main
     </dd>
   </dl>
 
@@ -67,7 +59,6 @@
   </dl>
 
   <dl class="item_dl item8">
-<<<<<<< HEAD
     <dt class="height_l sentence_dt">実施内容</dt>
     <dd class="height_l sentence_dd">{{ form.title}}</dd>
   </dl>
@@ -80,20 +71,6 @@
   <dl class="item_dl item10 multiple_items">
     <dt class="height_l">URL</dt>
     <dd class="height_l">
-=======
-    <dt class="heigh_l sentence_dt">実施内容</dt>
-    <dd class="heigh_l sentence_dd">{{ form.title}}</dd>
-  </dl>
-
-  <dl class="item_dl item9">
-    <dt class="heigh_l sentence_dt">理由説明</dt>
-    <dd class="heigh_l sentence_dd">{{ form.description}}</dd>
-  </dl>
-
-  <dl class="item_dl item10 multiple_items">
-    <dt class="heigh_l">URL</dt>
-    <dd class="heigh_l">
->>>>>>> origin/main
       <div>{{ form.refURL1 }}</div>
       <div>{{ form.refURL2 }}</div>
       <div>{{ form.refURL3 }}</div>
@@ -101,13 +78,8 @@
   </dl>
 
   <dl class="item_dl item11 multiple_items">
-<<<<<<< HEAD
     <dt class="height_l">写真</dt>
     <dd class="height_l">
-=======
-    <dt class="heigh_l">写真</dt>
-    <dd class="heigh_l">
->>>>>>> origin/main
       <div>{{ form.picture1 }}</div>
       <div>{{ form.picture2 }}</div>
       <div>{{ form.picture3 }}</div>
@@ -115,13 +87,8 @@
   </dl>
 
   <dl class="item_dl item12 multiple_items">
-<<<<<<< HEAD
     <dt class="height_l">資料</dt>
     <dd class="height_l">
-=======
-    <dt class="heigh_l">資料</dt>
-    <dd class="heigh_l">
->>>>>>> origin/main
       <div>{{ form.refFile1 }}</div>
       <div>{{ form.refFile2 }}</div>
       <div>{{ form.refFile3 }}</div>
@@ -133,11 +100,7 @@
     <dd></dd>
   </dl>
 
-<<<<<<< HEAD
   <dl class="item_dl item_dl_dummy_l height_l">
-=======
-  <dl class="item_dl item_dl_dummy_l heigh_l">
->>>>>>> origin/main
     <dt></dt>
     <dd></dd>
   </dl>

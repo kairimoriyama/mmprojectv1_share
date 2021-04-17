@@ -7,11 +7,7 @@
 
 
 {% block contents %}
-<<<<<<< HEAD
 <h1>ログイン</h1>
-=======
-<h1>Home</h1>
->>>>>>> origin/main
 
       
     {% if user.is_authenticated %}
@@ -28,11 +24,7 @@
     </ul>
 
     {% else %}
-<<<<<<< HEAD
     <a href="/accounts/google/login/?process=login"><h1>Googleアカウントによるログイン</h1></a>
-=======
-    <a href="/accounts/google/login/?process=login">Googleアカウントによるログイン</a>
->>>>>>> origin/main
 
     {% endif %}
 
