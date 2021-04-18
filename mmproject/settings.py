@@ -13,9 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'l!@oqrwyn(lxw3)hw5ii_xlds-)4c5d+kb0o!b4^%(3hgaevgl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
+
+
+AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')
+AWS_SES_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY')
 
 
 # Application definition
@@ -37,6 +41,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
+    'django_ses',
 
 ]
 
@@ -144,7 +150,7 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join( BASE_DIR,'media')
+MEDIA_ROOT = 'usr/share/nginx/html/media'
 MEDIA_URL = '/media/'
 
 
@@ -200,34 +206,38 @@ LOGGING = {
     'loggers': {
 
         'django': {
-            'handlers': ['console'],
+            'handlers': ['file'],
             'level': 'INFO',
         },
 
         #追加
         'accounts': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['file'],
+            'level': 'INFO',
         },
         #追加
         'goodidea': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['file'],
+            'level': 'INFO',
         },
     },
     
 
     'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'dev',
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename':os.path.join(BASE_DIR,'Logs/django.log'),
+            'formatter': 'prod',
+            'when':'D',
+            'interval':1,
+            'backupCount':7,
         },
     },
 
 
     'formatters': {
-        'dev': {
+        'prod': {
             'format':'\t'.join([
                 '%(asctime)s',
                 '[%(levelname)s]',
