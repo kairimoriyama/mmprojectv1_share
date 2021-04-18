@@ -190,8 +190,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 # ログアウト処理の方法
 ACCOUNT_LOGOUT_ON_GET =True
 
-<<<<<<< HEAD
-=======
 
 
 # ロギング
@@ -241,4 +239,3 @@ LOGGING = {
 
 
 }
->>>>>>> origin/main
