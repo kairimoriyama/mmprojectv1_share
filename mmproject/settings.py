@@ -148,7 +148,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+MEDIA_ROOT = 'usr/share/nginx/html/static'
 STATIC_URL = '/static/'
+
 
 MEDIA_ROOT = 'usr/share/nginx/html/media'
 MEDIA_URL = '/media/'
