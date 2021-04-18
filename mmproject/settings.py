@@ -190,3 +190,52 @@ ACCOUNT_EMAIL_REQUIRED = True
 # ログアウト処理の方法
 ACCOUNT_LOGOUT_ON_GET =True
 
+
+
+# ロギング
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'loggers': {
+
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+
+        #追加
+        'accounts': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        #追加
+        'goodidea': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
+    
+
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'dev',
+        },
+    },
+
+
+    'formatters': {
+        'dev': {
+            'format':'\t'.join([
+                '%(asctime)s',
+                '[%(levelname)s]',
+                '%(pathname)s %(Line:%(lineno)d)',
+                '%(message)s'
+            ])
+        },
+    },
+
+
+}
