@@ -214,7 +214,7 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
         },
-    }
+    },
     
 
     'handlers': {
@@ -231,7 +231,7 @@ LOGGING = {
             'format':'\t'.join([
                 '%(asctime)s',
                 '[%(levelname)s]',
-                '%(pathname)s %(Line:%(lineno)d)',
+                '%(pathname)s(Line:%(lineno)d)',
                 '%(message)s'
             ])
         },
