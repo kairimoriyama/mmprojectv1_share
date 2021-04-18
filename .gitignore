@@ -1,13 +1,6 @@
-<<<<<<< HEAD
-# Environments
-.env
-.venv
-./venv
-=======
 .env
 .venv
 /venv
->>>>>>> origin/main
 
 db.sqlite3
 
