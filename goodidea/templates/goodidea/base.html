@@ -1,0 +1,38 @@
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'goodidea/style.css' %}">
+    <script type="text/javascript"  src="{% static 'jquery-2.1.3.min.js' %}"></script>
+
+    <title>Good idea</title>
+
+  </head>
+
+  
+  <body>
+
+    <header>
+      <div class="app_title">
+        <h1><a href="{% url 'home' %}">管理ツール</a></h1>
+        <h2>Good idea</h2>
+      </div>
+
+      <nav>
+        <ul>
+        {% block header %}
+        {% endblock header%}
+        </ul>
+      </nav>
+    
+    </header>
+
+    {% block content %}
+    {% endblock content%}
+
+  </body>
+</html>

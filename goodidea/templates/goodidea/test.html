@@ -1,0 +1,27 @@
+
+
+{% for field in formset.empty_form.visible_fields %}
+<th nowrap{% if field.field.required %} class="required"{% endif %}>{{ field.label|capfirst }}</th>
+{% endfor %}
+</tr>
+</thead>
+<tbody>
+{% for field in formset %}
+<tr class="form-row" id="{{ formset.prefix }}-{{ forloop.counter0 }}">
+{% for f in field.visible_fields %}
+    <td nowrap class="field-{{ f.name }}">
+        {% if forloop.first %}
+            {% for hidden_field in field.hidden_fields %}
+                {{ hidden_field }}
+            {% endfor %}
+        {% endif %}
+        {% if f.is_readonly %}
+            <p>{{ f.contents }}</p>
+        {% else %}
+            {{ f }}
+            {{ f.errors }}
+            </td>
+        {% endif %}
+{% endfor %}
+</tr>
+{% endfor %}

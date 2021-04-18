@@ -1,0 +1,43 @@
+{% extends 'goodidea/base.html' %}
+
+{% block header %}
+
+  <li>
+    <a href="{% url 'goodidea:list_filter' %}"><p>一覧へ戻る</p></a>
+  </li>
+  
+{% endblock header %}
+
+{% block content %}
+
+
+<div class="menu_wrapper">
+
+  <div class="detail_nav">
+    <a class="menu_bt" href="{% url 'goodidea:update_filter' object.id %}">編集</a>
+    {% if object.deletedItem == True %}
+      <div><p  class="detail_deletedItem">削除済み</p></div>
+    {% endif %}
+  </div>
+  <ul class="page_nav">
+    <li>
+      {% if prev %}
+        <a class="menu_bt next_bt" href="{% url 'goodidea:detail_filter' prev.pk %}">＜</a>
+      {% endif %}
+    </li>
+
+    <li>
+      {% if next %}
+        <a class="menu_bt menu_bt_mg_left next_bt" href="{% url 'goodidea:detail_filter' next.pk %}">＞</a>
+      {% endif %}
+    </li>
+  </ul>
+
+</div>
+
+
+{% include 'goodidea/detail_base.html' %}
+  
+
+{% endblock content%}
+
