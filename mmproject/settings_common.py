@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
-    # 'django_ses',
+    'django_ses',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
