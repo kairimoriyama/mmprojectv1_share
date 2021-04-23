@@ -142,7 +142,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = 'usr/share/nginx/html/media'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
