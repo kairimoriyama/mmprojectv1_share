@@ -1,14 +1,54 @@
 from .settings_common import *
 
+
+# Application definition
+
+INSTALLED_APPS = [
+    'goodidea.apps.GoodideaConfig',
+    'accounts.apps.AccountsConfig',
+    'django_cleanup.apps.CleanupConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'import_export',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    'django_ses',
+]
+
 # デバッグモードを有効にするかどうか(本番運用では必ずFalseにする)
 DEBUG = False
 
 # 許可するホスト名のリスト
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mmproject',
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
+
 # 静的ファイルを配置する場所
 STATIC_ROOT = '/usr/share/nginx/html/static'
 MEDIA_ROOT = '/usr/share/nginx/html/media'
+
 
 # Amazon SES関連設定
 AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')

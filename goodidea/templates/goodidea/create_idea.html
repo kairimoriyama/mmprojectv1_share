@@ -6,7 +6,6 @@
     <a href="{% url 'goodidea:list_idea' %}"><p>一覧へ戻る</p></a>
   </li>
   
-
 {% endblock header %}
 
 {% block content %}
@@ -21,10 +20,9 @@
     <dt>番号</dt>
     <dd class="itemNum">
       <p class="itemNum_hidden">{{ form.itemNum}}</p>
-      {{ form.ideaNum}}
+        {{ form.ideaNum}}
     </dd>
   </dl>
-
 
   <dl class="item_dl item2">
     <dt>登録日</dt>
@@ -97,11 +95,21 @@
     </dd>
   </dl>
 
+  <dl class="item_dl item13">
+    <dt>実施担当</dt>
+    <dd>{{ form.inchargeStaff}}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>実施部門</dt>
+    <dd>{{ form.inchargeDivision}}</dd>
+  </dl>
+
   <dl class="item_dl item_dl_dummy_s">
     <dt></dt>
     <dd></dd>
   </dl>
-
+  
   <dl class="item_dl item_dl_dummy_l height_l">
     <dt></dt>
     <dd></dd>
@@ -110,20 +118,7 @@
 </form>
 <hr>
 
-<script>
-
-  //登録日の初期値
-  function submissionDateInit() {
-    let now = new Date();
-    let year = now.getFullYear();
-    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
-    let day = ("0"+ (now.getDate())).slice(-2);
-    let today =year+'/'+mon+'/'+day;
-    document.getElementById("submissionDateInit").innerHTML= today;
-    }
-  window.onload = submissionDateInit();
-
-</script>
+{% include 'goodidea/create_base.html' %}
 
 {% endblock content%}
 

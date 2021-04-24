@@ -13,28 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'l!@oqrwyn(lxw3)hw5ii_xlds-)4c5d+kb0o!b4^%(3hgaevgl'
 
 
-# Application definition
 
-INSTALLED_APPS = [
-    'goodidea.apps.GoodideaConfig',
-    'accounts.apps.AccountsConfig',
-    'django_cleanup.apps.CleanupConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'import_export',
-
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
-    'django_ses',
-]
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -83,19 +62,6 @@ WSGI_APPLICATION = 'mmproject.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mmproject',
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': '',
-        'PORT': '',
-    }
-}
 
 
 # Password validation
@@ -142,7 +108,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = 'usr/share/nginx/html/media'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
