@@ -13,28 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'l!@oqrwyn(lxw3)hw5ii_xlds-)4c5d+kb0o!b4^%(3hgaevgl'
 
 
-# Application definition
 
-INSTALLED_APPS = [
-    'goodidea.apps.GoodideaConfig',
-    'accounts.apps.AccountsConfig',
-    'django_cleanup.apps.CleanupConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'import_export',
-
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
-    'django_ses',
-]
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

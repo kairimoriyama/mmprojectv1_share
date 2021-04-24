@@ -1,5 +1,29 @@
 from .settings_common import *
 
+
+# Application definition
+
+INSTALLED_APPS = [
+    'goodidea.apps.GoodideaConfig',
+    'accounts.apps.AccountsConfig',
+    'django_cleanup.apps.CleanupConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'import_export',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    'django_ses',
+]
+
 # デバッグモードを有効にするかどうか(本番運用では必ずFalseにする)
 DEBUG = False
 
