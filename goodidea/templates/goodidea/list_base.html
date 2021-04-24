@@ -20,22 +20,19 @@
 		<th class="src_col" colspan="3">写真</th>
 		<th class="src_col" colspan="3">資料</th>
     
-    {% if list_type == 'list_action' %}
-    {% else %}
-      <th>検討日</th>
-      <th>議事録</th>
-      <th>方針・報告</th>
+    <th>検討日</th>
+    <th>議事録</th>
+    <th>方針・報告</th>
 
-      <th>担当部門</th>
-      <th>担当者</th>
-    {% endif %}
+    <th>実施担当</th>
+    <th>実施部門</th>
+
 
     <th>完了日</th>
     <th>管理用</th>
     
   </tr>
   
-  </tr>
   {% for item in object_list %}
 
     <!-- 進捗状況に応じた色の設定 -->
@@ -212,37 +209,35 @@
       </td>
 
 
-    {% if list_type == 'list_action' %}
-    {% else %}
 
-      <td  class="date_col">
-        {% if item.discussionDate != None %}
-          {{ item.discussionDate | date:"Y/m/d"}}
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </td>
+    <td  class="date_col">
+      {% if item.discussionDate != None %}
+        {{ item.discussionDate | date:"Y/m/d"}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </td>
 
-      <td class="longText">{{ item.discussionNote }}</td>
-      <td class="longText">{{ item.report }}</td>
-      
-      <td>{{ item.inchargeDivision }}</td>
-      <td>{{ item.inchargeStaff }}</td>
-  
-    {% endif %}
+    <td class="longText">{{ item.discussionNote }}</td>
+    <td class="longText">{{ item.report }}</td>
+    
+
+    <td>{{ item.inchargeStaff }}</td>
+    <td>{{ item.inchargeDivision }}</td>  
+
         
 
-      <td class="date_col">
-        {% if item.completionDate != None %}
-          {{ item.completionDate | date:"Y/m/d"}}
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </td>
-      
-      <td>{{ item.adminMemo }}</td>
+    <td class="date_col">
+      {% if item.completionDate != None %}
+        {{ item.completionDate | date:"Y/m/d"}}
+      {% else %}
+        <p>-</p>
+      {% endif %}
+    </td>
     
-      </tr>
+    <td>{{ item.adminMemo }}</td>
+  
+  </tr>
 
   {% endfor %}
   

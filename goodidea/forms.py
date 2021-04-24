@@ -41,7 +41,7 @@ class ItemCreateFromIdea(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('itemNum','ideaNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3', )
+        fields = ('itemNum','ideaNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
         widgets = {'submissionDate': DateInput()}
 
     def __init__(self, *args, **kwargs):
@@ -77,6 +77,9 @@ class ItemCreateFromIdea(ModelForm):
         self.fields['itemNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['ideaNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['progress'].initial = 1
+        self.fields['staff'].required = True
+        self.fields['division'].required = True
+        self.fields['category'].required = True
         self.fields['title'].required = True
         self.fields['description'].required = True
 
@@ -86,7 +89,7 @@ class ItemCreateFromAction(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('itemNum','actionNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3', 'completionDate' )
+        fields = ('itemNum','actionNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff', 'completionDate' )
         widgets = {'submissionDate': DateInput(), 'completionDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
@@ -125,6 +128,11 @@ class ItemCreateFromAction(ModelForm):
         self.fields['actionNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['progress'].initial = 4
         self.fields['completionDate'].required = True
+        self.fields['staff'].required = True
+        self.fields['division'].required = True
+        self.fields['category'].required = True
+        self.fields['inchargeDivision'].required = True
+        self.fields['inchargeStaff'].required = True
         self.fields['title'].required = True
         self.fields['description'].required = True
 
