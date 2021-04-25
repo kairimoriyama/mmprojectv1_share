@@ -583,7 +583,7 @@ hr{
         display: flex;
     }
 
-    .item_dl_dummy_s2{
+    .item_dl_dummy_l{
          display: none;
     }
 }
@@ -599,17 +599,16 @@ hr{
         "area8 area8 area9 area9"
         "area14 area14 area15 area15"
         "area16 area17 area18 dummy_s"
-        "area10 area11 area12 dummy_s2"; 
+        "area10 area11 area12 dummy_l"; 
     }
    
     .item_dl_dummy_s{
         grid-area: dummy_s;
         display: flex;
     }
-       
-    .item_dl_dummy_s2{
-        grid-area: dummy_s2;
-        display: flex;
+
+    .item_dl_dummy_l{
+         display: flex;
     }
 
 }
