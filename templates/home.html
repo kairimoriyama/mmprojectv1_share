@@ -11,7 +11,7 @@
     <script type="text/javascript"  src="{% static 'jquery-2.1.3.min.js' %}"></script>
 
     <link rel="icon" href="{% static 'favicon.ico' %}">
-    <title>home</title>
+    <title>管理ツール</title>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
     <ul class="login-user">
         <li>ユーザ名： {{ user.get_username }}</li>
         <li>メールアドレス： {{ user.email }}</li>
-        <li>セッション開始時刻: {{ user.last_login }}</li>
+        <li>セッション開始時刻：{{ user.last_login }}</li>
         <li><a href="{% url 'account_logout' %}">ログアウト</a></li>
     </ul>
 
