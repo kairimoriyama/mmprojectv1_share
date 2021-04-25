@@ -115,6 +115,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 #ログイン不要なURL
 PUBLIC_PATHS = [
     '/admin/',
+    '/p-admin/',
 	'/accounts/',
     '/accounts.google.com/',
 ]
