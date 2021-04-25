@@ -8,7 +8,8 @@ from django.db.models import Q
 from django.core import validators
 import unicodecsv as csv
 
-# from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
+
 
 import datetime 
 
@@ -17,10 +18,13 @@ from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, I
 
 # Create your views here.
 
-# class IndexView(TemplateView):
-#     template_name = '/home'
+class AcceptedEmailDomainMixin(UserPassesTestMixin):
+    raise_exception = True
+
+    def accept_email_domain(self):
+        return self.request.user.email.endswith('@mahna.co.jp')
     
-class ItemListALL(ListView):
+class ItemListALL(ListView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/list_all.html'
     model  = Item
     fields = '__all__'
@@ -50,7 +54,7 @@ def item_export(request):
     return response
 
 
-class ItemListDue(ListView):
+class ItemListDue(ListView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/list_due.html'
     fields = '__all__'
     paginate_by = 22
@@ -65,7 +69,7 @@ class ItemListDue(ListView):
 
 
 
-class ItemListIdea(ListView):
+class ItemListIdea(ListView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/list_idea.html'
     fields = '__all__'
     paginate_by = 22
@@ -80,7 +84,7 @@ class ItemListIdea(ListView):
         return Item.objects_list.idea_list().order_by('-itemNum')
 
 
-class ItemListAction(ListView):
+class ItemListAction(ListView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/list_action.html'
     fields = '__all__'
     paginate_by = 22
@@ -94,7 +98,7 @@ class ItemListAction(ListView):
         return Item.objects_list.action_list().order_by('-itemNum')
 
 
-class ItemListFilter(ListView):
+class ItemListFilter(ListView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/list_filter.html'
     model  = Item
     form_class = ProgressSelectForm, DivisionSelectForm
@@ -247,7 +251,7 @@ class ItemListFilter(ListView):
 
 
 
-class ItemDetail(DetailView):
+class ItemDetail(DetailView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/detail_item.html'
     model  = Item
 
@@ -266,7 +270,7 @@ class ItemDetail(DetailView):
 
 
 
-class ItemDetailFilter(DetailView):
+class ItemDetailFilter(DetailView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/detail_filter.html'
     model  = Item
 
@@ -387,7 +391,7 @@ class ItemDetailFilter(DetailView):
         return context
 
 
-class ItemDetailSub(DetailView):
+class ItemDetailSub(DetailView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/detail_sub.html'
     model  = Item
 
@@ -405,7 +409,7 @@ class ItemDetailSub(DetailView):
         return context
 
 
-class ItemDetailDue(DetailView):
+class ItemDetailDue(DetailView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/detail_due.html'
     model  = Item
 
@@ -423,7 +427,7 @@ class ItemDetailDue(DetailView):
         return context
 
 
-class ItemCreateIdea(CreateView):
+class ItemCreateIdea(CreateView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/create_idea.html'
     form_class = ItemCreateFromIdea
 
@@ -432,7 +436,7 @@ class ItemCreateIdea(CreateView):
 
 
 
-class ItemCreateAction(CreateView):
+class ItemCreateAction(CreateView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/create_action.html'
     form_class = ItemCreateFromAction
     
@@ -441,7 +445,7 @@ class ItemCreateAction(CreateView):
 
 
 
-class ItemUpdate(UpdateView):
+class ItemUpdate(UpdateView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/update_item.html'
     model  = Item
     form_class = ItemUpdateFrom
@@ -450,7 +454,7 @@ class ItemUpdate(UpdateView):
         return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
 
 
-class ItemUpdateFilter(UpdateView):
+class ItemUpdateFilter(UpdateView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/update_filter.html'
     model  = Item
     form_class = ItemUpdateFrom
@@ -458,7 +462,7 @@ class ItemUpdateFilter(UpdateView):
     def get_success_url(self):
         return reverse('goodidea:detail_filter', kwargs={'pk': self.object.id})
 
-class ItemUpdateSub(UpdateView):
+class ItemUpdateSub(UpdateView, AcceptedEmailDomainMixin):
     template_name = 'goodidea/update_sub.html'
     model  = Item
     form_class = ItemUpdateFrom
