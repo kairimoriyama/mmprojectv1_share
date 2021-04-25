@@ -29,21 +29,57 @@ html{
 }
 
 
+.header{
+    margin: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+
 h1{
     color: black;
     font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
-    line-height: 8rem;
     color: rgb(0,51,141);
 }
 
 h2{
     color: black;
     font-size: 1.8rem;
-    line-height: 3rem;
+    color: rgb(0,51,141);
 }
 
-.container{
+
+.icon-l{
+    height: 6rem;
+    margin-right: 3rem;
+}
+
+section{
     margin: 2rem;
 }
+
+.icon-s{
+    height: 2.3rem;
+    margin-right: 2rem;
+}
+
+.login-user li{
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.apps li{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    margin-left: 2rem;
+}
+

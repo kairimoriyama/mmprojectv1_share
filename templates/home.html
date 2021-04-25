@@ -10,34 +10,47 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <script type="text/javascript"  src="{% static 'jquery-2.1.3.min.js' %}"></script>
 
+    <link rel="icon" href="{% static 'favicon.ico' %}">
     <title>home</title>
 </head>
 
 <body>
-<div class="container">
+<div class="header">
 
-    <h1>管理ツール</h1>
+    <div class="title">
+        <img class="icon-l" src="{% static 'favicon.png' %}">
+        <div>
+            <h1>管理ツール</h1>
+            <h2>2021.4.25 v1</h2>
+        </div>
+    </div>
 
-    {% if user.is_authenticated %}
-    <ul>
-        <li><h2>ユーザ名： {{ user.get_username }}</h2></li>
-        <li><h2>メールアドレス： {{ user.email }}</h2></li>
-        <li><h2>セッション開始時刻: {{ user.last_login }}</h2></li>
-        <li><a href="{% url 'account_logout' %}"><h2>ログアウト</h2></a></li>
+</div>
+
+<section>
+
+{% if user.is_authenticated %}
+    <ul class="login-user">
+        <li>ユーザ名： {{ user.get_username }}</li>
+        <li>メールアドレス： {{ user.email }}</li>
+        <li>セッション開始時刻: {{ user.last_login }}</li>
+        <li><a href="{% url 'account_logout' %}">ログアウト</a></li>
     </ul>
 
-
-    <ul>
+    <ul class="apps">
         <li>
-        <a href="{% url 'goodidea:list_all' %}"><h1>Good Idea</h1></a>
+            <img class="icon-s" src="{% static 'favicon_mono.png' %}">
+            <a href="{% url 'goodidea:list_all' %}">
+                <h1>Good Idea</h1>
+            </a>
         </li>
     </ul>
 
-    {% else %}
-        <p><a href="/accounts/login/"><h1>ログイン画面へ</h1></a></p>
-    {% endif %}
+{% else %}
+    <p><a href="/accounts/login/"><h1>ログイン画面へ</h1></a></p>
+{% endif %}
+</section>
 
-</div>
 </body>
   
 </html>
