@@ -125,58 +125,28 @@
 
     <dl class="item_dl item13">
       <dt>検討日</dt>
-      <dd>
-        {% if object.ideaNum > 0 %}
-          {{ form.discussionDate }}
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </dd>
+      <dd>{{ form.discussionDate }}</dd>
     </dl>
 
     <dl class="item_dl item14">
       <dt>実施担当</dt>
-      <dd>
-      {% if object.ideaNum > 0 %}
-        {{ form.inchargeStaff}}
-      {% else %}
-        <p>-</p>
-      {% endif %}
-      </dd>
+      <dd>{{ form.inchargeStaff}}</dd>
     </dl>
 
 
     <dl class="item_dl item15">
       <dt>担当部門</dt>
-      <dd>
-        {% if object.ideaNum > 0 %}
-          {{ form.inchargeDivision}}
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </dd>
+      <dd>{{ form.inchargeDivision}}</dd>
     </dl>
   
     <dl class="item_dl item16">
       <dt class="height_l sentence_dt">議事録</dt>
-      <dd class="height_l sentence_dd">
-        {% if object.ideaNum > 0 %}
-          {{ form.discussionNote}}
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </dd>
+      <dd class="height_l sentence_dd">{{ form.discussionNote}}</dd>
     </dl>
   
     <dl class="item_dl item17">
       <dt class="height_l sentence_dt">方針・報告</dt>
-      <dd class="height_l sentence_dd">
-        {% if object.ideaNum > 0 %}
-          {{ form.report}}
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </dd>
+      <dd class="height_l sentence_dd">{{ form.report}}</dd>
     </dl>
 
     <dl class="item_dl item18">

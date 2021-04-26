@@ -8,7 +8,6 @@ from django.db.models import Q
 from django.core import validators
 import unicodecsv as csv
 
-# from django.contrib.auth.mixins import LoginRequiredMixin
 
 import datetime 
 
@@ -17,8 +16,6 @@ from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, I
 
 # Create your views here.
 
-# class IndexView(TemplateView):
-#     template_name = '/home'
     
 class ItemListALL(ListView):
     template_name = 'goodidea/list_all.html'

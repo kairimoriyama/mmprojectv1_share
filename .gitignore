@@ -1,6 +1,12 @@
 .env
 .venv
-/venv
+/venv/
+
+nano.save
 
 db.sqlite3
+
+__pycache__/
+/__pycache__/
+migrations/
 

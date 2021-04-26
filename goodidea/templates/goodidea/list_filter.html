@@ -173,12 +173,12 @@
         (function updateCompletionDate() {
           let today = new Date();
           today.setDate(today.getDate());
-          let yyyy = today.getFullYear();
-          let mm1 = ("0"+(today.getMonth())).slice(-2);
-          let mm2 = ("0"+(today.getMonth()+1)).slice(-2);
+          let yyyy1 = today.getFullYear()-10;
+          let yyyy2 = today.getFullYear();
+          let mm = ("0"+(today.getMonth())).slice(-2);
           let dd = ("0"+today.getDate()).slice(-2);
-          document.getElementById("completionDateFrom").value=yyyy+'-'+mm1+'-'+dd;
-          document.getElementById("completionDateTo").value=yyyy+'-'+mm2+'-'+dd;
+          document.getElementById("completionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
+          document.getElementById("completionDateTo").value=yyyy2+'-'+mm+'-'+dd;
         }());
         
         //completionDateFilter の表示

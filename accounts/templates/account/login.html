@@ -7,26 +7,24 @@
 
 
 {% block contents %}
-<h1>ログイン</h1>
+<div class="container">
+<h1>mahna mahna 管理ツール</h1>
 
       
     {% if user.is_authenticated %}
-    <h2>
-        ログイン済み<br>
-        ユーザ名： {{ user.get_username }} <br>
-        メールアドレス： {{ user.email }}<br>
-        セッション開始時刻: {{ user.last_login }}
-    </h2>
-
     <ul>
+        <li><h2>ユーザ名： {{ user.get_username }}</h2></li>
+        <li><h2>メールアドレス： {{ user.email }}</h2></li>
+        <li><h2>セッション開始時刻: {{ user.last_login }}</h2></li>
+        
         <li><a href="{% url 'home' %}">ホームへ</li>
         <li><a href="{% url 'account_logout' %}">ログアウト</a></li>
     </ul>
 
     {% else %}
-    <a href="/accounts/google/login/?process=login"><h1>Googleアカウントによるログイン</h1></a>
+    <a href="/accounts/google/login/?process=login"><h2>Googleアカウントによるログイン</h2></a>
 
     {% endif %}
-
+</div>
 
 {% endblock contents %}

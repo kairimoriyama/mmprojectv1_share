@@ -10,6 +10,7 @@
 
 
 {% block content %}
+
 <form class="container_create" method="POST" enctype="multipart/form-data">{% csrf_token %}
  
   <div class="menu_wrapper_inner item0">
@@ -68,6 +69,7 @@
     <dd class="height_l sentence_dd">{{ form.description}}</dd>
   </dl>
 
+
   <dl class="item_dl item10 multiple_items">
     <dt class="height_l">URL</dt>
     <dd class="height_l">
@@ -94,6 +96,16 @@
       <div>{{ form.refFile3 }}</div>
     </dd>
   </dl>
+    
+  <dl class="item_dl item13">
+    <dt>実施担当</dt>
+    <dd>{{ form.inchargeStaff}}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>実施部門</dt>
+    <dd>{{ form.inchargeDivision}}</dd>
+  </dl>
   
   <dl class="item_dl item_dl_dummy_s">
     <dt></dt>
@@ -108,19 +120,7 @@
 </form>
 <hr>
 
-<script>
-
-  //登録日の初期値
-  function submissionDateInit() {
-    let now = new Date();
-    let year = now.getFullYear();
-    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
-    let day = ("0"+ (now.getDate())).slice(-2);
-    let today =year+'/'+mon+'/'+day;
-    document.getElementById("submissionDateInit").innerHTML= today;
-    }
-  window.onload = submissionDateInit();
-</script>
+{% include 'goodidea/create_base.html' %}
 
 {% endblock content%}
 
