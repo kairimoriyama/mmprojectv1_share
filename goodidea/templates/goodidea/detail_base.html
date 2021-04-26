@@ -94,21 +94,16 @@
     </dd>
   </dl>
 
-    
-  {% if object.ideaNum > 0 %}
 
-    <dl class="item_dl item14">
-      <dt class="height_l sentence_dt">議事録</dt>
-      <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.discussionNote}}</dd>
-    </dl>
+  <dl class="item_dl item14">
+    <dt class="height_l sentence_dt">議事録</dt>
+    <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.discussionNote}}</dd>
+  </dl>
 
-    <dl class="item_dl item15">
-      <dt class="height_l sentence_dt">方針・報告</dt>
-      <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
-    </dl>
-
-  {% else %}
-  {% endif %}
+  <dl class="item_dl item15">
+    <dt class="height_l sentence_dt">方針・報告</dt>
+    <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
+  </dl>
 
 
 
@@ -181,27 +176,13 @@
 
   <dl class="item_dl item16">
     <dt>実施担当</dt>
-    <dd>
-      {% if object.ideaNum > 0 %}
-        {{ object.inchargeStaff}}
-      {% else %}
-        <p>-</p>
-      {% endif %}
-    </dd>
-    
+    <dd>{{ object.inchargeStaff}}</dd>
   </dl>
 
   <dl class="item_dl item17">
-    <dt>担当部門</dt>
-    <dd>
-      {% if object.ideaNum > 0 %}
-        {{ object.inchargeDivision}}
-      {% else %}
-        <p>-</p>
-      {% endif %}
-    </dd>
+    <dt>実施部門</dt>
+    <dd>{{ object.inchargeDivision}}</dd>
   </dl>
-
 
   <dl class="item_dl item18">
     <dt>管理用</dt>

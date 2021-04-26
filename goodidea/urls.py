@@ -16,7 +16,7 @@ urlpatterns = [
     path('detail_item/<int:pk>', views.ItemDetail.as_view(), name='detail_item'),
     path('detail_sub/<int:pk>', views.ItemDetailSub.as_view(), name='detail_sub'),
     path('detail_filter/<int:pk>', views.ItemDetailFilter.as_view(), name='detail_filter'),
-    path('detail_due/<int:pk>', views.ItemDetailSub.as_view(), name='detail_due'),
+    path('detail_due/<int:pk>', views.ItemDetailDue.as_view(), name='detail_due'),
 
 
     path('create_idea/', views.ItemCreateIdea.as_view(), name='create_idea'),
