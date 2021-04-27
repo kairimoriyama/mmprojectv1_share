@@ -50,7 +50,7 @@
         <dd>
           <input class="radio_left_end" type="radio" name="ideaOrAction" value="0">協議案件
           <input type="radio" name="ideaOrAction" value="1">共有案件
-          <input type="radio" name="ideaOrAction" value="2" checked="checked">両方
+          <input type="radio" name="ideaOrAction" value="2" checked="checked">協議案件・共有案件
         </dd>
       </dl>
 
@@ -72,12 +72,12 @@
       </dl>
 
       <dl>
-        <dt>実施担当</dt>
+        <dt>実施担当者</dt>
         <dd><input id="inchargeStaff"  name="inchargeStaff" value="{{ request.GET.inchargeStaff }}" type="text"></dd>
       </dl>
 
       <dl>
-        <dt>担当部門</dt>
+        <dt>実施部門</dt>
         <dd><input id="inchargeDivision" name="inchargeDivision" value="{{ request.GET.inchargeDivision }}" type="text"></dd>
       </dl>
 
@@ -233,8 +233,8 @@ function set_search_key(){
   let checkedValue = '';
 
   for (let i = 0; i < len ; i++){
-    if (ideaOrAction(i).checked){
-      checkedValue = ideaOrAction(i).value;
+    if (ideaOrAction[i].checked){
+      checkedValue = ideaOrAction[i].value;
     }
   }
 
