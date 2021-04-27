@@ -48,7 +48,7 @@
       <dl class="radio">
         <dt>案件区分</dt>
         <dd>
-          <input class="radio_left" type="radio" name="ideaOrAction" value="0">協議案件
+          <input class="radio_left_end" type="radio" name="ideaOrAction" value="0">協議案件
           <input type="radio" name="ideaOrAction" value="1">共有案件
           <input type="radio" name="ideaOrAction" value="2" checked="checked">両方
         </dd>
@@ -228,10 +228,13 @@ function set_search_key(){
   let completionDateTo = document.getElementById('completionDateTo').value;
 
   //ラジオボタンの値を確認
+  let ideaOrAction = document.getElementsByName('ideaOrAction');
+  let len = ideaOrAction.length;
   let checkedValue = '';
-  for (let i = 0; i < 3 ; i++){
-    if (document.getElementsByName('ideaOrAction')[i].checked = true){
-      checkedValue = document.getElementsByName('ideaOrAction').item(i).value;
+
+  for (let i = 0; i < len ; i++){
+    if (ideaOrAction(i).checked){
+      checkedValue = ideaOrAction(i).value;
     }
   }
 
