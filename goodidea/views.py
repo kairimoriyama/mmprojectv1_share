@@ -62,34 +62,6 @@ class ItemListDue(ListView):
 
 
 
-class ItemListIdea(ListView):
-    template_name = 'goodidea/list_idea.html'
-    fields = '__all__'
-    paginate_by = 22
-
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_idea'
-        return context
-
-    def get_queryset(request):
-        return Item.objects_list.idea_list().order_by('-itemNum')
-
-
-class ItemListAction(ListView):
-    template_name = 'goodidea/list_action.html'
-    fields = '__all__'
-    paginate_by = 22
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_action'
-        return context
-
-    def get_queryset(request):
-        return Item.objects_list.action_list().order_by('-itemNum')
-
 
 class ItemListFilter(ListView):
     template_name = 'goodidea/list_filter.html'
@@ -151,7 +123,7 @@ class ItemListFilter(ListView):
         if progress =="0" and division =="0" :
             print('filter1')
         
-            if self.request.GET.get('ideaOrAction')== "1": #協議案件のみ
+            if self.request.GET.get('ideaOrAction')== "0": #協議案件のみ
                 queryset = Item.objects.filter(deletedItem=False
                 ).filter( ideaNum__gt = 0 #協議案件のみ
                 ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
@@ -161,7 +133,7 @@ class ItemListFilter(ListView):
                         Q(discussionNote__icontains=word)| Q(report__icontains=word)
                 ).order_by('-itemNum')
             
-            elif ideaOrAction == "2": #共有案件のみ
+            elif ideaOrAction == "1": #共有案件のみ
                 queryset = Item.objects.filter(deletedItem=False
                 ).filter( actionNum__gt = 0 #共有案件のみ
                 ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
