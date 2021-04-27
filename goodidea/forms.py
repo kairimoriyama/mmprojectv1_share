@@ -143,8 +143,8 @@ class ItemCreateFromAction(ModelForm):
         self.fields['description'].required = True
 
         # プレースホルダ
-        self.fields['inchargeStaff'].widget.attrs['placeholder'] = '協力者'
-        self.fields['inchargeDivision'].widget.attrs['placeholder'] = '協力部門'
+        self.fields['inchargeStaff'].widget.attrs['placeholder'] = '協力者含む'
+        self.fields['inchargeDivision'].widget.attrs['placeholder'] = '協力部門含む'
         self.fields['title'].widget.attrs['placeholder'] = 'できるだけ具体的に業務フローの変更点、備品の発注先・金額等を記載（必要に応じてURL・写真・資料を追加）'
         self.fields['description'].widget.attrs['placeholder'] = '現状の分析に基づく課題提起、複数の代替案との比較、費用対効果の検証等を記載（必要に応じてURL・写真・資料を追加）'
 

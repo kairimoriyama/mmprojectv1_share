@@ -3,7 +3,7 @@
 {% block header %}
 
   <li>
-    <a href="{% url 'goodidea:list_action' %}"><p>一覧へ戻る</p></a>
+    <a href="{% url 'goodidea:list_all' %}"><p>一覧へ戻る</p></a>
   </li>
 
 {% endblock header %}
@@ -98,7 +98,7 @@
   </dl>
     
   <dl class="item_dl item13">
-    <dt>実施担当</dt>
+    <dt>実施担当者</dt>
     <dd>{{ form.inchargeStaff}}</dd>
   </dl>
 

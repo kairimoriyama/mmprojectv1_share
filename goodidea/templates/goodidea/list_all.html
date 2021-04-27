@@ -2,15 +2,9 @@
 
 {% block header %}
 
-  <li>
-    <a  class="due_img" href="{% url 'goodidea:list_due' %}">
-      <img src="/static/goodidea/img/time_img.png" alt="">
-    </a>
-  </li>
-
-  <li><a href="{% url 'goodidea:list_idea' %}">協議案件</a></li>
-  <li><a href="{% url 'goodidea:list_action' %}">共有案件</a></li>
   <li><a href="{% url 'goodidea:list_filter' %}">検索画面</a></li>
+  <li><a href="{% url 'goodidea:list_due' %}">期日管理</a></li>
+
   
   <!-- Excel出力について改修中 -->
   <!-- <li>
@@ -25,7 +19,13 @@
 {% block content %}
 
 
-<div class="menu_wrapper_list">
+<div class="menu_wrapper">
+
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'goodidea:create_idea' %}">協議案件作成</a>
+    <a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:create_action' %}">共有案件作成</a>
+  </div>
+
   <ul class="page_nav">
     <li>
       {% if page_obj.has_previous %}
@@ -41,6 +41,7 @@
       {% endif %}
     </li>
   </ul>
+
 </div>
 
 

@@ -3,7 +3,7 @@
 
 {% block header %}
   <li>
-    <a href="{% url 'goodidea:list_all' %}">全件一覧</a>
+    <a href="{% url 'goodidea:list_all' %}">一覧へ戻る</a>
   </li>
 {% endblock%}
 
@@ -44,6 +44,15 @@
     <div id="filter_items" class="list_filter_items">
 
       <form method="POST" aciton="">
+
+      <dl>
+        <dt>協議案件・共有案件</dt>
+        <dd>
+          <input type="radio" name="ideaOrAction" value="0">協議案件
+          <input type="radio" name="ideaOrAction" value="1">共有案件
+          <input type="radio" name="ideaOrAction" value="2" >両方
+        </dd>
+      </dl>
 
       <dl>
         <dt>提案者</dt>
@@ -173,9 +182,9 @@
         (function updateCompletionDate() {
           let today = new Date();
           today.setDate(today.getDate());
-          let yyyy1 = today.getFullYear()-10;
+          let yyyy1 = today.getFullYear()-5;
           let yyyy2 = today.getFullYear();
-          let mm = ("0"+(today.getMonth())).slice(-2);
+          let mm = ("0"+(today.getMonth()+1)).slice(-2);
           let dd = ("0"+today.getDate()).slice(-2);
           document.getElementById("completionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
           document.getElementById("completionDateTo").value=yyyy2+'-'+mm+'-'+dd;
@@ -218,6 +227,14 @@ function set_search_key(){
   let completionDateFrom = document.getElementById('completionDateFrom').value;
   let completionDateTo = document.getElementById('completionDateTo').value;
 
+  //ラジオボタンの値を確認
+  let checkedValue = '';
+  for (let i = 0; i < 3 ; i++){
+    if (document.getElementsByName('ideaOrAction')[i].checked = true){
+      checkedValue = document.getElementsByName('ideaOrAction').item(i).value;
+    }
+  }
+
   let dataset = ({
     "key1": staff,
     "key2": division,
@@ -228,7 +245,8 @@ function set_search_key(){
     "key7": submissionDateFrom,
     "key8": submissionDateTo,
     "key9": completionDateFrom,
-    "key10": completionDateTo
+    "key10": completionDateTo,
+    "key11": checkedValue  //ラジオボタンの値
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
@@ -260,6 +278,11 @@ function get_search_key() {
     document.getElementById('submissionDateTo').value= dataset["key8"];
     document.getElementById('completionDateFrom').value= dataset["key9"];
     document.getElementById('completionDateTo').value= dataset["key10"];
+
+    //ラジオボタンの値設定
+    let i = Number(dataset["key11"]);
+    document.getElementsByName('ideaOrAction')[i].checked = true;
+
 
     if (dataset["key5"]==4) {
       document.getElementById("completionDateFilter").style.display ="block";

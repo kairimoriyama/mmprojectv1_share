@@ -142,6 +142,7 @@ button{
 .page_nav{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .next_bt{
@@ -293,7 +294,7 @@ button{
 
 .filter_bt_wrapper{
     display: flex;
-    align-content: center;
+
 }
 
 .list_filter_items{

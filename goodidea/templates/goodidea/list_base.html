@@ -24,7 +24,7 @@
     <th>議事録</th>
     <th>方針・報告</th>
 
-    <th>実施担当</th>
+    <th>実施担当者</th>
     <th>実施部門</th>
 
 
@@ -63,21 +63,6 @@
           </a>
         </td>
 
-    <!-- 場合分け list_idea / list_action -->
-
-     {% elif list_type == 'list_idea' or list_type == 'list_action'  %}
-    
-        <td class="sticky_col_td">
-          {% if item.ideaNum > 0 %}
-            <a href="{% url 'goodidea:detail_sub' item.pk %}">
-              {{ item.ideaNum }}
-            </a>
-          {% else %}
-            <a href="{% url 'goodidea:detail_sub' item.pk %}">
-              {{ item.actionNum }}-共
-            </a>
-          {% endif %}
-        </td>
 
 
     <!-- 場合分け list_filter -->

@@ -41,7 +41,7 @@ def item_export(request):
     response.write("\xEF\xBB\xBF")
     writer = csv.writer(response, delimiter=',', encoding="shift-jis")
 
-    writer.writerow(['案件番号','協議案件番号','完了共有案件番号','登録日','進捗','提案者','所属','分類','提案・実施内容','理由説明','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','担当者','担当部門','方針・報告','完了日','期日','管理用','削除'])
+    writer.writerow(['案件番号','協議案件番号','完了共有案件番号','登録日','進捗','提案者','所属','分類','提案・実施内容','理由説明','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
     for item in Item.objects.all():
         writer.writerow([item.itemNum,item.ideaNum,item.actionNum,item.submissionDate,item.progress,item.staff,item.division,item.category,item.title,item.description,item.refURL1,item.refURL2,item.refURL3,item.picture1,item.picture2,item.picture3,item.refFile1,item.refFile2,item.refFile3,item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
     return response
@@ -61,34 +61,6 @@ class ItemListDue(ListView):
         return Item.objects_list.due_list().order_by('dueDate')
 
 
-
-class ItemListIdea(ListView):
-    template_name = 'goodidea/list_idea.html'
-    fields = '__all__'
-    paginate_by = 22
-
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_idea'
-        return context
-
-    def get_queryset(request):
-        return Item.objects_list.idea_list().order_by('-itemNum')
-
-
-class ItemListAction(ListView):
-    template_name = 'goodidea/list_action.html'
-    fields = '__all__'
-    paginate_by = 22
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_action'
-        return context
-
-    def get_queryset(request):
-        return Item.objects_list.action_list().order_by('-itemNum')
 
 
 class ItemListFilter(ListView):
@@ -131,6 +103,8 @@ class ItemListFilter(ListView):
         submissionDateTo = self.request.GET.get('submissionDateTo')
         completionDateFrom = self.request.GET.get('completionDateFrom')
         completionDateTo = self.request.GET.get('completionDateTo')
+        ideaOrAction = self.request.GET.get('ideaOrAction')
+
 
         #  値をセッションで保持
         self.request.session['progress'] = progress
@@ -143,17 +117,40 @@ class ItemListFilter(ListView):
         self.request.session['submissionDateTo'] = submissionDateTo
         self.request.session['completionDateFrom'] = completionDateFrom
         self.request.session['completionDateTo'] = completionDateTo
+        self.request.session['ideaOrAction'] = ideaOrAction
 
 
         if progress =="0" and division =="0" :
             print('filter1')
-            queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
+        
+            if self.request.GET.get('ideaOrAction')== "0": #協議案件のみ
+                queryset = Item.objects.filter(deletedItem=False
+                ).filter( ideaNum__gt = 0 #協議案件のみ
+                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
+                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                        Q(inchargeDivision__icontains=inchargeDivision),
+                        Q(title__icontains=word)| Q(description__icontains=word)|
+                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
+                ).order_by('-itemNum')
+            
+            elif ideaOrAction == "1": #共有案件のみ
+                queryset = Item.objects.filter(deletedItem=False
+                ).filter( actionNum__gt = 0 #共有案件のみ
+                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
+                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                        Q(inchargeDivision__icontains=inchargeDivision),
+                        Q(title__icontains=word)| Q(description__icontains=word)|
+                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
+                ).order_by('-itemNum')
+
+            else: #協議案件・共有案件の両方
+                queryset = Item.objects.filter(deletedItem=False
+                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
+                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                        Q(inchargeDivision__icontains=inchargeDivision),
+                        Q(title__icontains=word)| Q(description__icontains=word)|
+                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
+                ).order_by('-itemNum')
 
             self.request.session['item_list_type'] = 'filter1'
 
