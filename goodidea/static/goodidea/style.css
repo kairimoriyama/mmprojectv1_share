@@ -931,9 +931,18 @@ hr{
     overflow-x: scroll;
     overflow-y: hidden;
 }
+.multiple_items .multiple_items_img{
+    align-content: center;
+    align-items:center;
+    flex-wrap: nowrap;
+}
+img{
+    height: 15rem;
+    width:auto;
+}
 
 .multiple_items_update dd{
-    flex-wrap:nowrap;
+    flex-wrap:wrap;
 }
 .multiple_items dd div{
     display: flex;
@@ -1012,4 +1021,5 @@ hr{
     padding:0;
     margin: 0;
 }
+
 
