@@ -123,6 +123,7 @@ class Item(models.Model):
         return type(self).objects.item_alive().filter(itemNum__gt=self.itemNum).order_by('itemNum').first()
 
 
+    #list_filterの値に応じて、協議案件を抽出 
 
     def get_prev_idea_by_itemNum(self):
         """前のideaを取得"""
@@ -132,6 +133,7 @@ class Item(models.Model):
         """次のideaを取得"""
         return type(self).objects.item_alive().item_idea().filter(ideaNum__gt=self.ideaNum).order_by('itemNum').first()
 
+    #list_filterの値に応じて、共有案件を抽出
 
     def get_prev_action_by_itemNum(self):
         """前のactionを取得"""

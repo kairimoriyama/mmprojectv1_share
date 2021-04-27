@@ -3,7 +3,7 @@
 
 {% block header %}
   <li>
-    <a href="{% url 'goodidea:list_all' %}">全件一覧</a>
+    <a href="{% url 'goodidea:list_all' %}">一覧へ戻る</a>
   </li>
 {% endblock%}
 
@@ -45,6 +45,15 @@
 
       <form method="POST" aciton="">
 
+      <dl class="radio">
+        <dt>案件区分</dt>
+        <dd>
+          <input class="radio_left_end" type="radio" name="ideaOrAction" value="0">協議案件
+          <input type="radio" name="ideaOrAction" value="1">共有案件
+          <input type="radio" name="ideaOrAction" value="2" checked="checked">協議案件・共有案件
+        </dd>
+      </dl>
+
       <dl>
         <dt>提案者</dt>
         <dd><input id="staff" name="staff" value="{{ request.GET.staff }}" type="text"></dd>
@@ -63,12 +72,12 @@
       </dl>
 
       <dl>
-        <dt>実施担当</dt>
+        <dt>実施担当者</dt>
         <dd><input id="inchargeStaff"  name="inchargeStaff" value="{{ request.GET.inchargeStaff }}" type="text"></dd>
       </dl>
 
       <dl>
-        <dt>担当部門</dt>
+        <dt>実施部門</dt>
         <dd><input id="inchargeDivision" name="inchargeDivision" value="{{ request.GET.inchargeDivision }}" type="text"></dd>
       </dl>
 
@@ -173,9 +182,9 @@
         (function updateCompletionDate() {
           let today = new Date();
           today.setDate(today.getDate());
-          let yyyy1 = today.getFullYear()-10;
+          let yyyy1 = today.getFullYear()-5;
           let yyyy2 = today.getFullYear();
-          let mm = ("0"+(today.getMonth())).slice(-2);
+          let mm = ("0"+(today.getMonth()+1)).slice(-2);
           let dd = ("0"+today.getDate()).slice(-2);
           document.getElementById("completionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
           document.getElementById("completionDateTo").value=yyyy2+'-'+mm+'-'+dd;
@@ -218,6 +227,17 @@ function set_search_key(){
   let completionDateFrom = document.getElementById('completionDateFrom').value;
   let completionDateTo = document.getElementById('completionDateTo').value;
 
+  //ラジオボタンの値を確認
+  let ideaOrAction = document.getElementsByName('ideaOrAction');
+  let len = ideaOrAction.length;
+  let checkedValue = '';
+
+  for (let i = 0; i < len ; i++){
+    if (ideaOrAction[i].checked){
+      checkedValue = ideaOrAction[i].value;
+    }
+  }
+
   let dataset = ({
     "key1": staff,
     "key2": division,
@@ -228,7 +248,8 @@ function set_search_key(){
     "key7": submissionDateFrom,
     "key8": submissionDateTo,
     "key9": completionDateFrom,
-    "key10": completionDateTo
+    "key10": completionDateTo,
+    "key11": checkedValue  //ラジオボタンの値
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
@@ -260,6 +281,11 @@ function get_search_key() {
     document.getElementById('submissionDateTo').value= dataset["key8"];
     document.getElementById('completionDateFrom').value= dataset["key9"];
     document.getElementById('completionDateTo').value= dataset["key10"];
+
+    //ラジオボタンの値設定
+    let i = Number(dataset["key11"]);
+    document.getElementsByName('ideaOrAction')[i].checked = true;
+
 
     if (dataset["key5"]==4) {
       document.getElementById("completionDateFilter").style.display ="block";

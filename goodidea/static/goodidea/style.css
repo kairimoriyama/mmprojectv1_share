@@ -142,6 +142,7 @@ button{
 .page_nav{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .next_bt{
@@ -293,7 +294,7 @@ button{
 
 .filter_bt_wrapper{
     display: flex;
-    align-content: center;
+
 }
 
 .list_filter_items{
@@ -307,6 +308,18 @@ button{
     margin-top: 1rem;
     margin-right: 2rem;
     width: 20rem;
+}
+
+/* 協議案件・共有案件 */
+.list_filter_items .radio{
+    width: 42rem;
+}
+.radio dd input{
+    margin-right: 1rem;
+    margin-left: 3rem;
+}
+.radio dd .radio_left_end{
+    margin-left: 0rem;
 }
 
 .list_filter_items .list_filter_date{
@@ -918,9 +931,18 @@ hr{
     overflow-x: scroll;
     overflow-y: hidden;
 }
+.multiple_items .multiple_items_img{
+    align-content: center;
+    align-items:center;
+    flex-wrap: nowrap;
+}
+img{
+    height: 15rem;
+    width:auto;
+}
 
 .multiple_items_update dd{
-    flex-wrap:nowrap;
+    flex-wrap:wrap;
 }
 .multiple_items dd div{
     display: flex;
@@ -999,4 +1021,5 @@ hr{
     padding:0;
     margin: 0;
 }
+
 
