@@ -17,7 +17,20 @@
     <dd class="right_border">{{ object.submissionDate | date:"Y/m/d"}}</dd>
   </dl>
 
-  <dl class="item_dl item3">
+
+  
+  <!-- 進捗状況に応じた色の設定 -->
+  {% if object.progress.no == 1 %}
+    <dl class="item_dl item3 row-white">
+  {%  elif object.progress.no == 2 %}
+    <dl class="item_dl item3 row-yellow">
+  {%  elif object.progress.no == 3 %}
+    <dl class="item_dl item3 row-gray">
+  {%  elif object.progress.no == 4 %}
+    <dl class="item_dl item3 row-blue">
+  {%  elif object.progress.no == 5 %}
+    <dl class="item_dl item3">
+  {% endif %}
     <dt>
       {% if object.completionDate != None %}
         完了日
@@ -105,8 +118,15 @@
     <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
   </dl>
 
+  <dl class="item_dl item16">
+    <dt>実施<br>担当者</dt>
+    <dd>{{ object.inchargeStaff}}</dd>
+  </dl>
 
-
+  <dl class="item_dl item17">
+    <dt>実施<br>部門・PJ</dt>
+    <dd>{{ object.inchargeDivision}}</dd>
+  </dl>
 
   <dl class="item_dl item10 multiple_items">
     <dt class="height_l">URL</dt>
@@ -172,17 +192,6 @@
     </dd>
   </dl>
 
-
-
-  <dl class="item_dl item16">
-    <dt>実施担当者</dt>
-    <dd>{{ object.inchargeStaff}}</dd>
-  </dl>
-
-  <dl class="item_dl item17">
-    <dt>実施部門</dt>
-    <dd>{{ object.inchargeDivision}}</dd>
-  </dl>
 
   <dl class="item_dl item18">
     <dt>管理用</dt>

@@ -129,13 +129,13 @@
     </dl>
 
     <dl class="item_dl item14">
-      <dt>実施担当者</dt>
+      <dt>実施<br>担当者</dt>
       <dd>{{ form.inchargeStaff}}</dd>
     </dl>
 
 
     <dl class="item_dl item15">
-      <dt>実施部門</dt>
+      <dt>実施<br>部門・PJ</dt>
       <dd>{{ form.inchargeDivision}}</dd>
     </dl>
   
@@ -223,7 +223,10 @@ function changeBoxColor_white(){
         document.getElementById('completionDate').firstElementChild.style.backgroundColor = "white";
 };
 
-
+function changeBoxColor_gray(){
+  document.getElementById('progress').firstElementChild.style.backgroundColor = "rgb(216, 214, 214)";
+  document.getElementById('completionDate').firstElementChild.style.backgroundColor = "rgb(216, 214, 214)";
+};
 
 
  //期日・完了日の表示切り替え条件
@@ -277,6 +280,7 @@ function changeBoxColor_white(){
     
     let select = document.getElementById('progress').firstElementChild.value;
 
+    // 完了
     if (select==4){
       document.getElementById("due_complete_select").value="完了日"
       document.getElementById("dueDate").style.display ="none";
@@ -284,6 +288,17 @@ function changeBoxColor_white(){
       changeBoxColor_blue();
       setCompletionDate();
       clearDueDate();
+
+    // 実施なし
+    }else if (select==3){
+        document.getElementById("due_complete_select").value="期日"
+        document.getElementById("dueDate").style.display ="none";
+        document.getElementById("completionDate").style.display ="flex";
+        changeBoxColor_gray();
+        clearCompletionDate();
+        clearDueDate();
+
+    // 新規・進行中
     }else{
       document.getElementById("due_complete_select").value="期日"
       document.getElementById("dueDate").style.display ="flex";
