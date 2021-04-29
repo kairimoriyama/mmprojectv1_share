@@ -926,35 +926,29 @@ hr{
 .multiple_items dd{
     display: flex;
     flex-wrap: wrap;
+    align-content: space-around;
     overflow-x: scroll;
     overflow-y: hidden;
 }
 
 /* 写真表示 */
 img{
-    height: 13rem;
+    height: 15rem;
     width:auto;
-    margin-right: 2rem;
-    margin-left: 1rem;
 }
 .multiple_items .multiple_items_img{
     align-content: center;
-    align-items:flex-start;
+    align-items:center;
     flex-wrap: nowrap;
 }
 
-
 /* ファイル添付 */
-
-.multiple_items .multiple_items_update{
-    flex-wrap:nowrap;
-}
-
-.attachment_update p
+.img_update p
 {
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
+
 .attachment_update div{
     flex-wrap: wrap;
 }
@@ -964,23 +958,13 @@ img{
 }
 
 
-/* 添付URL */
-
-.multiple_items dd{
-    align-content: center;
-    padding-top: 1.2rem;
-}
-
 .multiple_items_src{
     white-space: nowrap;
-    height: 4.5rem;
-
 }
 
 .multiple_items dd input[type="url"]{
     width: 50rem;
     margin-right: 1rem;
-    margin-bottom: 1rem;
 }
 
 
