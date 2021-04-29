@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
-    # 'django_ses',
+    'django_ses',
 ]
 
 # デバッグモードを有効にするかどうか(本番運用では必ずFalseにする)
