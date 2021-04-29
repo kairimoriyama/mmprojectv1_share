@@ -16,7 +16,8 @@
     <th>方針・報告</th>
 
     <th>実施担当者</th>
-    <th>実施部門・PJ</th>
+    <th>実施部門/PJ</th>
+    <th>システム</th>
 
 
     <th>完了日</th>
@@ -106,6 +107,7 @@
       <td>{{ item.staff }}</td>
       <td>{{ item.division.name }}</td>
       <td>{{ item.category.name }}</td>
+      
       <td class="longText">{{ item.title }}</td>
       <td class="longText">{{ item.description }}</td>
 
@@ -126,7 +128,12 @@
     <td>{{ item.inchargeStaff }}</td>
     <td>{{ item.inchargeDivision }}</td>  
 
-        
+    <td class="system_col">
+      {% if item.system == True %}
+        <p>○</p>
+      {% else %}
+      {% endif %}
+    </td>
 
     <td class="date_col">
       {% if item.completionDate != None %}

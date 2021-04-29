@@ -45,12 +45,19 @@
 
       <form method="POST" aciton="">
 
-      <dl class="radio">
+      <dl class="ideaOrAction_filter">
         <dt>案件区分</dt>
         <dd>
           <input class="radio_left_end" type="radio" name="ideaOrAction" value="0">協議案件
           <input type="radio" name="ideaOrAction" value="1">共有案件
-          <input type="radio" name="ideaOrAction" value="2" checked="checked">協議案件・共有案件
+          <input type="radio" name="ideaOrAction" value="2" checked="checked">両方
+        </dd>
+      </dl>
+
+      <dl class="category_system_filter">
+        <dt>システムのみ</dt>
+        <dd>
+          <input id="system" name="system" type="checkbox" value="1">
         </dd>
       </dl>
 
@@ -238,6 +245,8 @@ function set_search_key(){
     }
   }
 
+  let system = document.getElementById('system').checked;
+
   let dataset = ({
     "key1": staff,
     "key2": division,
@@ -249,7 +258,9 @@ function set_search_key(){
     "key8": submissionDateTo,
     "key9": completionDateFrom,
     "key10": completionDateTo,
-    "key11": checkedValue  //ラジオボタンの値
+    "key11": checkedValue,  //ラジオボタンの値
+    "key12": system  //チェックリストの値
+
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
@@ -286,6 +297,11 @@ function get_search_key() {
     let i = Number(dataset["key11"]);
     document.getElementsByName('ideaOrAction')[i].checked = true;
 
+    if (dataset["key12"] == true) {
+      document.getElementById('system').checked = true;
+    }else{
+      document.getElementById('system').checked = false;
+    };
 
     if (dataset["key5"]==4) {
       document.getElementById("completionDateFilter").style.display ="block";

@@ -45,7 +45,10 @@
 
   <dl class="item_dl item5">
     <dt>分類</dt>
-    <dd>{{ form.category}}</dd>
+    <dd class="category_dd">
+      {{ form.category}}
+      <div class="system"><p>システム</p>{{ form.system}}</div>
+    </dd>
   </dl>
 
   <dl class="item_dl item6">
@@ -75,7 +78,7 @@
   </dl>
 
   <dl class="item_dl item14">
-    <dt>実施<br>部門・PJ</dt>
+    <dt>実施部門<br>/PJ</dt>
     <dd>{{ form.inchargeDivision}}</dd>
   </dl>
 
