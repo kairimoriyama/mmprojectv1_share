@@ -94,6 +94,7 @@ class ItemListFilter(ListView):
      
         # 入力した検索条件の取得
         progress = self.request.GET.get('progress')
+        system = self.request.GET.get('system')
         staff = self.request.GET.get('staff')
         division = self.request.GET.get('division')
         inchargeStaff = self.request.GET.get('inchargeStaff')
@@ -108,6 +109,7 @@ class ItemListFilter(ListView):
 
         #  値をセッションで保持
         self.request.session['progress'] = progress
+        self.request.session['system'] = system
         self.request.session['staff'] = staff
         self.request.session['division'] = division
         self.request.session['inchargeStaff'] = inchargeStaff
@@ -119,256 +121,65 @@ class ItemListFilter(ListView):
         self.request.session['completionDateTo'] = completionDateTo
         self.request.session['ideaOrAction'] = ideaOrAction
 
+        # 絞り込み前の初期値
+        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
 
-        if progress =="0" and division =="0" :
-            print('filter1')
-        
-            if ideaOrAction == "0": #協議案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
+        # ページ遷移直後でなければ値がNullではないため絞込可能
+        if progress or system or staff or division or inchargeStaff or inchargeDivision or word or\
+            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo):
+
+            # 協議案件/共有案件
+            if ideaOrAction == "0":   #協議案件のみ
+                queryset1 = queryset0.filter( ideaNum__gt = 0)
+            elif ideaOrAction == "1": #共有案件のみ
+                queryset1 = queryset0.filter( actionNum__gt = 0)
+            else:
+                queryset1 = queryset0.all()
+
+            # システム案件の絞込
+            if system == "1":
+                queryset2 = queryset1.filter(system__exact=True)
+            else:
+                queryset2 = queryset1.all()
+
+            # 所属の絞り込み
+            if division == "0": #全部門
+                queryset3 = queryset2.all()
+            else:               #全部門以外
+                queryset3 = queryset2.filter( division__exact=division)
             
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
+            # 進捗・完了日の絞り込み
+            if progress == "0":   #全進捗
+                queryset4 = queryset3.all()
+            elif progress == "4": #完了案件のみ
+                queryset4 = queryset3.filter(progress__exact=4
+                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+            else:                 #新規/実施なし
+                queryset4 = queryset3.filter(progress__exact=progress)
 
-            else: #協議案件・共有案件の両方
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
+            # 日付、キーワードの絞込
+            if staff or division or inchargeStaff or inchargeDivision or word or\
+                (submissionDateFrom and submissionDateTo) :
+                queryset5 = queryset4.filter(
+                    submissionDate__range=(submissionDateFrom, submissionDateTo)
+                    ).filter(
+                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                    Q(inchargeDivision__icontains=inchargeDivision),
+                    Q(title__icontains=word)| Q(description__icontains=word)|
+                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
+            else: 
+                queryset5 = queryset4.all()
 
-            self.request.session['item_list_type'] = 'filter1'
-
-
-        elif progress =="4" and division =="0" :
-            print('filter2')
-
-            if ideaOrAction == "0": #協議案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
-
-            else: #協議案件・共有案件の両方
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter2'
-
-        
-        elif progress =="4" and division !="0" :
-            print('filter3')
-
-            if ideaOrAction == "0": #協議案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
+                # セッションで選択されたデータを保持
+                self.request.session['item_list_type'] = 'filter'
             
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
+            queryset = queryset5.order_by('-itemNum')
 
-            else: #協議案件・共有案件の両方
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter3'
-        
-
-        elif progress !="4" and division =="0" :
-            print('filter4')
-
-            if ideaOrAction == "0": #協議案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            else: #協議案件・共有案件の両方
-                queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter4'
-        
-
-        elif progress =="0" and division !="0" :
-            print('filter5')
-
-            if ideaOrAction == "0": #協議案件のみ
-                queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-
-            else: #協議案件・共有案件の両方
-                queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter5'
-
-
-        elif progress or staff or division or inchargeStaff or inchargeDivision or word or\
-            (submissionDateFrom and submissionDateTo) or\
-            (completionDateFrom and completionDateTo):
-            print('filter6')
-
-            if ideaOrAction == "0": #協議案件のみ
-                queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            else: #協議案件・共有案件の両方
-                queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter6'
-
+        # ページ遷移直後のNullでは絞込なし
         else:
-            print('filter7')
-            queryset = Item.objects.all().filter(deletedItem=False
-            ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter7'
+            qeryset = queryset0.order_by('-itemNum')
         
-        return queryset
-   
-
+        return queryset.order_by('-itemNum')
 
 
 class ItemDetail(DetailView):
@@ -403,6 +214,7 @@ class ItemDetailFilter(DetailView):
 
         # 検索条件を呼び出して必要なitemのみ表示
         progress = self.request.session['progress']
+        system = self.request.session['system']
         staff = self.request.session['staff']
         division = self.request.session['division']
         inchargeStaff = self.request.session['inchargeStaff']
@@ -415,243 +227,58 @@ class ItemDetailFilter(DetailView):
         completionDateTo = self.request.session['completionDateTo']
         ideaOrAction = self.request.session['ideaOrAction']
   
+        # 絞り込み前の初期値
+        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
 
-        if item_list_type == 'filter1':
+        if item_list_type == 'filter':
 
-            if ideaOrAction == "0": #協議案件のみ
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
+            # 協議案件/共有案件
+            if ideaOrAction == "0":   #協議案件のみ
+                queryset1 = queryset0.filter( ideaNum__gt = 0)
+            elif ideaOrAction == "1": #共有案件のみ
+                queryset1 = queryset0.filter( actionNum__gt = 0)
+            else:
+                queryset1 = queryset0.all()
+
+            # システム案件の絞込
+            if system == "1":
+                queryset2 = queryset1.filter(system__exact=True)
+            else:
+                queryset2 = queryset1.all()
+
+            # 所属の絞り込み
+            if division == "0": #全部門
+                queryset3 = queryset2.all()
+            else:               #全部門以外
+                queryset3 = queryset2.filter( division__exact=division)
             
-            elif ideaOrAction == "1": #共有案件のみ
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
+            # 進捗・完了日の絞り込み
+            if progress == "0":   #全進捗
+                queryset4 = queryset3.all()
+            elif progress == "4": #完了案件のみ
+                queryset4 = queryset3.filter(progress__exact=4
+                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+            else:                 #新規/実施なし
+                queryset4 = queryset3.filter(progress__exact=progress)
 
-            else: #協議案件・共有案件の両方
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
+            # 日付、キーワードの絞込
+            if staff or division or inchargeStaff or inchargeDivision or word or\
+                (submissionDateFrom and submissionDateTo) :
+                queryset5 = queryset4.filter(
+                    submissionDate__range=(submissionDateFrom, submissionDateTo)
+                    ).filter(
+                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                    Q(inchargeDivision__icontains=inchargeDivision),
+                    Q(title__icontains=word)| Q(description__icontains=word)|
+                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
+            else: 
+                queryset5 = queryset4.all()
+                
+            item_list_queryset = queryset5.order_by('-itemNum')
 
-            print('filter_test1')
+        else:
+            item_list_queryset = queryset0.order_by('-itemNum')
 
-        elif item_list_type == 'filter2':
-
-            if ideaOrAction == "0": #協議案件のみ
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum') 
-
-            else: #協議案件・共有案件の両方
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum') 
-
-            print('filter_test2')
-
-
-        elif item_list_type == 'filter3':
-
-            if ideaOrAction == "0": #協議案件のみ
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum') 
-
-            else: #協議案件・共有案件の両方
-                item_list_queryset = Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=4
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-                ).order_by('-itemNum') 
-
-            print('filter_test3')
-      
-
-        elif item_list_type == 'filter4':
-
-            if ideaOrAction == "0": #協議案件のみ
-                item_list_queryset =  Item.objects.filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                item_list_queryset =  Item.objects.filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')   
-
-            else: #協議案件・共有案件の両方
-                item_list_queryset =  Item.objects.filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')   
-
-            print('filter_test4')
-
-
-        elif item_list_type == 'filter5':
-
-            if ideaOrAction == "0": #協議案件のみ
-                item_list_queryset =  Item.objects.all().filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                item_list_queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            else: #協議案件・共有案件の両方
-                item_list_queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            print('filter_test5')
-
-
-        elif item_list_type == 'filter6':
-
-            if ideaOrAction == "0": #協議案件のみ
-                item_list_queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( ideaNum__gt = 0 #協議案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            elif ideaOrAction == "1": #共有案件のみ
-                item_list_queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( actionNum__gt = 0 #共有案件のみ
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            else: #協議案件・共有案件の両方
-                item_list_queryset = Item.objects.all().filter(deletedItem=False
-                ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-                ).filter( progress__exact=progress
-                ).filter( division__exact=division
-                ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                        Q(inchargeDivision__icontains=inchargeDivision),
-                        Q(title__icontains=word)| Q(description__icontains=word)|
-                        Q(discussionNote__icontains=word)| Q(report__icontains=word)
-                ).order_by('-itemNum')
-
-            print('filter_test6')
-
-
-        elif item_list_type == 'filter7':
-            item_list_queryset = Item.objects.all().filter(deletedItem=False
-            ).order_by('-itemNum')  
-
-            print('filter_test7')
-      
 
         prev = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
         next = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()

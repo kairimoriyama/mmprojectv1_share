@@ -47,7 +47,7 @@ class ItemManager(models.Manager):
         ).filter(ideaNum__gt=0
         ).exclude(dueDate__isnull=True)
 
-# 削除されていないデータ 期日のあるデータ だけをクエリセットとして選択
+# 削除されていないデータ 期日のあるデータ システム案件 だけをクエリセットとして選択
 class ItemQuerySet(models.QuerySet):
 
     def item_all(self):
@@ -58,7 +58,9 @@ class ItemQuerySet(models.QuerySet):
 
     def item_due(self):
         return self.filter(dueDate__isnull=False)
-        
+
+    def item_system(self):
+        return self.filter(system__exact=True)  
 
 class Item(models.Model):
     itemNum =  models.IntegerField(blank=True,null=True)
@@ -69,6 +71,7 @@ class Item(models.Model):
     division = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='item_dividion')     
     staff = models.CharField(max_length=100)
     category = models.ForeignKey(Category,on_delete=models.PROTECT, related_name ='item_category')
+    system = models.BooleanField(default=False)
     title = models.TextField(max_length=2500)
     description = models.TextField(max_length=2500)
 
