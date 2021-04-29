@@ -8,6 +8,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     # path('admin/', admin.site.urls),
     path('p-admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),    
+    path('accounts/inactive/', TemplateView.as_view(template_name = 'inactive.html'), name='inactive'),  
+    path('accounts/', include('allauth.urls')),
     path('goodidea/', include('goodidea.urls')),
 ]+ static( settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )

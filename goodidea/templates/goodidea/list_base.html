@@ -11,16 +11,12 @@
 		<th>提案・実施内容</th>
 		<th>根拠</th>
 
-		<th class="src_col" colspan="3">URL</th>
-		<th class="src_col" colspan="3">写真</th>
-		<th class="src_col" colspan="3">資料</th>
-    
     <th>検討日</th>
     <th>議事録</th>
     <th>方針・報告</th>
 
     <th>実施担当者</th>
-    <th>実施部門</th>
+    <th>実施部門・PJ</th>
 
 
     <th>完了日</th>
@@ -112,81 +108,6 @@
       <td>{{ item.category.name }}</td>
       <td class="longText">{{ item.title }}</td>
       <td class="longText">{{ item.description }}</td>
-
-
-      <td class="src_col">
-        {% if not item.refURL1 %}
-          <p></p>
-        {% else %}
-          <a href="{{ item.refURL1 }}">1</a>
-        {% endif %}
-      </td>
-
-      <td class="src_col">
-        {% if not item.refURL2 %}
-          <p></p>
-        {% else %}
-          <a href="{{ item.refURL2 }}">2</a>
-        {% endif %}
-      </td>
-      
-      <td class="src_col">
-        {% if not item.refURL3 %}
-          <p></p>
-        {% else %}
-          <a href="{{ item.refURL3 }}">3</a>
-        {% endif %}
-      </td>
-
-      <td class="src_col">
-        {% if not item.picture1 %}
-          <p></p>
-        {% else %}
-          <a href="/media/{{ item.picture1 }}">1</a>
-        {% endif %}
-      </td>
-
-      <td class="src_col">
-        {% if not item.picture2 %}
-          <p></p>
-        {% else %}
-          <a href="/media/{{ item.picture2 }}">2</a>
-        {% endif %}
-      </td>
-
-      <td class="src_col">
-        {% if not item.picture3 %}
-          <p></p>
-        {% else %}
-          <a href="/media/{{ item.picture3 }}">3</a>
-        {% endif %}
-      </td>
-      
-
-
-      <td class="src_col">
-        {% if not item.refFile1 %}
-          <p></p>
-        {% else %}
-          <a href="/media/{{ item.refFile1 }}">1</a>
-        {% endif %}
-      </td>
-
-      <td class="src_col">
-        {% if not  item.refFile2 %}
-          <p></p>
-        {% else %}
-          <a href="/media/{{ item.refFile2 }}">2</a>
-        {% endif %}
-      </td>
-
-      <td class="src_col">
-        {% if not item.refFile3 %}
-          <p></p>
-        {% else %}
-          <a href="/media/{{ item.refFile3 }}">3</a>
-        {% endif %}
-      </td>
 
 
 

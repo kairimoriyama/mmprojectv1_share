@@ -716,3 +716,13 @@ class ItemUpdateFilter(UpdateView):
     def get_success_url(self):
         return reverse('goodidea:detail_filter', kwargs={'pk': self.object.id})
 
+
+
+class ItemUpdateDue(UpdateView):
+    template_name = 'goodidea/update_due.html'
+    model  = Item
+    form_class = ItemUpdateFrom
+    
+    def get_success_url(self):
+        return reverse('goodidea:detail_due', kwargs={'pk': self.object.id})
+

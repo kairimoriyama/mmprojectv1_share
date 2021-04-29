@@ -12,8 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'l!@oqrwyn(lxw3)hw5ii_xlds-)4c5d+kb0o!b4^%(3hgaevgl'
 
-
-
+# ログインできるemailのドメインを制限（adapter.pyで管理）
+SOCIALACCOUNT_ADAPTER = 'mmproject.adapter.CustomSocialAccountAdapter'
+# 以下は利用できなかった
+# SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS= ['gmail.com'] 
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
