@@ -31,16 +31,6 @@ class Category(models.Model):
 #idea action due だけをListViewで抽出
 class ItemManager(models.Manager): 
 
-    def idea_list(self):
-        return super().get_queryset(
-        ).filter(deletedItem=False
-        ).filter(ideaNum__gt=0)
-        
-    def action_list(self):
-        return super().get_queryset(
-        ).filter(deletedItem=False
-        ).filter(actionNum__gt=0)
-
     def due_list(self):
         return super().get_queryset(
         ).filter(deletedItem=False
@@ -72,6 +62,7 @@ class Item(models.Model):
     staff = models.CharField(max_length=100)
     category = models.ForeignKey(Category,on_delete=models.PROTECT, related_name ='item_category')
     system = models.BooleanField(default=False)
+    purchase = models.BooleanField(default=False)
     title = models.TextField(max_length=2500)
     description = models.TextField(max_length=2500)
 

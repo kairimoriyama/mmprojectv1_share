@@ -67,12 +67,21 @@
     <dt>分類</dt>
     <dd class="category_dd">
       {{ object.category}}
-      <div class="system">
-        {% if object.system == True %}
-          <p>（システム）</p>
+
+      <div class="purchase">
+        {% if object.purchase == True %}
+          <p>購入</p>
         {% else %}
         {% endif %}
       </div>
+
+      <div class="system">
+        {% if object.system == True %}
+          <p>システム</p>
+        {% else %}
+        {% endif %}
+      </div>
+      
     </dd>
   </dl>
 
@@ -121,11 +130,6 @@
     <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.discussionNote}}</dd>
   </dl>
 
-  <dl class="item_dl item15">
-    <dt class="height_l sentence_dt">方針・報告</dt>
-    <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
-  </dl>
-
   <dl class="item_dl item16">
     <dt>実施<br>担当者</dt>
     <dd>{{ object.inchargeStaff}}</dd>
@@ -134,6 +138,12 @@
   <dl class="item_dl item17">
     <dt>実施部門<br>/PJ</dt>
     <dd>{{ object.inchargeDivision}}</dd>
+  </dl>
+
+
+  <dl class="item_dl item15">
+    <dt class="height_l sentence_dt">方針・報告</dt>
+    <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
   </dl>
 
   <dl class="item_dl item10 multiple_items">

@@ -75,6 +75,7 @@
       <dt>分類</dt>
       <dd class="category_dd">
         {{ form.category}}
+        <div class="purchase"><p>購入</p>{{ form.purchase}}</div>
         <div class="system"><p>システム</p>{{ form.system}}</div>
       </dd>
     </dl>
@@ -98,6 +99,35 @@
       <dt class="height_l sentence_dt">根拠</dt>
       <dd class="height_l sentence_dd">{{ form.description}}</dd>
     </dl>
+
+
+    <dl class="item_dl item13">
+      <dt>検討日</dt>
+      <dd>{{ form.discussionDate }}</dd>
+    </dl>
+
+  
+    <dl class="item_dl item16">
+      <dt class="height_l sentence_dt">議事録</dt>
+      <dd class="height_l sentence_dd">{{ form.discussionNote}}</dd>
+    </dl>
+
+    <dl class="item_dl item14">
+      <dt>実施<br>担当者</dt>
+      <dd>{{ form.inchargeStaff}}</dd>
+    </dl>
+
+
+    <dl class="item_dl item15">
+      <dt>実施部門<br>/PJ</dt>
+      <dd>{{ form.inchargeDivision}}</dd>
+    </dl>
+  
+    <dl class="item_dl item17">
+      <dt class="height_l sentence_dt">方針・報告</dt>
+      <dd class="height_l sentence_dd">{{ form.report}}</dd>
+    </dl>
+
 
     <dl class="item_dl item10 multiple_items">
       <dt class="height_l">URL</dt>
@@ -165,32 +195,6 @@
         </div>
 
       </dd>
-    </dl>
-
-    <dl class="item_dl item13">
-      <dt>検討日</dt>
-      <dd>{{ form.discussionDate }}</dd>
-    </dl>
-
-    <dl class="item_dl item14">
-      <dt>実施<br>担当者</dt>
-      <dd>{{ form.inchargeStaff}}</dd>
-    </dl>
-
-
-    <dl class="item_dl item15">
-      <dt>実施部門<br>/PJ</dt>
-      <dd>{{ form.inchargeDivision}}</dd>
-    </dl>
-  
-    <dl class="item_dl item16">
-      <dt class="height_l sentence_dt">議事録</dt>
-      <dd class="height_l sentence_dd">{{ form.discussionNote}}</dd>
-    </dl>
-  
-    <dl class="item_dl item17">
-      <dt class="height_l sentence_dt">方針・報告</dt>
-      <dd class="height_l sentence_dd">{{ form.report}}</dd>
     </dl>
 
     <dl class="item_dl item18">
