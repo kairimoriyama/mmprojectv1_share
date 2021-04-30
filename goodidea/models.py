@@ -31,15 +31,6 @@ class Category(models.Model):
 
 class ItemManager(models.Manager):
 
-    def idea_list(self):
-        return super().get_queryset(
-        ).filter(deletedItem=False
-        ).filter(ideaNum__gt=0)
-        
-    def action_list(self):
-        return super().get_queryset(
-        ).filter(deletedItem=False
-        ).filter(actionNum__gt=0)
 
     def due_list(self):
         return super().get_queryset(
@@ -55,12 +46,6 @@ class ItemQuerySet(models.QuerySet):
 
     def item_alive(self):
         return self.filter(deletedItem=False)
-
-    def item_idea(self):
-        return self.filter(ideaNum__gt=0)
-
-    def item_action(self):
-        return self.filter(actionNum__gt=0)
 
     def item_due(self):
         return self.filter(dueDate__isnull=False)
@@ -123,23 +108,6 @@ class Item(models.Model):
         return type(self).objects.item_alive().filter(itemNum__gt=self.itemNum).order_by('itemNum').first()
 
 
-
-    def get_prev_idea_by_itemNum(self):
-        """前のideaを取得"""
-        return type(self).objects.item_alive().item_idea().filter(ideaNum__lt=self.ideaNum).order_by('itemNum').last()
-
-    def get_next_idea_by_itemNum(self):
-        """次のideaを取得"""
-        return type(self).objects.item_alive().item_idea().filter(ideaNum__gt=self.ideaNum).order_by('itemNum').first()
-
-
-    def get_prev_action_by_itemNum(self):
-        """前のactionを取得"""
-        return type(self).objects.item_alive().item_action().filter(actionNum__lt=self.actionNum).order_by('itemNum').last()
-
-    def get_next_action_by_itemNum(self):
-        """次のactoinを取得"""
-        return type(self).objects.item_alive().item_action().filter(actionNum__gt=self.actionNum).order_by('itemNum').first()
 
 
     def get_prev_idea_by_dueDate(self):
