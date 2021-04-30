@@ -28,14 +28,9 @@ class Category(models.Model):
 
 
 
-<<<<<<< HEAD
 
 class ItemManager(models.Manager):
 
-=======
-#idea action due だけをListViewで抽出
-class ItemManager(models.Manager): 
->>>>>>> main
 
     def due_list(self):
         return super().get_queryset(
