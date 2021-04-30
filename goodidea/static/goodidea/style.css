@@ -142,6 +142,7 @@ button{
 .page_nav{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .next_bt{
@@ -277,7 +278,7 @@ button{
     text-decoration: none;
 }
 
-.item-table .date_col, .item-table .file_col{
+.item-table .date_col, .item-table .file_col,.item-table .system_col{
     text-align: center;
 }
 
@@ -293,7 +294,7 @@ button{
 
 .filter_bt_wrapper{
     display: flex;
-    align-content: center;
+
 }
 
 .list_filter_items{
@@ -307,6 +308,23 @@ button{
     margin-top: 1rem;
     margin-right: 2rem;
     width: 20rem;
+}
+
+/* 協議案件・共有案件 */
+.list_filter_items .ideaOrAction_filter{
+    width: 30rem; 
+}
+.list_filter_items .category_system_filter{
+    width: 10rem;
+}
+
+
+.ideaOrAction_filter dd input{
+    margin-right: 1rem;
+    margin-left: 3rem;
+}
+.ideaOrAction_filter dd .radio_left_end{
+    margin-left: 0rem;
 }
 
 .list_filter_items .list_filter_date{
@@ -394,7 +412,7 @@ button{
     align-items: center;
     justify-items: left;
 
-    padding: 0 0.7rem;
+    padding: 0 0.6rem;
     width: 20%;
     border-top-width: 0.15rem;
     height: 5rem;
@@ -429,6 +447,14 @@ button{
     border-top-width: 0.15rem;
     height: 5rem;
     font-size: 1.4rem;
+}
+.category_dd{
+    display: flex;
+    justify-content: space-between;
+}
+.system{
+    min-width: 7rem;
+    margin-left: 1rem;
 }
 
 
@@ -594,8 +620,8 @@ hr{
         grid-template-rows: repeat(6, auto);
         grid-template-columns:25% 25% 25% 25%;
         grid-template-areas:
-        "area1 area2 area13 area3"
-        "area4 area5 area6 area7"
+        "area1 area2 area13 area5"
+        "area4 area3 area6 area7"
         "area8 area8 area9 area9"
         "area14 area14 area15 area15"
         "area16 area17 area18 dummy_s"
@@ -782,7 +808,7 @@ hr{
         grid-template-areas:
         "area0 area0 area0"
         "area1 area2 area13"
-        "area3 area4 area5"
+        "area4 area3 area5"
         "area6 area7 dummy_s"
         "area8 area8 area8"
         "area9 area9 area9"
@@ -909,33 +935,65 @@ hr{
 }
 
 
-/* ファイル添付 */
-
+/* ファイル */
 .multiple_items dd{
     display: flex;
     flex-wrap: wrap;
-    align-content: space-around;
     overflow-x: scroll;
     overflow-y: hidden;
 }
 
-.multiple_items_update dd{
+/* 写真表示 */
+img{
+    height: 13rem;
+    width:auto;
+    margin-right: 2rem;
+    margin-left: 1rem;
+}
+.multiple_items .multiple_items_img{
+    align-content: center;
+    align-items:flex-start;
+    flex-wrap: nowrap;
+}
+
+
+/* ファイル添付 */
+
+.multiple_items .multiple_items_update{
     flex-wrap:nowrap;
 }
-.multiple_items dd div{
-    display: flex;
-    width: 140rem;
-    /* flex-wrap: wrap; */
-    align-content: space-around;
+
+.attachment_update p
+{
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.attachment_update div{
+    flex-wrap: wrap;
+}
+.attachment_update div a{
+    display: block;
+    width: 38rem;
+}
+
+
+/* 添付URL */
+
+.multiple_items dd{
+    align-content: center;
+    padding-top: 1.2rem;
 }
 
 .multiple_items_src{
     white-space: nowrap;
+    height: 4.5rem;
+
 }
 
 .multiple_items dd input[type="url"]{
     width: 50rem;
     margin-right: 1rem;
+    margin-bottom: 1rem;
 }
 
 
@@ -990,6 +1048,8 @@ hr{
 	background-repeat: no-repeat;
 	background-size: 1rem 1rem;
 	background-position: right 0 center;
+
+    font-weight: bold;
 }
 
 .item_dl .due_complete_select option{
@@ -999,4 +1059,5 @@ hr{
     padding:0;
     margin: 0;
 }
+
 

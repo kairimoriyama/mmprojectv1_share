@@ -2,11 +2,9 @@
 
 {% block header %}
 
-<li>
-  <a href="{% url 'goodidea:detail_sub' object.pk %}"><p>詳細へ戻る</p></a>
-</li>
-
-
+  <li>
+    <a href="{% url 'goodidea:detail_due' object.pk %}"><p>詳細へ戻る</p></a>
+  </li>
 
 {% endblock header %}
 

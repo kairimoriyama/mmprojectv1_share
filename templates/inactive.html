@@ -1,0 +1,49 @@
+<html lang="ja">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta charset="utf-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <script type="text/javascript"  src="{% static 'jquery-2.1.3.min.js' %}"></script>
+
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <title>管理ツール</title>
+</head>
+
+<body>
+<div class="header">
+
+    <div class="title">
+        <img class="icon-l" src="{% static 'favicon.png' %}">
+        <div>
+            <h1>管理ツール</h1>
+            <h2>2021.4.25 v1</h2>
+        </div>
+    </div>
+
+</div>
+
+<section>
+
+    <ul class="apps">
+        <li>
+            <h1>登録完了！！</h1>
+        </li>
+
+        <li>
+            <h2>（サービスの開始については、管理者による承認をお待ちください。）</h2>
+        </li>
+
+        <li>
+            <a href="/accounts/google/login/?process=login"><h2>別のGoogleアカウントによるログイン</h2></a>
+        </li>
+    </ul>
+</section>
+
+</body>
+  
+</html>

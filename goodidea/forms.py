@@ -41,7 +41,7 @@ class ItemCreateFromIdea(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('itemNum','ideaNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
+        fields = ('itemNum','ideaNum','submissionDate','progress','division','staff','category','system','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
         widgets = {'submissionDate': DateInput()}
 
     def __init__(self, *args, **kwargs):
@@ -95,7 +95,7 @@ class ItemCreateFromAction(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('itemNum','actionNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff', 'completionDate' )
+        fields = ('itemNum','actionNum','submissionDate','progress','division','staff','category','system','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff', 'completionDate' )
         widgets = {'submissionDate': DateInput(), 'completionDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
@@ -137,14 +137,13 @@ class ItemCreateFromAction(ModelForm):
         self.fields['staff'].required = True
         self.fields['division'].required = True
         self.fields['category'].required = True
-        self.fields['inchargeDivision'].required = True
         self.fields['inchargeStaff'].required = True
         self.fields['title'].required = True
         self.fields['description'].required = True
 
         # プレースホルダ
-        self.fields['inchargeStaff'].widget.attrs['placeholder'] = '協力者'
-        self.fields['inchargeDivision'].widget.attrs['placeholder'] = '協力部門'
+        self.fields['inchargeStaff'].widget.attrs['placeholder'] = '協力者含む'
+        self.fields['inchargeDivision'].widget.attrs['placeholder'] = '協力部門含む'
         self.fields['title'].widget.attrs['placeholder'] = 'できるだけ具体的に業務フローの変更点、備品の発注先・金額等を記載（必要に応じてURL・写真・資料を追加）'
         self.fields['description'].widget.attrs['placeholder'] = '現状の分析に基づく課題提起、複数の代替案との比較、費用対効果の検証等を記載（必要に応じてURL・写真・資料を追加）'
 
@@ -154,7 +153,7 @@ class ItemUpdateFrom(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
+        fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','system','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
 
         widgets = { 'discussionDate': DateInput(), 'completionDate': DateInput(), 'dueDate': DateInput()}
     

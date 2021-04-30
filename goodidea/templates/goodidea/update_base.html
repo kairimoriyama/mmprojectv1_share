@@ -73,7 +73,10 @@
 
     <dl class="item_dl item5">
       <dt>分類</dt>
-      <dd>{{ form.category}}</dd>
+      <dd class="category_dd">
+        {{ form.category}}
+        <div class="system"><p>システム</p>{{ form.system}}</div>
+      </dd>
     </dl>
 
     <dl class="item_dl item6">
@@ -105,21 +108,62 @@
       </dd>
     </dl>
   
-    <dl class="item_dl item11 multiple_items multiple_items_update">
+    <dl class="item_dl item11 multiple_items">
       <dt class="height_l">写真</dt>
-      <dd class="height_l">
-        <div>{{ form.picture1 }}</div>
-        <div>{{ form.picture2 }}</div>
-        <div>{{ form.picture3 }}</div>
+      <dd class="height_l multiple_items_update">
+
+        <div class="attachment_update">
+          <p>写真（1）</p>
+          <div>{{ form.picture1 }}</div>
+        </div>
+
+        <div class="attachment_update">
+          <p>写真（2）</p>
+          <div>{{ form.picture2 }}</div>
+        </div>
+
+        <div class="attachment_update">
+          <p>写真（3）</p>
+          <div>{{ form.picture3 }}</div>
+        </div>
+
+        <div class="attachment_update">
+          <p>写真（4）</p>
+          <div>{{ form.picture4 }}</div>
+        </div>
+
+        <div class="attachment_update">
+          <p>写真（5）</p>
+          <div>{{ form.picture5 }}</div>
+        </div>
+
+        <div class="attachment_update">
+          <p>写真（6）</p>
+          <div>{{ form.picture6 }}</div>
+        </div>
+
       </dd>
     </dl>
   
-    <dl class="item_dl item12 multiple_items multiple_items_update">
+    <dl class="item_dl item12 multiple_items">
       <dt class="height_l">資料</dt>
-      <dd class="height_l">
-        <div>{{ form.refFile1 }}</div>
-        <div>{{ form.refFile2 }}</div>
-        <div>{{ form.refFile3 }}</div>
+      <dd class="height_l multiple_items_update">
+
+        <div class="attachment_update">
+          <p>資料（1）</p>
+          <div>{{ form.refFile1 }}</div>
+        </div>
+
+        <div class="attachment_update">
+          <p>資料（2）</p>
+          <div>{{ form.refFile2 }}</div>
+        </div>
+        
+        <div class="attachment_update">
+          <p>資料（3）</p>
+          <div>{{ form.refFile3 }}</div>
+        </div>
+
       </dd>
     </dl>
 
@@ -129,13 +173,13 @@
     </dl>
 
     <dl class="item_dl item14">
-      <dt>実施担当</dt>
+      <dt>実施<br>担当者</dt>
       <dd>{{ form.inchargeStaff}}</dd>
     </dl>
 
 
     <dl class="item_dl item15">
-      <dt>担当部門</dt>
+      <dt>実施部門<br>/PJ</dt>
       <dd>{{ form.inchargeDivision}}</dd>
     </dl>
   
@@ -223,7 +267,10 @@ function changeBoxColor_white(){
         document.getElementById('completionDate').firstElementChild.style.backgroundColor = "white";
 };
 
-
+function changeBoxColor_gray(){
+  document.getElementById('progress').firstElementChild.style.backgroundColor = "rgb(216, 214, 214)";
+  document.getElementById('completionDate').firstElementChild.style.backgroundColor = "rgb(216, 214, 214)";
+};
 
 
  //期日・完了日の表示切り替え条件
@@ -277,6 +324,7 @@ function changeBoxColor_white(){
     
     let select = document.getElementById('progress').firstElementChild.value;
 
+    // 完了
     if (select==4){
       document.getElementById("due_complete_select").value="完了日"
       document.getElementById("dueDate").style.display ="none";
@@ -284,6 +332,17 @@ function changeBoxColor_white(){
       changeBoxColor_blue();
       setCompletionDate();
       clearDueDate();
+
+    // 実施なし
+    }else if (select==3){
+        document.getElementById("due_complete_select").value="期日"
+        document.getElementById("dueDate").style.display ="none";
+        document.getElementById("completionDate").style.display ="flex";
+        changeBoxColor_gray();
+        clearCompletionDate();
+        clearDueDate();
+
+    // 新規・進行中
     }else{
       document.getElementById("due_complete_select").value="期日"
       document.getElementById("dueDate").style.display ="flex";

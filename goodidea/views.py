@@ -41,7 +41,7 @@ def item_export(request):
     response.write("\xEF\xBB\xBF")
     writer = csv.writer(response, delimiter=',', encoding="shift-jis")
 
-    writer.writerow(['案件番号','協議案件番号','完了共有案件番号','登録日','進捗','提案者','所属','分類','提案・実施内容','理由説明','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','担当者','担当部門','方針・報告','完了日','期日','管理用','削除'])
+    writer.writerow(['案件番号','協議案件番号','完了共有案件番号','登録日','進捗','提案者','所属','分類','提案・実施内容','理由説明','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
     for item in Item.objects.all():
         writer.writerow([item.itemNum,item.ideaNum,item.actionNum,item.submissionDate,item.progress,item.staff,item.division,item.category,item.title,item.description,item.refURL1,item.refURL2,item.refURL3,item.picture1,item.picture2,item.picture3,item.refFile1,item.refFile2,item.refFile3,item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
     return response
@@ -61,34 +61,6 @@ class ItemListDue(ListView):
         return Item.objects_list.due_list().order_by('dueDate')
 
 
-
-class ItemListIdea(ListView):
-    template_name = 'goodidea/list_idea.html'
-    fields = '__all__'
-    paginate_by = 22
-
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_idea'
-        return context
-
-    def get_queryset(request):
-        return Item.objects_list.idea_list().order_by('-itemNum')
-
-
-class ItemListAction(ListView):
-    template_name = 'goodidea/list_action.html'
-    fields = '__all__'
-    paginate_by = 22
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_action'
-        return context
-
-    def get_queryset(request):
-        return Item.objects_list.action_list().order_by('-itemNum')
 
 
 class ItemListFilter(ListView):
@@ -122,6 +94,7 @@ class ItemListFilter(ListView):
      
         # 入力した検索条件の取得
         progress = self.request.GET.get('progress')
+        system = self.request.GET.get('system')
         staff = self.request.GET.get('staff')
         division = self.request.GET.get('division')
         inchargeStaff = self.request.GET.get('inchargeStaff')
@@ -131,9 +104,12 @@ class ItemListFilter(ListView):
         submissionDateTo = self.request.GET.get('submissionDateTo')
         completionDateFrom = self.request.GET.get('completionDateFrom')
         completionDateTo = self.request.GET.get('completionDateTo')
+        ideaOrAction = self.request.GET.get('ideaOrAction')
+
 
         #  値をセッションで保持
         self.request.session['progress'] = progress
+        self.request.session['system'] = system
         self.request.session['staff'] = staff
         self.request.session['division'] = division
         self.request.session['inchargeStaff'] = inchargeStaff
@@ -143,105 +119,67 @@ class ItemListFilter(ListView):
         self.request.session['submissionDateTo'] = submissionDateTo
         self.request.session['completionDateFrom'] = completionDateFrom
         self.request.session['completionDateTo'] = completionDateTo
+        self.request.session['ideaOrAction'] = ideaOrAction
 
+        # 絞り込み前の初期値
+        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
 
-        if progress =="0" and division =="0" :
-            print('filter1')
-            queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
+        # ページ遷移直後でなければ値がNullではないため絞込可能
+        if progress or system or staff or division or inchargeStaff or inchargeDivision or word or\
+            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo):
 
-            self.request.session['item_list_type'] = 'filter1'
+            # 協議案件/共有案件
+            if ideaOrAction == "0":   #協議案件のみ
+                queryset1 = queryset0.filter( ideaNum__gt = 0)
+            elif ideaOrAction == "1": #共有案件のみ
+                queryset1 = queryset0.filter( actionNum__gt = 0)
+            else:
+                queryset1 = queryset0.all()
 
+            # システム案件の絞込
+            if system == "1":
+                queryset2 = queryset1.filter(system__exact=True)
+            else:
+                queryset2 = queryset1.all()
 
-        elif progress =="4" and division =="0" :
-            print('filter2')
-            queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=4
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-            ).order_by('-itemNum')
+            # 所属の絞り込み
+            if division == "0": #全部門
+                queryset3 = queryset2.all()
+            else:               #全部門以外
+                queryset3 = queryset2.filter( division__exact=division)
+            
+            # 進捗・完了日の絞り込み
+            if progress == "0":   #全進捗
+                queryset4 = queryset3.all()
+            elif progress == "4": #完了案件のみ
+                queryset4 = queryset3.filter(progress__exact=4
+                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+            else:                 #新規/実施なし
+                queryset4 = queryset3.filter(progress__exact=progress)
 
-            self.request.session['item_list_type'] = 'filter2'
+            # 日付、キーワードの絞込
+            if staff or division or inchargeStaff or inchargeDivision or word or\
+                (submissionDateFrom and submissionDateTo) :
+                queryset5 = queryset4.filter(
+                    submissionDate__range=(submissionDateFrom, submissionDateTo)
+                    ).filter(
+                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                    Q(inchargeDivision__icontains=inchargeDivision),
+                    Q(title__icontains=word)| Q(description__icontains=word)|
+                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
+            else: 
+                queryset5 = queryset4.all()
 
-        
-        elif progress =="4" and division !="0" :
-            print('filter3')
-            queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=4
-            ).filter( division__exact=division
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-            ).order_by('-itemNum')
+                # セッションで選択されたデータを保持
+                self.request.session['item_list_type'] = 'filter'
+            
+            queryset = queryset5.order_by('-itemNum')
 
-            self.request.session['item_list_type'] = 'filter3'
-        
-        elif progress !="4" and division =="0" :
-            print('filter4')
-            queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=progress
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter4'
-        
-        elif progress =="0" and division !="0" :
-
-            print('filter5')
-            queryset = Item.objects.all().filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( division__exact=division
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter5'
-
-        elif progress or staff or division or inchargeStaff or inchargeDivision or word or\
-            (submissionDateFrom and submissionDateTo) or\
-            (completionDateFrom and completionDateTo):
-
-            print('filter6')
-            queryset = Item.objects.all().filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=progress
-            ).filter( division__exact=division
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter6'
-
+        # ページ遷移直後のNullでは絞込なし
         else:
-            print('filter7')
-            queryset = Item.objects.all().filter(deletedItem=False
-            ).order_by('-itemNum')
-
-            self.request.session['item_list_type'] = 'filter7'
+            qeryset = queryset0.order_by('-itemNum')
         
-        return queryset
-   
-
+        return queryset.order_by('-itemNum')
 
 
 class ItemDetail(DetailView):
@@ -276,6 +214,7 @@ class ItemDetailFilter(DetailView):
 
         # 検索条件を呼び出して必要なitemのみ表示
         progress = self.request.session['progress']
+        system = self.request.session['system']
         staff = self.request.session['staff']
         division = self.request.session['division']
         inchargeStaff = self.request.session['inchargeStaff']
@@ -286,95 +225,60 @@ class ItemDetailFilter(DetailView):
 
         completionDateFrom = self.request.session['completionDateFrom']
         completionDateTo = self.request.session['completionDateTo']
-
+        ideaOrAction = self.request.session['ideaOrAction']
   
+        # 絞り込み前の初期値
+        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
 
-        if item_list_type == 'filter1':
-            item_list_queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
+        if item_list_type == 'filter':
 
-            print('filter_test1')
+            # 協議案件/共有案件
+            if ideaOrAction == "0":   #協議案件のみ
+                queryset1 = queryset0.filter( ideaNum__gt = 0)
+            elif ideaOrAction == "1": #共有案件のみ
+                queryset1 = queryset0.filter( actionNum__gt = 0)
+            else:
+                queryset1 = queryset0.all()
 
-        elif item_list_type == 'filter2':
-            item_list_queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=4
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-            ).order_by('-itemNum') 
+            # システム案件の絞込
+            if system == "1":
+                queryset2 = queryset1.filter(system__exact=True)
+            else:
+                queryset2 = queryset1.all()
 
-            print('filter_test2')
+            # 所属の絞り込み
+            if division == "0": #全部門
+                queryset3 = queryset2.all()
+            else:               #全部門以外
+                queryset3 = queryset2.filter( division__exact=division)
+            
+            # 進捗・完了日の絞り込み
+            if progress == "0":   #全進捗
+                queryset4 = queryset3.all()
+            elif progress == "4": #完了案件のみ
+                queryset4 = queryset3.filter(progress__exact=4
+                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+            else:                 #新規/実施なし
+                queryset4 = queryset3.filter(progress__exact=progress)
 
+            # 日付、キーワードの絞込
+            if staff or division or inchargeStaff or inchargeDivision or word or\
+                (submissionDateFrom and submissionDateTo) :
+                queryset5 = queryset4.filter(
+                    submissionDate__range=(submissionDateFrom, submissionDateTo)
+                    ).filter(
+                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
+                    Q(inchargeDivision__icontains=inchargeDivision),
+                    Q(title__icontains=word)| Q(description__icontains=word)|
+                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
+            else: 
+                queryset5 = queryset4.all()
+                
+            item_list_queryset = queryset5.order_by('-itemNum')
 
-        elif item_list_type == 'filter3':
-            item_list_queryset = Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=4
-            ).filter( division__exact=division
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).filter( completionDate__range=(completionDateFrom, completionDateTo)
-            ).order_by('-itemNum')  
+        else:
+            item_list_queryset = queryset0.order_by('-itemNum')
 
-            print('filter_test3')
-      
-
-        elif item_list_type == 'filter4':
-            item_list_queryset =  Item.objects.filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=progress
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')    
-
-            print('filter_test4')
-
-
-        elif item_list_type == 'filter5':
-            item_list_queryset = Item.objects.all().filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( division__exact=division
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
-
-            print('filter_test5')
-
-
-        elif item_list_type == 'filter6':
-            item_list_queryset = Item.objects.all().filter(deletedItem=False
-            ).filter( submissionDate__range=(submissionDateFrom, submissionDateTo)
-            ).filter( progress__exact=progress
-            ).filter( division__exact=division
-            ).filter( Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                      Q(inchargeDivision__icontains=inchargeDivision),
-                      Q(title__icontains=word)| Q(description__icontains=word)|
-                      Q(discussionNote__icontains=word)| Q(report__icontains=word)
-            ).order_by('-itemNum')
-
-            print('filter_test6')
-
-
-        elif item_list_type == 'filter7':
-            item_list_queryset = Item.objects.all().filter(deletedItem=False
-            ).order_by('-itemNum')  
-
-            print('filter_test7')
-      
 
         prev = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
         next = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
@@ -384,22 +288,6 @@ class ItemDetailFilter(DetailView):
         return context
 
 
-class ItemDetailSub(DetailView):
-    template_name = 'goodidea/detail_sub.html'
-    model  = Item
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        item = self.object
-
-        item_list_queryset = Item.objects.item_alive()
-               
-        prev = item_list_queryset
-        next = item_list_queryset
-
-        context['prev'] = prev
-        context['next'] = next
-        return context
 
 
 class ItemDetailDue(DetailView):
@@ -455,10 +343,13 @@ class ItemUpdateFilter(UpdateView):
     def get_success_url(self):
         return reverse('goodidea:detail_filter', kwargs={'pk': self.object.id})
 
-class ItemUpdateSub(UpdateView):
-    template_name = 'goodidea/update_sub.html'
+
+
+class ItemUpdateDue(UpdateView):
+    template_name = 'goodidea/update_due.html'
     model  = Item
     form_class = ItemUpdateFrom
     
     def get_success_url(self):
-        return reverse('goodidea:detail_sub', kwargs={'pk': self.object.id})
+        return reverse('goodidea:detail_due', kwargs={'pk': self.object.id})
+
