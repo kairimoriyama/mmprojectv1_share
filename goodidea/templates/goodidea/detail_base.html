@@ -17,7 +17,20 @@
     <dd class="right_border">{{ object.submissionDate | date:"Y/m/d"}}</dd>
   </dl>
 
-  <dl class="item_dl item3">
+
+  
+  <!-- 進捗状況に応じた色の設定 -->
+  {% if object.progress.no == 1 %}
+    <dl class="item_dl item3 row-white">
+  {%  elif object.progress.no == 2 %}
+    <dl class="item_dl item3 row-yellow">
+  {%  elif object.progress.no == 3 %}
+    <dl class="item_dl item3 row-gray">
+  {%  elif object.progress.no == 4 %}
+    <dl class="item_dl item3 row-blue">
+  {%  elif object.progress.no == 5 %}
+    <dl class="item_dl item3">
+  {% endif %}
     <dt>
       {% if object.completionDate != None %}
         完了日
@@ -52,7 +65,24 @@
 
   <dl class="item_dl item5">
     <dt>分類</dt>
-    <dd>{{ object.category}}</dd>
+    <dd class="category_dd">
+      {{ object.category}}
+
+      <div class="purchase">
+        {% if object.purchase == True %}
+          <p>購入</p>
+        {% else %}
+        {% endif %}
+      </div>
+
+      <div class="system">
+        {% if object.system == True %}
+          <p>システム</p>
+        {% else %}
+        {% endif %}
+      </div>
+      
+    </dd>
   </dl>
 
   <dl class="item_dl item6">
@@ -100,51 +130,89 @@
     <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.discussionNote}}</dd>
   </dl>
 
+  <dl class="item_dl item16">
+    <dt>実施<br>担当者</dt>
+    <dd>{{ object.inchargeStaff}}</dd>
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt>実施部門<br>/PJ</dt>
+    <dd>{{ object.inchargeDivision}}</dd>
+  </dl>
+
+
   <dl class="item_dl item15">
     <dt class="height_l sentence_dt">方針・報告</dt>
     <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
   </dl>
-
-
-
 
   <dl class="item_dl item10 multiple_items">
     <dt class="height_l">URL</dt>
     <dd class="height_l">
       {% if not object.refURL1 %}
       {% else %}
-      <div class="multiple_items_src" ><a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a></div>
+      <div class="multiple_items_src" >
+        <p>URL1</p>
+        <a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a>
+      </div>
       {% endif %}
 
       {% if not object.refURL2 %}
       {% else %}
-      <div class="multiple_items_src" ><a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a></div>
+      <div class="multiple_items_src" >
+        <p>URL2</p>
+        <a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a>
+      </div>
       {% endif %}
 
       {% if not object.refURL3 %}
       {% else %}
-      <div class="multiple_items_src" ><a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a></div>
+      <div class="multiple_items_src" >
+        <p>URL3</p>
+        <a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a>
+      </div>
       {% endif %}
     </dd>
   </dl>
 
   <dl class="item_dl item11 multiple_items">
     <dt class="height_l">写真</dt>
-    <dd class="height_l">
+    <dd class="height_l  multiple_items_img">
 
       {% if not object.picture1 %}
       {% else %}
-      <div class="multiple_items_src" ><a href="/media/{{ object.picture1 }}">{{ object.picture1 }}</a></div>
+      <p>1</p>
+      <div class="multiple_items_src" ><a href="/media/{{ object.picture1 }}"><img src="/media/{{ object.picture1 }}"/></a></div>
       {% endif %}
 
       {% if not object.picture2 %}
       {% else %}
-      <div class="multiple_items_src"><a href="/media/{{ object.picture2 }}">{{ object.picture2 }}</a></div>
+      <p>2</p>
+      <div class="multiple_items_src"><a href="/media/{{ object.picture2 }}"><img src="/media/{{ object.picture2 }}"/></a></div>
       {% endif %}
 
       {% if not object.picture3 %}
       {% else %}
-      <div class="multiple_items_src"><a href="/media/{{ object.picture3 }}">{{ object.picture3 }}</a></div>
+      <p>3</p>
+      <div class="multiple_items_src"><a href="/media/{{ object.picture3 }}"><img src="/media/{{ object.picture3 }}"/></a></div>
+      {% endif %}
+
+      {% if not object.picture4 %}
+      {% else %}
+      <p>4</p>
+      <div class="multiple_items_src"><a href="/media/{{ object.picture4 }}"><img src="/media/{{ object.picture4 }}"/></a></div>
+      {% endif %}
+
+      {% if not object.picture5 %}
+      {% else %}
+      <p>5</p>
+      <div class="multiple_items_src"><a href="/media/{{ object.picture5 }}"><img src="/media/{{ object.picture5 }}"/></a></div>
+      {% endif %}
+
+      {% if not object.picture6 %}
+      {% else %}
+      <p>6</p>
+      <div class="multiple_items_src"><a href="/media/{{ object.picture6 }}"><img src="/media/{{ object.picture6 }}"/></a></div>
       {% endif %}
 
     </dd>
@@ -156,33 +224,31 @@
 
       {% if not object.refFile1 %}
       {% else %}
-      <div class="multiple_items_src"><a href="/media/{{ object.refFile1 }}">{{ object.refFile1 }}</a></div>
+        <div class="multiple_items_src">
+          <p>資料1</p>
+          <a href="/media/{{ object.refFile1 }}">{{ object.refFile1 }}</a>
+        </div>
       {% endif %}
 
       {% if not object.refFile2 %}
       {% else %}
-      <div class="multiple_items_src"><a href="/media/{{ object.refFile2 }}">{{ object.refFile2 }}</a></div>
+      <div class="multiple_items_src">
+        <p>資料2</p>
+        <a href="/media/{{ object.refFile2 }}">{{ object.refFile2 }}</a>
+      </div>
       {% endif %}
 
       {% if not object.refFile3 %}
       {% else %}
-      <div class="multiple_items_src"><a href="/media/{{ object.refFile3 }}">{{ object.refFile3 }}</a></div>
+      <div class="multiple_items_src">
+        <p>資料3</p>
+        <a href="/media/{{ object.refFile3 }}">{{ object.refFile3 }}</a>
+      </div>
       {% endif %}
       
     </dd>
   </dl>
 
-
-
-  <dl class="item_dl item16">
-    <dt>実施担当者</dt>
-    <dd>{{ object.inchargeStaff}}</dd>
-  </dl>
-
-  <dl class="item_dl item17">
-    <dt>実施部門</dt>
-    <dd>{{ object.inchargeDivision}}</dd>
-  </dl>
 
   <dl class="item_dl item18">
     <dt>管理用</dt>

@@ -28,9 +28,14 @@ class Category(models.Model):
 
 
 
+<<<<<<< HEAD
 
 class ItemManager(models.Manager):
 
+=======
+#idea action due だけをListViewで抽出
+class ItemManager(models.Manager): 
+>>>>>>> main
 
     def due_list(self):
         return super().get_queryset(
@@ -38,7 +43,7 @@ class ItemManager(models.Manager):
         ).filter(ideaNum__gt=0
         ).exclude(dueDate__isnull=True)
 
-
+# 削除されていないデータ 期日のあるデータ システム案件 だけをクエリセットとして選択
 class ItemQuerySet(models.QuerySet):
 
     def item_all(self):
@@ -49,7 +54,9 @@ class ItemQuerySet(models.QuerySet):
 
     def item_due(self):
         return self.filter(dueDate__isnull=False)
-        
+
+    def item_system(self):
+        return self.filter(system__exact=True)  
 
 class Item(models.Model):
     itemNum =  models.IntegerField(blank=True,null=True)
@@ -60,6 +67,8 @@ class Item(models.Model):
     division = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='item_dividion')     
     staff = models.CharField(max_length=100)
     category = models.ForeignKey(Category,on_delete=models.PROTECT, related_name ='item_category')
+    system = models.BooleanField(default=False)
+    purchase = models.BooleanField(default=False)
     title = models.TextField(max_length=2500)
     description = models.TextField(max_length=2500)
 
@@ -70,6 +79,9 @@ class Item(models.Model):
     picture1 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
     picture2 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
     picture3 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture4 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture5 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture6 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
@@ -85,7 +97,7 @@ class Item(models.Model):
     adminMemo = models.CharField(max_length=100,blank=True)
     deletedItem = models.BooleanField(default=False)
  
-    # idea_list action_list --> ListView
+    # idea_list action_list --> ListViewで抽出
     objects_list = ItemManager()
 
     # prev next でidea action の移動を区別
@@ -97,23 +109,29 @@ class Item(models.Model):
     def get_absolute_url(self):
         return reverse('goodidea:detail_item', args=[self.id])
 
-
-
     def get_prev_item_by_itemNum(self):
         """前のitemNumのitemを取得"""
-        return type(self).objects.item_alive().filter(itemNum__lt=self.itemNum).order_by('itemNum').last()
+        return type(self).objects.item_alive(
+        ).filter(itemNum__lt=self.itemNum
+        ).order_by('itemNum').last()
 
     def get_next_item_by_itemNum(self):
         """次のitemNumのitemを取得"""
-        return type(self).objects.item_alive().filter(itemNum__gt=self.itemNum).order_by('itemNum').first()
-
-
+        return type(self).objects.item_alive(
+        ).filter(itemNum__gt=self.itemNum
+        ).order_by('itemNum').first()
 
 
     def get_prev_idea_by_dueDate(self):
-        """期日が前のideaを取得"""
-        return type(self).objects.item_alive().item_due().filter(dueDate__lt=self.dueDate).order_by('dueDate').last()
-
+        """期日が空欄ではない前のideaを取得"""
+        return type(self).objects.item_alive(
+        ).item_due(
+        ).filter(itemNum__lt=self.itemNum
+        ).order_by('itemNum').last()
+        
     def get_next_idea_by_dueDate(self):
-        """期日が次のideaを取得"""
-        return type(self).objects.item_alive().item_due().filter(dueDate__gt=self.dueDate).order_by('dueDate').first()
+        """期日が空欄ではない次のideaを取得"""
+        return type(self).objects.item_alive(
+        ).item_due(
+        ).filter(itemNum__gt=self.itemNum
+        ).order_by('itemNum').first()

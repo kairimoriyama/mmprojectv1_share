@@ -21,5 +21,6 @@ urlpatterns = [
     
     path('update_item/<int:pk>', views.ItemUpdate.as_view(), name='update_item'),
     path('update_filter/<int:pk>', views.ItemUpdateFilter.as_view(), name='update_filter'),
+    path('update_due/<int:pk>', views.ItemUpdateDue.as_view(), name='update_due'),
 
 ]
