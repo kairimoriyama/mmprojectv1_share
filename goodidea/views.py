@@ -94,7 +94,10 @@ class ItemListFilter(ListView):
      
         # 入力した検索条件の取得
         progress = self.request.GET.get('progress')
+
+        purchase = self.request.GET.get('purchase')
         system = self.request.GET.get('system')
+
         staff = self.request.GET.get('staff')
         division = self.request.GET.get('division')
         inchargeStaff = self.request.GET.get('inchargeStaff')
@@ -109,7 +112,10 @@ class ItemListFilter(ListView):
 
         #  値をセッションで保持
         self.request.session['progress'] = progress
+        
+        self.request.session['purchase'] = purchase
         self.request.session['system'] = system
+        
         self.request.session['staff'] = staff
         self.request.session['division'] = division
         self.request.session['inchargeStaff'] = inchargeStaff
@@ -125,7 +131,7 @@ class ItemListFilter(ListView):
         queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
-        if progress or system or staff or division or inchargeStaff or inchargeDivision or word or\
+        if progress or purchase or system or staff or division or inchargeStaff or inchargeDivision or word or\
             (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo):
 
             # 協議案件/共有案件
@@ -136,31 +142,37 @@ class ItemListFilter(ListView):
             else:
                 queryset1 = queryset0.all()
 
-            # システム案件の絞込
-            if system == "1":
-                queryset2 = queryset1.filter(system__exact=True)
+            # 購入案件の絞込
+            if purchase == "1":
+                queryset2 = queryset1.filter(purchase__exact=True)
             else:
                 queryset2 = queryset1.all()
 
+            # システム案件の絞込
+            if system == "1":
+                queryset3 = queryset2.filter(system__exact=True)
+            else:
+                queryset3 = queryset2.all()
+
             # 所属の絞り込み
             if division == "0": #全部門
-                queryset3 = queryset2.all()
+                queryset4 = queryset3.all()
             else:               #全部門以外
-                queryset3 = queryset2.filter( division__exact=division)
+                queryset4 = queryset3.filter( division__exact=division)
             
             # 進捗・完了日の絞り込み
             if progress == "0":   #全進捗
-                queryset4 = queryset3.all()
+                queryset5 = queryset4.all()
             elif progress == "4": #完了案件のみ
-                queryset4 = queryset3.filter(progress__exact=4
+                queryset5 = queryset4.filter(progress__exact=4
                 ).filter(completionDate__range=(completionDateFrom, completionDateTo))
             else:                 #新規/実施なし
-                queryset4 = queryset3.filter(progress__exact=progress)
+                queryset5 = queryset4.filter(progress__exact=progress)
 
             # 日付、キーワードの絞込
             if staff or division or inchargeStaff or inchargeDivision or word or\
                 (submissionDateFrom and submissionDateTo) :
-                queryset5 = queryset4.filter(
+                queryset6 = queryset5.filter(
                     submissionDate__range=(submissionDateFrom, submissionDateTo)
                     ).filter(
                     Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
@@ -168,12 +180,12 @@ class ItemListFilter(ListView):
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset5 = queryset4.all()
+                queryset6 = queryset5.all()
 
                 # セッションで選択されたデータを保持
                 self.request.session['item_list_type'] = 'filter'
             
-            queryset = queryset5.order_by('-itemNum')
+            queryset = queryset6.order_by('-itemNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
@@ -214,6 +226,7 @@ class ItemDetailFilter(DetailView):
 
         # 検索条件を呼び出して必要なitemのみ表示
         progress = self.request.session['progress']
+        purchase = self.request.session['purchase']
         system = self.request.session['system']
         staff = self.request.session['staff']
         division = self.request.session['division']
@@ -240,31 +253,37 @@ class ItemDetailFilter(DetailView):
             else:
                 queryset1 = queryset0.all()
 
-            # システム案件の絞込
-            if system == "1":
-                queryset2 = queryset1.filter(system__exact=True)
+            # 購入案件の絞込
+            if purchase == "1":
+                queryset2 = queryset1.filter(purchase__exact=True)
             else:
                 queryset2 = queryset1.all()
 
+            # システム案件の絞込
+            if system == "1":
+                queryset3 = queryset2.filter(system__exact=True)
+            else:
+                queryset3 = queryset2.all()
+
             # 所属の絞り込み
             if division == "0": #全部門
-                queryset3 = queryset2.all()
+                queryset4 = queryset3.all()
             else:               #全部門以外
-                queryset3 = queryset2.filter( division__exact=division)
+                queryset4 = queryset3.filter( division__exact=division)
             
             # 進捗・完了日の絞り込み
             if progress == "0":   #全進捗
-                queryset4 = queryset3.all()
+                queryset5 = queryset4.all()
             elif progress == "4": #完了案件のみ
-                queryset4 = queryset3.filter(progress__exact=4
+                queryset5 = queryset4.filter(progress__exact=4
                 ).filter(completionDate__range=(completionDateFrom, completionDateTo))
             else:                 #新規/実施なし
-                queryset4 = queryset3.filter(progress__exact=progress)
+                queryset5 = queryset4.filter(progress__exact=progress)
 
             # 日付、キーワードの絞込
             if staff or division or inchargeStaff or inchargeDivision or word or\
                 (submissionDateFrom and submissionDateTo) :
-                queryset5 = queryset4.filter(
+                queryset6 = queryset5.filter(
                     submissionDate__range=(submissionDateFrom, submissionDateTo)
                     ).filter(
                     Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
@@ -272,8 +291,7 @@ class ItemDetailFilter(DetailView):
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset5 = queryset4.all()
-                
+                queryset6 = queryset5.all()                
             item_list_queryset = queryset5.order_by('-itemNum')
 
         else:
