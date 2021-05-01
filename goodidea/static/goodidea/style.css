@@ -278,7 +278,7 @@ button{
     text-decoration: none;
 }
 
-.item-table .date_col, .item-table .file_col,.item-table .system_col{
+.item-table .date_col, .item-table .file_col,.item-table .system_col, .item-table .purchase_col{
     text-align: center;
 }
 
@@ -452,9 +452,13 @@ button{
     display: flex;
     justify-content: space-between;
 }
-.system{
-    min-width: 7rem;
+.purchase{
+    min-width: 3rem;
     margin-left: 1rem;
+}
+.system{
+    min-width: 6.5rem;
+    margin-left: 0.5rem;
 }
 
 

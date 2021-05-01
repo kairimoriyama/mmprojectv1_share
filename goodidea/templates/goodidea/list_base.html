@@ -13,14 +13,16 @@
 
     <th>検討日</th>
     <th>議事録</th>
-    <th>方針・報告</th>
 
     <th>実施担当者</th>
     <th>実施部門/PJ</th>
-    <th>システム</th>
 
-
+    <th>方針・報告</th>
     <th>完了日</th>
+  
+    <th>購入</th>
+    <th>システム</th>
+ 
     <th>管理用</th>
     
   </tr>
@@ -122,19 +124,12 @@
     </td>
 
     <td class="longText">{{ item.discussionNote }}</td>
-    <td class="longText">{{ item.report }}</td>
-    
 
     <td>{{ item.inchargeStaff }}</td>
     <td>{{ item.inchargeDivision }}</td>  
 
-    <td class="system_col">
-      {% if item.system == True %}
-        <p>○</p>
-      {% else %}
-      {% endif %}
-    </td>
-
+    <td class="longText">{{ item.report }}</td>
+    
     <td class="date_col">
       {% if item.completionDate != None %}
         {{ item.completionDate | date:"Y/m/d"}}
@@ -142,6 +137,23 @@
         <p>-</p>
       {% endif %}
     </td>
+
+
+    <td class="purchase_col">
+      {% if item.purchase == True %}
+        <p>&check;</p>
+      {% else %}
+      {% endif %}
+    </td>
+
+    <td class="system_col">
+      {% if item.system == True %}
+        <p>&check;</p>
+      {% else %}
+      {% endif %}
+    </td>
+
+
     
     <td>{{ item.adminMemo }}</td>
   

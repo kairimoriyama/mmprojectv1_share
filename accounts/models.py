@@ -16,7 +16,7 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManag
 
 class CustomUser(AbstractUser):
 
-    is_active = models.BooleanField("is_active", default=False) #個別にアカウントの許可を設定
+    is_active = models.BooleanField("is_active", default=True) #個別にアカウントの許可を設定
     
     class Meta:
         verbose_name_plural = 'CustomUser'

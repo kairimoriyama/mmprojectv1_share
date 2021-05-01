@@ -9,6 +9,12 @@ local_settings.py
 db.sqlite3
 media/
 
+<<<<<<< HEAD
+__pycache__/
+/__pycache__/
+migrations/
+/migrations/
+=======
 # Environments
 .env
 .venv
@@ -17,4 +23,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+<<<<<<< HEAD
+>>>>>>> 63d067f8f347f00041ec3e83aa1fe54aa0090f44
+=======
+>>>>>>> b535084602be4bd75459370d8f4f1e72f506d4ec
+>>>>>>> main
 
