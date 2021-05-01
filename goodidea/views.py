@@ -182,8 +182,8 @@ class ItemListFilter(ListView):
             else: 
                 queryset6 = queryset5.all()
 
-                # セッションで選択されたデータを保持
-                self.request.session['item_list_type'] = 'filter'
+            # セッションで選択されたデータを保持
+            self.request.session['item_list_type'] = 'filter'
             
             queryset = queryset6.order_by('-itemNum')
 
@@ -292,7 +292,7 @@ class ItemDetailFilter(DetailView):
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
                 queryset6 = queryset5.all()                
-            item_list_queryset = queryset5.order_by('-itemNum')
+            item_list_queryset = queryset6.order_by('-itemNum')
 
         else:
             item_list_queryset = queryset0.order_by('-itemNum')
