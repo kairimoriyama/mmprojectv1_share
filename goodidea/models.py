@@ -119,14 +119,46 @@ class Item(models.Model):
 
     def get_prev_idea_by_dueDate(self):
         """期日が空欄ではない前のideaを取得"""
-        return type(self).objects.item_alive(
-        ).item_due(
-        ).filter(itemNum__lt=self.itemNum
-        ).order_by('itemNum').last()
+
+        if type(self).objects.item_alive(
+            ).item_due(
+            ).filter(dueDate__exact=self.dueDate
+            ).filter(itemNum__lt=self.itemNum
+            ).last():
+
+            return type(self).objects.item_alive(
+            ).item_due(
+            ).filter(dueDate__exact=self.dueDate
+            ).filter(itemNum__lt=self.itemNum
+            ).order_by('itemNum').last()
         
+        else:
+
+            return type(self).objects.item_alive(
+            ).item_due(
+            ).filter(dueDate__lt=self.dueDate
+            ).order_by('itemNum').last()
+
+
+
     def get_next_idea_by_dueDate(self):
         """期日が空欄ではない次のideaを取得"""
-        return type(self).objects.item_alive(
-        ).item_due(
-        ).filter(itemNum__gt=self.itemNum
-        ).order_by('itemNum').first()
+
+        if type(self).objects.item_alive(
+            ).item_due(
+            ).filter(dueDate__exact=self.dueDate
+            ).filter(itemNum__gt=self.itemNum
+            ).last():
+
+            return type(self).objects.item_alive(
+            ).item_due(
+            ).filter(dueDate__exact=self.dueDate
+            ).filter(itemNum__gt=self.itemNum
+            ).order_by('itemNum').last()
+        
+        else:
+
+            return type(self).objects.item_alive(
+            ).item_due(
+            ).filter(dueDate__gt=self.dueDate
+            ).order_by('itemNum').last()

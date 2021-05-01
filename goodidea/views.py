@@ -58,7 +58,7 @@ class ItemListDue(ListView):
         return context
 
     def get_queryset(request):
-        return Item.objects_list.due_list().order_by('dueDate')
+        return Item.objects_list.due_list().order_by('-itemNum').order_by('dueDate')
 
 
 
