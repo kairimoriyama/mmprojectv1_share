@@ -12,6 +12,7 @@ urlpatterns = [
     path('accounts/inactive/', TemplateView.as_view(template_name = 'inactive.html'), name='inactive'),  
     path('accounts/', include('allauth.urls')),
     path('goodidea/', include('goodidea.urls')),
+    path('receipt/', include('receipt.urls')),
 
     # 開発サーバーでメディアを配信できるようにする設定
 ]+ static( settings_common.MEDIA_URL, document_root = dev.MEDIA_ROOT )
