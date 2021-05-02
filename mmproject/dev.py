@@ -8,6 +8,8 @@ DEBUG = True
 
 INSTALLED_APPS = [
     'goodidea.apps.GoodideaConfig',
+    'receipt.apps.ReceiptConfig',
+    'procurement.apps.ProcurementConfig',
     'accounts.apps.AccountsConfig',
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.admin',
