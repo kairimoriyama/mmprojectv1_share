@@ -13,7 +13,7 @@ class ItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     class ItemResource(resources.ModelResource):
         class Meta:
             model = Item
-            fields = ('itemNum','ideaNum','actionNum','submissionDate','progress',
+            fields = ('id','itemNum','ideaNum','actionNum','submissionDate','progress',
             'division','staff','category','system','purchase','title','description',
             'refURL1','refURL2','refURL3',
             'picture1','picture2','picture3','picture4','picture5','picture6',
