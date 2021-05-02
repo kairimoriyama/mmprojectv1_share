@@ -1,0 +1,47 @@
+{% extends 'receipt/base.html' %}
+
+{% block header %}
+
+  <li><a href="{% url 'receipt:list_filter' %}">検索画面</a></li>
+  <li><a href="{% url 'receipt:list_due' %}">期日管理</a></li>
+
+  
+
+{% endblock%}
+
+
+{% block content %}
+
+
+<div class="menu_wrapper">
+
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'receipt:create_idea' %}">協議案件作成</a>
+    <a class="menu_bt menu_bt_mg_left" href="{% url 'receipt:create_action' %}">共有案件作成</a>
+  </div>
+
+  <ul class="page_nav">
+    <li>
+      {% if page_obj.has_previous %}
+        <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
+      {% else %}
+      {% endif %}
+    </li>
+
+    <li>
+      {% if page_obj.has_next %}
+        <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
+      {% else %}
+      {% endif %}
+    </li>
+  </ul>
+
+</div>
+
+
+{% include 'receipt/list_base.html' %}
+
+
+{% endblock content%}
+
+

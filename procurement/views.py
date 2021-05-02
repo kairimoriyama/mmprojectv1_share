@@ -5,4 +5,5 @@ from django.views.generic import TemplateView
 
     
 class ItemIndex(TemplateView):
-    template_name = 'receipt/index.html'
+    template_name = 'procurement/index.html'
+

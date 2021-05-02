@@ -44,6 +44,20 @@
                 <h1>Good idea</h1>
             </a>
         </li>
+
+        <li>
+            <img class="icon-s" src="{% static 'favicon_mono.png' %}">
+            <a href="{% url 'procurement:index' %}">
+                <h1>発注管理</h1>
+            </a>
+        </li>
+
+        <li>
+            <img class="icon-s" src="{% static 'favicon_mono.png' %}">
+            <a href="{% url 'receipt:index' %}">
+                <h1>振込・領収書</h1>
+            </a>
+        </li>
     </ul>
 
 {% else %}
