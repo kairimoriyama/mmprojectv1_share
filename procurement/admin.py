@@ -84,13 +84,15 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         class Meta:
             model = OrderRequest
             fields = ('id','requestNum', 'submissionDate',
-             'division', 'requestStaff', 'adminCheck',
-             'dueDate', 'deliveryAddress', 
-             'costCenter1', 'costCenter2', 'costCenter3', 
-             'purpose', 'itemCategory1', 'itemCategory2', 
-             'standardItem', 'irregularItem', 'quantity', 
-             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-             'registeredSupplier', 'irregularSupplier', 'description'
+            'requestStaffDivision', 'requestStaff',
+            'adminCheck', 'adminStaff',
+            'dueDate', 'deliveryAddress', 
+            'costCenter1', 'costCenter2', 'costCenter3', 
+            'requestDescription', 'itemCategory1', 'itemCategory2', 
+            'standardItem', 'quantity', 
+            'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
+            'adminDescription',
+            'deletedItem'
              )
     resource_class = OrderRequestResource
 
@@ -100,13 +102,14 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         class Meta:
             model = OrderInfo
             fields = ('id','orderNum', 'orderDate',
-             'orderRequest', 'progress', 'orderStaff',
-             'orderStaffDivision', 'arrivalDate', 
-             'amount1', 'amount2', 'amount3', 
-             'totlaAmount', 'payment', 'orderDescription', 
-             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
-             'acceptanceMemo'
-             )
+            'orderRequest', 'progress', 'orderStaff',
+            'orderStaffDivision', 'arrivalDate', 
+            'registeredSupplier', 'irregularSupplier',
+            'amount1', 'amount2', 'amount3', 
+            'totlaAmount', 'payment', 'orderDescription', 
+            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
+            'acceptanceMemo','deletedItem'
+            )
     resource_class = OrderInfoResource
 
 

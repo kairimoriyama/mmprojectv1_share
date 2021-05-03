@@ -1,0 +1,96 @@
+{% extends 'procurement/base.html' %}
+
+{% block header %}
+
+  <li><a href="{% url 'procurement:list_order' %}">発注・納品管理</a></li>
+
+
+{% endblock%}
+
+
+{% block content %}
+
+
+<div class="menu_wrapper">
+
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}">発注依頼作成</a>
+  </div>
+
+  <ul class="page_nav">
+    <li>
+      {% if page_obj.has_previous %}
+        <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
+      {% else %}
+      {% endif %}
+    </li>
+
+    <li>
+      {% if page_obj.has_next %}
+        <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
+      {% else %}
+      {% endif %}
+    </li>
+  </ul>
+
+</div>
+
+<table class="item-table">
+
+	<tr>
+		<th class="sticky_col_th">依頼番号</th>
+    <th>依頼日</th>
+    <th>発注管理</th>
+    <th>依頼者</th>
+    <th>所属</th>
+    <th>希望納期</th>
+		<th>納品先</th>
+		<th>分類1</th>
+		<th>分類2</th>
+		<th>標準備品</th>
+    <th>個別発注詳細</th>
+		<th>数量</th>
+		<th>予定金額</th>
+		<th>管理担当</th>
+		<th>管理メモ</th>
+
+  </tr>
+  
+  {% for item in object_list %}
+
+    <tr class="row-white">
+
+      <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
+        <a href="{% url 'procurement:detail_request' item.pk %}">
+          {{ item.requestNum }}
+        </a>
+      </td>      
+     
+      <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
+      <td>{{ item.adminCheck.name }}</td>
+
+      <td>{{ item.requestStaff }}</td>
+      <td>{{ item.requestStaffDivision }}</td>
+    
+      <td class="date_col">{{ item.dueDate | date:"Y/m/d"}}</td>
+      <td>{{ item.deliveryAddress.name }}</td>
+
+      <td>{{ item.itemCategory1.naeme }}</td>
+      <td>{{ item.itemCategory2.naeme }}</td>
+      <td>{{ item.standardItem.name }}</td>
+      <td class="longText">{{ item.requestDescription }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.estimatedAmount }}</td>
+
+      <td>{{ item.adminStaff }}</td>
+      <td class="longText">{{ item.adminDescription }}</td>
+          
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+{% endblock content%}
+
+

@@ -32,11 +32,17 @@ class Category(models.Model):
 class ItemManager(models.Manager):
 
 
+    def all_list(self):
+        return super().get_queryset(
+        ).filter(deletedItem=False
+        )
+
     def due_list(self):
         return super().get_queryset(
         ).filter(deletedItem=False
         ).filter(ideaNum__gt=0
         ).exclude(dueDate__isnull=True)
+
 
 # 削除されていないデータ 期日のあるデータ システム案件 だけをクエリセットとして選択
 class ItemQuerySet(models.QuerySet):
@@ -92,7 +98,7 @@ class Item(models.Model):
     adminMemo = models.CharField(max_length=100,blank=True)
     deletedItem = models.BooleanField(default=False)
  
-    # idea_list action_list --> ListViewで抽出
+    # all_list due_list --> ListViewで抽出
     objects_list = ItemManager()
 
     # prev next でidea action の移動を区別
@@ -107,15 +113,17 @@ class Item(models.Model):
     def get_prev_item_by_itemNum(self):
         """前のitemNumのitemを取得"""
         return type(self).objects.item_alive(
-        ).filter(itemNum__lt=self.itemNum
-        ).order_by('itemNum').last()
+        ).filter(itemNum__gt=self.itemNum
+        ).order_by('itemNum').first()
 
     def get_next_item_by_itemNum(self):
         """次のitemNumのitemを取得"""
         return type(self).objects.item_alive(
-        ).filter(itemNum__gt=self.itemNum
-        ).order_by('itemNum').first()
+        ).filter(itemNum__lt=self.itemNum
+        ).order_by('itemNum').last()
 
+
+    # dueDate DetailView 日付で並び替え
 
     def get_prev_idea_by_dueDate(self):
         """期日が空欄ではない前のideaを取得"""
@@ -148,17 +156,17 @@ class Item(models.Model):
             ).item_due(
             ).filter(dueDate__exact=self.dueDate
             ).filter(itemNum__gt=self.itemNum
-            ).last():
+            ).first():
 
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__exact=self.dueDate
             ).filter(itemNum__gt=self.itemNum
-            ).order_by('itemNum').last()
+            ).order_by('itemNum').first()
         
         else:
 
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__gt=self.dueDate
-            ).order_by('itemNum').last()
+            ).order_by('itemNum').first()
