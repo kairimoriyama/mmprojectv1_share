@@ -48,13 +48,6 @@ class DetailRequest(DetailView):
         context = super().get_context_data(**kwargs)
         orderRequest = self.object
 
-        orderRequest_queryset = orderRequest.objects.filter(deletedItem=False)         
-
-        prev = orderRequest_queryset
-        next = orderRequest_queryset
-
-        context['prev'] = prev
-        context['next'] = next
         return context
 
 
@@ -68,13 +61,6 @@ class DetailOrder(DetailView):
         context = super().get_context_data(**kwargs)
         orderInfo = self.object
 
-        orderInfo_queryset = orderInfo.objects.filter(deletedItem=False)         
-
-        prev = orderInfo_queryset
-        next = orderInfo_queryset
-
-        context['prev'] = prev
-        context['next'] = next
         return context
 
 

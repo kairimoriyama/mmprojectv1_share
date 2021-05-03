@@ -42,20 +42,21 @@ class CreateFormRequest(ModelForm):
     class Meta:
         model  = OrderRequest
         fields = ('id','requestNum', 'submissionDate',
-            'division', 'requestStaff', 'adminCheck',
+            'requestStaffDivision', 'requestStaff',
+            'adminCheck', 'adminStaff',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
-            'purpose', 'itemCategory1', 'itemCategory2', 
-            'standardItem', 'irregularItem', 'quantity', 
+            'requestDescription', 'itemCategory1', 'itemCategory2', 
+            'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'registeredSupplier', 'irregularSupplier', 'description'
+            'adminDescription'
             )
         widgets = {'submissionDate': DateInput(),
             'dueDate': DateInput()}
 
 
     def __init__(self, *args, **kwargs):
-        super(CreateRequestFrom, self).__init__(*args, **kwargs)
+        super(CreateFormRequest, self).__init__(*args, **kwargs)
 
         
         # requestNumの設定
@@ -64,7 +65,7 @@ class CreateFormRequest(ModelForm):
         currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
             submissionDate__year=currentYear
             )
-        lastRequestNum = currentYearRequestNum.aggregate(Max('requestNum'))
+        lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
         maxRequestNum = lastRequestNum['requestNum__max']
 
         if (maxRequestNum == None) or (maxRequestNum < 1):
@@ -75,8 +76,7 @@ class CreateFormRequest(ModelForm):
 
 
         # 初期値・入力規則
-        self.fields['itemNum'].widget.attrs['readonly'] = 'readonly'
-        self.fields['ideaNum'].widget.attrs['readonly'] = 'readonly'
+        self.fields['requestNum'].widget.attrs['readonly'] = 'readonly'
 
         # プレースホルダ
 
@@ -87,7 +87,8 @@ class CreateFormOrder(ModelForm):
         model = OrderInfo
         fields = ('id','orderNum', 'orderDate',
             'orderRequest', 'progress', 'orderStaff',
-            'orderStaffDivision', 'arrivalDate', 
+            'orderStaffDivision', 'arrivalDate',
+            'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totlaAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff',
@@ -125,13 +126,14 @@ class UpdateFormRequest(ModelForm):
     class Meta:
         model  = OrderRequest
         fields = ('id','requestNum', 'submissionDate',
-            'division', 'requestStaff', 'adminCheck',
+            'requestStaffDivision', 'requestStaff', 'adminCheck',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
-            'purpose', 'itemCategory1', 'itemCategory2', 
-            'standardItem', 'irregularItem', 'quantity', 
+            'requestDescription', 'itemCategory1', 'itemCategory2', 
+            'standardItem','quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'registeredSupplier', 'irregularSupplier', 'description'
+            'adminDescription',
+            'deletedItem'
             )
         widgets = {'submissionDate': DateInput(),
             'dueDate': DateInput()}
@@ -150,10 +152,11 @@ class UpdateFormOrder(ModelForm):
         fields = ('id','orderNum', 'orderDate',
             'orderRequest', 'progress', 'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
+            'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totlaAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
-            'acceptanceMemo'
+            'acceptanceMemo','deletedItem'
             )
         widgets = {'orderDate': DateInput(), 
             'acceptanceDate': DateInput()}

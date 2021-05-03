@@ -1,0 +1,110 @@
+{% extends 'procurement/base.html' %}
+
+{% block header %}
+
+  <li><a href="{% url 'procurement:list_request' %}">発注依頼管理</a></li>
+
+{% endblock%}
+
+
+{% block content %}
+
+
+<div class="menu_wrapper">
+
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}">発注作成</a>
+    <a class="menu_bt  menu_bt_mg_left" href="{% url 'procurement:create_request' %}">納品確認</a>
+  </div>
+
+  <ul class="page_nav">
+    <li>
+      {% if page_obj.has_previous %}
+        <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
+      {% else %}
+      {% endif %}
+    </li>
+
+    <li>
+      {% if page_obj.has_next %}
+        <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
+      {% else %}
+      {% endif %}
+    </li>
+  </ul>
+
+</div>
+
+<table class="item-table">
+
+	<tr>
+		<th class="sticky_col_th">発注番号</th>
+    <th>依頼番号</th>
+    <th>発注日</th>
+    <th>進捗状況</th>
+    <th>発注者</th>
+    <th>発注者所属</th>
+    <th>発注先</th>
+		<th>到着予定日</th>
+		<th>税込10%</th>
+		<th>税込8%</th>
+		<th>非課税</th>
+		<th>税込合計</th>
+		<th>支払方法</th>
+		<th>発注メモ</th>
+		<th>予定金額</th>
+		<th>納品日</th>
+		<th>納品担当者</th>
+		<th>納品メモ</th>
+  </tr>
+  
+  {% for item in object_list %}
+
+    <tr class="row-white">
+
+      <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
+          <a href="{% url 'procurement:detail_order' item.pk %}">
+            {{ item.orderNum }}
+          </a>
+      </td>
+
+      <td>
+        <a href="{% url 'procurement:detail_order' item.pk %}">
+          {{ item.orderRequest.requestNum }}
+        </a>
+      </td>    
+     
+      <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
+      <td>{{ item.progress.name }}</td>
+      <td>{{ item.orderStaff }}</td>
+      <td>{{ item.orderStaffDivision.name }}</td>
+
+      {% if registeredSupplier %}
+        {{ item.registeredSupplier.name }}
+      {% else %}
+        {{ item.irregularSupplier }}
+      {% endif %}
+
+      <td>{{ item.arrivalDate | date:"Y/m/d" }}</td>
+
+      <td>{{ item.amount1 }}</td>
+      <td>{{ item.amount2 }}</td>
+      <td>{{ item.amount3 }}</td>
+      <td>{{ item.totalAmount }}</td>
+      <td>{{ item.payment.name }}</td>
+      <td>{{ item.orderDescription }}</td>
+
+      <td>{{ item.acceptanceDate | date:"Y/m/d" }}</td>
+      <td>{{ item.acceptanceStaff }}</td>
+      <td>{{ item.acceptanceStaffDivision.name }}</td>
+
+      <td class="longText">{{ item.acceptanceMemo }}</td>
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+{% endblock content%}
+
+

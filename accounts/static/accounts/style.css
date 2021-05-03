@@ -53,3 +53,24 @@ h2{
 .container{
     margin: 2rem;
 }
+
+@media screen and (min-width: 0px) and (max-width: 400px){
+    .manta{
+        margin-top: 12rem;
+        height: 22rem; /*スマホサイズ*/
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 800px) {
+    .manta {
+        margin-top: 12rem;
+        height: 28rem; /*スマホサイズ*/
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1800px) {
+    .manta {
+        margin-top: 10rem;
+        height: 40rem; /*PCサイズ*/
+    }
+}

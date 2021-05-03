@@ -47,7 +47,7 @@
 
         <li>
             <img class="icon-s" src="{% static 'favicon_mono.png' %}">
-            <a href="{% url 'procurement:index' %}">
+            <a href="{% url 'procurement:list_order' %}">
                 <h1>発注管理</h1>
             </a>
         </li>
@@ -61,7 +61,9 @@
     </ul>
 
 {% else %}
-    <p><a href="/accounts/login/"><h1>ログイン画面へ</h1></a></p>
+    <a href="/accounts/login/"><h1>ログイン画面へ</h1></a>
+
+
 {% endif %}
 </section>
 
