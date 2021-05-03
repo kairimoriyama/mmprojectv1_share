@@ -73,7 +73,7 @@ class CreateRequest(CreateView):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
 
 
-class CreateOrder(UpdateView):
+class CreateOrder(CreateView):
     template_name = 'procurement/create_order.html'
     form_class = CreateFormOrder
 
@@ -91,7 +91,7 @@ class UpdateRequest(UpdateView):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
 
 
-class UpdateOrder(CreateView):
+class UpdateOrder(UpdateView):
     template_name = 'procurement/update_order.html'
     model  = OrderInfo
     form_class = UpdateFormOrder

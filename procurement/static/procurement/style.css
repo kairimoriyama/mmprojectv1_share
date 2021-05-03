@@ -720,9 +720,6 @@ hr{
     border: solid 0.1rem  #bfbfbf;
     width: 100%;
 }
-.item_dl input[type="number"]{
-    text-align: right;
-}
 
 /* select型 */
 .item_dl select{
@@ -755,10 +752,6 @@ hr{
 
 .item_submissionDate{
     font-size: 1.4rem;
-}
-.item_submissionDate input{
-    visibility:hidden;
-    width: 0;
 }
 
 /* progress 非表示 */

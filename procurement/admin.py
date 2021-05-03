@@ -93,7 +93,7 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
             'adminDescription',
             'deletedItem'
-             )
+            )
     resource_class = OrderRequestResource
 
 

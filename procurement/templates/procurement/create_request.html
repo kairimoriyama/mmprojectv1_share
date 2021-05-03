@@ -19,13 +19,13 @@
   <dl class="item_dl item1">
     <dt>依頼番号</dt>
     <dd class="itemNum">
-        {{ form.requestNum}}
+      {{ form.requestNum}}
     </dd>
   </dl>
 
   <dl class="item_dl item2">
     <dt>依頼日</dt>
-    <dd class="item_submissionDate" id="submissionDateInit">{{ form.submissionDate }}</dd>
+    <dd>{{ form.submissionDate }}</dd>
   </dl>
     
   <dl class="item_dl item3">
@@ -110,21 +110,6 @@
 </form>
 <hr>
 
-
-<script>
-
-  //登録日の初期値
-  function submissionDateInit() {
-    let now = new Date();
-    let year = now.getFullYear();
-    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
-    let day = ("0"+ (now.getDate())).slice(-2);
-    let today =year+'/'+mon+'/'+day;
-    document.getElementById("submissionDateInit").innerHTML= today;
-    }
-  window.onload = submissionDateInit();
-
-</script>
 
 
 {% endblock content%}

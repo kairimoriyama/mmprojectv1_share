@@ -49,11 +49,12 @@ class CreateFormRequest(ModelForm):
             'requestDescription', 'itemCategory1', 'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'adminDescription'
+            'adminDescription',
+            'deletedItem'
             )
+
         widgets = {'submissionDate': DateInput(),
             'dueDate': DateInput()}
-
 
     def __init__(self, *args, **kwargs):
         super(CreateFormRequest, self).__init__(*args, **kwargs)
@@ -76,7 +77,17 @@ class CreateFormRequest(ModelForm):
 
 
         # 初期値・入力規則
-        self.fields['requestNum'].widget.attrs['readonly'] = 'readonly'
+        today = datetime.date.today()
+        self.fields['requestNum'].widget.attrs['readonly'] = True
+
+        self.fields['submissionDate'].initial = datetime.date(
+            year=today.year, month=today.month, day=today.day)
+        self.fields['submissionDate'].widget.attrs['disabled'] = True
+
+        self.fields['dueDate'].initial = datetime.date(
+            year=today.year, month=today.month, day=today.day+5)
+        self.fields['dueDate'].required = True
+        
 
         # プレースホルダ
 
@@ -87,18 +98,18 @@ class CreateFormOrder(ModelForm):
         model = OrderInfo
         fields = ('id','orderNum', 'orderDate',
             'orderRequest', 'progress', 'orderStaff',
-            'orderStaffDivision', 'arrivalDate',
+            'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totlaAmount', 'payment', 'orderDescription', 
-            'acceptanceDate', 'acceptanceStaff',
-             'acceptanceStaffDivision', 'acceptanceMemo'
+            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
+            'acceptanceMemo','deletedItem'
             )
         widgets = {'orderDate': DateInput(), 
             'acceptanceDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
-        super(ItemCreateFromAction, self).__init__(*args, **kwargs)
+        super(CreateFormOrder, self).__init__(*args, **kwargs)
 
         # orderNumの設定
         currentYear= datetime.date.today().year
