@@ -21,7 +21,7 @@ class ItemListALL(ListView):
     template_name = 'goodidea/list_all.html'
     model  = Item
     fields = '__all__'
-    queryset =Item.objects.filter(deletedItem=False).order_by('-id')
+    queryset =Item.objects_list.all_list().order_by('-itemNum')
     paginate_by = 22
 
 
@@ -141,7 +141,7 @@ class ItemListFilter(ListView):
         self.request.session['ideaOrAction'] = ideaOrAction
 
         # 絞り込み前の初期値
-        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
+        queryset0 = Item.objects_list.all_list().order_by('-itemNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if progress or purchase or system or staff or division or inchargeStaff or inchargeDivision or word or\
@@ -215,7 +215,7 @@ class ItemDetail(DetailView):
         context = super().get_context_data(**kwargs)
         item = self.object
 
-        item_list_queryset = Item.objects.all()         
+        item_list_queryset = Item.objects_list.all_list()
 
         prev = item_list_queryset
         next = item_list_queryset
@@ -229,6 +229,8 @@ class ItemDetail(DetailView):
 class ItemDetailFilter(DetailView):
     template_name = 'goodidea/detail_filter.html'
     model  = Item
+
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -253,8 +255,9 @@ class ItemDetailFilter(DetailView):
         completionDateTo = self.request.session['completionDateTo']
         ideaOrAction = self.request.session['ideaOrAction']
   
-        # 絞り込み前の初期値
-        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
+        # 絞込み前の初期値
+        queryset0 = Item.objects_list.all_list()
+        item_list_queryset = queryset0
 
         if item_list_type == 'filter':
 
@@ -304,21 +307,18 @@ class ItemDetailFilter(DetailView):
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset6 = queryset5.all()                
-            item_list_queryset = queryset6.order_by('-itemNum')
+                queryset6 = queryset5.all()          
 
+            item_list_queryset = queryset6
+          
         else:
-            item_list_queryset = queryset0.order_by('-itemNum')
+            item_list_queryset = queryset0
 
 
-        prev = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
-        next = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
+        context['prev'] = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
+        context['next'] = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
 
-        context['prev'] = prev
-        context['next'] = next
         return context
-
-
 
 
 class ItemDetailDue(DetailView):
@@ -329,7 +329,7 @@ class ItemDetailDue(DetailView):
         context = super().get_context_data(**kwargs)
         item = self.object
 
-        item_list_queryset = Item.objects.item_alive()
+        item_list_queryset = Item.objects_list.all_list()
                
         prev = item_list_queryset
         next = item_list_queryset
