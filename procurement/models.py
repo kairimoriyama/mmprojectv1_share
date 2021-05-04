@@ -128,14 +128,14 @@ class OrderInfo(models.Model):
     amount1 = models.IntegerField(blank=True,null=True)
     amount2 = models.IntegerField(blank=True,null=True)
     amount3 = models.IntegerField(blank=True,null=True)
-    totlaAmount = models.IntegerField(blank=True,null=True)
+    totalAmount = models.IntegerField(blank=True,null=True)
     payment = models.ForeignKey(Payment,on_delete=models.PROTECT, related_name ='orderInfo_payment')    
-    orderDescription = models.TextField(max_length=50)
+    orderDescription = models.TextField(max_length=50,blank=True,null=True)
 
     acceptanceDate = models.DateField(default=timezone.now, blank=True)
-    acceptanceStaff = models.CharField(max_length=20)
+    acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
-    acceptanceMemo = models.TextField(max_length=100)
+    acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)
 
     class Meta:

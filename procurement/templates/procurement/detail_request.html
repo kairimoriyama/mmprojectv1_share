@@ -152,8 +152,8 @@
   <dl class="item_dl item18">
     <dt>発注番号</dt>
     <dd>
-      {% if object.orderNum %}
-        {{ object.orderNum }}
+      {% if object.orderInfo %}
+        {{ object.orderInfo.orderNum }}
       {% else %}
       {% endif %}
     </dd>

@@ -115,7 +115,7 @@ class CreateFormOrder(ModelForm):
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totlaAmount', 'payment', 'orderDescription', 
+            'totalAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo','deletedItem'
             )
@@ -176,7 +176,7 @@ class UpdateFormOrder(ModelForm):
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totlaAmount', 'payment', 'orderDescription', 
+            'totalAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo','deletedItem'
             )

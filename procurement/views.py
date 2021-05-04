@@ -27,7 +27,7 @@ class ListALL(ListView):
     def get_context_data(self, **kwargs):
         context = super(ListALL, self).get_context_data(**kwargs)
         context.update({
-            'object_list_Order': OrderInfo.objects.all(),
+            'object_list_order': OrderInfo.objects.all(),
         })
         return context
 

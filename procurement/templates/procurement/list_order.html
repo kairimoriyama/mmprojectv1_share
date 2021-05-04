@@ -1,4 +1,5 @@
 {% extends 'procurement/base.html' %}
+{% load humanize %}
 
 {% block header %}
 
@@ -16,7 +17,6 @@
  
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}">発注作成</a>
-    <a class="menu_bt  menu_bt_mg_left" href="{% url 'procurement:create_request' %}">納品確認</a>
     <ul class="page_nav">
       <li>
         {% if page_obj.has_previous %}
@@ -62,15 +62,11 @@
 
     <!-- 進捗状況に応じた色の設定 -->
     {% if item.progress.no == 1 %}
-      <tr class="row-white">
-    {%  elif item.progress.no == 2 %}
       <tr class="row-yellow">
+    {%  elif item.progress.no == 2 %}
+      <tr class="row-blue">
     {%  elif item.progress.no == 3 %}
       <tr class="row-gray">
-    {%  elif item.progress.no == 4 %}
-      <tr class="row-blue">
-    {%  elif item.progress.no == 5 %}
-      <tr>
     {% endif %}
 
       <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
@@ -84,18 +80,21 @@
       <td>{{ item.orderStaff }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
 
-      {% if registeredSupplier %}
-        {{ item.registeredSupplier.name }}
+      <td>
+      {% if item.registeredSupplier %}
+      {{ item.registeredSupplier.name }}
       {% else %}
         {{ item.irregularSupplier }}
       {% endif %}
+      </td>
 
       <td>{{ item.arrivalDate | date:"Y/m/d" }}</td>
 
-      <td>{{ item.amount1 }}</td>
-      <td>{{ item.amount2 }}</td>
-      <td>{{ item.amount3 }}</td>
-      <td>{{ item.totalAmount }}</td>
+      <td class="number_col">{{ item.amount1|intcomma }}</td>
+      <td class="number_col">{{ item.amount2|intcomma }}</td>
+      <td class="number_col">{{ item.amount3|intcomma }}</td>
+      <td class="number_col">{{ item.totalAmount|intcomma }}</td>
+
       <td>{{ item.payment.name }}</td>
       <td>{{ item.orderDescription }}</td>
 
