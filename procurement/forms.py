@@ -41,19 +41,17 @@ class CreateFormRequest(ModelForm):
 
     class Meta:
         model  = OrderRequest
-        fields = ('id','requestNum', 'submissionDate',
+        fields = ('requestNum', 'submissionDate',
             'requestStaffDivision', 'requestStaff',
-            'adminCheck', 'adminStaff',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
             'requestDescription', 'itemCategory1', 'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'adminDescription'
             )
+
         widgets = {'submissionDate': DateInput(),
             'dueDate': DateInput()}
-
 
     def __init__(self, *args, **kwargs):
         super(CreateFormRequest, self).__init__(*args, **kwargs)
@@ -74,11 +72,38 @@ class CreateFormRequest(ModelForm):
             self.fields['requestNum'].initial = maxRequestNum +1 
 
 
-
         # 初期値・入力規則
-        self.fields['requestNum'].widget.attrs['readonly'] = 'readonly'
+        today = datetime.date.today()
+        self.fields['requestNum'].widget.attrs['readonly'] = True
+
+        self.fields['submissionDate'].initial = today
+        self.fields['submissionDate'].widget.attrs['readonly'] = True
+
+        self.fields['requestStaff'].required = True
+        self.fields['requestStaffDivision'].required = True
+
+        self.fields['dueDate'].initial = datetime.date(
+            year=today.year, month=today.month, day=today.day+5)
+        self.fields['dueDate'].required = True
+        self.fields['deliveryAddress'].required = True
+        self.fields['itemCategory1'].required = True
+        self.fields['itemCategory2'].required = True
+        self.fields['costCenter1'].required = True
+
+        # if self.fields['itemCategory2'] :
+        #     self.fields['requestDescription'].required = True
+        # else:
+        #     self.fields['itemCategory2'].required = True
+
+        self.fields['quantity'].required = True
+        self.fields['estimatedAmount'].required = True
+
+        print("requestNum")
 
         # プレースホルダ
+        self.fields['requestDescription'].widget.attrs['placeholder'] = '標準品以外の依頼の場合、依頼目的と商品の要件を記入'
+
+
 
 
 class CreateFormOrder(ModelForm):
@@ -86,19 +111,19 @@ class CreateFormOrder(ModelForm):
     class Meta:
         model = OrderInfo
         fields = ('id','orderNum', 'orderDate',
-            'orderRequest', 'progress', 'orderStaff',
-            'orderStaffDivision', 'arrivalDate',
+            'progress', 'orderStaff',
+            'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totlaAmount', 'payment', 'orderDescription', 
-            'acceptanceDate', 'acceptanceStaff',
-             'acceptanceStaffDivision', 'acceptanceMemo'
+            'totalAmount', 'payment', 'orderDescription', 
+            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
+            'acceptanceMemo','deletedItem'
             )
         widgets = {'orderDate': DateInput(), 
             'acceptanceDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
-        super(ItemCreateFromAction, self).__init__(*args, **kwargs)
+        super(CreateFormOrder, self).__init__(*args, **kwargs)
 
         # orderNumの設定
         currentYear= datetime.date.today().year
@@ -125,9 +150,9 @@ class UpdateFormRequest(ModelForm):
 
     class Meta:
         model  = OrderRequest
-        fields = ('id','requestNum', 'submissionDate',
-            'requestStaffDivision', 'requestStaff', 'adminCheck',
+        fields = ('requestStaffDivision', 'requestStaff', 
             'dueDate', 'deliveryAddress', 
+            'adminCheck', 'adminStaff', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
             'requestDescription', 'itemCategory1', 'itemCategory2', 
             'standardItem','quantity', 
@@ -135,26 +160,23 @@ class UpdateFormRequest(ModelForm):
             'adminDescription',
             'deletedItem'
             )
-        widgets = {'submissionDate': DateInput(),
-            'dueDate': DateInput()}
+        widgets = {'dueDate': DateInput()}
 
 
     def __init__(self, *args, **kwargs):
-        super(ItemUpdateFrom, self).__init__(*args, **kwargs)
+        super(UpdateFormRequest, self).__init__(*args, **kwargs)
 
-        self.fields['requestNum'].widget.attrs['readonly'] = 'readonly'
-
+    
 
 class UpdateFormOrder(ModelForm):
 
     class Meta:
         model = OrderInfo
-        fields = ('id','orderNum', 'orderDate',
-            'orderRequest', 'progress', 'orderStaff',
+        fields = ('progress', 'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totlaAmount', 'payment', 'orderDescription', 
+            'totalAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo','deletedItem'
             )
@@ -163,7 +185,5 @@ class UpdateFormOrder(ModelForm):
 
 
     def __init__(self, *args, **kwargs):
-        super(ItemUpdateFrom, self).__init__(*args, **kwargs)
-
-        self.fields['orderNum'].widget.attrs['readonly'] = 'readonly'
+        super(UpdateFormOrder, self).__init__(*args, **kwargs)
 

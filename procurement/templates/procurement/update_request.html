@@ -1,31 +1,37 @@
 {% extends 'procurement/base.html' %}
 
 {% block header %}
-
   <li>
-    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
+    <a href="{% url 'procurement:detail_request' object.pk %}"><p>戻る</p></a>
   </li>
-  
 {% endblock header %}
 
 {% block content %}
 
-<form class="container_create" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+<form class="container_update" action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
-    <input class="menu_bt" type="submit" value='依頼実行'>
+    <div>
+      <input class="menu_bt" type="submit" value='更新実行'>
+    </div>
+    
+    <div class="delete_bt">
+      <div>削除</div>
+      {{ form.deletedItem}}
+    </div>
   </div>
+
 
   <dl class="item_dl item1">
     <dt>依頼番号</dt>
-    <dd class="itemNum">
-      {{ form.requestNum}}
-    </dd>
+    <dd>{{ object.requestNum}}</dd>
   </dl>
 
   <dl class="item_dl item2">
     <dt>依頼日</dt>
-    <dd>{{ form.submissionDate }}</dd>
+    <dd>{{ object.submissionDate | date:"Y/m/d"}}</dd>
   </dl>
     
   <dl class="item_dl item3">
@@ -60,12 +66,19 @@
 
   <dl class="item_dl item9">
     <dt class="sentence_dt">標準備品</dt>
-    <dd class="sentence_dd">{{ form.standardItem}}</dd>
+    <dd class="sentence_dd">
+
+      {{ form.standardItem}}
+    </dd>
   </dl>
 
   <dl class="item_dl item10">
-    <dt class="height_l sentence_dt">目的・依頼内容</dt>
-    <dd class="height_l sentence_dd">{{ form.requestDescription}}</dd>
+    <dt class="height_m sentence_dt">
+      目的・依頼内容
+    </dt>
+    <dd class="height_m sentence_dd">
+      {{ form.requestDescription}}
+    </dd>
   </dl>
 
   <dl class="item_dl item11">
@@ -79,8 +92,8 @@
   </dl>
 
   <dl class="item_dl item13 multiple_items">
-    <dt class="height_l sentence_dt">URL</dt>
-    <dd class="height_l sentence_dd">
+    <dt class="height_l">URL</dt>
+    <dd class="height_l">
       <div>{{ form.refURL1 }}</div>
       <div>{{ form.refURL2 }}</div>
       <div>{{ form.refURL3 }}</div>
@@ -96,6 +109,26 @@
     </dd>
   </dl>
 
+  <dl class="item_dl item15">
+    <dt>進捗</dt>
+    <dd>{{ form.adminCheck }}</dd>
+  </dl>
+
+  <dl class="item_dl item18">
+    <dt>発注番号</dt>
+    <dd>{{ form.orderInfo }}</dd>
+  </dl>
+
+  <dl class="item_dl item16">
+    <dt>管理者</dt>
+    <dd>{{ form.adminStaff }}</dd>
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt class="height_m">管理者メモ</dt>
+    <dd class="height_m">{{ form.adminDescription }}</dd>
+  </dl>
+  
   <dl class="item_dl item_dl_dummy_s">
     <dt></dt> <dd></dd>
   </dl>
@@ -103,10 +136,10 @@
   <dl class="item_dl item_dl_dummy_l height_l">
     <dt></dt> <dd></dd>
   </dl>
-  
+</div>
+
 </form>
 <hr>
-
 
 
 {% endblock content%}

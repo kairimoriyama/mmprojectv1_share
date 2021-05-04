@@ -113,13 +113,51 @@ class StandardItem(models.Model):
 
 
 
+class OrderInfo(models.Model):
+    orderNum =  models.IntegerField(blank=False,null=False)
+    orderDate = models.DateField(default=timezone.now, blank=True)
+    
+    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck')    
+    orderStaff = models.CharField(max_length=20,blank=True,null=True)
+    orderStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderInfo_orderStafDividion',blank=True,null=True) 
+
+    registeredSupplier = models.ForeignKey(Supplier,on_delete=models.PROTECT, related_name ='orderInfo_supplier',blank=True,null=True) 
+    irregularSupplier = models.CharField(max_length=100,blank=True,null=True)
+    
+    arrivalDate = models.DateField(default=timezone.now, blank=True)
+    amount1 = models.IntegerField(blank=True,null=True)
+    amount2 = models.IntegerField(blank=True,null=True)
+    amount3 = models.IntegerField(blank=True,null=True)
+    totalAmount = models.IntegerField(blank=True,null=True)
+    payment = models.ForeignKey(Payment,on_delete=models.PROTECT, related_name ='orderInfo_payment')    
+    orderDescription = models.TextField(max_length=50,blank=True,null=True)
+
+    acceptanceDate = models.DateField(default=timezone.now, blank=True)
+    acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
+    acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
+    acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
+    deletedItem = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural="OrderInfo"
+
+    def __str__(self):
+        return str(self.orderNum) + ' ' +  str(self.orderDate)
+
+
+
 class OrderRequest(models.Model):
-    requestNum =  models.IntegerField(blank=True,null=True)
+    requestNum =  models.IntegerField(blank=False,null=False)
     submissionDate = models.DateField(default=timezone.now, blank=True)
+    orderInfo = models.ForeignKey(OrderInfo,on_delete=models.PROTECT, related_name ='orderRequest_orderInfo',blank=True,null=True) 
+
     requestStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_dividion') 
     requestStaff = models.CharField(max_length=20)
-    adminCheck = models.ForeignKey(AdminCheck,on_delete=models.PROTECT, related_name ='orderRequest_adminCheck')    
-    adminStaff = models.CharField(max_length=20)    
+
+    adminCheck = models.ForeignKey(AdminCheck,on_delete=models.PROTECT, related_name ='orderRequest_adminCheck',default=1)    
+    adminStaff = models.CharField(max_length=20,blank=True,null=True)
+    
+    
     dueDate = models.DateField(default=timezone.now, blank=True)
     deliveryAddress = models.ForeignKey(DeliveryAddress,on_delete=models.PROTECT, related_name ='orderRequest_deliveryAddress') 
  
@@ -130,7 +168,7 @@ class OrderRequest(models.Model):
     itemCategory1 = models.ForeignKey(Category1,on_delete=models.PROTECT, related_name ='orderRequest_category1',blank=True,null=True) 
     itemCategory2 = models.ForeignKey(Category2,on_delete=models.PROTECT, related_name ='orderRequest_category2',blank=True,null=True) 
     standardItem = models.ForeignKey(StandardItem,on_delete=models.PROTECT, related_name ='orderRequest_standardItem',blank=True,null=True) 
-    requestDescription = models.TextField(max_length=200,blank=True,null=True)
+    requestDescription = models.TextField(max_length=400,blank=True,null=True)
 
     quantity = models.CharField(max_length=100)
     estimatedAmount = models.IntegerField(blank=True,null=True)
@@ -139,7 +177,7 @@ class OrderRequest(models.Model):
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
     refURL3 = models.URLField(max_length=300, blank=True,null=True)
 
-    adminDescription = models.TextField(max_length=200,blank=True,null=True)
+    adminDescription = models.TextField(max_length=300,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)
 
 
@@ -148,39 +186,4 @@ class OrderRequest(models.Model):
 
     def __str__(self):
         return   str(self.requestNum)+' '+self.requestStaff
-
-
-
-
-
-class OrderInfo(models.Model):
-    orderNum =  models.IntegerField(blank=True,null=True)
-    orderDate = models.DateField(default=timezone.now, blank=True)
-    orderRequest = models.ForeignKey(OrderRequest,on_delete=models.PROTECT, related_name ='orderInfo_orderRequest') 
-    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck')    
-    orderStaff = models.CharField(max_length=20,blank=True,null=True)
-    orderStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderInfo_orderStafDividion',blank=True,null=True) 
-    
-    registeredSupplier = models.ForeignKey(Supplier,on_delete=models.PROTECT, related_name ='orderInfo_supplier',blank=True,null=True) 
-    irregularSupplier = models.CharField(max_length=100,blank=True,null=True)
-    
-    arrivalDate = models.DateField(default=timezone.now, blank=True)
-    amount1 = models.IntegerField(blank=True,null=True)
-    amount2 = models.IntegerField(blank=True,null=True)
-    amount3 = models.IntegerField(blank=True,null=True)
-    totlaAmount = models.IntegerField(blank=True,null=True)
-    payment = models.ForeignKey(Payment,on_delete=models.PROTECT, related_name ='orderInfo_payment')    
-    orderDescription = models.TextField(max_length=50)
-
-    acceptanceDate = models.DateField(default=timezone.now, blank=True)
-    acceptanceStaff = models.CharField(max_length=20)
-    acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
-    acceptanceMemo = models.TextField(max_length=100)
-    deletedItem = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name_plural="OrderInfo"
-
-    def __str__(self):
-        return str(self.orderNum) + ' ' +  str(self.orderDate)
 

@@ -2,6 +2,7 @@ nano.save
 
 ### Django ###
 *.log
+logs/
 *.pot
 *.pyc
 __pycache__/
