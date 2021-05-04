@@ -2,7 +2,7 @@
 
 {% block header %}
 
-  <li><a href="{% url 'procurement:list_request' %}">発注依頼管理</a></li>
+  <li><a href="{% url 'procurement:list_all' %}">一覧へ戻る</a></li>
 
 {% endblock%}
 
@@ -12,34 +12,34 @@
 
 <div class="menu_wrapper">
 
+  <div><h3>発注・検収詳細</h3></div>
+ 
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}">発注作成</a>
     <a class="menu_bt  menu_bt_mg_left" href="{% url 'procurement:create_request' %}">納品確認</a>
+    <ul class="page_nav">
+      <li>
+        {% if page_obj.has_previous %}
+          <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
+        {% else %}
+        {% endif %}
+      </li>
+
+      <li>
+        {% if page_obj.has_next %}
+          <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
+        {% else %}
+        {% endif %}
+      </li>
+    </ul>
   </div>
-
-  <ul class="page_nav">
-    <li>
-      {% if page_obj.has_previous %}
-        <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
-      {% else %}
-      {% endif %}
-    </li>
-
-    <li>
-      {% if page_obj.has_next %}
-        <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
-      {% else %}
-      {% endif %}
-    </li>
-  </ul>
 
 </div>
 
-<table class="item-table">
+<table class="item-table table_order">
 
 	<tr>
 		<th class="sticky_col_th">発注番号</th>
-    <th>依頼番号</th>
     <th>発注日</th>
     <th>進捗状況</th>
     <th>発注者</th>
@@ -60,19 +60,24 @@
   
   {% for item in object_list %}
 
-    <tr class="row-white">
+    <!-- 進捗状況に応じた色の設定 -->
+    {% if item.progress.no == 1 %}
+      <tr class="row-white">
+    {%  elif item.progress.no == 2 %}
+      <tr class="row-yellow">
+    {%  elif item.progress.no == 3 %}
+      <tr class="row-gray">
+    {%  elif item.progress.no == 4 %}
+      <tr class="row-blue">
+    {%  elif item.progress.no == 5 %}
+      <tr>
+    {% endif %}
 
       <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
           <a href="{% url 'procurement:detail_order' item.pk %}">
             {{ item.orderNum }}
           </a>
       </td>
-
-      <td>
-        <a href="{% url 'procurement:detail_order' item.pk %}">
-          {{ item.orderRequest.requestNum }}
-        </a>
-      </td>    
      
       <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
       <td>{{ item.progress.name }}</td>

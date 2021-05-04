@@ -1,0 +1,190 @@
+{% extends 'procurement/base.html' %}
+{% load humanize %}
+
+{% block header %}
+
+  <li><a href="{% url 'procurement:list_request' %}">発注依頼詳細</a></li>
+  <li><a href="{% url 'procurement:list_order' %}">発注詳細</a></li>
+
+{% endblock%}
+
+
+{% block content %}
+
+
+<div class="menu_wrapper">
+  <div><h3>発注依頼</h3></div>
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}">発注依頼</a>
+  </div>
+</div>
+
+<table class="item-table">
+
+	<tr>
+		<th class="sticky_col_th">依頼番号</th>
+    <th>依頼日</th>
+    <th>進捗</th>
+    <th>発注番号</th>
+    <th>依頼者</th>
+    <th>依頼者所属</th>
+    <th>希望納期</th>
+		<th>納品先</th>
+		<th>分類1</th>
+		<th>分類2</th>
+		<th>標準備品</th>
+    <th>目的・発注要件</th>
+		<th>数量</th>
+		<th>税込総額</th>
+		<th>管理担当</th>
+		<th>管理メモ</th>
+
+  </tr>
+  
+  {% for item in object_list %}
+
+  <!-- 進捗状況に応じた色の設定 -->
+    {% if item.adminCheck.no == 1 %}
+    <tr class="row-white">
+    {%  elif item.adminCheck.no == 2 %}
+      <tr class="row-yellow">
+    {%  elif item.adminCheck.no == 0 %}
+      <tr class="row-red">
+    {%  elif item.adminCheck.no == 4 %}
+      <tr class="row-blue">
+    {%  elif item.adminCheck.no == 5 %}
+      <tr class="row-gray">
+    {%  elif item.adminCheck.no == 6 %}
+      <tr class="row-gray">
+    {% endif %}
+
+      <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
+        <a href="{% url 'procurement:detail_request' item.pk %}">
+          {{ item.requestNum }}
+        </a>
+      </td>      
+     
+      <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
+      <td>{{ item.adminCheck.name }}</td>
+      <td>{{ item.orderInfo.orderNum }}</td>
+
+      <td>{{ item.requestStaff }}</td>
+      <td>{{ item.requestStaffDivision }}</td>
+    
+      <td class="date_col">{{ item.dueDate | date:"Y/m/d"}}</td>
+      <td>{{ item.deliveryAddress.name }}</td>
+
+      <td>{{ item.itemCategory1.name }}</td>
+      <td>{{ item.itemCategory2.name }}</td>
+      <td>{{ item.standardItem.name }}</td>
+      <td class="longText">{{ item.requestDescription }}</td>
+      <td>{{ item.quantity }}</td>
+      <td class="number_col">{{ item.estimatedAmount|intcomma }}</td>
+
+      <td>
+        {%  if item.adminStaff %}
+          {{ item.adminStaff }}
+        {%  else %}
+        {% endif %}  
+      </td>
+      <td class="longText">
+        {%  if item.adminDescription %}
+          {{ item.adminDescription }}
+        {%  else %}
+        {% endif %} 
+      </td>
+          
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+
+
+<div class="menu_wrapper">
+  <div><h3>発注</h3></div>
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注登録</a>
+  </div>
+</div>
+
+
+<table class="item-table">
+
+	<tr>
+		<th class="sticky_col_th">発注番号</th>
+    <th>発注日</th>
+    <th>進捗状況</th>
+    <th>発注者</th>
+    <th>発注者所属</th>
+    <th>発注先</th>
+		<th>到着予定日</th>
+		<th>税込10%</th>
+		<th>税込8%</th>
+		<th>非課税</th>
+		<th>税込合計</th>
+		<th>支払方法</th>
+		<th>発注メモ</th>
+		<th>予定金額</th>
+		<th>納品日</th>
+		<th>納品担当者</th>
+		<th>納品メモ</th>
+  </tr>
+  
+  {% for item in object_list_Order %}
+
+    <!-- 進捗状況に応じた色の設定 -->
+    {% if item.progress.no == 1 %}
+      <tr class="row-white">
+    {%  elif item.progress.no == 2 %}
+      <tr class="row-yellow">
+    {%  elif item.progress.no == 3 %}
+      <tr class="row-gray">
+    {%  elif item.progress.no == 4 %}
+      <tr class="row-blue">
+    {%  elif item.progress.no == 5 %}
+      <tr>
+    {% endif %}
+
+      <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
+          <a href="{% url 'procurement:detail_order' item.pk %}">
+            {{ item.orderNum }}
+          </a>
+      </td>
+
+      <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
+      <td>{{ item.progress.name }}</td>
+      <td>{{ item.orderStaff }}</td>
+      <td>{{ item.orderStaffDivision.name }}</td>
+
+      {% if registeredSupplier %}
+        {{ item.registeredSupplier.name }}
+      {% else %}
+        {{ item.irregularSupplier }}
+      {% endif %}
+
+      <td>{{ item.arrivalDate | date:"Y/m/d" }}</td>
+
+      <td>{{ item.amount1 }}</td>
+      <td>{{ item.amount2 }}</td>
+      <td>{{ item.amount3 }}</td>
+      <td>{{ item.totalAmount }}</td>
+      <td>{{ item.payment.name }}</td>
+      <td>{{ item.orderDescription }}</td>
+
+      <td>{{ item.acceptanceDate | date:"Y/m/d" }}</td>
+      <td>{{ item.acceptanceStaff }}</td>
+      <td>{{ item.acceptanceStaffDivision.name }}</td>
+
+      <td class="longText">{{ item.acceptanceMemo }}</td>
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+
+{% endblock content%}
+
+

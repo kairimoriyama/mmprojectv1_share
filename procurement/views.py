@@ -16,17 +16,27 @@ from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,Updat
 
 # Create your views here.
 
-    
-class Index(TemplateView):
-    template_name = 'procurement/index.html'
 
+class ListALL(ListView):
+    template_name = 'procurement/list_all.html'
+    model  = OrderRequest
+    fields = '__all__'
+    queryset = OrderRequest.objects.filter(deletedItem=False
+    ).order_by('-id').order_by('adminCheck__no')
 
+    def get_context_data(self, **kwargs):
+        context = super(ListALL, self).get_context_data(**kwargs)
+        context.update({
+            'object_list_Order': OrderInfo.objects.all(),
+        })
+        return context
 
 class ListRequest(ListView):
     template_name = 'procurement/list_request.html'
     model  = OrderRequest
     fields = '__all__'
-    queryset = OrderRequest.objects.filter(deletedItem=False).order_by('-id')
+    queryset = OrderRequest.objects.filter(deletedItem=False
+    ).order_by('-id').order_by('adminCheck__no')
     paginate_by = 22
 
 class ListOrder(ListView):
@@ -68,6 +78,8 @@ class DetailOrder(DetailView):
 class CreateRequest(CreateView):
     template_name = 'procurement/create_request.html'
     form_class = CreateFormRequest
+
+    print("test")
 
     def get_success_url(self):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})

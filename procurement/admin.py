@@ -85,7 +85,7 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             model = OrderRequest
             fields = ('id','requestNum', 'submissionDate',
             'requestStaffDivision', 'requestStaff',
-            'adminCheck', 'adminStaff',
+            'adminCheck', 'adminStaff', 'orderInfo',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
             'requestDescription', 'itemCategory1', 'itemCategory2', 
@@ -102,7 +102,7 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         class Meta:
             model = OrderInfo
             fields = ('id','orderNum', 'orderDate',
-            'orderRequest', 'progress', 'orderStaff',
+            'progress', 'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 

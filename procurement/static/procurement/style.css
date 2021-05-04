@@ -54,7 +54,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:2rem 1.5rem 1rem 1.5rem;
+    padding:2rem 1rem 1rem 1rem;
 }
 
 header nav li{
@@ -72,6 +72,12 @@ h1{
 h2{
     color: black;
     font-size: 1.8rem;
+}
+
+h3{
+    color: rgb(0, 51, 141);
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
 header ul{
@@ -102,8 +108,10 @@ button{
 
 .menu_wrapper{
     display: flex;
+    align-items: center;
+    align-content: center;
     justify-content: space-between;
-    margin: 1rem;
+    margin: 1rem 1rem 0.2rem 1rem;
 }
 .menu_wrapper_inner{
     display: flex;
@@ -132,6 +140,8 @@ button{
     line-height: 3rem;
     text-align: center;
     font-size: 1.4rem;
+    font-weight: bold;
+    color: rgb(0, 51, 141);
 }
 
 .menu_bt_mg_left{
@@ -150,6 +160,28 @@ button{
     width: 4rem;
 }
 
+/* 進捗に基づく色区分 */
+
+.row-white{
+    background-color: #fff;
+}
+
+.row-red{
+    background-color: rgb(216, 98, 141)
+}
+
+.row-gray{
+    background-color: rgb(216, 214, 214);
+}
+
+.row-yellow{
+    background-color: rgb(255, 255, 227);
+}
+
+.row-blue{
+    background-color: rgb(192, 222, 236);
+}
+
 
 /* list */
 
@@ -164,11 +196,14 @@ button{
 
 .item-table{
     display: block;
-    max-height: 90rem;
-    margin: 1rem;
+    max-height: 35rem;
+    margin: 0 1rem 0 1rem;
     border-width: 0;
     padding: 0;
     overflow: scroll;
+}
+.table_request, .table_order{
+    max-height: 50rem;
 }
 .item-table::-webkit-scrollbar {
     width: 1.5rem;
@@ -224,7 +259,7 @@ button{
     text-align: left;
     padding: 0.8rem;
 
-    max-width: 60rem; /* 列の幅の最大値 */
+    max-width: 20rem; /* 列の幅の最大値 */
     white-space: nowrap;
     font-size: 1.4rem
 }
@@ -263,6 +298,9 @@ button{
     text-align: center;
 }
 
+.item-table .number_col{
+    text-align: right;
+}
 
 /* list filter  */
 
@@ -279,9 +317,11 @@ button{
 }
 
 .item_dl .height_l{
-    height: 14rem;
+    height: 15rem;
 }
-
+.item_dl .height_m{
+    height: 10rem;
+}
 
 .item_dl_dummy_s,.item_dl_dummy_s2, .item_dl_dummy_l{
     display: none;
@@ -309,8 +349,7 @@ button{
     line-height: 2rem;
 }
 
-.item_dl_dummy_s  dt,.item_dl_dummy_s2 dt,
-.item_dl_dummy_l dt{
+.item_dl_dummy_s  dt,.item_dl_dummy_l dt{
     background-color: #fff;
 }
 
@@ -338,7 +377,6 @@ button{
 .item_dl .sentence_dd_scroll{
     padding: 0.7rem 1rem 0 1rem;
     word-wrap: pre-wrap;
-    white-space:pre-wrap;
     word-break: break-all;
     line-height: 1.8rem;
     overflow-y: scroll;
@@ -364,24 +402,7 @@ button{
 
 
 
-@media screen and (min-width: 500px) {
-    .item_dl .sentence_dt{
-        width: 10%;
-    }
-
-    .item_dl .sentence_dd{
-        width :90%;
-    }
-}
 @media screen and (min-width: 800px) {
-    .item_dl .sentence_dt{
-        width: 6.65%;
-    }
-    .item_dl .sentence_dd{
-        width : 93.35%;
-    }
-}
-@media screen and (min-width: 1200px) {
     .item_dl .sentence_dt{
         width: 10%;
     }
@@ -399,29 +420,32 @@ hr{
     border-color: #bfbfbf;
 }
 
+
+
 /* detail_request のレイアウト */
 
 
-.container{
+.container_detail{
     display: grid;
-    grid-template-rows: repeat(14, auto);
+    grid-template-rows: repeat(17, auto);
     grid-template-columns: 100%;
-    margin: 0 1rem;
+    margin: 1rem;
 }
 
 @media screen and (min-width: 500px) {
-    .container{
-        grid-template-rows: repeat(8, auto);
+    .container_detail{
+        grid-template-rows: repeat(9, auto);
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area1 area2"
         "area3 area4"
         "area5 area6"
         "area7 area8"
-        "area9 area9"
-        "area10 area10"
+        "area9 area18"
+        "area10 area17"
         "area11 area12"
-        "area13 area14"; 
+        "area13 area14"
+        "area15 area16"; 
     }
         
     .item1 {grid-area: area1;}
@@ -438,55 +462,36 @@ hr{
     .item12 {grid-area: area12;}
     .item13 {grid-area: area13;}
     .item14 {grid-area: area14;}
+    .item15 {grid-area: area15;}
+    .item16 {grid-area: area16;}
+    .item17 {grid-area: area17;}
+    .item18 {grid-area: area18;}
+
 }
 
 
 @media screen and (min-width: 800px) {
-    .container{
+    .container_detail{
         grid-template-rows: repeat(7, auto);
         grid-template-columns: 33.33% 33.33% 33.33%;
         grid-template-areas:
         "area1 area2 area3"
         "area4 area5 area6"
-        "area7 area8 dummy_s"
-        "area9 area9 area9"
-        "area10 area10 area10"
-        "area11 area12 dummy_s2"
-        "area13 area14 dummy_l"
-    }
-    
-    .item_dl_dummy_s{
-        grid-area: dummy_s;
-        display: flex;
-    }
-
-    .item_dl_dummy_s2{
-        grid-area: dummy_s2;
-        display: flex;
+        "area7 area8 area15"
+        "area9 area9 area18"
+        "area10 area10 area17"
+        "area11 area12 area16"
+        "area13 area14 dummy_l";
     }
 
     .item_dl_dummy_l{
+        grid-area: dummy_l;
          display: flex;
     }
+    
 }
 
 
-@media screen and (min-width: 1200px) {
-    .container{
-        grid-template-rows: repeat(4, auto);
-        grid-template-columns:25% 25% 25% 25%;
-        grid-template-areas:
-        "area1 area2 area3 area4"
-        "area5 area6 area7 area8"
-        "area9 area9 area11 area12"
-        "area10 area10 area13 area14"; 
-    }
-    .item_dl_dummy_s,
-    .item_dl_dummy_s2,
-    .item_dl_dummy_l{
-        display: none;
-    }
-}
 
 /* create_requestのレイアウト */
 
@@ -497,7 +502,6 @@ hr{
     margin: 0 1rem;
 }
 .container_create .item_dl_dummy_s,
-.container_create .item_dl_dummy_s2,
 .container_create .item_dl_dummy_l{
     display: none;
 }
@@ -513,10 +517,10 @@ hr{
         "area3 area4"
         "area5 area6"
         "area7 area8"
-        "area9 area9"
-        "area10 area10"
-        "area11 area12"
-        "area13 area14";
+        "area9 area11"
+        "area12 dummy_s"
+        "area10 area14"
+        "area13 dummy_l";
     }
 
     .container_create .item0 {grid-area: area0;}
@@ -534,7 +538,15 @@ hr{
     .container_create .item12 {grid-area: area12;}
     .container_create .item13 {grid-area: area13;}
     .container_create .item14 {grid-area: area14;}
-    
+
+    .container_create .item_dl_dummy_s{
+        display: flex;
+        grid-area: dummy_s;
+    }
+    .container_create .item_dl_dummy_l{
+        display: flex;
+        grid-area: dummy_l;
+    }
 }
 
 
@@ -546,21 +558,14 @@ hr{
         "area0 area0 area0"
         "area1 area2 area3"
         "area4 area5 area6"
-        "area7 area8 dummy_s"
-        "area9 area9 area9"
-        "area10 area10 area10"
-        "area11 area12 dummy_s2"
-        "area13 area14 dummy_l"; 
+        "area7 area8 area11"
+        "area9 area9 area12"
+        "area10 area10 area14"
+        "area13 area13 dummy_l"; 
     }
 
     .container_create .item_dl_dummy_s{
-        display: flex;
-        grid-area: dummy_s;
-    }
-
-    .container_create .item_dl_dummy_s2{
-        display: flex;
-        grid-area: dummy_s2;
+        display: none;
     }
 
     .container_create .item_dl_dummy_l{
@@ -569,21 +574,12 @@ hr{
     }
 }
 
-@media screen and (min-width: 800px) {
-    .container_create .item_dl .sentence_dt{
-        width: 6.65%;
-    }
-    .container_create .item_dl .sentence_dd{
-        width : 93.35%;
-    }
-}
 
-
-/* updateのレイアウト */
+/* update_requestのレイアウト */
 
 .container_update{
     display: grid;
-    grid-template-rows: repeat(19, auto);
+    grid-template-rows: repeat(18, auto);
     grid-template-columns: 100%;
     margin: 0 1rem;
 }
@@ -595,25 +591,19 @@ hr{
 @media screen and (min-width: 500px) {
     .container_update{
         display: grid;
-        grid-template-rows: repeat(13, auto);
+        grid-template-rows: repeat(10, auto);
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area0 area0"
         "area1 area2"
-        "area3 area13"
-        "area4 area5"
-        "area6 area7"
-        "area8 area8"
-        "area9 area9"
-
-        "area14 area15"
-        "area16 area16"
-        "area17 area17"
-
-        "area10 area11"
-        "area12 dummy_l"
-
-        "area18 dummy_s"
+        "area3 area4"
+        "area5 area6"
+        "area7 area8"
+        "area9 area18"
+        "area10 area17"
+        "area11 area12"
+        "area13 area14"
+        "area15 area16";
     }
 
     .container_update .item0 {grid-area: area0;}
@@ -635,57 +625,105 @@ hr{
     .container_update .item16 {grid-area: area16;}
     .container_update .item17 {grid-area: area17;}
     .container_update .item18 {grid-area: area18;}
-    
-    .container_update .item_dl_dummy_s{
-        display: flex;
-        grid-area: dummy_s;
-    }
-
-    .container_update .item_dl_dummy_l{
-        display: flex;
-        grid-area: dummy_l;
-    }
 }
 
 
 @media screen and (min-width: 800px) {
     .container_update{
-        grid-template-rows: repeat(10, auto);
+        grid-template-rows: repeat(9, auto);
         grid-template-columns: 33.33% 33.33% 33.33%;
         grid-template-areas:
         "area0 area0 area0"
-        "area1 area2 area13"
-        "area4 area3 area5"
-        "area6 area7 dummy_s"
-        "area8 area8 area8"
-        "area9 area9 area9"
+        "area1 area2 area3"
+        "area4 area5 area6"
+        "area7 area8 area11"
+        "area9 area9 area12"
+        "area10 area10 area17"
+        "area13 area14 area15"
+        "area13 area14 area18"
+        "area13 area14 area16"; 
+    }
+}
 
-        "area16 area16 area16"
-        "area17 area17 area17"
 
-        "area14 area15 area18"
-        "area10 area11 area12"; 
+
+
+/* create_orderのレイアウト */
+
+.container_create_order{
+    display: grid;
+    grid-template-rows: repeat(17, auto);
+    grid-template-columns: 100%;
+    margin: 0 1rem;
+}
+.container_create_order .item_dl_dummy_s,
+.container_create_order .item_dl_dummy_l{
+    display: none;
+}
+
+@media screen and (min-width: 500px) {
+    .container_create_order{
+        display: grid;
+        grid-template-rows: repeat(10, auto);
+        grid-template-columns: 50% 50%;
+        grid-template-areas:
+        "area0 area0"
+        "area1 area4"
+        "area2 area5"
+        "area3 area6"
+        "area7 area8"
+        "area10 dummy_s"
+        "area9 area11"
+        "area12 area15"
+        "area13 area15"
+        "area14 area15";
     }
 
-    .container_update .item_dl_dummy_s{
+    .container_create_order .item0 {grid-area: area0;}
+    .container_create_order .item1 {grid-area: area1;}
+    .container_create_order .item2 {grid-area: area2;}
+    .container_create_order .item3 {grid-area: area3;}
+    .container_create_order .item4 {grid-area: area4;}
+    .container_create_order .item5 {grid-area: area5;}
+    .container_create_order .item6 {grid-area: area6;}
+    .container_create_order .item7 {grid-area: area7;}
+    .container_create_order .item8 {grid-area: area8;}
+    .container_create_order .item9 {grid-area: area9;}
+    .container_create_order .item10 {grid-area: area10;}
+    .container_create_order .item11 {grid-area: area11;}
+    .container_create_order .item12 {grid-area: area12;}
+    .container_create_order .item13 {grid-area: area13;}
+    .container_create_order .item14 {grid-area: area14;}
+    .container_create_order .item15 {grid-area: area15;}
+
+    .container_create_order .item_dl_dummy_s{
         display: flex;
         grid-area: dummy_s;
-    }
-
-    .container_update .item_dl_dummy_l{
-        display: none;
     }
 }
 
 
 @media screen and (min-width: 800px) {
-    .container_update .item_dl .sentence_dt{
-        width: 6.65%;
+    .container_create_order{
+        grid-template-rows: repeat(8, auto);
+        grid-template-columns: 33.33% 33.33% 33.33%;
+        grid-template-areas:
+        "area0 area0 area0"
+        "area1 area2 area3"
+        "area4 area5 area6"
+        "area7 area8 area10"
+        "area9 area11 area11"
+        "area12 area15 area15"
+        "area13 area15 area15"
+        "area14 area15 area15"; 
     }
-    .container_update .item_dl .sentence_dd{
-        width : 93.35%;
+
+    .container_create_order .item_dl_dummy_s,
+    .container_create_order .item_dl_dummy_l{
+        display: none;
     }
 }
+
 
 /* detail */
 
@@ -770,28 +808,34 @@ hr{
     display: block;
     resize: none;
     width: 100%;
-    height: 12rem;
     border:solid 0.1rem #bfbfbf;
     font-size: 1.4rem;
     padding: 0.5rem;
 }
 
-
-/* 複数アイテムdd select*/
-.multiple_items_select dd{
-    display: block;
-    flex-wrap: wrap;
-    align-content: center;
-    padding-top: 1.2rem;
+.item_dl .height_l textarea{
+    height: 12rem;
 }
-.multiple_items_select dd select{
-    margin-bottom: 1.2rem;
+.item_dl .height_m textarea{
+    height: 8rem;
 }
 
 
-/* 複数アイテムdd URL */
+/* 複数アイテムdd child*/
+.multiple_items_child{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    line-height: 2.4rem;
+    width: 100%;
+}
+.multiple_items_child p{
+    padding-right: 0.5rem;
+}
 
-.multiple_items_URL dd{
+/* 複数アイテムdd */
+
+.multiple_items dd{
     display: flex;
     flex-wrap: wrap;
     overflow-x: scroll;
@@ -800,13 +844,14 @@ hr{
     padding-top: 1.2rem;
 }
 
-.multiple_items_URL dd input[type="url"]{
-    width: 50rem;
+.multiple_items dd input[type="url"]{
+    width: 72rem;
     margin-right: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
-.multiple_items_URL dd::-webkit-scrollbar {
+.multiple_items dd::-webkit-scrollbar {
     width: 1rem;
     height: 1rem;
     overflow:hidden;
@@ -814,6 +859,26 @@ hr{
     border-radius:0.5rem;
 }
 
+/* 複数アイテムdd select*/
+.multiple_items_select dd{
+    display: block;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    padding-top: 1.2rem;
+}
+.multiple_items_select dd select{
+    margin-bottom: 1.2rem;
+}
+
+/* 複数アイテム dd input number 金額 */
+
+.multiple_items dd input[type="number"]{
+    width: 14rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
 
 /* updateのdl内*/
 

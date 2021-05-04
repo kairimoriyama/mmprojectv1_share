@@ -3,7 +3,7 @@
 
 {% block header %}
   <li>
-    <a href="{% url 'procurement:list_request' %}"><p>発注依頼管理へ戻る</p></a>
+    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
   </li>
 {% endblock header %}
 
@@ -22,7 +22,7 @@
 
 </div>
 
-<div class="container">
+<div class="container_detail">
   <dl class="item_dl item1">
     <dt>依頼番号</dt>
     <dd class="itemNum">
@@ -32,7 +32,7 @@
 
   <dl class="item_dl item2">
     <dt>依頼日</dt>
-    <dd class="item_submissionDate" id="submissionDateInit">{{ object.submissionDate }}</dd>
+    <dd class="item_submissionDate" id="submissionDateInit">{{ object.submissionDate| date:"Y/m/d" }}</dd>
   </dl>
     
   <dl class="item_dl item3">
@@ -71,8 +71,10 @@
   </dl>
 
   <dl class="item_dl item10">
-    <dt class="height_l sentence_dt">個別発注<br>詳細</dt>
-    <dd class="height_l sentence_dd">{{ object.requestDescription}}</dd>
+    <dt class="height_m sentence_dt">目的・依頼内容</dt>
+    <dd class="height_m sentence_dd sentence_dd_scroll">
+      {{ object.requestDescription}}
+    </dd>
   </dl>
 
   <dl class="item_dl item11">
@@ -81,32 +83,103 @@
   </dl>
 
   <dl class="item_dl item12">
-    <dt>見込<br>税込額</dt>
+    <dt>税込総額</dt>
     <dd>{{ object.estimatedAmount|intcomma }}円</dd>
   </dl>
 
-  <dl class="item_dl item13 multiple_items_URL">
-    <dt class="height_l">URL</dt>
-    <dd class="height_l">
-      <div>{{ object.refURL1 }}</div>
-      <div>{{ object.refURL2 }}</div>
-      <div>{{ object.refURL3 }}</div>
+  <dl class="item_dl item13 multiple_items">
+    <dt class="height_m">URL</dt>
+    <dd class="height_m">
+
+      {% if not object.refURL1 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL1：</p>
+        <a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a>
+      </div>
+      {% endif %}
+
+      {% if not object.refURL2 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL2：</p>
+        <a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a>
+      </div>
+      {% endif %}
+
+      {% if not object.refURL3 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL3：</p>
+        <a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a>
+      </div>
+      {% endif %}
+
     </dd>
   </dl>
 
-  <dl class="item_dl item14 multiple_items_select">
-    <dt class="height_l">費用負担</dt>
-    <dd class="height_l">
-      <div>{{ object.costCenter1 }}</div>
-      <div>{{ object.costCenter2 }}</div>
-      <div>{{ object.costCenter3 }}</div>
+  <dl class="item_dl item14 multiple_items">
+    <dt class="height_m">費用負担</dt>
+    <dd class="height_m">
+      {% if not object.costCenter1 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>1：</p>{{ object.costCenter1 }}
+      </div>
+      {% endif %}
+
+      {% if not object.costCenter2 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>2：</p>{{ object.costCenter2 }}
+      </div>
+      {% endif %}
+
+      {% if not object.refURL3 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>3：</p>{{ object.costCenter3 }}
+      </div>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item15">
+    <dt>進捗</dt>
+    <dd>{{ object.adminCheck }}</dd>
+  </dl>
+
+  <dl class="item_dl item18">
+    <dt>発注番号</dt>
+    <dd>
+      {% if object.orderNum %}
+        {{ object.orderNum }}
+      {% else %}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item16">
+    <dt>管理者</dt>
+    <dd>
+      {% if object.adminStaff %}
+        {{ object.adminStaff }}
+      {% else %}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt class="height_m">管理<br>メモ</dt>
+    <dd class="height_m sentence_dd_scroll">
+      {% if not object.adminDescription %}
+      {% else %}
+        {{ object.adminDescription }}
+      {% endif %}
     </dd>
   </dl>
 
   <dl class="item_dl item_dl_dummy_s">
-    <dt></dt> <dd></dd>
-  </dl>
-  <dl class="item_dl item_dl_dummy_s2">
     <dt></dt> <dd></dd>
   </dl>
 
@@ -114,5 +187,6 @@
     <dt></dt> <dd></dd>
   </dl>
 </div>
+<hr>
 {% endblock content%}
 

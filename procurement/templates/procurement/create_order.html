@@ -1,0 +1,116 @@
+{% extends 'procurement/base.html' %}
+
+{% block header %}
+
+  <li>
+    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
+  </li>
+  
+{% endblock header %}
+
+{% block content %}
+
+<form class="container_create_order" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+  <div class="menu_wrapper_inner item0">
+    <input class="menu_bt" type="submit" value='入力完了'>
+  </div>
+
+  <dl class="item_dl item1">
+    <dt>発注番号</dt>
+    <dd class="itemNum">
+      {{ form.orderNum}}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>発注日</dt>
+    <dd>{{ form.orderDate }}</dd>
+  </dl>
+    
+  <dl class="item_dl item3">
+    <dt>進捗</dt>
+    <dd>{{ form.progress}}</dd>
+  </dl>
+
+  <dl class="item_dl item4">
+    <dt>発注者</dt>
+    <dd>{{ form.orderStaff}}</dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>発注者所属</dt>
+    <dd>{{ form.orderStaffDivision}}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>到着予定日</dt>
+    <dd>{{ form.arrivalDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>登録発注先</dt>
+    <dd>{{ form.registeredSupplier}}</dd>
+  </dl>
+
+  <dl class="item_dl item8">
+    <dt>個別発注先</dt>
+    <dd>{{ form.irregularSupplier}}</dd>
+  </dl>
+
+  <dl class="item_dl item9 multiple_items">
+    <dt class="height_l">金額</dt>
+    <dd class="height_l dd_amount">
+      <div><p>税率10%</p>{{ form.amount1}}</div>
+      <div><p>税率9%</p>{{ form.amount2}}</div>
+      <div><p>非課税</p>{{ form.amount3}}</div>
+      <div><p>合計金額</p>{{ form.totlaAmount}}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item10">
+    <dt>支払方法</dt>
+    <dd>{{ form.payment}}</dd>
+  </dl>
+
+  <dl class="item_dl item11">
+    <dt class="height_l sentence_dt">発注者備考</dt>
+    <dd class="height_l sentence_dd">{{ form.orderDescription}}</dd>
+  </dl>
+
+  <dl class="item_dl item12">
+    <dt>検収日</dt>
+    <dd>{{ form.acceptanceDate}}</dd>
+  </dl>
+
+  <dl class="item_dl item13">
+    <dt>検収者</dt>
+    <dd>{{ form.acceptanceStaff }}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>検収者所属</dt>
+    <dd>{{ form.acceptanceStaffDivision }}</dd>
+  </dl>
+
+  <dl class="item_dl item15">
+    <dt class="height_l sentence_dt">検収メモ</dt>
+    <dd class="height_l sentence_dd">{{ form.acceptanceMemo }}</dd>
+  </dl>
+
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt> <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_l height_l">
+    <dt></dt> <dd></dd>
+  </dl>
+  
+</form>
+<hr>
+
+
+
+{% endblock content%}
+
