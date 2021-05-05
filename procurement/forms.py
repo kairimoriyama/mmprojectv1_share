@@ -110,17 +110,14 @@ class CreateFormOrder(ModelForm):
 
     class Meta:
         model = OrderInfo
-        fields = ('id','orderNum', 'orderDate',
+        fields = ('orderNum', 'orderDate',
             'progress', 'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totalAmount', 'payment', 'orderDescription', 
-            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
-            'acceptanceMemo','deletedItem'
+            'totalAmount', 'payment', 'orderDescription',
             )
-        widgets = {'orderDate': DateInput(), 
-            'acceptanceDate': DateInput()}
+        widgets = {'orderDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
         super(CreateFormOrder, self).__init__(*args, **kwargs)
@@ -141,7 +138,8 @@ class CreateFormOrder(ModelForm):
 
 
         # 初期値・入力規則
-        self.fields['orderNum'].widget.attrs['readonly'] = 'readonly'
+        self.fields['orderNum'].widget.attrs['readonly'] = True
+        self.fields['progress'].widget.attrs['readonly'] = True
 
         # プレースホルダ
 
@@ -180,7 +178,8 @@ class UpdateFormOrder(ModelForm):
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo','deletedItem'
             )
-        widgets = {'orderDate': DateInput(), 
+        widgets = {'orderDate': DateInput(),
+            'arrivalDate': DateInput(),
             'acceptanceDate': DateInput()}
 
 

@@ -13,16 +13,18 @@
 
 
 <div class="menu_wrapper">
-  <div><h3>発注依頼</h3></div>
+  <div><h3>発注依頼（事業部処理）</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}">発注依頼</a>
+    <a class="menu_bt menu_bt_mg_left row-blue">検収実行</a>
   </div>
 </div>
 
 <table class="item-table">
 
 	<tr>
-		<th class="sticky_col_th">依頼番号</th>
+		<th class="sticky_col_th first_col">選択</th>
+		<th class="sticky_col_th second_col">依頼番号</th>
     <th>依頼日</th>
     <th>進捗</th>
     <th>発注番号</th>
@@ -53,16 +55,20 @@
     {%  elif item.adminCheck.no == 4 %}
       <tr class="row-blue">
     {%  elif item.adminCheck.no == 5 %}
-      <tr class="row-gray">
+      <tr class="row-green">
     {%  elif item.adminCheck.no == 6 %}
       <tr class="row-gray">
     {% endif %}
 
-      <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
+      <td class="sticky_col_td first_col">
+        <input type="checkbox" name="" value="">
+      </td>
+
+      <td class="sticky_col_td second_col">
         <a href="{% url 'procurement:detail_request' item.pk %}">
           {{ item.requestNum }}
         </a>
-      </td>      
+      </td>
      
       <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
       <td>{{ item.adminCheck.name }}</td>
@@ -103,9 +109,10 @@
 
 
 <div class="menu_wrapper">
-  <div><h3>発注</h3></div>
+  <div><h3>発注（原則として総務処理）</h3></div>
   <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注登録</a>
+    <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
+    <a class="menu_bt menu_bt_mg_left row-yellow">発注報告</a>
   </div>
 </div>
 
@@ -113,7 +120,8 @@
 <table class="item-table table_order">
 
 	<tr>
-		<th class="sticky_col_th">発注番号</th>
+		<th class="sticky_col_th first_col">選択</th>
+		<th class="sticky_col_th second_col">発注番号</th>
     <th>発注日</th>
     <th>進捗状況</th>
     <th>発注者</th>
@@ -140,13 +148,19 @@
     {%  elif item.progress.no == 2 %}
       <tr class="row-blue">
     {%  elif item.progress.no == 3 %}
-      <tr class="row-gray">
+      <tr class="row-green">
+    {%  elif item.progress.no == 4 %}
+    <tr class="row-gray">
     {% endif %}
 
-      <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
-          <a href="{% url 'procurement:detail_order' item.pk %}">
-            {{ item.orderNum }}
-          </a>
+      <td class="sticky_col_td first_col">
+        <input type="checkbox" name="" value="">
+      </td>
+
+      <td class="sticky_col_td second_col">
+        <a href="{% url 'procurement:detail_order' item.pk %}">
+          {{ item.orderNum }}
+        </a>
       </td>
      
       <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>

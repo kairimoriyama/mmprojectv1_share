@@ -104,6 +104,8 @@ button{
     background-color: #fff;
 }
 
+
+
 /* menu ボタンのwrapper */
 
 .menu_wrapper{
@@ -182,6 +184,9 @@ button{
     background-color: rgb(192, 222, 236);
 }
 
+.row-green{
+    background-color: rgb(177, 219, 177);
+}
 
 /* list */
 
@@ -223,8 +228,6 @@ button{
     border-radius:0.5rem;
 }
 
-
-
 /* 見出し行の書式 */
 .item-table th{
     border-style: solid;
@@ -246,10 +249,10 @@ button{
     /* 横スクロール時に固定 */
     position: -webkit-sticky;
     position: sticky;
-    left: 0;
     /* ヘッダー行内の他のセルより手前に表示 */
     z-index: 2;
 }
+
 
 .item-table td{
     border-style: solid;
@@ -267,10 +270,19 @@ button{
     /* 横スクロール時に固定 */
     position: -webkit-sticky;
     position: sticky;
-    left: 0;
     /* ヘッダー行内の他のセルより手前に表示 */
     background-color: #fff;
+    border-color:#bfbfbf;
 }
+
+
+.first_col{
+    left: -0.1rem;
+}
+.second_col {
+    left: 4.3rem;
+}
+
 
 .sticky_col_td a{
     text-decoration: none;
@@ -301,6 +313,7 @@ button{
 .item-table .number_col{
     text-align: right;
 }
+
 
 /* list filter  */
 
@@ -422,6 +435,7 @@ hr{
 
 
 
+
 /* detail_request のレイアウト */
 
 
@@ -429,7 +443,7 @@ hr{
     display: grid;
     grid-template-rows: repeat(17, auto);
     grid-template-columns: 100%;
-    margin: 1rem;
+    margin: 1rem 1rem 0 1rem;
 }
 
 @media screen and (min-width: 500px) {
@@ -647,6 +661,83 @@ hr{
 
 
 
+/* detail_orderのレイアウト */
+
+.container_detail_order{
+    display: grid;
+    grid-template-rows: repeat(17, auto);
+    grid-template-columns: 100%;
+    margin: 1rem 1rem 0 1rem;
+}
+.container_detail_order .item_dl_dummy_s,
+.container_detail_order .item_dl_dummy_l{
+    display: none;
+}
+
+@media screen and (min-width: 500px) {
+    .container_detail_order{
+        display: grid;
+        grid-template-rows: repeat(10, auto);
+        grid-template-columns: 50% 50%;
+        grid-template-areas:
+        "area0 area0"
+        "area1 area4"
+        "area2 area5"
+        "area3 area6"
+        "area7 area8"
+        "area10 dummy_s"
+        "area9 area11"
+        "area12 area15"
+        "area13 area15"
+        "area14 area15";
+    }
+
+    .container_detail_order .item0 {grid-area: area0;}
+    .container_detail_order .item1 {grid-area: area1;}
+    .container_detail_order .item2 {grid-area: area2;}
+    .container_detail_order .item3 {grid-area: area3;}
+    .container_detail_order .item4 {grid-area: area4;}
+    .container_detail_order .item5 {grid-area: area5;}
+    .container_detail_order .item6 {grid-area: area6;}
+    .container_detail_order .item7 {grid-area: area7;}
+    .container_detail_order .item8 {grid-area: area8;}
+    .container_detail_order .item9 {grid-area: area9;}
+    .container_detail_order .item10 {grid-area: area10;}
+    .container_detail_order .item11 {grid-area: area11;}
+    .container_detail_order .item12 {grid-area: area12;}
+    .container_detail_order .item13 {grid-area: area13;}
+    .container_detail_order .item14 {grid-area: area14;}
+    .container_detail_order .item15 {grid-area: area15;}
+
+    .container_detail_order .item_dl_dummy_s{
+        display: flex;
+        grid-area: dummy_s;
+    }
+}
+
+
+@media screen and (min-width: 800px) {
+    .container_detail_order{
+        grid-template-rows: repeat(8, auto);
+        grid-template-columns: 33.33% 33.33% 33.33%;
+        grid-template-areas:
+        "area0 area0 area0"
+        "area1 area2 area3"
+        "area4 area5 area6"
+        "area7 area8 area10"
+        "area9 area11 area11"
+        "area12 area15 area15"
+        "area13 area15 area15"
+        "area14 area15 area15"; 
+    }
+
+    .container_detail_order .item_dl_dummy_s,
+    .container_detail_order .item_dl_dummy_l{
+        display: none;
+    }
+}
+
+
 
 /* create_orderのレイアウト */
 
@@ -725,6 +816,16 @@ hr{
 }
 
 
+/* 金額入力欄 */
+
+.dd_amount div{
+    display: block;
+    width: 10rem;
+    margin: 1rem 0;
+    text-align: right;
+    line-height: 2.2rem;
+}
+
 /* detail */
 
 .detail_nav{
@@ -785,6 +886,10 @@ hr{
 .itemNum_hidden{
     display: none;
 }
+.readonly select{
+    pointer-events: none; 
+}
+
 
 /* submissionDate 非表示 */
 

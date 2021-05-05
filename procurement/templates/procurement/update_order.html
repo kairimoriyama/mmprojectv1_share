@@ -3,18 +3,27 @@
 {% block header %}
 
   <li>
-    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
+    <a href="{% url 'procurement:detail_order' object.pk %}"><p>戻る</p></a>
   </li>
   
 {% endblock header %}
 
 {% block content %}
 
-<form class="container_create_order" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<form class="container_create_order" action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
-    <input class="menu_bt" type="submit" value='入力完了'>
+    <div>
+      <input class="menu_bt" type="submit" value='更新実行'>
+    </div>
+    
+    <div class="delete_bt">
+      <div>削除</div>
+      {{ form.deletedItem}}
+    </div>
   </div>
+
 
   <dl class="item_dl item1">
     <dt>発注番号</dt>
@@ -25,12 +34,12 @@
 
   <dl class="item_dl item2">
     <dt>発注日</dt>
-    <dd>{{ form.orderDate  }}</dd>
+    <dd>{{ object.orderDate | date:"Y/m/d"  }}</dd>
   </dl>
     
   <dl class="item_dl item3">
     <dt>進捗</dt>
-    <dd class="readonly">{{ form.progress}}</dd>
+    <dd>{{ form.progress}}</dd>
   </dl>
 
   <dl class="item_dl item4">
@@ -44,7 +53,7 @@
   </dl>
 
   <dl class="item_dl item6">
-    <dt>到着日<br>（予定）</dt>
+    <dt>到着予定日</dt>
     <dd>{{ form.arrivalDate }}</dd>
   </dl>
 
@@ -81,22 +90,22 @@
 
   <dl class="item_dl item12">
     <dt>検収日</dt>
-    <dd>-</dd>
+    <dd>{{ form.acceptanceDate}}</dd>
   </dl>
 
   <dl class="item_dl item13">
     <dt>検収者</dt>
-    <dd>-</dd>
+    <dd>{{ form.acceptanceStaff }}</dd>
   </dl>
 
   <dl class="item_dl item14">
     <dt>検収者所属</dt>
-    <dd>-</dd>
+    <dd>{{ form.acceptanceStaffDivision }}</dd>
   </dl>
 
   <dl class="item_dl item15">
     <dt class="height_l sentence_dt">検収メモ</dt>
-    <dd class="height_l sentence_dd">-</dd>
+    <dd class="height_l sentence_dd">{{ form.acceptanceMemo }}</dd>
   </dl>
 
 
