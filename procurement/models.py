@@ -117,7 +117,7 @@ class OrderInfo(models.Model):
     orderNum =  models.IntegerField(blank=False,null=False)
     orderDate = models.DateField(default=timezone.now, blank=True)
     
-    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck')    
+    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck',default=1)    
     orderStaff = models.CharField(max_length=20,blank=True,null=True)
     orderStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderInfo_orderStafDividion',blank=True,null=True) 
 
@@ -129,10 +129,10 @@ class OrderInfo(models.Model):
     amount2 = models.IntegerField(blank=True,null=True)
     amount3 = models.IntegerField(blank=True,null=True)
     totalAmount = models.IntegerField(blank=True,null=True)
-    payment = models.ForeignKey(Payment,on_delete=models.PROTECT, related_name ='orderInfo_payment')    
+    payment = models.ForeignKey(Payment,on_delete=models.PROTECT, related_name ='orderInfo_payment',blank=True,null=True)    
     orderDescription = models.TextField(max_length=50,blank=True,null=True)
 
-    acceptanceDate = models.DateField(default=timezone.now, blank=True)
+    acceptanceDate = models.DateField(blank=True,null=True)
     acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
     acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)

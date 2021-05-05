@@ -22,7 +22,7 @@
 
 </div>
 
-<div class="container_detail">
+<div class="container_detail_order">
 
   <dl class="item_dl item1">
     <dt>発注番号</dt>
@@ -33,7 +33,7 @@
 
   <dl class="item_dl item2">
     <dt>発注日</dt>
-    <dd>{{ object.orderDate }}</dd>
+    <dd>{{ object.orderDate | date:"Y/m/d" }}</dd>
   </dl>
     
   <dl class="item_dl item3">
@@ -53,7 +53,7 @@
 
   <dl class="item_dl item6">
     <dt>到着予定日</dt>
-    <dd>{{ object.arrivalDate }}</dd>
+    <dd>{{ object.arrivalDate | date:"Y/m/d"}}</dd>
   </dl>
 
   <dl class="item_dl item7">
@@ -63,16 +63,20 @@
 
   <dl class="item_dl item8">
     <dt>個別発注先</dt>
-    <dd>{{ object.irregularSupplier}}</dd>
+    <dd>
+      {% if object.irregularSupplier %}
+        {{ object.irregularSupplier}}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item9 multiple_items">
     <dt class="height_l">金額</dt>
     <dd class="height_l dd_amount">
-      <div><p>税率10%</p>{{ object.amount1}}</div>
-      <div><p>税率9%</p>{{ object.amount2}}</div>
-      <div><p>非課税</p>{{ object.amount3}}</div>
-      <div><p>合計金額</p>{{ object.totalAmount}}</div>
+      <div><p>税率10%</p>{{ object.amount1|intcomma}}円</div>
+      <div><p>税率9%</p>{{ object.amount2|intcomma}}円</div>
+      <div><p>非課税</p>{{ object.amount3|intcomma}}円</div>
+      <div><p>合計金額</p>{{ object.totalAmount|intcomma}}円</div>
     </dd>
   </dl>
 
@@ -83,27 +87,47 @@
 
   <dl class="item_dl item11">
     <dt class="height_l sentence_dt">発注者備考</dt>
-    <dd class="height_l sentence_dd">{{ object.orderDescription}}</dd>
+    <dd class="height_l sentence_dd">
+      {% if object.orderDescription %}
+      {{ object.orderDescription}}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item12">
     <dt>検収日</dt>
-    <dd>{{ object.acceptanceDate}}</dd>
+    <dd>      
+      {% if object.acceptanceDate %}
+      {{ object.acceptanceDate | date:"Y/m/d" }}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item13">
     <dt>検収者</dt>
-    <dd>{{ object.acceptanceStaff }}</dd>
+    <dd>
+      {% if object.acceptanceStaff %}
+      {{ object.acceptanceStaff }}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item14">
     <dt>検収者所属</dt>
-    <dd>{{ object.acceptanceStaffDivision }}</dd>
+    <dd>
+      {% if object.acceptanceStaffDivision %}
+      {{ object.acceptanceStaffDivision.name }}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item15">
     <dt class="height_l sentence_dt">検収メモ</dt>
-    <dd class="height_l sentence_dd">{{ object.acceptanceMemo }}</dd>
+    <dd class="height_l sentence_dd">
+      {% if object.acceptanceMemo %}
+      {{ object.acceptanceMemo }}
+      {% endif %}
+    </dd>
   </dl>
 
 

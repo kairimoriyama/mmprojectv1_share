@@ -63,17 +63,19 @@
   {% for item in object_list %}
 
   <!-- 進捗状況に応じた色の設定 -->
-    {% if item.adminCheck.no == 1 %}
-    <tr class="row-white">
-    {%  elif item.adminCheck.no == 2 %}
-      <tr class="row-yellow">
-    {%  elif item.adminCheck.no == 0 %}
-      <tr class="row-red">
-    {%  elif item.adminCheck.no == 4 %}
-      <tr class="row-blue">
-    {%  elif item.adminCheck.no == 5 %}
-      <tr>
-    {% endif %}
+  {% if item.adminCheck.no == 1 %}
+  <tr class="row-white">
+  {%  elif item.adminCheck.no == 2 %}
+    <tr class="row-yellow">
+  {%  elif item.adminCheck.no == 0 %}
+    <tr class="row-red">
+  {%  elif item.adminCheck.no == 4 %}
+    <tr class="row-blue">
+  {%  elif item.adminCheck.no == 5 %}
+    <tr class="row-green">
+  {%  elif item.adminCheck.no == 6 %}
+    <tr class="row-gray">
+  {% endif %}
 
       <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()">
         <a href="{% url 'procurement:detail_request' item.pk %}">
