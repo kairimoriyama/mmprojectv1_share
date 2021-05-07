@@ -52,7 +52,6 @@ def item_export(request):
         item.submissionDate,item.progress,item.staff,item.division,
         item.category,item.purchase,item.system,item.title,item.description,
         item.refURL1,item.refURL2,item.refURL3,
-        item.picture1,item.picture2,item.picture3,item.picture4,item.picture5,item.picture6,
         item.refFile1,item.refFile2,item.refFile3,
         item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,
         item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])

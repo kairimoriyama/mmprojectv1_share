@@ -29,10 +29,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Image(models.Model):
-    picture = ProcessedImageField(upload_to='images/%Y/%m/%d',
-    processors=[ResizeToFill(1280, 1024)],
-    format='JPEG')
 
 
 class ItemManager(models.Manager):
@@ -91,31 +87,19 @@ class Item(models.Model):
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
     refURL3 = models.URLField(max_length=300, blank=True,null=True)
 
-    picture1 = models.ForeignKey(Image,on_delete=models.PROTECT,
-        related_name ='item_image1', blank=True,null=True) 
-    picture2 = models.ForeignKey(Image,on_delete=models.PROTECT,
-        related_name ='item_image2', blank=True,null=True) 
-    picture3 = models.ForeignKey(Image,on_delete=models.PROTECT,
-        related_name ='item_image3', blank=True,null=True) 
-    picture4 = models.ForeignKey(Image,on_delete=models.PROTECT,
-        related_name ='item_image4', blank=True,null=True) 
-    picture5 = models.ForeignKey(Image,on_delete=models.PROTECT,
-        related_name ='item_image5', blank=True,null=True) 
-    picture6 = models.ForeignKey(Image,on_delete=models.PROTECT,
-        related_name ='item_image6', blank=True,null=True) 
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
     discussionDate = models.DateField(blank=True,null=True)
-    discussionNote = models.TextField(max_length=2500, blank=True)
-    report = models.TextField(max_length=2500, blank=True)
-    inchargeDivision = models.CharField(max_length=50,blank=True)
-    inchargeStaff = models.CharField(max_length=50,blank=True)
+    discussionNote = models.TextField(max_length=2500, blank=True,null=True)
+    report = models.TextField(max_length=2500, blank=True,null=True)
+    inchargeDivision = models.CharField(max_length=50,blank=True,null=True)
+    inchargeStaff = models.CharField(max_length=50,blank=True,null=True)
     completionDate = models.DateField(blank=True,null=True)
     dueDate = models.DateField(blank=True,null=True)
-    adminMemo = models.CharField(max_length=100,blank=True)
+    adminMemo = models.CharField(max_length=100,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)
  
     # all_list due_list --> ListViewで抽出
@@ -190,3 +174,18 @@ class Item(models.Model):
             ).item_due(
             ).filter(dueDate__gt=self.dueDate
             ).order_by('itemNum').first()
+
+
+
+class Image(models.Model):
+    picture = ProcessedImageField(upload_to='images/%Y/%m/%d',
+        processors=[ResizeToFill(1280, 1024)],
+        format='JPEG')
+    item = models.ForeignKey(Item,
+        blank=True, null=True, on_delete=models.SET_NULL,
+        related_name ='image_picture')
+
+    def __str__(self):
+        return self.item.title
+
+

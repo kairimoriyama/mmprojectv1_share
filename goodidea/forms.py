@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
-from .models import Item, Progress, Division, Category
+from .models import Item, Progress, Division, Category, Image
 from django.forms import ModelForm, inlineformset_factory 
 
 
@@ -36,12 +36,28 @@ class DivisionSelectForm(ModelForm):
         fields = '__all__'
 
 
+class ImageUploadForm(ModelForm):
+
+    class Meta:
+        model = UploadedImage
+        fields= '__all__'
+
+ImageFormset = inlineformset_factory(
+    parent_model=Item,
+    model=Image,
+    fields='__all__',
+    form=ImageUploadForm,
+    extra=6
+)
+
 
 class ItemCreateFromIdea(ModelForm):
 
+    formset_class = ImageFormset
+
     class Meta:
         model  = Item
-        fields = ('itemNum','ideaNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
+        fields = ('itemNum','ideaNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
         widgets = {'submissionDate': DateInput()}
 
     def __init__(self, *args, **kwargs):
@@ -93,9 +109,11 @@ class ItemCreateFromIdea(ModelForm):
 
 class ItemCreateFromAction(ModelForm):
 
+    formset_class = ImageFormset
+
     class Meta:
         model  = Item
-        fields = ('itemNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff', 'completionDate' )
+        fields = ('itemNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff', 'completionDate' )
         widgets = {'submissionDate': DateInput(), 'completionDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
@@ -151,9 +169,11 @@ class ItemCreateFromAction(ModelForm):
 
 class ItemUpdateFrom(ModelForm):
 
+    formset_class = ImageFormset
+
     class Meta:
         model  = Item
-        fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
+        fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
 
         widgets = { 'discussionDate': DateInput(), 'completionDate': DateInput(), 'dueDate': DateInput()}
     
