@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'django_ses',
+    'imagekit'
 ]
 
 # デバッグモードを有効にするかどうか(本番運用では必ずFalseにする)
