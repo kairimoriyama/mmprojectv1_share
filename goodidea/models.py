@@ -29,7 +29,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
+class Image(models.Model):
+    picture = ProcessedImageField(upload_to='images/%Y/%m/%d',
+    processors=[ResizeToFill(1280, 1024)],
+    format='JPEG')
 
 
 class ItemManager(models.Manager):
@@ -63,41 +66,43 @@ class ItemQuerySet(models.QuerySet):
         return self.filter(system__exact=True)  
 
 class Item(models.Model):
-    itemNum =  models.IntegerField(blank=True,null=True)
-    ideaNum = models.IntegerField(blank=True,null=True, default=0)
-    actionNum = models.IntegerField(blank=True,null=True, default=0)
-    submissionDate = models.DateField(default=timezone.now, blank=True)
-    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='item_progress')
-    division = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='item_dividion')     
-    staff = models.CharField(max_length=100)
-    category = models.ForeignKey(Category,on_delete=models.PROTECT, related_name ='item_category')
-    system = models.BooleanField(default=False)
-    purchase = models.BooleanField(default=False)
-    title = models.TextField(max_length=2500)
-    description = models.TextField(max_length=2500)
+    itemNum =  models.IntegerField(default=0, blank=False,null=False)
+    ideaNum = models.IntegerField(default=0, blank=False,null=False)
+    actionNum = models.IntegerField(default=0, blank=False,null=False)
+    submissionDate = models.DateField(default=timezone.now, blank=False,null=False)
+    
+    progress = models.ForeignKey(Progress,on_delete=models.PROTECT,
+        related_name ='item_progress',
+        blank=False,null=False)
+    division = models.ForeignKey(Division,on_delete=models.PROTECT,
+        related_name ='item_dividion',
+        blank=False,null=False)     
+    staff = models.CharField(max_length=100, blank=False,null=False)
+    category = models.ForeignKey(Category,on_delete=models.PROTECT,
+        related_name ='item_category',
+        blank=False,null=False)
+
+    system = models.BooleanField(default=False,blank=False,null=False)
+    purchase = models.BooleanField(default=False,blank=False,null=False)
+    title = models.TextField(max_length=2500,blank=False,null=False)
+    description = models.TextField(max_length=2500,blank=False,null=False)
 
     refURL1 = models.URLField(max_length=300, blank=True,null=True)
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
     refURL3 = models.URLField(max_length=300, blank=True,null=True)
 
-    picture1 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture2 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture3 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture4 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture5 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture6 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
+    picture1 = models.ForeignKey(Image,on_delete=models.PROTECT,
+        related_name ='item_image1', blank=True,null=True) 
+    picture2 = models.ForeignKey(Image,on_delete=models.PROTECT,
+        related_name ='item_image2', blank=True,null=True) 
+    picture3 = models.ForeignKey(Image,on_delete=models.PROTECT,
+        related_name ='item_image3', blank=True,null=True) 
+    picture4 = models.ForeignKey(Image,on_delete=models.PROTECT,
+        related_name ='item_image4', blank=True,null=True) 
+    picture5 = models.ForeignKey(Image,on_delete=models.PROTECT,
+        related_name ='item_image5', blank=True,null=True) 
+    picture6 = models.ForeignKey(Image,on_delete=models.PROTECT,
+        related_name ='item_image6', blank=True,null=True) 
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
