@@ -63,8 +63,8 @@ class ItemQuerySet(models.QuerySet):
 
 class Item(models.Model):
     itemNum =  models.IntegerField(default=0, blank=False,null=False)
-    ideaNum = models.IntegerField(default=0, blank=False,null=False)
-    actionNum = models.IntegerField(default=0, blank=False,null=False)
+    ideaNum = models.IntegerField(default=0, blank=True,null=True)
+    actionNum = models.IntegerField(default=0, blank=True,null=True)
     submissionDate = models.DateField(default=timezone.now, blank=False,null=False)
     
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT,
