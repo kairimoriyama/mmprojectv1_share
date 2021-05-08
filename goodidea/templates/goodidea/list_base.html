@@ -123,18 +123,37 @@
       {% endif %}
     </td>
 
-    <td class="longText">{{ item.discussionNote }}</td>
+    <td class="longText">
+      {% if item.discussionNote %}
+        <p>{{ item.discussionNote }}</p>
+      {% else %}
+      {% endif %}
+    </td>
 
-    <td>{{ item.inchargeStaff }}</td>
-    <td>{{ item.inchargeDivision }}</td>  
+    <td>
+      {% if item.inchargeStaff %}
+        <p>{{ item.inchargeStaff }}</p>
+      {% else %}
+      {% endif %}
+    </td>
+    <td>
+      {% if item.inchargeDivision %}
+        <p>{{ item.inchargeDivision }}</p>
+      {% else %}
+      {% endif %}
+    </td>  
 
-    <td class="longText">{{ item.report }}</td>
+    <td class="longText">
+      {% if item.report %}
+        <p>{{ item.report }}</p>
+      {% else %}
+      {% endif %}
+    </td>
     
     <td class="date_col">
       {% if item.completionDate != None %}
         {{ item.completionDate | date:"Y/m/d"}}
       {% else %}
-        <p>-</p>
       {% endif %}
     </td>
 
@@ -154,8 +173,12 @@
     </td>
 
 
-    
-    <td>{{ item.adminMemo }}</td>
+    <td>
+      {% if item.adminMemo %}
+        <p>{{ item.adminMemo }}</p>
+      {% else %}
+      {% endif %}
+    </td>
   
   </tr>
 
