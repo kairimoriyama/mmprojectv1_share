@@ -178,43 +178,10 @@
   <dl class="item_dl item11 multiple_items">
     <dt class="height_l">写真</dt>
     <dd class="height_l  multiple_items_img">
-
-      {% if not object.picture1 %}
-      {% else %}
-      <p>1</p>
-      <div class="multiple_items_src" ><a href="/media/{{ object.picture1 }}"><img src="/media/{{ object.picture1 }}"/></a></div>
-      {% endif %}
-
-      {% if not object.picture2 %}
-      {% else %}
-      <p>2</p>
-      <div class="multiple_items_src"><a href="/media/{{ object.picture2 }}"><img src="/media/{{ object.picture2 }}"/></a></div>
-      {% endif %}
-
-      {% if not object.picture3 %}
-      {% else %}
-      <p>3</p>
-      <div class="multiple_items_src"><a href="/media/{{ object.picture3 }}"><img src="/media/{{ object.picture3 }}"/></a></div>
-      {% endif %}
-
-      {% if not object.picture4 %}
-      {% else %}
-      <p>4</p>
-      <div class="multiple_items_src"><a href="/media/{{ object.picture4 }}"><img src="/media/{{ object.picture4 }}"/></a></div>
-      {% endif %}
-
-      {% if not object.picture5 %}
-      {% else %}
-      <p>5</p>
-      <div class="multiple_items_src"><a href="/media/{{ object.picture5 }}"><img src="/media/{{ object.picture5 }}"/></a></div>
-      {% endif %}
-
-      {% if not object.picture6 %}
-      {% else %}
-      <p>6</p>
-      <div class="multiple_items_src"><a href="/media/{{ object.picture6 }}"><img src="/media/{{ object.picture6 }}"/></a></div>
-      {% endif %}
-
+      {% for image in Image_list %}
+        <p>1</p>
+        <div class="multiple_items_src"><a href="{{ image.picture }}">{{ image.picture }}</a></div>
+      {%endfor%}
     </dd>
   </dl>
 

@@ -97,35 +97,13 @@
     <dt class="height_l">写真</dt>
     <dd class="height_l multiple_items_update">
 
-      <div class="attachment_update">
+      {{ form.formset.management_form }}
+        {% for image in form.formset %}
+        <div class="attachment_update">
         <p>写真（1）</p>
-        <div>{{ form.picture1 }}</div>
-      </div>
-
-      <div class="attachment_update">
-        <p>写真（2）</p>
-        <div>{{ form.picture2 }}</div>
-      </div>
-
-      <div class="attachment_update">
-        <p>写真（3）</p>
-        <div>{{ form.picture3 }}</div>
-      </div>
-
-      <div class="attachment_update">
-        <p>写真（4）</p>
-        <div>{{ form.picture4 }}</div>
-      </div>
-
-      <div class="attachment_update">
-        <p>写真（5）</p>
-        <div>{{ form.picture5 }}</div>
-      </div>
-
-      <div class="attachment_update">
-        <p>写真（6）</p>
-        <div>{{ form.picture6 }}</div>
-      </div>
+        <div>{{ image }}</div>
+        </div>
+      {% endfor %}
 
     </dd>
   </dl>

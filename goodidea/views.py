@@ -12,7 +12,7 @@ import unicodecsv as csv
 import datetime 
 
 from .models import Item, Progress, Division, Category
-from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom
+from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom, ImageUploadForm
 
 # Create your views here.
 
