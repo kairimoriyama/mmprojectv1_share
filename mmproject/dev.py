@@ -26,9 +26,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
-    'django.contrib.humanize',
-
     #'django_ses',
+    'django.contrib.humanize',
     'django_resized',
 ]
 
