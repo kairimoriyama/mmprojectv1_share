@@ -26,8 +26,18 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'django_ses',
-    'imagekit'
+    'django_resized',
 ]
+
+
+# image resize django_resized
+DJANGORESIZED_DEFAULT_SIZE = [1280, 1024]
+DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
+DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+
 
 # デバッグモードを有効にするかどうか(本番運用では必ずFalseにする)
 DEBUG = False

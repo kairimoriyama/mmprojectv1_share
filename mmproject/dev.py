@@ -29,12 +29,19 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     #'django_ses',
-    'imagekit'
+    'django_resized',
 ]
 
 
 ALLOWED_HOSTS = []
 
+# image resize django_resized
+DJANGORESIZED_DEFAULT_SIZE = [1280, 1024]
+DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
+DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = False
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
