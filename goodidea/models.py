@@ -4,8 +4,7 @@ from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
-from imagekit.models import ImageSpecField,ProcessedImageField
-from imagekit.processors import ResizeToFill
+from django_resized import ResizedImageField
 
 
 class Progress(models.Model):
@@ -83,24 +82,12 @@ class Item(models.Model):
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
     refURL3 = models.URLField(max_length=300, blank=True,null=True)
 
-    picture1 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture2 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture3 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture4 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture5 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
-    picture6 = ProcessedImageField(upload_to='images/%Y/%m/%d',
-        blank=True,null=True,
-        processors=[ResizeToFill(1280, 1024)],format='JPEG')
+    picture1 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture2 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture3 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture4 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture5 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture6 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
