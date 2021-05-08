@@ -61,7 +61,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="checkbox" name="" value="">
+        <input type="checkbox" name="selected_requestNum" value="{{ item.requestNum }}">
       </td>
 
       <td class="sticky_col_td second_col">
@@ -112,7 +112,8 @@
   <div><h3>発注（原則として総務処理）</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <a class="menu_bt menu_bt_mg_left row-yellow">発注報告</a>
+    <a class="menu_bt menu_bt_mg_left row-yellow" href="{% url 'procurement:update_request_order' 1 %}">発注報告</a>
+    <!--  url 'procurement:update_request_order' object.pk  -->
   </div>
 </div>
 
@@ -154,12 +155,12 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="checkbox" name="" value="">
+        <input type="checkbox" name="selected_ordernum" value="{{ item.orderNum }}">
       </td>
 
       <td class="sticky_col_td second_col">
         <a href="{% url 'procurement:detail_order' item.pk %}">
-          {{ item.orderNum }}
+          <p>{{ item.orderNum }}</p>
         </a>
       </td>
      

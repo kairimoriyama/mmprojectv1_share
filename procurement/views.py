@@ -12,7 +12,7 @@ import unicodecsv as csv
 import datetime 
 
 from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder, UpdateFormRequestToOrder
 
 # Create your views here.
 
@@ -101,6 +101,15 @@ class UpdateRequest(UpdateView):
 
     def get_success_url(self):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
+
+
+class UpdateRequestToOrder(UpdateView):
+    template_name = 'procurement/update_request_order.html'
+    model  = OrderRequest
+    form_class = UpdateFormRequestToOrder
+
+    def get_success_url(self):
+        return reverse('procurement:update_order', kwargs={'pk': self.object.id})
 
 
 class UpdateOrder(UpdateView):

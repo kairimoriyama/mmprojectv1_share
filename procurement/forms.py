@@ -117,7 +117,7 @@ class CreateFormOrder(ModelForm):
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'payment', 'orderDescription',
             )
-        widgets = {'orderDate': DateInput()}
+        widgets = {'orderDate': DateInput(),'arrivalDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
         super(CreateFormOrder, self).__init__(*args, **kwargs)
@@ -141,14 +141,39 @@ class CreateFormOrder(ModelForm):
         self.fields['orderNum'].widget.attrs['readonly'] = True
         self.fields['progress'].widget.attrs['readonly'] = True
 
+        today = datetime.date.today()
+        self.fields['orderDate'].required = True
+        self.fields['orderDate'].initial = today
+        
+        self.fields['arrivalDate'].required = True
+        self.fields['arrivalDate'].initial = datetime.date(
+            year=today.year, month=today.month, day=today.day+2)
+
+        self.fields['orderStaff'].required = True
+        self.fields['orderStaffDivision'].required = True
+
+        self.fields['amount1'].initial = 0
+        self.fields['amount2'].initial = 0
+        self.fields['amount3'].initial = 0
+        self.fields['totalAmount'].initial = 0
+
+        self.fields['amount1'].required = True
+        self.fields['amount2'].required = True
+        self.fields['amount3'].required = True
+        self.fields['totalAmount'].required = True
+        self.fields['payment'].required = True
+
         # プレースホルダ
+        self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
+
 
 
 class UpdateFormRequest(ModelForm):
 
     class Meta:
         model  = OrderRequest
-        fields = ('requestStaffDivision', 'requestStaff', 
+        fields = ('requestNum','submissionDate',
+            'requestStaffDivision', 'requestStaff', 
             'dueDate', 'deliveryAddress', 
             'adminCheck', 'adminStaff', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
@@ -156,25 +181,49 @@ class UpdateFormRequest(ModelForm):
             'standardItem','quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
             'adminDescription',
-            'deletedItem'
+            'deletedItem',
             )
-        widgets = {'dueDate': DateInput()}
+        widgets = {'submissionDate': DateInput(),'dueDate': DateInput()}
 
 
     def __init__(self, *args, **kwargs):
         super(UpdateFormRequest, self).__init__(*args, **kwargs)
 
+    # 初期値・入力規則
+        self.fields['requestNum'].widget.attrs['readonly'] = True
+        self.fields['submissionDate'].widget.attrs['readonly'] = True
+        self.fields['requestStaff'].required = True
+        self.fields['requestStaffDivision'].required = True
+        self.fields['dueDate'].required = True
+        self.fields['deliveryAddress'].required = True
+        self.fields['itemCategory1'].required = True
+        self.fields['itemCategory2'].required = True
+        self.fields['costCenter1'].required = True
+
+        # if self.fields['itemCategory2'] :
+        #     self.fields['requestDescription'].required = True
+        # else:
+        #     self.fields['itemCategory2'].required = True
+
+        self.fields['quantity'].required = True
+        self.fields['estimatedAmount'].required = True
+
     
+        # プレースホルダ
+        self.fields['requestDescription'].widget.attrs['placeholder'] = '標準品以外の依頼の場合、依頼目的と商品の要件を記入'
+
+
 
 class UpdateFormOrder(ModelForm):
 
     class Meta:
         model = OrderInfo
-        fields = ('progress', 'orderStaff',
+        fields = ('orderNum', 'orderDate',
+            'progress', 'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totalAmount', 'payment', 'orderDescription', 
+            'totalAmount', 'payment', 'orderDescription',
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo','deletedItem'
             )
@@ -186,3 +235,67 @@ class UpdateFormOrder(ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateFormOrder, self).__init__(*args, **kwargs)
 
+
+        # 初期値・入力規則
+        self.fields['orderNum'].widget.attrs['readonly'] = True
+        self.fields['progress'].required = True
+
+        self.fields['orderDate'].required = True
+        
+        self.fields['arrivalDate'].required = True
+
+        self.fields['orderStaff'].required = True
+        self.fields['orderStaffDivision'].required = True
+
+        self.fields['amount1'].required = True
+        self.fields['amount2'].required = True
+        self.fields['amount3'].required = True
+        self.fields['totalAmount'].required = True
+        self.fields['payment'].required = True
+
+        # プレースホルダ
+        self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
+
+
+
+class UpdateFormRequestToOrder(ModelForm):
+
+    class Meta:
+        model = OrderInfo
+        fields = ('orderNum', 'orderDate',
+            'progress', 'orderStaff',
+            'orderStaffDivision', 'arrivalDate', 
+            'registeredSupplier', 'irregularSupplier',
+            'amount1', 'amount2', 'amount3', 
+            'totalAmount', 'payment', 'orderDescription',
+            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
+            'acceptanceMemo','deletedItem'
+            )
+        widgets = {'orderDate': DateInput(),
+            'arrivalDate': DateInput(),
+            'acceptanceDate': DateInput()}
+
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateFormOrder, self).__init__(*args, **kwargs)
+
+
+        # 初期値・入力規則
+        self.fields['orderNum'].widget.attrs['readonly'] = True
+        self.fields['progress'].required = True
+
+        self.fields['orderDate'].required = True
+        
+        self.fields['arrivalDate'].required = True
+
+        self.fields['orderStaff'].required = True
+        self.fields['orderStaffDivision'].required = True
+
+        self.fields['amount1'].required = True
+        self.fields['amount2'].required = True
+        self.fields['amount3'].required = True
+        self.fields['totalAmount'].required = True
+        self.fields['payment'].required = True
+
+        # プレースホルダ
+        self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'

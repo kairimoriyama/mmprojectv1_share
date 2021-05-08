@@ -859,6 +859,17 @@ hr{
     border: solid 0.1rem  #bfbfbf;
     width: 100%;
 }
+.item_dl input[type="number"]{
+    text-align: right;
+}
+.item_dl input[type="number"]::-webkit-outer-spin-button,
+.item_dl input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+     margin: 0;
+}
+.item_dl .orderNum input[type="number"]{
+    text-align: left;
+}
 
 /* select型 */
 .item_dl select{
@@ -874,6 +885,7 @@ hr{
 .item_dl .itemNum{
     display: flex;
     justify-content: flex-start;
+    text-align: left;
 }
 .item_dl .itemNum input{
     border:0rem;
@@ -881,11 +893,9 @@ hr{
     margin: 0;
     font-size: 1.4rem;
     width: 8rem;
+    text-align: left;
 }
 
-.itemNum_hidden{
-    display: none;
-}
 .readonly select{
     pointer-events: none; 
 }
@@ -983,7 +993,19 @@ hr{
     margin-right: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    text-align: right;
 }
+@media screen and (min-width: 500px) and (max-width: 610px) {
+    .multiple_items dd input[type="number"]{
+        width: 10rem;
+    }
+}
+@media screen and (min-width: 800px) and (max-width: 1100px) {
+    .multiple_items dd input[type="number"]{
+        width: 10rem;
+    }
+}
+
 
 /* updateのdl内*/
 
