@@ -27,14 +27,12 @@
 
   <dl class="item_dl item1">
     <dt>発注番号</dt>
-    <dd class="itemNum">
-      {{ form.orderNum}}
-    </dd>
+    <dd class="itemNum">{{ form.orderNum}}</dd>
   </dl>
 
   <dl class="item_dl item2">
     <dt>発注日</dt>
-    <dd>{{ object.orderDate | date:"Y/m/d"  }}</dd>
+    <dd>{{ form.orderDate }}</dd>
   </dl>
     
   <dl class="item_dl item3">
