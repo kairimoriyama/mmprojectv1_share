@@ -144,7 +144,8 @@ class CreateFormOrder(ModelForm):
         today = datetime.date.today()
         self.fields['orderDate'].required = True
         self.fields['orderDate'].initial = today
-        
+        self.fields['orderDate'].widget.attrs['readonly'] = True
+               
         self.fields['arrivalDate'].required = True
         self.fields['arrivalDate'].initial = datetime.date(
             year=today.year, month=today.month, day=today.day+2)
@@ -277,7 +278,7 @@ class UpdateFormRequestToOrder(ModelForm):
 
 
     def __init__(self, *args, **kwargs):
-        super(UpdateFormOrder, self).__init__(*args, **kwargs)
+        super(UpdateFormRequestToOrder, self).__init__(*args, **kwargs)
 
 
         # 初期値・入力規則

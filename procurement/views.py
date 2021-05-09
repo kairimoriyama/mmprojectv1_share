@@ -61,7 +61,6 @@ class DetailRequest(DetailView):
         return context
 
 
-
 class DetailOrder(DetailView):
     template_name = 'procurement/detail_order.html'
     model  = OrderInfo
@@ -105,7 +104,7 @@ class UpdateRequest(UpdateView):
 
 class UpdateRequestToOrder(UpdateView):
     template_name = 'procurement/update_request_order.html'
-    model  = OrderRequest
+    model  = OrderInfo
     form_class = UpdateFormRequestToOrder
 
     def get_success_url(self):

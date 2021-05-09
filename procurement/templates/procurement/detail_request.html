@@ -32,7 +32,7 @@
 
   <dl class="item_dl item2">
     <dt>依頼日</dt>
-    <dd class="item_submissionDate" id="submissionDateInit">{{ object.submissionDate| date:"Y/m/d" }}</dd>
+    <dd>{{ object.submissionDate| date:"Y/m/d" }}</dd>
   </dl>
     
   <dl class="item_dl item3">
@@ -87,7 +87,7 @@
     <dd>{{ object.estimatedAmount|intcomma }}円</dd>
   </dl>
 
-  <dl class="item_dl item13 multiple_items">
+  <dl class="item_dl item13 multiple_items_URL">
     <dt class="height_m">URL</dt>
     <dd class="height_m">
 
@@ -135,7 +135,7 @@
       </div>
       {% endif %}
 
-      {% if not object.refURL3 %}
+      {% if not object.costCenter3 %}
       {% else %}
       <div class="multiple_items_child">
         <p>3：</p>{{ object.costCenter3 }}
