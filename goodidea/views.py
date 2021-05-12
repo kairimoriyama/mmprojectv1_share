@@ -171,7 +171,7 @@ class ItemListFilter(ListView):
             if division == "0": #全部門
                 queryset4 = queryset3.all()
             else:               #全部門以外
-                queryset4 = queryset3.filter( division__exact=division)
+                queryset4 = queryset3.filter(division__exact=division)
             
             # 進捗・完了日の絞り込み
             if progress == "0":   #全進捗
@@ -182,23 +182,44 @@ class ItemListFilter(ListView):
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
 
-            # 日付、キーワードの絞込
-            if staff or division or inchargeStaff or inchargeDivision or word or\
-                (submissionDateFrom and submissionDateTo) :
+            # 日付の絞込
+            if (submissionDateFrom and submissionDateTo) :
                 queryset6 = queryset5.filter(
                     submissionDate__range=(submissionDateFrom, submissionDateTo)
-                    ).filter(
-                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                    Q(inchargeDivision__icontains=inchargeDivision),
+                )
+            else:                 
+                queryset6 = queryset5.all()
+
+            # 担当者の絞込
+            if staff:
+                queryset7 = queryset6.filter(staff__icontains=staff)
+            else: 
+                queryset7 = queryset6.all()
+            
+            # 実行担当者の絞込
+            if inchargeStaff:
+                queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
+            else: 
+                queryset8 = queryset7.all()    
+
+            # 実行担当部署の絞込
+            if inchargeDivision:
+                queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
+            else: 
+                queryset9 = queryset8.all()   
+
+             # キーワードの絞込
+            if word :
+                queryset10 = queryset9.filter(
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset6 = queryset5.all()
+                queryset10 = queryset9.all() 
 
             # セッションで選択されたデータを保持
             self.request.session['item_list_type'] = 'filter'
             
-            queryset = queryset6.order_by('-itemNum')
+            queryset = queryset10.order_by('-itemNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
@@ -296,20 +317,42 @@ class ItemDetailFilter(DetailView):
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
 
-            # 日付、キーワードの絞込
-            if staff or division or inchargeStaff or inchargeDivision or word or\
-                (submissionDateFrom and submissionDateTo) :
+
+            # 日付の絞込
+            if (submissionDateFrom and submissionDateTo) :
                 queryset6 = queryset5.filter(
                     submissionDate__range=(submissionDateFrom, submissionDateTo)
-                    ).filter(
-                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                    Q(inchargeDivision__icontains=inchargeDivision),
+                )
+            else:                 
+                queryset6 = queryset5.all()
+
+            # 担当者の絞込
+            if staff:
+                queryset7 = queryset6.filter(staff__icontains=staff)
+            else: 
+                queryset7 = queryset6.all()
+            
+            # 実行担当者の絞込
+            if inchargeStaff:
+                queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
+            else: 
+                queryset8 = queryset7.all()    
+
+            # 実行担当部署の絞込
+            if inchargeDivision:
+                queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
+            else: 
+                queryset9 = queryset8.all()   
+
+             # キーワードの絞込
+            if word :
+                queryset10 = queryset9.filter(
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset6 = queryset5.all()          
+                queryset10 = queryset9.all() 
 
-            item_list_queryset = queryset6
+            item_list_queryset = queryset10
           
         else:
             item_list_queryset = queryset0
