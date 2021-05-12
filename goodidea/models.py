@@ -135,23 +135,20 @@ class Item(models.Model):
 
         if type(self).objects.item_alive(
             ).item_due(
-            ).filter(dueDate__exact=self.dueDate
-            ).filter(itemNum__lt=self.itemNum
+            ).filter(dueDate__exact=self.dueDate,itemNum__lt=self.itemNum
             ).last():
 
             return type(self).objects.item_alive(
             ).item_due(
-            ).filter(dueDate__exact=self.dueDate
-            ).filter(itemNum__lt=self.itemNum
-            ).order_by('itemNum').last()
+            ).filter(dueDate__exact=self.dueDate,itemNum__lt=self.itemNum
+            ).last()
         
         else:
 
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__lt=self.dueDate
-            ).order_by('itemNum').last()
-
+            ).order_by('dueDate').order_by('-itemNum').last()
 
 
     def get_next_idea_by_dueDate(self):
@@ -159,19 +156,17 @@ class Item(models.Model):
 
         if type(self).objects.item_alive(
             ).item_due(
-            ).filter(dueDate__exact=self.dueDate
-            ).filter(itemNum__gt=self.itemNum
+            ).filter(dueDate__exact=self.dueDate, itemNum__gt=self.itemNum
             ).first():
 
             return type(self).objects.item_alive(
             ).item_due(
-            ).filter(dueDate__exact=self.dueDate
-            ).filter(itemNum__gt=self.itemNum
-            ).order_by('itemNum').first()
+            ).filter(dueDate__exact=self.dueDate, itemNum__gt=self.itemNum
+            ).first()
         
         else:
 
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__gt=self.dueDate
-            ).order_by('itemNum').first()
+            ).order_by('-itemNum').order_by('dueDate').first()
