@@ -816,15 +816,6 @@ hr{
 }
 
 
-/* 金額入力欄 */
-
-.dd_amount div{
-    display: block;
-    width: 10rem;
-    margin: 1rem 0;
-    text-align: right;
-    line-height: 2.2rem;
-}
 
 /* detail */
 
@@ -896,27 +887,6 @@ hr{
     text-align: left;
 }
 
-.readonly select{
-    pointer-events: none; 
-}
-
-
-/* submissionDate 非表示 */
-
-.item_submissionDate{
-    font-size: 1.4rem;
-}
-
-/* progress 非表示 */
-
-.item_progress{
-    font-size: 1.4rem;
-}
-.item_progress select{
-    visibility:hidden;
-    width: 0;
-}
-
 
 /* textarea型 */
 .item_dl textarea{
@@ -929,14 +899,50 @@ hr{
 }
 
 .item_dl .height_l textarea{
-    height: 12rem;
+    height: 13rem;
 }
 .item_dl .height_m textarea{
     height: 8rem;
 }
 
 
-/* 複数アイテムdd child*/
+/* 複数アイテムdd */
+
+.multiple_items dd{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+
+
+
+/* 複数アイテムdd URL */
+
+.multiple_items_URL dd{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    align-content: center;
+}
+
+.multiple_items_URL dd input[type="url"]{
+    width: 72rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.multiple_items_URL dd::-webkit-scrollbar {
+    width: 1rem;
+    height: 1rem;
+    overflow:hidden;
+    -webkit-border-radius:0.5rem;
+    border-radius:0.5rem;
+}
+
 .multiple_items_child{
     display: flex;
     align-items: center;
@@ -948,31 +954,6 @@ hr{
     padding-right: 0.5rem;
 }
 
-/* 複数アイテムdd */
-
-.multiple_items dd{
-    display: flex;
-    flex-wrap: wrap;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    align-content: center;
-    padding-top: 1.2rem;
-}
-
-.multiple_items dd input[type="url"]{
-    width: 72rem;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.multiple_items dd::-webkit-scrollbar {
-    width: 1rem;
-    height: 1rem;
-    overflow:hidden;
-    -webkit-border-radius:0.5rem;
-    border-radius:0.5rem;
-}
 
 /* 複数アイテムdd select*/
 .multiple_items_select dd{
@@ -986,28 +967,32 @@ hr{
     margin-bottom: 1.2rem;
 }
 
-/* 複数アイテム dd input number 金額 */
+/* 複数アイテム dd number 金額 */
 
-.multiple_items dd input[type="number"]{
-    width: 14rem;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+.multiple_items_amount dd{
+    padding: 0.2rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+
+}
+
+.multiple_items_amount dd div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+}
+
+.multiple_items_amount dd div input[type="number"]{
+    width: 18rem;
+    height: 2.6rem;
     text-align: right;
 }
-@media screen and (min-width: 500px) and (max-width: 610px) {
-    .multiple_items dd input[type="number"]{
-        width: 10rem;
-    }
-}
-@media screen and (min-width: 800px) and (max-width: 1100px) {
-    .multiple_items dd input[type="number"]{
-        width: 10rem;
-    }
-}
 
 
-/* updateのdl内*/
+/* delete チェックボックス*/
 
 .delete_bt{
     display: flex;

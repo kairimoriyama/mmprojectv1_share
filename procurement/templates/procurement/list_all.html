@@ -113,7 +113,6 @@
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
     <a class="menu_bt menu_bt_mg_left row-yellow" href="{% url 'procurement:update_request_order' 1 %}">発注報告</a>
-    <!--  url 'procurement:update_request_order' object.pk  -->
   </div>
 </div>
 
@@ -155,7 +154,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="checkbox" name="selected_ordernum" value="{{ item.orderNum }}">
+        <input type="radio" name="selected_order" value="{{ item.pk }}" checked="checked" >
       </td>
 
       <td class="sticky_col_td second_col">
@@ -198,6 +197,24 @@
   
 </table>
 
+
+<script>
+  
+function set_pk_order(){
+  //selected_orderのpkを確認
+  let list_order = document.getElementsByName('selected_order');
+  let len = list_order.length;
+  let selected_order = '';
+
+  for (let i = 0; i < len ; i++){
+    if (list_order[i].checked){
+      selected_order = list_order[i].value;
+    }
+  }
+}
+window.onload = set_pk_order();
+
+</script>
 
 {% endblock content%}
 
