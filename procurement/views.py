@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.db import transaction
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy, reverse
@@ -102,6 +102,15 @@ class UpdateRequest(UpdateView):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
 
 
+class UpdateOrder(UpdateView):
+    template_name = 'procurement/update_order.html'
+    model  = OrderInfo
+    form_class = UpdateFormOrder
+
+    def get_success_url(self):
+        return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
+
+
 class UpdateRequestToOrder(UpdateView):
     template_name = 'procurement/update_request_order.html'
     model  = OrderInfo
@@ -110,11 +119,3 @@ class UpdateRequestToOrder(UpdateView):
     def get_success_url(self):
         return reverse('procurement:update_order', kwargs={'pk': self.object.id})
 
-
-class UpdateOrder(UpdateView):
-    template_name = 'procurement/update_order.html'
-    model  = OrderInfo
-    form_class = UpdateFormOrder
-
-    def get_success_url(self):
-        return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
