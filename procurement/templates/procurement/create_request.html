@@ -1,0 +1,113 @@
+{% extends 'procurement/base.html' %}
+
+{% block header %}
+
+  <li>
+    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
+  </li>
+  
+{% endblock header %}
+
+{% block content %}
+
+<form class="container_create" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+  <div class="menu_wrapper_inner item0">
+    <input class="menu_bt" type="submit" value='依頼実行'>
+  </div>
+
+  <dl class="item_dl item1">
+    <dt>依頼番号</dt>
+    <dd class="itemNum">
+      {{ form.requestNum}}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>依頼日</dt>
+    <dd>{{ form.submissionDate }}</dd>
+  </dl>
+    
+  <dl class="item_dl item3">
+    <dt>依頼者</dt>
+    <dd>{{ form.requestStaff}}</dd>
+  </dl>
+
+  <dl class="item_dl item4">
+    <dt>依頼者所属</dt>
+    <dd>{{ form.requestStaffDivision}}</dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>希望納期</dt>
+    <dd>{{ form.dueDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>納品先</dt>
+    <dd>{{ form.deliveryAddress}}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>分類1</dt>
+    <dd>{{ form.itemCategory1}}</dd>
+  </dl>
+
+  <dl class="item_dl item8">
+    <dt>分類2</dt>
+    <dd>{{ form.itemCategory2}}</dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="sentence_dt">標準備品</dt>
+    <dd class="sentence_dd">{{ form.standardItem}}</dd>
+  </dl>
+
+  <dl class="item_dl item10">
+    <dt class="height_l sentence_dt">目的・依頼内容</dt>
+    <dd class="height_l sentence_dd">{{ form.requestDescription}}</dd>
+  </dl>
+
+  <dl class="item_dl item11">
+    <dt>数量</dt>
+    <dd>{{ form.quantity }}</dd>
+  </dl>
+
+  <dl class="item_dl item12">
+    <dt>税込総額</dt>
+    <dd>{{ form.estimatedAmount }}</dd>
+  </dl>
+
+  <dl class="item_dl item13 multiple_items_URL">
+    <dt class="height_l sentence_dt">URL</dt>
+    <dd class="height_l sentence_dd">
+      <div>{{ form.refURL1 }}</div>
+      <div>{{ form.refURL2 }}</div>
+      <div>{{ form.refURL3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item14 multiple_items_select">
+    <dt class="height_l">費用負担</dt>
+    <dd class="height_l">
+      <div>{{ form.costCenter1 }}</div>
+      <div>{{ form.costCenter2 }}</div>
+      <div>{{ form.costCenter3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt> <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_l height_l">
+    <dt></dt> <dd></dd>
+  </dl>
+  
+</form>
+<hr>
+
+
+
+{% endblock content%}
+

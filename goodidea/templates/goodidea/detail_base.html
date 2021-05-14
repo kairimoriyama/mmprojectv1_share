@@ -127,23 +127,43 @@
 
   <dl class="item_dl item14">
     <dt class="height_l sentence_dt">議事録</dt>
-    <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.discussionNote}}</dd>
+    <dd class="height_l sentence_dd sentence_dd_scroll">
+      {% if object.discussionNote %}
+        <p>{{ object.discussionNote}}</p>
+      {% else %}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item16">
     <dt>実施<br>担当者</dt>
-    <dd>{{ object.inchargeStaff}}</dd>
+    <dd>
+      {% if object.inchargeStaff %}
+        <p>{{ object.inchargeStaff}}</p>
+      {% else %}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item17">
     <dt>実施部門<br>/PJ</dt>
-    <dd>{{ object.inchargeDivision}}</dd>
+    <dd>
+      {% if object.inchargeDivision %}
+        <p>{{ object.inchargeDivision}}</p>
+      {% else %}
+      {% endif %}
+    </dd>
   </dl>
 
 
   <dl class="item_dl item15">
-    <dt class="height_l sentence_dt">方針・報告</dt>
-    <dd class="height_l sentence_dd sentence_dd_scroll">{{ object.report}}</dd>
+    <dt class="height_l sentence_dt">報告</dt>
+    <dd class="height_l sentence_dd sentence_dd_scroll">
+      {% if object.report %}
+        <p>{{ object.report}}</p>
+      {% else %}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item10 multiple_items">
@@ -252,7 +272,12 @@
 
   <dl class="item_dl item18">
     <dt>管理用</dt>
-    <dd>{{ object.adminMemo}}</dd>
+    <dd>
+      {% if object.adminMemo %}
+        <p>{{ object.adminMemo}}</p>
+      {% else %}
+      {% endif %}
+    </dd>
   </dl>
 
   <dl class="item_dl item_dl_dummy_s">

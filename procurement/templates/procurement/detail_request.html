@@ -1,0 +1,192 @@
+{% extends 'procurement/base.html' %}
+{% load humanize %}
+
+{% block header %}
+  <li>
+    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
+  </li>
+{% endblock header %}
+
+
+
+{% block content %}
+
+<div class="menu_wrapper">
+
+  <div class="detail_nav">
+    <a class="menu_bt" href="{% url 'procurement:update_request' object.id %}">編集</a>
+    {% if object.deletedItem == True %}
+      <div><p  class="detail_deletedItem">削除済み</p></div>
+    {% endif %}
+  </div>
+
+</div>
+
+<div class="container_detail">
+  <dl class="item_dl item1">
+    <dt>依頼番号</dt>
+    <dd class="itemNum">
+        {{ object.requestNum}}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>依頼日</dt>
+    <dd>{{ object.submissionDate| date:"Y/m/d" }}</dd>
+  </dl>
+    
+  <dl class="item_dl item3">
+    <dt>依頼者</dt>
+    <dd>{{ object.requestStaff}}</dd>
+  </dl>
+
+  <dl class="item_dl item4">
+    <dt>依頼者所属</dt>
+    <dd>{{ object.requestStaffDivision}}</dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>希望納期</dt>
+    <dd>{{ object.dueDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>納品先</dt>
+    <dd>{{ object.deliveryAddress}}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>分類1</dt>
+    <dd>{{ object.itemCategory1}}</dd>
+  </dl>
+
+  <dl class="item_dl item8">
+    <dt>分類2</dt>
+    <dd>{{ object.itemCategory2}}</dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="sentence_dt">標準備品</dt>
+    <dd class="sentence_dd">{{ object.standardItem}}</dd>
+  </dl>
+
+  <dl class="item_dl item10">
+    <dt class="height_m sentence_dt">目的・依頼内容</dt>
+    <dd class="height_m sentence_dd sentence_dd_scroll">
+      {{ object.requestDescription}}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item11">
+    <dt>数量</dt>
+    <dd>{{ object.quantity }}</dd>
+  </dl>
+
+  <dl class="item_dl item12">
+    <dt>税込総額</dt>
+    <dd>{{ object.estimatedAmount|intcomma }}円</dd>
+  </dl>
+
+  <dl class="item_dl item13 multiple_items_URL">
+    <dt class="height_m">URL</dt>
+    <dd class="height_m">
+
+      {% if not object.refURL1 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL1：</p>
+        <a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a>
+      </div>
+      {% endif %}
+
+      {% if not object.refURL2 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL2：</p>
+        <a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a>
+      </div>
+      {% endif %}
+
+      {% if not object.refURL3 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL3：</p>
+        <a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a>
+      </div>
+      {% endif %}
+
+    </dd>
+  </dl>
+
+  <dl class="item_dl item14 multiple_items">
+    <dt class="height_m">費用負担</dt>
+    <dd class="height_m">
+      {% if not object.costCenter1 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>1：</p>{{ object.costCenter1 }}
+      </div>
+      {% endif %}
+
+      {% if not object.costCenter2 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>2：</p>{{ object.costCenter2 }}
+      </div>
+      {% endif %}
+
+      {% if not object.costCenter3 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>3：</p>{{ object.costCenter3 }}
+      </div>
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item15">
+    <dt>進捗</dt>
+    <dd>{{ object.adminCheck }}</dd>
+  </dl>
+
+  <dl class="item_dl item18">
+    <dt>発注番号</dt>
+    <dd>
+      {% if object.orderInfo %}
+        {{ object.orderInfo.orderNum }}
+      {% else %}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item16">
+    <dt>管理者</dt>
+    <dd>
+      {% if object.adminStaff %}
+        {{ object.adminStaff }}
+      {% else %}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt class="height_m">管理<br>メモ</dt>
+    <dd class="height_m sentence_dd_scroll">
+      {% if not object.adminDescription %}
+      {% else %}
+        {{ object.adminDescription }}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt> <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_l height_l">
+    <dt></dt> <dd></dd>
+  </dl>
+</div>
+<hr>
+{% endblock content%}
+

@@ -21,7 +21,7 @@ class ItemListALL(ListView):
     template_name = 'goodidea/list_all.html'
     model  = Item
     fields = '__all__'
-    queryset =Item.objects.filter(deletedItem=False).order_by('-id')
+    queryset =Item.objects_list.all_list().order_by('-itemNum')
     paginate_by = 22
 
 
@@ -36,14 +36,27 @@ def item_export(request):
     success_url = reverse_lazy('goodidea:list_all')
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="item.csv"'
+    response['Content-Disposition'] = 'attachment; filename="goodidea.csv"; unicode="shift-jis"'
 
-    response.write("\xEF\xBB\xBF")
-    writer = csv.writer(response, delimiter=',', encoding="shift-jis")
+    writer = csv.writer(response, delimiter=',', encoding='shift-jis')
 
-    writer.writerow(['案件番号','協議案件番号','完了共有案件番号','登録日','進捗','提案者','所属','分類','提案・実施内容','理由説明','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
+    writer.writerow(['番号','協議案件No','共有案件No',
+        '登録日','進捗','提案者','所属',
+        '分類','購入','システム','提案・実施内容','根拠',
+        'URL1','URL2','URL3',
+        '写真1','写真2','写真3','写真4','写真5','写真6',
+        '資料1','資料2','資料3',
+        '検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
     for item in Item.objects.all():
-        writer.writerow([item.itemNum,item.ideaNum,item.actionNum,item.submissionDate,item.progress,item.staff,item.division,item.category,item.title,item.description,item.refURL1,item.refURL2,item.refURL3,item.picture1,item.picture2,item.picture3,item.refFile1,item.refFile2,item.refFile3,item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
+        writer.writerow([item.itemNum,item.ideaNum,item.actionNum,
+        item.submissionDate,item.progress,item.staff,item.division,
+        item.category,item.purchase,item.system,item.title,item.description,
+        item.refURL1,item.refURL2,item.refURL3,
+        item.picture1,item.picture2,item.picture3,item.picture4,item.picture5,item.picture6,
+        item.refFile1,item.refFile2,item.refFile3,
+        item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,
+        item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
+
     return response
 
 
@@ -128,7 +141,7 @@ class ItemListFilter(ListView):
         self.request.session['ideaOrAction'] = ideaOrAction
 
         # 絞り込み前の初期値
-        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
+        queryset0 = Item.objects_list.all_list().order_by('-itemNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if progress or purchase or system or staff or division or inchargeStaff or inchargeDivision or word or\
@@ -158,7 +171,7 @@ class ItemListFilter(ListView):
             if division == "0": #全部門
                 queryset4 = queryset3.all()
             else:               #全部門以外
-                queryset4 = queryset3.filter( division__exact=division)
+                queryset4 = queryset3.filter(division__exact=division)
             
             # 進捗・完了日の絞り込み
             if progress == "0":   #全進捗
@@ -169,23 +182,44 @@ class ItemListFilter(ListView):
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
 
-            # 日付、キーワードの絞込
-            if staff or division or inchargeStaff or inchargeDivision or word or\
-                (submissionDateFrom and submissionDateTo) :
+            # 日付の絞込
+            if (submissionDateFrom and submissionDateTo) :
                 queryset6 = queryset5.filter(
                     submissionDate__range=(submissionDateFrom, submissionDateTo)
-                    ).filter(
-                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                    Q(inchargeDivision__icontains=inchargeDivision),
+                )
+            else:                 
+                queryset6 = queryset5.all()
+
+            # 担当者の絞込
+            if staff:
+                queryset7 = queryset6.filter(staff__icontains=staff)
+            else: 
+                queryset7 = queryset6.all()
+            
+            # 実行担当者の絞込
+            if inchargeStaff:
+                queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
+            else: 
+                queryset8 = queryset7.all()    
+
+            # 実行担当部署の絞込
+            if inchargeDivision:
+                queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
+            else: 
+                queryset9 = queryset8.all()   
+
+             # キーワードの絞込
+            if word :
+                queryset10 = queryset9.filter(
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset6 = queryset5.all()
+                queryset10 = queryset9.all() 
 
             # セッションで選択されたデータを保持
             self.request.session['item_list_type'] = 'filter'
             
-            queryset = queryset6.order_by('-itemNum')
+            queryset = queryset10.order_by('-itemNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
@@ -202,7 +236,7 @@ class ItemDetail(DetailView):
         context = super().get_context_data(**kwargs)
         item = self.object
 
-        item_list_queryset = Item.objects.all()         
+        item_list_queryset = Item.objects_list.all_list()
 
         prev = item_list_queryset
         next = item_list_queryset
@@ -216,6 +250,8 @@ class ItemDetail(DetailView):
 class ItemDetailFilter(DetailView):
     template_name = 'goodidea/detail_filter.html'
     model  = Item
+
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -240,8 +276,9 @@ class ItemDetailFilter(DetailView):
         completionDateTo = self.request.session['completionDateTo']
         ideaOrAction = self.request.session['ideaOrAction']
   
-        # 絞り込み前の初期値
-        queryset0 = Item.objects.filter(deletedItem=False).order_by('-itemNum')
+        # 絞込み前の初期値
+        queryset0 = Item.objects_list.all_list()
+        item_list_queryset = queryset0
 
         if item_list_type == 'filter':
 
@@ -280,32 +317,51 @@ class ItemDetailFilter(DetailView):
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
 
-            # 日付、キーワードの絞込
-            if staff or division or inchargeStaff or inchargeDivision or word or\
-                (submissionDateFrom and submissionDateTo) :
+
+            # 日付の絞込
+            if (submissionDateFrom and submissionDateTo) :
                 queryset6 = queryset5.filter(
                     submissionDate__range=(submissionDateFrom, submissionDateTo)
-                    ).filter(
-                    Q(staff__icontains=staff), Q(inchargeStaff__icontains=inchargeStaff),
-                    Q(inchargeDivision__icontains=inchargeDivision),
+                )
+            else:                 
+                queryset6 = queryset5.all()
+
+            # 担当者の絞込
+            if staff:
+                queryset7 = queryset6.filter(staff__icontains=staff)
+            else: 
+                queryset7 = queryset6.all()
+            
+            # 実行担当者の絞込
+            if inchargeStaff:
+                queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
+            else: 
+                queryset8 = queryset7.all()    
+
+            # 実行担当部署の絞込
+            if inchargeDivision:
+                queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
+            else: 
+                queryset9 = queryset8.all()   
+
+             # キーワードの絞込
+            if word :
+                queryset10 = queryset9.filter(
                     Q(title__icontains=word)| Q(description__icontains=word)|
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
-                queryset6 = queryset5.all()                
-            item_list_queryset = queryset6.order_by('-itemNum')
+                queryset10 = queryset9.all() 
 
+            item_list_queryset = queryset10
+          
         else:
-            item_list_queryset = queryset0.order_by('-itemNum')
+            item_list_queryset = queryset0
 
 
-        prev = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
-        next = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
+        context['prev'] = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
+        context['next'] = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
 
-        context['prev'] = prev
-        context['next'] = next
         return context
-
-
 
 
 class ItemDetailDue(DetailView):
@@ -316,7 +372,7 @@ class ItemDetailDue(DetailView):
         context = super().get_context_data(**kwargs)
         item = self.object
 
-        item_list_queryset = Item.objects.item_alive()
+        item_list_queryset = Item.objects_list.all_list()
                
         prev = item_list_queryset
         next = item_list_queryset

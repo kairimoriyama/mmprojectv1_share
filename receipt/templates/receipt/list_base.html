@@ -17,7 +17,7 @@
     <th>実施担当者</th>
     <th>実施部門/PJ</th>
 
-    <th>報告</th>
+    <th>方針・報告</th>
     <th>完了日</th>
   
     <th>購入</th>
@@ -48,7 +48,7 @@
       {% if list_type == 'list_all' %}
 
         <td class="sticky_col_td">
-          <a href="{% url 'goodidea:detail_item' item.pk %}">
+          <a href="{% url 'receipt:detail_item' item.pk %}">
             {% if item.ideaNum != 0 %}
                 {{ item.ideaNum }}
             {% else %}
@@ -65,11 +65,11 @@
 
         <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()" >
           {% if item.ideaNum > 0 %}
-            <a href="{% url 'goodidea:detail_filter' item.pk %}">
+            <a href="{% url 'receipt':detail_filter' item.pk %}">
               {{ item.ideaNum }}
             </a>
           {% else %}
-            <a href="{% url 'goodidea:detail_filter' item.pk %}">
+            <a href="{% url 'receipt:detail_filter' item.pk %}">
               {{ item.actionNum }}-共
             </a>
           {% endif %}
@@ -79,7 +79,7 @@
 
        {% elif list_type == 'list_due'  %}
         <td class="sticky_col_td">
-          <a href="{% url 'goodidea:detail_due' item.pk %}">
+          <a href="{% url 'receipt:detail_due' item.pk %}">
             {{ item.ideaNum }}
           </a>
         </td>
@@ -123,37 +123,18 @@
       {% endif %}
     </td>
 
-    <td class="longText">
-      {% if item.discussionNote %}
-        <p>{{ item.discussionNote }}</p>
-      {% else %}
-      {% endif %}
-    </td>
+    <td class="longText">{{ item.discussionNote }}</td>
 
-    <td>
-      {% if item.inchargeStaff %}
-        <p>{{ item.inchargeStaff }}</p>
-      {% else %}
-      {% endif %}
-    </td>
-    <td>
-      {% if item.inchargeDivision %}
-        <p>{{ item.inchargeDivision }}</p>
-      {% else %}
-      {% endif %}
-    </td>  
+    <td>{{ item.inchargeStaff }}</td>
+    <td>{{ item.inchargeDivision }}</td>  
 
-    <td class="longText">
-      {% if item.report %}
-        <p>{{ item.report }}</p>
-      {% else %}
-      {% endif %}
-    </td>
+    <td class="longText">{{ item.report }}</td>
     
     <td class="date_col">
       {% if item.completionDate != None %}
         {{ item.completionDate | date:"Y/m/d"}}
       {% else %}
+        <p>-</p>
       {% endif %}
     </td>
 
@@ -173,12 +154,8 @@
     </td>
 
 
-    <td>
-      {% if item.adminMemo %}
-        <p>{{ item.adminMemo }}</p>
-      {% else %}
-      {% endif %}
-    </td>
+    
+    <td>{{ item.adminMemo }}</td>
   
   </tr>
 
