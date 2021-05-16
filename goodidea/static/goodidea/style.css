@@ -953,6 +953,11 @@ img{
     flex-wrap: nowrap;
 }
 
+#lightbox .lb-container {
+    margin: 0;
+    padding-right: 2.1rem;
+    padding-left: 0;
+ }
 
 /* ファイル添付 */
 
