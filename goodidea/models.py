@@ -152,7 +152,6 @@ class Item(models.Model):
             ).order_by('-itemNum').order_by('dueDate').last()
 
 
-
     def get_next_idea_by_dueDate(self):
         """期日が空欄ではない次のideaを取得"""
 
