@@ -64,15 +64,16 @@ class ItemListDue(ListView):
     template_name = 'goodidea/list_due.html'
     fields = '__all__'
     paginate_by = 22
+
+    queryset =Item.objects_list.due_list().order_by('itemNum').order_by('dueDate')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_type'] = 'list_due'
         return context
 
-    def get_queryset(request):
-        return Item.objects_list.due_list().order_by('-itemNum').order_by('dueDate')
-
+    # def get_queryset(request):
+    #     return Item.objects_list.due_list().order_by('itemNum').order_by('dueDate')
 
 
 
