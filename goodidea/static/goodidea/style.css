@@ -152,11 +152,6 @@ button{
 
 /* list */
 
-.due_img img{
-    height:auto;
-    width:2rem;
-}
-
 .item-table{
     display: block;
     max-height: 90rem;
