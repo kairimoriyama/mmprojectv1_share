@@ -148,7 +148,7 @@ class Item(models.Model):
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__lt=self.dueDate
-            ).order_by('dueDate').order_by('-itemNum').last()
+            ).order_by('-itemNum').order_by('dueDate').last()
 
 
     def get_next_idea_by_dueDate(self):
