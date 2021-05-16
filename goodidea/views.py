@@ -368,19 +368,6 @@ class ItemDetailDue(DetailView):
     template_name = 'goodidea/detail_due.html'
     model  = Item
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        item = self.object
-
-        item_list_queryset = Item.objects_list.all_list()
-               
-        prev = item_list_queryset
-        next = item_list_queryset
-
-        context['prev'] = prev
-        context['next'] = next
-        return context
-
 
 class ItemCreateIdea(CreateView):
     template_name = 'goodidea/create_idea.html'

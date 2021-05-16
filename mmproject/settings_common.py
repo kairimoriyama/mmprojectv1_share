@@ -96,7 +96,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # django.contrib.humanize tmplateでカンマ区切り
 NUMBER_GROUPING = 3
