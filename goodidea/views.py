@@ -65,7 +65,7 @@ class ItemListDue(ListView):
     fields = '__all__'
     paginate_by = 22
 
-    queryset =Item.objects_list.due_list().order_by('itemNum').order_by('dueDate')
+    queryset =Item.objects_list.due_list()
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
