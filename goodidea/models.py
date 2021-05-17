@@ -142,13 +142,14 @@ class Item(models.Model):
             ).item_due(
             ).filter(dueDate__exact=self.dueDate,itemNum__lt=self.itemNum
             ).last()
+
         
         else:
 
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__lt=self.dueDate
-            ).order_by('dueDate').order_by('-itemNum').last()
+            ).order_by('-itemNum').order_by('dueDate').last()
 
 
     def get_next_idea_by_dueDate(self):
@@ -163,6 +164,7 @@ class Item(models.Model):
             ).item_due(
             ).filter(dueDate__exact=self.dueDate, itemNum__gt=self.itemNum
             ).first()
+
         
         else:
 

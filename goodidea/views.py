@@ -64,15 +64,16 @@ class ItemListDue(ListView):
     template_name = 'goodidea/list_due.html'
     fields = '__all__'
     paginate_by = 22
+
+    queryset =Item.objects_list.due_list().order_by('itemNum').order_by('dueDate')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_type'] = 'list_due'
         return context
 
-    def get_queryset(request):
-        return Item.objects_list.due_list().order_by('-itemNum').order_by('dueDate')
-
+    # def get_queryset(request):
+    #     return Item.objects_list.due_list().order_by('itemNum').order_by('dueDate')
 
 
 
@@ -367,19 +368,6 @@ class ItemDetailFilter(DetailView):
 class ItemDetailDue(DetailView):
     template_name = 'goodidea/detail_due.html'
     model  = Item
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        item = self.object
-
-        item_list_queryset = Item.objects_list.all_list()
-               
-        prev = item_list_queryset
-        next = item_list_queryset
-
-        context['prev'] = prev
-        context['next'] = next
-        return context
 
 
 class ItemCreateIdea(CreateView):

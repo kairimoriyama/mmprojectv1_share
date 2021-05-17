@@ -194,11 +194,6 @@ button{
     margin: 1rem;
 }
 
-.due_img img{
-    height:auto;
-    width:2rem;
-}
-
 .item-table{
     display: block;
     max-height: 35rem;

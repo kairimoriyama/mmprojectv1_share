@@ -152,15 +152,6 @@ button{
 
 /* list */
 
-.menu_wrapper_list{
-    margin: 1rem;
-}
-
-.due_img img{
-    height:auto;
-    width:2rem;
-}
-
 .item-table{
     display: block;
     max-height: 90rem;
@@ -469,7 +460,7 @@ button{
     word-wrap: pre-wrap;
     white-space:pre-wrap;
     word-break: break-all;
-    line-height: 1.8rem;
+    line-height: 2rem;
     overflow-y: scroll;
     align-items: flex-start;
 }
@@ -962,6 +953,11 @@ img{
     flex-wrap: nowrap;
 }
 
+#lightbox .lb-container {
+    margin: 0;
+    padding-right: 2.1rem;
+    padding-left: 0;
+ }
 
 /* ファイル添付 */
 
