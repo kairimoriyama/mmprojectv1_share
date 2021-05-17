@@ -43,7 +43,8 @@ class ItemManager(models.Manager):
         return super().get_queryset(
         ).filter(deletedItem=False
         ).filter(ideaNum__gt=0
-        ).exclude(dueDate__isnull=True)
+        ).exclude(dueDate__isnull=True
+        ).order_by('itemNum').order_by('dueDate')
 
 
 # 削除されていないデータ 期日のあるデータ システム案件 だけをクエリセットとして選択
