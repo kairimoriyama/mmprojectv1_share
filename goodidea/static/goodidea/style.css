@@ -882,22 +882,6 @@ hr{
     width: 100%;
 }
 
-/* 番号の入力なし */
-.item_dl .itemNum{
-    display: flex;
-    justify-content: flex-start;
-}
-.item_dl .itemNum input{
-    border:0rem;
-    padding: 0rem;
-    margin: 0;
-    font-size: 1.4rem;
-    width: 8rem;
-}
-
-.itemNum_hidden{
-    display: none;
-}
 
 /* submissionDate 非表示 */
 

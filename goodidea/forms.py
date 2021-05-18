@@ -88,7 +88,7 @@ class ItemCreateFromAction(ModelForm):
         self.fields['inchargeStaff'].widget.attrs['placeholder'] = '協力者含む'
         self.fields['inchargeDivision'].widget.attrs['placeholder'] = '協力部門含む'
         self.fields['title'].widget.attrs['placeholder'] = 'できるだけ具体的に業務フローの変更点、備品の発注先・金額等を記載（必要に応じてURL・写真・資料を追加）'
-        self.fields['description'].widget.attrs['placeholder'] = '現状の分析に基づく課題提起、複数の代替案との比較、費用対効果の検証等を記載（必要に応じてURL・写真・資料を追加）'
+        self.fields['description'].widget.attrs['placeholder'] = '現状・分析・対策（必要に応じてURL・写真・資料を追加）'
 
 
 
@@ -96,14 +96,13 @@ class ItemUpdateFrom(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('itemNum','ideaNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
+        fields = ('ideaNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
 
         widgets = { 'discussionDate': DateInput(), 'completionDate': DateInput(), 'dueDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
         super(ItemUpdateFrom, self).__init__(*args, **kwargs)
 
-        self.fields['itemNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['ideaNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['actionNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['progress'].required = True
