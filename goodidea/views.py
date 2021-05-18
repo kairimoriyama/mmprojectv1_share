@@ -83,6 +83,8 @@ class ItemListFilter(ListView):
     form_class = ProgressSelectForm, DivisionSelectForm
     paginate_by = 22
 
+    queryset =Item.objects_list.all_list()
+
     def __init__(self, **kwargs):
         super(ItemListFilter, self).__init__(**kwargs)
         self.form = None
