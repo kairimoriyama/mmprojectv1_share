@@ -410,7 +410,7 @@ class ItemCreateIdea(CreateView):
                 obj.itemNum = maxItemNum +1 
 
             obj.save()
-            return reverse_lazy('goodidea:detail_item', kwargs={'pk': obj.pk})
+            return redirect('goodidea:detail_item', pk= obj.id)
 
 
 
@@ -453,7 +453,7 @@ class ItemCreateAction(CreateView):
                 obj.itemNum = maxItemNum +1 
 
             obj.save()
-            return reverse_lazy('goodidea:detail_item', kwargs={'pk': obj.pk})
+            return redirect('goodidea:detail_item', pk= obj.id )
 
 
 
