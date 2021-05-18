@@ -9,7 +9,9 @@ from django.core import validators
 import unicodecsv as csv
 
 
-import datetime 
+from django.db.models import Max
+import datetime
+from django.utils import timezone 
 
 from .models import Item, Progress, Division, Category
 from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom
@@ -82,6 +84,8 @@ class ItemListFilter(ListView):
     model  = Item
     form_class = ProgressSelectForm, DivisionSelectForm
     paginate_by = 22
+
+    queryset =Item.objects_list.all_list()
 
     def __init__(self, **kwargs):
         super(ItemListFilter, self).__init__(**kwargs)
@@ -374,17 +378,82 @@ class ItemCreateIdea(CreateView):
     template_name = 'goodidea/create_idea.html'
     form_class = ItemCreateFromIdea
 
-    def get_success_url(self):
-        return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            
+
+            # ideaNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearIdeaNums = Item.objects.values('ideaNum').filter(
+                submissionDate__year=currentYear
+                )
+            lastIdeaNum = currentYearIdeaNums.aggregate(Max('ideaNum'))
+            maxIdeaNum = lastIdeaNum['ideaNum__max']
+
+            if (maxIdeaNum == None) or (maxIdeaNum < 1):
+                obj.ideaNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.ideaNum = maxIdeaNum +1 
+
+            # itemNumの設定
+            ItemNums = Item.objects.values('itemNum')
+            lastItemNum = ItemNums.aggregate(Max('itemNum'))
+            maxItemNum = lastItemNum['itemNum__max']
+
+            if (maxItemNum == None) or (maxItemNum < 1):
+                obj.itemNum = 1
+            else:
+                obj.itemNum = maxItemNum +1 
+
+            obj.save()
+            return reverse_lazy('goodidea:detail_item', kwargs={'pk': obj.pk})
 
 
 
 class ItemCreateAction(CreateView):
     template_name = 'goodidea/create_action.html'
     form_class = ItemCreateFromAction
-    
-    def get_success_url(self):
-        return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            
+            # actionNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearActionNums = Item.objects.values('actionNum').filter(
+                submissionDate__year=currentYear
+                )
+            lastActionNum = currentYearActionNums.aggregate(Max('actionNum'))
+            maxActionNum = lastActionNum['actionNum__max']
+
+            print(maxActionNum)
+
+            if (maxActionNum == None) or (maxActionNum < 1):
+                obj.actionNum = int(currentYearStr[-2:] + "001")
+            else:
+                obj.actionNum = maxActionNum +1 
+
+
+            # itemNumの設定
+            ItemNums = Item.objects.values('itemNum')
+            lastItemNum = ItemNums.aggregate(Max('itemNum'))
+            maxItemNum = lastItemNum['itemNum__max']
+
+            if (maxItemNum == None) or (maxItemNum < 1):
+                obj.itemNum = 1
+            else:
+                obj.itemNum = maxItemNum +1 
+
+            obj.save()
+            return reverse_lazy('goodidea:detail_item', kwargs={'pk': obj.pk})
 
 
 
