@@ -9,7 +9,9 @@ from django.core import validators
 import unicodecsv as csv
 
 
-import datetime 
+from django.db.models import Max
+import datetime
+from django.utils import timezone
 
 from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
 from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder, UpdateFormRequestToOrder
@@ -78,19 +80,55 @@ class CreateRequest(CreateView):
     template_name = 'procurement/create_request.html'
     form_class = CreateFormRequest
 
-    print("test")
+    def post(self, request, *args, **kwargs):
 
-    def get_success_url(self):
-        return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+    
+            # requestNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                submissionDate__year=currentYear)
+            lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+            maxRequestNum = lastRequestNum['requestNum__max']
+
+            if (maxRequestNum == None) or (maxRequestNum < 1):
+                obj.requestNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.requestNum = maxRequestNum +1
+
+            obj.save()
+            return redirect('procurement:detail_request', pk= obj.id)
 
 
 class CreateOrder(CreateView):
     template_name = 'procurement/create_order.html'
     form_class = CreateFormOrder
 
-    def get_success_url(self):
-        return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
+    def post(self, request, *args, **kwargs):
 
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+
+            # orderNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearOrderNums = OrderInfo.objects.values('orderNum').filter(
+                orderDate__year=currentYear
+                )
+            lastOrderNum = currentYearOrderNums.aggregate(Max('orderNum'))
+            maxOrderNum = lastOrderNum['orderNum__max']
+
+            if (maxOrderNum == None) or (maxOrderNum < 1):
+                obj.orderNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.orderNum = maxOrderNum +1 
+        
+            obj.save()
+            return redirect('procurement:detail_order', pk= obj.id)
 
 
 class UpdateRequest(UpdateView):

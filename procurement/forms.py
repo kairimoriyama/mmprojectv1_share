@@ -41,7 +41,7 @@ class CreateFormRequest(ModelForm):
 
     class Meta:
         model  = OrderRequest
-        fields = ('requestNum', 'submissionDate',
+        fields = ('submissionDate',
             'requestStaffDivision', 'requestStaff',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
@@ -56,25 +56,9 @@ class CreateFormRequest(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateFormRequest, self).__init__(*args, **kwargs)
 
-        
-        # requestNumの設定
-        currentYear= datetime.date.today().year
-        currentYearStr = str(currentYear)
-        currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
-            submissionDate__year=currentYear
-            )
-        lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
-        maxRequestNum = lastRequestNum['requestNum__max']
-
-        if (maxRequestNum == None) or (maxRequestNum < 1):
-            self.fields['requestNum'].initial = int(currentYearStr[-2:] + "0001")
-        else:
-            self.fields['requestNum'].initial = maxRequestNum +1 
-
 
         # 初期値・入力規則
         today = datetime.date.today()
-        self.fields['requestNum'].widget.attrs['readonly'] = True
 
         self.fields['submissionDate'].initial = today
         self.fields['submissionDate'].widget.attrs['readonly'] = True
@@ -98,7 +82,6 @@ class CreateFormRequest(ModelForm):
         self.fields['quantity'].required = True
         self.fields['estimatedAmount'].required = True
 
-        print("requestNum")
 
         # プレースホルダ
         self.fields['requestDescription'].widget.attrs['placeholder'] = '標準品以外の依頼の場合、依頼目的と商品の要件を記入'
@@ -110,7 +93,7 @@ class CreateFormOrder(ModelForm):
 
     class Meta:
         model = OrderInfo
-        fields = ('orderNum', 'orderDate',
+        fields = ('orderDate',
             'progress', 'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
@@ -122,23 +105,9 @@ class CreateFormOrder(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateFormOrder, self).__init__(*args, **kwargs)
 
-        # orderNumの設定
-        currentYear= datetime.date.today().year
-        currentYearStr = str(currentYear)
-        currentYearOrderNums = OrderInfo.objects.values('orderNum').filter(
-            orderDate__year=currentYear
-            )
-        lastOrderNum = currentYearOrderNums.aggregate(Max('orderNum'))
-        maxOrderNum = lastOrderNum['orderNum__max']
-
-        if (maxOrderNum == None) or (maxOrderNum < 1):
-            self.fields['orderNum'].initial = int(currentYearStr[-2:] + "0001")
-        else:
-            self.fields['orderNum'].initial = maxOrderNum +1 
-
+        
 
         # 初期値・入力規則
-        self.fields['orderNum'].widget.attrs['readonly'] = True
         self.fields['progress'].widget.attrs['readonly'] = True
 
         today = datetime.date.today()
