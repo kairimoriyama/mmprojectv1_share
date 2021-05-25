@@ -106,6 +106,21 @@
   
 </table>
 
+<div class="menu_wrapper amount_check">
+
+  <dt>発注依頼合計</dt>
+  <dd><input type="tel" id="request_amount"></dd>
+
+  <dt>発注金額</dt>
+  <dd><input type="tel" id="order_amount"></dd>
+
+  
+  <dt>差額</dt>
+  <dd><input type="tel" id="diff_amount"></dd>
+
+</div>
+
+
 
 <form action="{% url 'procurement:update_request_order' 1 %}" method="post">
 {% csrf_token %}
@@ -201,6 +216,62 @@
 
 <script>
   
+$(function() {
+  $('input[type="tel"]')
+    .focusin(function() {
+    })
+    .focusout(function(){
+
+      let h = $(this).val().replace(/[^0-9]/g, '');   // 入力値から数字（0～9）以外の文字を削除
+      
+      let i = h.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切りの3桁に変換する
+      
+      $(this).val(i);  // テキストボックス内の値を上書き
+    });
+});
+
+let request_amount = document.getElementById('request_amount');
+let order_amount = document.getElementById('order_amount');
+let diff_amount = document.getElementById('diff_amount');
+
+// 発注依頼合計の入力（選択）で自動計算
+request_amount.addEventListener('change', function() {
+  let str1 = $(this).val();
+  let num1 = Number(str1.replace(/[^0-9]/g, ''));
+  console.log(num1)
+
+  let str2 = order_amount.value;
+  let num2 = Number(str2.replace(/[^0-9]/g, ''));
+  console.log(num2)
+
+	let diff = num1 - num2;
+  diff_amount.value = diff;
+
+  let h = document.getElementById('diff_amount').value.replace(/[^0-9]/g, '');   // 入力値から数字（0～9）以外の文字を削除
+  let i = h.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切りの3桁に変換する 
+  document.getElementById('diff_amount').value = i;  // テキストボックス内の値を上書き
+
+});
+
+// 発注金額の入力（選択）で自動計算
+order_amount.addEventListener('change', function() {
+  let str1 = $(this).val();
+  let num1 = Number(str1.replace(/[^0-9]/g, ''));
+  console.log(num1)
+
+  let str2 = request_amount.value;
+  let num2 = Number(str2.replace(/[^0-9]/g, ''));
+  console.log(num2)
+
+	let diff = num1 - num2;
+  diff_amount.value = diff;
+
+  let h = document.getElementById('diff_amount').value.replace(/[^0-9]/g, '');   // 入力値から数字（0～9）以外の文字を削除
+  let i = h.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切りの3桁に変換する 
+  document.getElementById('diff_amount').value = i;  // テキストボックス内の値を上書き
+});
+
+
 function set_pk_order(){
   //selected_orderのpkを確認
   let list_order = document.getElementsByName('selected_order');
