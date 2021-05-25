@@ -310,7 +310,6 @@ button{
 }
 
 
-/* list filter  */
 
 
 /* 共通 create update detail */
@@ -1033,3 +1032,27 @@ hr{
 }
 
 
+
+.amount_check{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: left;
+    margin: 2rem 1rem 1rem 1rem;
+    display: flex;
+}
+
+.amount_check dt{
+    margin-right: 1rem;
+    font-size: 1.4rem;
+}
+
+.amount_check dd{
+    margin-right: 2rem;
+}
+
+.amount_check dd input{
+    font-size: 1.4rem;
+    width: 10rem;
+    text-align: right;
+}
