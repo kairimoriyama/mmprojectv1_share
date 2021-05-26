@@ -216,6 +216,7 @@
 
 <script>
   
+//金額入力 focusout でカンマ
 $(function() {
   $('input[type="tel"]')
     .focusin(function() {
@@ -238,37 +239,31 @@ let diff_amount = document.getElementById('diff_amount');
 request_amount.addEventListener('change', function() {
   let str1 = $(this).val();
   let num1 = Number(str1.replace(/[^0-9]/g, ''));
-  console.log(num1)
 
   let str2 = order_amount.value;
   let num2 = Number(str2.replace(/[^0-9]/g, ''));
-  console.log(num2)
 
 	let diff = num1 - num2;
-  diff_amount.value = diff;
-
-  let h = document.getElementById('diff_amount').value.replace(/[^0-9]/g, '');   // 入力値から数字（0～9）以外の文字を削除
-  let i = h.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切りの3桁に変換する 
-  document.getElementById('diff_amount').value = i;  // テキストボックス内の値を上書き
-
+  let wnum = new String(diff).replace(/,/g, "");
+  // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
+  while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+  document.getElementById("diff_amount").value=wnum;
 });
 
 // 発注金額の入力（選択）で自動計算
 order_amount.addEventListener('change', function() {
   let str1 = $(this).val();
   let num1 = Number(str1.replace(/[^0-9]/g, ''));
-  console.log(num1)
 
   let str2 = request_amount.value;
   let num2 = Number(str2.replace(/[^0-9]/g, ''));
-  console.log(num2)
 
-	let diff = num1 - num2;
-  diff_amount.value = diff;
-
-  let h = document.getElementById('diff_amount').value.replace(/[^0-9]/g, '');   // 入力値から数字（0～9）以外の文字を削除
-  let i = h.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切りの3桁に変換する 
-  document.getElementById('diff_amount').value = i;  // テキストボックス内の値を上書き
+	let diff = num2 - num1;
+    
+  let wnum = new String(diff).replace(/,/g, "");
+  // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
+  while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+  document.getElementById("diff_amount").value=wnum;
 });
 
 
