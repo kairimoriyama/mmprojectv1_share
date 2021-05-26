@@ -61,7 +61,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="checkbox" name="selected_request" value="{{ item.requestNum }}">
+        <input type="checkbox" name="selected_request" value="{{ forloop.counter }}">
       </td>
 
       <td class="sticky_col_td second_col">
@@ -85,7 +85,7 @@
       <td>{{ item.standardItem.name }}</td>
       <td class="longText">{{ item.requestDescription }}</td>
       <td>{{ item.quantity }}</td>
-      <td class="number_col">{{ item.estimatedAmount|intcomma }}</td>
+      <td class="number_col" id="selected_order{{ forloop.counter }}">{{ item.estimatedAmount|intcomma }}</td>
 
       <td>
         {%  if item.adminStaff %}
@@ -169,7 +169,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ item.pk }}" checked="checked" >
+        <input type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ forloop.counter }}" checked="checked" >
       </td>
 
       <td class="sticky_col_td second_col">
