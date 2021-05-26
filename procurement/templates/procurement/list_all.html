@@ -61,7 +61,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="checkbox" name="selected_requestNum" value="{{ item.requestNum }}">
+        <input type="checkbox" name="selected_request" value="{{ item.requestNum }}">
       </td>
 
       <td class="sticky_col_td second_col">
@@ -108,13 +108,12 @@
 
 <div class="menu_wrapper amount_check">
 
-  <dt>発注依頼合計</dt>
+  <dt>発注依頼</dt>
   <dd><input type="tel" id="request_amount"></dd>
 
   <dt>発注金額</dt>
   <dd><input type="tel" id="order_amount"></dd>
 
-  
   <dt>差額</dt>
   <dd><input type="tel" id="diff_amount"></dd>
 
@@ -170,7 +169,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input type="radio" name="selected_order" id="item{{ forloop.counter }}" value="{{ item.pk }}" checked="checked" >
+        <input type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ item.pk }}" checked="checked" >
       </td>
 
       <td class="sticky_col_td second_col">
@@ -197,7 +196,7 @@
       <td class="number_col">{{ item.amount1|intcomma }}</td>
       <td class="number_col">{{ item.amount2|intcomma }}</td>
       <td class="number_col">{{ item.amount3|intcomma }}</td>
-      <td class="number_col">{{ item.totalAmount|intcomma }}</td>
+      <td class="number_col"  id="totalAmount{{ forloop.counter }}">{{ item.totalAmount|intcomma }}</td>
 
       <td>{{ item.payment.name }}</td>
       <td>{{ item.orderDescription }}</td>
@@ -216,70 +215,81 @@
 
 <script>
   
-//金額入力 focusout でカンマ
-$(function() {
-  $('input[type="tel"]')
-    .focusin(function() {
-    })
-    .focusout(function(){
 
-      let h = $(this).val().replace(/[^0-9]/g, '');   // 入力値から数字（0～9）以外の文字を削除
-      
-      let i = h.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切りの3桁に変換する
-      
-      $(this).val(i);  // テキストボックス内の値を上書き
-    });
-});
-
-let request_amount = document.getElementById('request_amount');
-let order_amount = document.getElementById('order_amount');
 let diff_amount = document.getElementById('diff_amount');
 
-// 発注依頼合計の入力（選択）で自動計算
-request_amount.addEventListener('change', function() {
-  let str1 = $(this).val();
-  let num1 = Number(str1.replace(/[^0-9]/g, ''));
 
-  let str2 = order_amount.value;
-  let num2 = Number(str2.replace(/[^0-9]/g, ''));
+// 発注依頼を選択する度にフォームに金額を入力
+// 発注情報を選択する度にフォームに金額を入力
+window.onload = function() {
 
-	let diff = num1 - num2;
-  let wnum = new String(diff).replace(/,/g, "");
-  // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
-  while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
-  document.getElementById("diff_amount").value=wnum;
-});
-
-// 発注金額の入力（選択）で自動計算
-order_amount.addEventListener('change', function() {
-  let str1 = $(this).val();
-  let num1 = Number(str1.replace(/[^0-9]/g, ''));
-
-  let str2 = request_amount.value;
-  let num2 = Number(str2.replace(/[^0-9]/g, ''));
-
-	let diff = num2 - num1;
+  let checkRequestAmount = document.getElementsByName('selected_request');
+  
+  checkRequestAmount.forEach(function(e) {
+    e.addEventListener("click", function() {           
+      let list_request = document.getElementsByName('selected_request');
+      let len_list_request = list_request.length;
+      let selected_request_num = 0;
     
-  let wnum = new String(diff).replace(/,/g, "");
-  // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
-  while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
-  document.getElementById("diff_amount").value=wnum;
-});
+      for (let i = 0; i < len_list_request ; i++){
+        if (list_request[i].checked){
+          selected_request_num = selected_request_num + Number(list_request[i].value);
+        }
+      }
+
+      document.getElementById("request_amount").value=String(selected_request_num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 
 
-function set_pk_order(){
-  //selected_orderのpkを確認
-  let list_order = document.getElementsByName('selected_order');
-  let len = list_order.length;
-  let selected_order = '';
+      let str1 = document.getElementById('request_amount').value;
+      let num1 = Number(str1.replace(/[^0-9]/g, ''));
+    
+      let str2 = document.getElementById('order_amount').value;
+      let num2 = Number(str2.replace(/[^0-9]/g, ''));
+    
+      let diff = num1 - num2;
+      let wnum = new String(diff).replace(/,/g, "");
+    
+      // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
+      while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+      document.getElementById("diff_amount").value=wnum;
 
-  for (let i = 0; i < len ; i++){
-    if (list_order[i].checked){
-      selected_order = list_order[i].value;
-    }
-  }
-}
-window.onload = set_pk_order();
+    });
+  });
+
+ 
+  let checkOrderAmount = document.getElementsByName('selected_order');
+  
+  checkOrderAmount.forEach(function(e) {
+    e.addEventListener("click", function() {           
+      let list_order = document.getElementsByName('selected_order');
+      let len_list_order = list_order.length;
+      let selected_order_num = '';
+    
+      for (let i = 0; i < len_list_order ; i++){
+        if (list_order[i].checked){
+          selected_order_num = Number(list_order[i].value);
+        }
+      }
+      document.getElementById("order_amount").value=String(selected_order_num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+
+      let str1 = document.getElementById('request_amount').value;
+      let num1 = Number(str1.replace(/[^0-9]/g, ''));
+    
+      let str2 = document.getElementById('order_amount').value;
+      let num2 = Number(str2.replace(/[^0-9]/g, ''));
+    
+      let diff = num1 - num2;
+      let wnum = new String(diff).replace(/,/g, "");
+    
+      // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
+      while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+      document.getElementById("diff_amount").value=wnum;
+
+    });
+  });
+};
+
+
 
 </script>
 
