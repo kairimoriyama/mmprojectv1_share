@@ -94,7 +94,7 @@ class CreateFormOrder(ModelForm):
     class Meta:
         model = OrderInfo
         fields = ('orderDate',
-            'progress', 'orderStaff',
+            'orderStaff',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
@@ -108,8 +108,6 @@ class CreateFormOrder(ModelForm):
         
 
         # 初期値・入力規則
-        self.fields['progress'].widget.attrs['readonly'] = True
-
         today = datetime.date.today()
         self.fields['orderDate'].required = True
         self.fields['orderDate'].initial = today

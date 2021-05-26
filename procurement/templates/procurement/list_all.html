@@ -85,7 +85,7 @@
       <td>{{ item.standardItem.name }}</td>
       <td class="longText">{{ item.requestDescription }}</td>
       <td>{{ item.quantity }}</td>
-      <td class="number_col" id="selected_order{{ forloop.counter }}">{{ item.estimatedAmount|intcomma }}</td>
+      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
 
       <td>
         {%  if item.adminStaff %}
@@ -196,7 +196,7 @@
       <td class="number_col">{{ item.amount1|intcomma }}</td>
       <td class="number_col">{{ item.amount2|intcomma }}</td>
       <td class="number_col">{{ item.amount3|intcomma }}</td>
-      <td class="number_col"  id="totalAmount{{ forloop.counter }}">{{ item.totalAmount|intcomma }}</td>
+      <td class="number_col" name="selected_order_amount">{{ item.totalAmount|intcomma }}</td>
 
       <td>{{ item.payment.name }}</td>
       <td>{{ item.orderDescription }}</td>
@@ -230,10 +230,12 @@ window.onload = function() {
       let list_request = document.getElementsByName('selected_request');
       let len_list_request = list_request.length;
       let selected_request_num = 0;
+
+      let list_request_amount = document.getElementsByName('selected_request_amount');
     
       for (let i = 0; i < len_list_request ; i++){
         if (list_request[i].checked){
-          selected_request_num = selected_request_num + Number(list_request[i].value);
+          selected_request_num = selected_request_num + Number(list_request_amount[i].textContent.replace(/,/g, ''));
         }
       }
 
@@ -264,10 +266,12 @@ window.onload = function() {
       let list_order = document.getElementsByName('selected_order');
       let len_list_order = list_order.length;
       let selected_order_num = '';
+
+      let list_order_amount = document.getElementsByName('selected_order_amount');
     
       for (let i = 0; i < len_list_order ; i++){
         if (list_order[i].checked){
-          selected_order_num = Number(list_order[i].value);
+          selected_order_num = Number(list_order_amount[i].textContent.replace(/,/g, ''));
         }
       }
       document.getElementById("order_amount").value=String(selected_order_num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
