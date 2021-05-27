@@ -66,8 +66,7 @@ class CreateFormRequest(ModelForm):
         self.fields['requestStaff'].required = True
         self.fields['requestStaffDivision'].required = True
 
-        self.fields['dueDate'].initial = datetime.date(
-            year=today.year, month=today.month, day=today.day+5)
+        self.fields['dueDate'].initial = today
         self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
         self.fields['itemCategory1'].required = True
@@ -114,8 +113,7 @@ class CreateFormOrder(ModelForm):
         self.fields['orderDate'].widget.attrs['readonly'] = True
                
         self.fields['arrivalDate'].required = True
-        self.fields['arrivalDate'].initial = datetime.date(
-            year=today.year, month=today.month, day=today.day+2)
+        self.fields['arrivalDate'].initial = today
 
         self.fields['orderStaff'].required = True
         self.fields['orderStaffDivision'].required = True

@@ -979,14 +979,51 @@ hr{
     text-align: left;
 }
 
-.multiple_items_amount dd div input[type="number"]{
+
+
+.multiple_items_amount dd div input[type="tel"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    
+    display: block;
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+
     width: 18rem;
     height: 2.6rem;
     text-align: right;
 }
 
+.multiple_items_amount dd div input[type="number"]{
+    display: none;
+}
 
-/* delete チェックボックス*/
+/* create_request amount */
+.request_amount input[type="tel"]{
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    
+    display: block;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+    width: 100%;
+    
+    text-align: right;
+}
+
+.request_amount input[type="number"]{
+    display: none;
+}
+
+/* delete チェックボックス */
 
 .delete_bt{
     display: flex;
@@ -1032,6 +1069,7 @@ hr{
 }
 
 
+/* 金額突合  */
 
 .amount_check{
     display: flex;
