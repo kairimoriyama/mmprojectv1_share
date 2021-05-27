@@ -61,7 +61,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input onclick="checkAmount(),correspondOrderNumber()" type="checkbox" name="selected_request" value="{{ forloop.counter }}">
+        <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ forloop.counter }}">
       </td>
 
       <td class="sticky_col_td second_col">
@@ -270,20 +270,26 @@ function correspondOrderNumber(){
 
   let len_list_request = list_request.length;
   let len_list_order = list_request.length;
-
+  console.log(list_orderNumInRequest[1].textContent,1);
 
   for (let i = 0; i < len_list_request ; i++){
-    if (list_request[i].checked && list_orderNumInRequest[i] > 0){
+    if (list_request[i].checked && Number(list_orderNumInRequest[i]) > 0){
       orderNumInRequest = list_orderNumInRequest[i].textContent;
-
+      console.log(orderNumInRequest,2);
       for (let j = 0; j < len_list_order ; j++){
         if (list_orderNumInOrder[j].textContent == orderNumInRequest){
           list_order[j].checked  = true;
+          console.log(list_order[j]);
         };
       };
     };
   };
 };
+
+function clickRequest() {
+  correspondOrderNumber();
+  checkAmount();
+}
 
 </script>
 
