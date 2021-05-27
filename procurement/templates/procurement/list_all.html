@@ -3,8 +3,8 @@
 
 {% block header %}
 
-  <li><a href="{% url 'procurement:list_request' %}">依頼一覧</a></li>
-  <li><a href="{% url 'procurement:list_order' %}">発注・検収一覧</a></li>
+  <li><a href="{% url 'procurement:list_request' %}">依頼・検収一覧</a></li>
+  <li><a href="{% url 'procurement:list_order' %}">発注一覧</a></li>
 
 {% endblock%}
 
@@ -16,6 +16,7 @@
   <div><h3>依頼</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}">依頼作成</a>
+    <a class="menu_bt menu_bt_mg_left row-blue">検収実行</a>
   </div>
 </div>
 
@@ -60,7 +61,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input onclick="checkAmount()" type="checkbox" name="selected_request" value="{{ forloop.counter }}">
+        <input onclick="checkAmount(),correspondOrderNumber()" type="checkbox" name="selected_request" value="{{ forloop.counter }}">
       </td>
 
       <td class="sticky_col_td second_col">
@@ -71,7 +72,7 @@
      
       <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
       <td>{{ item.adminCheck.name }}</td>
-      <td>{{ item.orderInfo.orderNum }}</td>
+      <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
 
       <td>{{ item.requestStaff }}</td>
       <td>{{ item.requestStaffDivision }}</td>
@@ -127,7 +128,6 @@
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
     <input type="submit" value="発注報告" class="menu_bt menu_bt_mg_left row-yellow">
-    <a class="menu_bt menu_bt_mg_left row-blue">検収実行</a>
   </div>
 </div>
 
@@ -215,9 +215,6 @@
 
 <script>
   
-
-let diff_amount = document.getElementById('diff_amount');
-
 function checkAmount(){
 
 // 発注依頼を選択する度にフォームに金額を入力
@@ -248,6 +245,7 @@ function checkAmount(){
   }
   document.getElementById("order_amount").value=String(selected_order_num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 
+  // 差額を計算
   let str1 = document.getElementById('request_amount').value;
   let num1 = Number(str1.replace(/[^0-9]/g, ''));
 
@@ -262,6 +260,30 @@ function checkAmount(){
   document.getElementById("diff_amount").value=wnum;
 };
 
+
+// 依頼を選択すると自動で発注を選択
+function correspondOrderNumber(){
+  let list_request = document.getElementsByName('selected_request');
+  let list_orderNumInRequest = document.getElementsByName('orderNumInRequest');
+  let list_orderNumInOrder = document.getElementsByName('orderNumInOrder');
+  let list_order = document.getElementsByName('selected_order');
+
+  let len_list_request = list_request.length;
+  let len_list_order = list_request.length;
+
+
+  for (let i = 0; i < len_list_request ; i++){
+    if (list_request[i].checked && list_orderNumInRequest[i] > 0){
+      orderNumInRequest = list_orderNumInRequest[i].textContent;
+
+      for (let j = 0; j < len_list_order ; j++){
+        if (list_orderNumInOrder[j].textContent == orderNumInRequest){
+          list_order[j].checked  = true;
+        };
+      };
+    };
+  };
+};
 
 </script>
 
