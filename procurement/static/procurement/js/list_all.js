@@ -8,13 +8,17 @@ window.onload = accepance_menu_default();
 
 // acceptance_start のクリックにより判定
 function accepance_start(){
-  $("#inspenction").show(150);
-  $("#amount_check").hide(0);
-  document.getElementById("create_request").style.display ="none";
-  document.getElementById("acceptance_start").style.display ="none";
-  document.getElementById("acceptance_done").style.display ="block";
-  document.getElementById("acceptance_none").style.display ="block";
-  document.getElementById("acceptance_title").style.display ="block";
+  if(document.getElementById("diff_amount").value != "" && document.getElementById("diff_amount").value == 0){
+    $("#inspenction").show(150);
+    $("#amount_check").hide(0);
+    document.getElementById("create_request").style.display ="none";
+    document.getElementById("acceptance_start").style.display ="none";
+    document.getElementById("acceptance_done").style.display ="block";
+    document.getElementById("acceptance_none").style.display ="block";
+    document.getElementById("acceptance_title").style.display ="block";
+  }else{
+    alert('未検収の発注と対応する全ての依頼を選択してください')
+  };
 };
 
 // 検収中止
