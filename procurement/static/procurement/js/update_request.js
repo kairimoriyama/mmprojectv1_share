@@ -20,4 +20,3 @@ function input_zero(){
         document.getElementById('amount').children[1].value = amount;
       });
   });
- 

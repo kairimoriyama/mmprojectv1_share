@@ -1094,3 +1094,99 @@ hr{
     width: 10rem;
     text-align: right;
 }
+
+
+
+
+/* 検収画面1 */
+.title_inspenction{
+    margin: 1rem;
+}
+
+.inspenction{
+    display: grid;
+    grid-template-rows: repeat(4, auto);
+    grid-template-columns: 100%;
+    margin: 0.5rem 1rem 0 1rem;
+    max-width: 90rem;
+}
+
+@media screen and (min-width: 800px) {
+    .inspenction{
+        grid-template-rows: repeat(3, auto);
+        grid-template-columns: 33.33% 33.33% 33.33%;
+        grid-template-areas:
+        "item1 item2 item3"
+        "item4 item4 item4"; 
+    }
+    .inspenction1 .item1 {grid-area: area1;}
+    .inspenction2 .item2 {grid-area: area2;}
+    .inspenction3 .item3 {grid-area: area3;}
+    .inspenction4 .item4 {grid-area: area4;}
+
+}
+
+
+.inspenction dl{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content:left;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: rgb(0, 51, 141);
+}
+
+
+.inspenction dl dt{
+    width: 10%;
+    margin-right: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.inspenction dl dd{
+    width: 90%;
+}
+
+@media screen and (min-width: 800px) {
+    .inspenction dl dt{
+        width: 20%;
+    }
+    .inspenction dl dd{
+        width: 80%;
+    }
+    
+    .inspenction dl .long_inspection_dt{
+        width: 21.5%;
+    }
+    .inspenction dl .long_inspection_dd{
+        width : 78.5%;
+    }
+}
+
+.inspenction dl dd input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    
+    display: block;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+    width: 20rem;
+    margin-right: 2rem;
+}
+
+.inspenction dd textarea{
+    display: block;
+    resize: none;
+    width: 40rem;
+    border:solid 0.1rem #bfbfbf;
+    font-size: 1.4rem;
+    padding: 0.5rem;
+}
+
+
