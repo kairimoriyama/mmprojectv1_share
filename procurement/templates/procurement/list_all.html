@@ -12,38 +12,43 @@
 
 {% block content %}
 
+<h3 class="title_inspenction" id="acceptance_title">検収処理の実施（商品・サービスの内容をチェックしてください）</h3>
+
+<div class="inspenction" id="inspenction">
+
+  <dl class="inspenction1">
+    <dt>検収者</dt>
+    <dd><input type="text"></dd>
+  </dl>
+
+  <dl class="inspenction2">
+    <dt>部門</dt>
+    <dd><input type="text"></dd>
+  </dl>
+
+  <dl class="inspenction3">
+    <dt>検収日</dt>
+    <dd><input type="date"></dd>
+  </dl>
+
+  <dl class="inspenction4">
+    <dt class="long_inspection_dt">メモ</dt>
+    <dd class="long_inspection_dd"><textarea ></textarea></dd>
+  </dl>
+</div>
+
 
 <div class="menu_wrapper">
   <div><h3>依頼</h3></div>
   <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="{% url 'procurement:create_request' %}">依頼作成</a>
-    <a class="menu_bt menu_bt_mg_left row-blue">受領処理</a>
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
+    <p class="menu_bt menu_bt_mg_left row-blue" id="acceptance_start" onclick="accepance_start()">検収処理</p>
+    <a class="menu_bt menu_bt_mg_left row-green" id="acceptance_done">検収実行</a>
+    <a class="menu_bt menu_bt_mg_left row-gray" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
 </div>
 
-<div class="menu_wrapper">
-  <div>
-    <div class="menu_wrapper_inner">
-      <dt>検収者</dt>
-      <dd><input type="text"></dd>
 
-      <dt>検収者部門</dt>
-      <dd><input type="text"></dd>
-
-      <dt>研修日</dt>
-      <dd><input type="text"></dd>
-    </div>
-
-    <div class="menu_wrapper_inner">
-      <dt>研修メモ</dt>
-      <dd><textarea ></textarea></dd>
-    </div>
-  </div>
-
-  <div>
-    <a class="menu_bt menu_bt_mg_left row-blue">検収実行</a>
-  </div>
-</div>
 
 <table class="item-table">
 
@@ -131,7 +136,7 @@
   
 </table>
 
-<div class="menu_wrapper amount_check">
+<div class="menu_wrapper amount_check" id="amount_check">
 
   <dt>依頼</dt>
   <dd><input type="tel" id="request_amount" readonly="readonly"></dd>
