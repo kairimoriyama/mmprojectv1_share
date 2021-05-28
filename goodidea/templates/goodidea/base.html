@@ -39,15 +39,8 @@
     {% endblock content%}
 
     <script type="text/javascript"  src="{% static 'goodidea/lightbox/js/lightbox.min.js' %}"></script>
-    <script>
-      lightbox.option({
-        'alwaysShowNavOnTouchDevices':true,
-        'wrapAround': true,
-        'albumLabel': '写真%1／%2',
-        'positionFromTop': 15,
-        'maxHeight':500,
-      })
-    </script>
+    <script src="{% static 'goodidea/js/base.js' %}"></script>
+
   </body>
 
 </html>
