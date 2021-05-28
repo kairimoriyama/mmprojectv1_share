@@ -109,13 +109,13 @@
 <div class="menu_wrapper amount_check">
 
   <dt>依頼</dt>
-  <dd><input type="tel" id="request_amount"></dd>
+  <dd><input type="tel" id="request_amount" readonly="readonly"></dd>
 
   <dt>- 発注</dt>
-  <dd><input type="tel" id="order_amount"></dd>
+  <dd><input type="tel" id="order_amount" readonly="readonly"></dd>
 
   <dt>= 差額</dt>
-  <dd><input type="tel" id="diff_amount"></dd>
+  <dd><input type="tel" id="diff_amount" readonly="readonly"></dd>
 
 </div>
 
@@ -169,12 +169,12 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input onclick="checkAmount()" type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ forloop.counter }}" checked="checked" >
+        <input onclick="clickOrder()" type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ forloop.counter }}" checked="checked" >
       </td>
 
       <td class="sticky_col_td second_col">
-        <a href="{% url 'procurement:detail_order' item.pk %}">
-          <p>{{ item.orderNum }}</p>
+        <a href="{% url 'procurement:detail_order' item.pk %}" >
+          <p name="orderNumInOrder">{{ item.orderNum }}</p>
         </a>
       </td>
      
