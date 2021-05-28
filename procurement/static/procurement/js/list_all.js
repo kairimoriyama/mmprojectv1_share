@@ -1,3 +1,33 @@
+function accepance_menu_default(){
+  $("#inspenction").hide(0);
+  document.getElementById("acceptance_done").style.display ="none";
+  document.getElementById("acceptance_none").style.display ="none";
+  document.getElementById("acceptance_title").style.display ="none";
+};
+window.onload = accepance_menu_default();
+
+// acceptance_start のクリックにより判定
+function accepance_start(){
+  $("#inspenction").show(150);
+  $("#amount_check").hide(0);
+  document.getElementById("create_request").style.display ="none";
+  document.getElementById("acceptance_start").style.display ="none";
+  document.getElementById("acceptance_done").style.display ="block";
+  document.getElementById("acceptance_none").style.display ="block";
+  document.getElementById("acceptance_title").style.display ="block";
+};
+
+// 検収中止
+function accepance_stop(){
+  $("#inspenction").hide(150);
+  $("#amount_check").show(0);
+  document.getElementById("create_request").style.display ="block";
+  document.getElementById("acceptance_start").style.display ="block";
+  document.getElementById("acceptance_done").style.display ="none";
+  document.getElementById("acceptance_none").style.display ="none";
+  document.getElementById("acceptance_title").style.display ="none";
+};
+
 function checkAmount(){
 
 // 発注依頼を選択する度にフォームに金額を入力

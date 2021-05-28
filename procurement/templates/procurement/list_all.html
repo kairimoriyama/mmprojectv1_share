@@ -3,7 +3,8 @@
 
 {% block header %}
 
-  <li><a href="{% url 'procurement:list_request' %}">依頼・検収一覧</a></li>
+  <li><a href="">標準品登録</a></li>
+  <li><a href="{% url 'procurement:list_request' %}">依頼一覧</a></li>
   <li><a href="{% url 'procurement:list_order' %}">発注一覧</a></li>
 
 {% endblock%}
@@ -11,14 +12,43 @@
 
 {% block content %}
 
+<h3 class="title_inspenction" id="acceptance_title">検収処理の実施（商品・サービスの内容をチェックしてください）</h3>
+
+<div class="inspenction" id="inspenction">
+
+  <dl class="inspenction1">
+    <dt>検収者</dt>
+    <dd><input type="text"></dd>
+  </dl>
+
+  <dl class="inspenction2">
+    <dt>部門</dt>
+    <dd><input type="text"></dd>
+  </dl>
+
+  <dl class="inspenction3">
+    <dt>検収日</dt>
+    <dd><input type="date"></dd>
+  </dl>
+
+  <dl class="inspenction4">
+    <dt class="long_inspection_dt">メモ</dt>
+    <dd class="long_inspection_dd"><textarea ></textarea></dd>
+  </dl>
+</div>
+
 
 <div class="menu_wrapper">
   <div><h3>依頼</h3></div>
   <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="{% url 'procurement:create_request' %}">依頼作成</a>
-    <a class="menu_bt menu_bt_mg_left row-blue">検収実行</a>
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
+    <p class="menu_bt menu_bt_mg_left row-blue" id="acceptance_start" onclick="accepance_start()">検収処理</p>
+    <a class="menu_bt menu_bt_mg_left row-green" id="acceptance_done">検収実行</a>
+    <a class="menu_bt menu_bt_mg_left row-gray" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
 </div>
+
+
 
 <table class="item-table">
 
@@ -106,7 +136,7 @@
   
 </table>
 
-<div class="menu_wrapper amount_check">
+<div class="menu_wrapper amount_check" id="amount_check">
 
   <dt>依頼</dt>
   <dd><input type="tel" id="request_amount" readonly="readonly"></dd>
@@ -124,7 +154,7 @@
 <form action="{% url 'procurement:update_request_order' 1 %}" method="post">
 {% csrf_token %}
 <div class="menu_wrapper">
-  <div><h3>発注・検収</h3></div>
+  <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
     <input type="submit" value="発注報告" class="menu_bt menu_bt_mg_left row-yellow">
@@ -149,9 +179,9 @@
 		<th>税込合計</th>
 		<th>支払方法</th>
 		<th>発注メモ</th>
-		<th>予定金額</th>
 		<th>納品日</th>
 		<th>納品担当者</th>
+		<th>納品担部門</th>
 		<th>納品メモ</th>
   </tr>
   
@@ -201,11 +231,33 @@
       <td>{{ item.payment.name }}</td>
       <td>{{ item.orderDescription }}</td>
 
-      <td>{{ item.acceptanceDate | date:"Y/m/d" }}</td>
-      <td>{{ item.acceptanceStaff }}</td>
-      <td>{{ item.acceptanceStaffDivision.name }}</td>
+      <td class="date_col">
+        {% if item.acceptanceDate %}
+          {{ item.acceptanceDate | date:"Y/m/d"  }}
+        {% else %}-
+        {% endif %}
+      </td>
 
-      <td class="longText">{{ item.acceptanceMemo }}</td>
+      <td>
+        {% if item.acceptanceStaff %}
+          {{ item.acceptanceStaff }}
+        {% else %}
+        {% endif %}
+      </td>
+
+      <td>
+        {% if item.acceptanceStaffDivision %}
+          {{ item.acceptanceStaffDivision.name }}
+        {% else %}
+        {% endif %}
+      </td>
+
+      <td class="longText">
+        {% if item.acceptanceMemo %}
+          {{ item.acceptanceMemo }}
+        {% else %}
+        {% endif %}
+      </td>
   </tr>
 
   {% endfor %}
