@@ -53,10 +53,11 @@ function correspondOrderNumber(){
 
   let len_list_request = list_request.length;
   let len_list_order = list_request.length;
+
   console.log(list_orderNumInRequest[1].textContent,1);
 
   for (let i = 0; i < len_list_request ; i++){
-    if (list_request[i].checked && Number(list_orderNumInRequest[i]) > 0){
+    if (list_request[i].checked && Number(list_orderNumInRequest[i].textContent) > 0){
       orderNumInRequest = list_orderNumInRequest[i].textContent;
       console.log(orderNumInRequest,2);
       for (let j = 0; j < len_list_order ; j++){
