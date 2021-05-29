@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<form class="container_create" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<form class="container_request_edit" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
     <input class="menu_bt" type="submit" value='依頼実行'>
@@ -25,20 +25,20 @@
     <dt>依頼日</dt>
     <dd>{{ form.submissionDate }}</dd>
   </dl>
-    
+
   <dl class="item_dl item3">
+    <dt>希望納期</dt>
+    <dd>{{ form.dueDate }}</dd>
+  </dl>
+    
+  <dl class="item_dl item4">
     <dt>依頼者</dt>
     <dd>{{ form.requestStaff}}</dd>
   </dl>
 
-  <dl class="item_dl item4">
-    <dt>依頼者所属</dt>
-    <dd>{{ form.requestStaffDivision}}</dd>
-  </dl>
-
   <dl class="item_dl item5">
-    <dt>希望納期</dt>
-    <dd>{{ form.dueDate }}</dd>
+    <dt>所属</dt>
+    <dd>{{ form.requestStaffDivision}}</dd>
   </dl>
 
   <dl class="item_dl item6">
@@ -47,12 +47,12 @@
   </dl>
 
   <dl class="item_dl item7">
-    <dt>分類1</dt>
+    <dt>大分類</dt>
     <dd>{{ form.itemCategory1}}</dd>
   </dl>
 
   <dl class="item_dl item8">
-    <dt>分類2</dt>
+    <dt>小分類</dt>
     <dd>{{ form.itemCategory2}}</dd>
   </dl>
 
@@ -61,31 +61,42 @@
     <dd class="sentence_dd">{{ form.standardItem}}</dd>
   </dl>
 
-  <dl class="item_dl item10">
-    <dt class="height_l sentence_dt">目的・依頼内容</dt>
-    <dd class="height_l sentence_dd">{{ form.requestDescription}}</dd>
-  </dl>
-
-  <dl class="item_dl item11">
+    <dl class="item_dl item10">
     <dt>数量</dt>
     <dd>{{ form.quantity }}</dd>
   </dl>
 
-  <dl class="item_dl item12">
+  <dl class="item_dl item11">
     <dt>税込総額</dt>
     <dd id="amount" class="request_amount"><input type="tel">{{ form.estimatedAmount }}</dd>
   </dl>
 
-  <dl class="item_dl item13 multiple_items_URL">
-    <dt class="height_l sentence_dt">URL</dt>
-    <dd class="height_l sentence_dd">
+
+  <dl class="item_dl item12">
+    <dt class="height_l">目的・依頼内容</dt>
+    <dd class="height_l">{{ form.requestDescription}}</dd>
+  </dl>
+
+  <dl class="item_dl item13">
+    <dt>稟議番号</dt>
+    <dd>{{ form.approved}}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>プロジェクト</dt>
+    <dd>{{ form.project}}</dd>
+  </dl>
+
+  <dl class="item_dl item15 multiple_items_URL">
+    <dt class="height_l">URL</dt>
+    <dd class="height_l">
       <div>{{ form.refURL1 }}</div>
       <div>{{ form.refURL2 }}</div>
       <div>{{ form.refURL3 }}</div>
     </dd>
   </dl>
 
-  <dl class="item_dl item14 multiple_items_select">
+  <dl class="item_dl item16 multiple_items_select">
     <dt class="height_l">費用負担</dt>
     <dd class="height_l">
       <div>{{ form.costCenter1 }}</div>
@@ -94,12 +105,36 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item_dl_dummy_s">
-    <dt></dt> <dd></dd>
+  <dl class="item_dl item17">
+    <dt>管理者</dt>
+    <dd>-</dd>
   </dl>
 
-  <dl class="item_dl item_dl_dummy_l height_l">
-    <dt></dt> <dd></dd>
+  <dl class="item_dl item18">
+    <dt>進捗</dt>
+    <dd>-</dd>
+  </dl>
+
+  
+  <dl class="item_dl item19">
+    <dt class="height_m">管理メモ</dt>
+    <dd class="height_m">-</dd>
+  </dl>
+
+
+  <dl class="item_dl item20">
+    <dt>発注番号</dt>
+    <dd>-</dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s1">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s2">
+    <dt></dt>
+    <dd></dd>
   </dl>
   
 </form>

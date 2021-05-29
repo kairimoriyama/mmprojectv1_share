@@ -22,7 +22,7 @@
 
 </div>
 
-<div class="container_detail">
+<div class="container_request">
   <dl class="item_dl item1">
     <dt>依頼番号</dt>
     <dd class="itemNum">
@@ -35,19 +35,19 @@
     <dd>{{ object.submissionDate| date:"Y/m/d" }}</dd>
   </dl>
     
-  <dl class="item_dl item3">
+  <dl class="item_dl ite3">
+    <dt>希望納期</dt>
+    <dd>{{ object.dueDate| date:"Y/m/d"  }}</dd>
+  </dl>
+
+  <dl class="item_dl item4">
     <dt>依頼者</dt>
     <dd>{{ object.requestStaff}}</dd>
   </dl>
 
-  <dl class="item_dl item4">
-    <dt>依頼者所属</dt>
-    <dd>{{ object.requestStaffDivision}}</dd>
-  </dl>
-
   <dl class="item_dl item5">
-    <dt>希望納期</dt>
-    <dd>{{ object.dueDate }}</dd>
+    <dt>所属</dt>
+    <dd>{{ object.requestStaffDivision}}</dd>
   </dl>
 
   <dl class="item_dl item6">
@@ -56,12 +56,12 @@
   </dl>
 
   <dl class="item_dl item7">
-    <dt>分類1</dt>
+    <dt>大分類</dt>
     <dd>{{ object.itemCategory1}}</dd>
   </dl>
 
   <dl class="item_dl item8">
-    <dt>分類2</dt>
+    <dt>小分類</dt>
     <dd>{{ object.itemCategory2}}</dd>
   </dl>
 
@@ -70,24 +70,46 @@
     <dd class="sentence_dd">{{ object.standardItem}}</dd>
   </dl>
 
-  <dl class="item_dl item10">
-    <dt class="height_m sentence_dt">目的・依頼内容</dt>
-    <dd class="height_m sentence_dd sentence_dd_scroll">
-      {{ object.requestDescription}}
-    </dd>
-  </dl>
 
-  <dl class="item_dl item11">
+  <dl class="item_dl item10">
     <dt>数量</dt>
     <dd>{{ object.quantity }}</dd>
   </dl>
 
-  <dl class="item_dl item12">
+  <dl class="item_dl item11">
     <dt>税込総額</dt>
     <dd>{{ object.estimatedAmount|intcomma }}円</dd>
   </dl>
+  
+  <dl class="item_dl item12">
+    <dt class="height_m">目的・依頼内容</dt>
+    <dd class="height_m sentence_dd_scroll">
+      {{ object.requestDescription}}
+    </dd>
+  </dl>
 
-  <dl class="item_dl item13 multiple_items_URL">
+  <dl class="item_dl item13">
+    <dt>稟議番号</dt>
+    <dd>
+      {% if object.approved %}
+        {{ object.approved }}
+      {% else %}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>プロジェクト</dt>
+    <dd>
+      {% if object.project %}
+        {{ object.project }}
+      {% else %}
+      {% endif %}
+    </dd>
+  </dl>
+
+
+  <dl class="item_dl item15 multiple_items_URL">
     <dt class="height_m">URL</dt>
     <dd class="height_m">
 
@@ -118,7 +140,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item14 multiple_items">
+  <dl class="item_dl item16 multiple_items">
     <dt class="height_m">費用負担</dt>
     <dd class="height_m">
       {% if not object.costCenter1 %}
@@ -144,22 +166,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item15">
-    <dt>進捗</dt>
-    <dd>{{ object.adminCheck }}</dd>
-  </dl>
-
-  <dl class="item_dl item18">
-    <dt>発注番号</dt>
-    <dd>
-      {% if object.orderInfo %}
-        {{ object.orderInfo.orderNum }}
-      {% else %}
-      {% endif %}
-    </dd>
-  </dl>
-
-  <dl class="item_dl item16">
+  <dl class="item_dl item17">
     <dt>管理者</dt>
     <dd>
       {% if object.adminStaff %}
@@ -169,12 +176,27 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item17">
+  <dl class="item_dl item18">
+    <dt>進捗</dt>
+    <dd>{{ object.adminCheck }}</dd>
+  </dl>
+
+  <dl class="item_dl item19">
     <dt class="height_m">管理<br>メモ</dt>
     <dd class="height_m sentence_dd_scroll">
       {% if not object.adminDescription %}
       {% else %}
         {{ object.adminDescription }}
+      {% endif %}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item20">
+    <dt>発注番号</dt>
+    <dd>
+      {% if object.orderInfo %}
+        {{ object.orderInfo.orderNum }}
+      {% else %}
       {% endif %}
     </dd>
   </dl>
