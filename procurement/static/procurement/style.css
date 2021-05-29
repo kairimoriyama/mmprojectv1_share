@@ -1049,9 +1049,9 @@ hr{
 /* 検収画面 */
 .title_inspenction{
     margin: 1rem;
-    padding: 0.5rem;
-    background-color:rgb(0, 51, 141);
-    color:  #fff;
+    padding: 1rem;
+    background-color:rgb(177, 219, 177);
+    color:  rgb(0, 51, 141);
 }
 
 .inspenction{
