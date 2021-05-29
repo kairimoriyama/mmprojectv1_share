@@ -49,9 +49,11 @@
     <th>依頼者所属</th>
     <th>希望納期</th>
 		<th>納品先</th>
-		<th>分類1</th>
-		<th>分類2</th>
+		<th>大分類</th>
+		<th>小分類</th>
 		<th>標準備品</th>
+    <th>稟議</th>
+    <th>プロジェクト</th>
     <th>目的・依頼内容</th>
 		<th>数量</th>
 		<th>税込総額</th>
@@ -96,6 +98,16 @@
       <td>{{ item.itemCategory1.name }}</td>
       <td>{{ item.itemCategory2.name }}</td>
       <td>{{ item.standardItem.name }}</td>
+      <td>{% if item.approved %}
+            {{ item.approved }}
+          {%  else %}
+          {% endif %}  
+      </td>
+      <td>{% if item.project %}
+            {{ item.project }}
+          {%  else %}
+          {% endif %}  
+      </td>
       <td class="longText">{{ item.requestDescription }}</td>
       <td>{{ item.quantity }}</td>
       <td>{{ item.estimatedAmount|intcomma }}</td>

@@ -170,6 +170,9 @@ class OrderRequest(models.Model):
     standardItem = models.ForeignKey(StandardItem,on_delete=models.PROTECT, related_name ='orderRequest_standardItem',blank=True,null=True) 
     requestDescription = models.TextField(max_length=400,blank=True,null=True)
 
+    project = models.CharField(max_length=30,blank=True,null=True)
+    approved = models.CharField(max_length=30,blank=True,null=True)
+
     quantity = models.CharField(max_length=100)
     estimatedAmount = models.IntegerField(blank=True,null=True)
 

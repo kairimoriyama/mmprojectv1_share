@@ -105,6 +105,15 @@ button{
     background-color: #fff;
 }
 
+/* 編集無効 クリック不可 */
+.no_click{
+    pointer-events: none;
+}
+
+/* ポインター 指 */
+.yubi {
+    cursor : pointer;
+}
 
 
 /* menu ボタンのwrapper */
@@ -357,7 +366,8 @@ button{
     line-height: 2rem;
 }
 
-.item_dl_dummy_s  dt,.item_dl_dummy_l dt{
+.item_dl_dummy_s  dt,.item_dl_dummy_l dt,
+.item_dl_dummy_s1 dt, .item_dl_dummy_s2 dt{
     background-color: #fff;
 }
 
@@ -410,7 +420,7 @@ button{
 
 
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 500px) {
     .item_dl .sentence_dt{
         width: 10%;
     }
@@ -431,94 +441,98 @@ hr{
 
 
 
-/* detail_request のレイアウト */
+/* request detail のレイアウト */
 
 
-.container_detail{
+.container_request{
     display: grid;
-    grid-template-rows: repeat(17, auto);
+    grid-template-rows: repeat(20, auto);
     grid-template-columns: 100%;
     margin: 1rem 1rem 0 1rem;
 }
 
 @media screen and (min-width: 500px) {
-    .container_detail{
-        grid-template-rows: repeat(9, auto);
+    .container_request{
+        grid-template-rows: repeat(12, auto);
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area1 area2"
         "area3 area4"
         "area5 area6"
         "area7 area8"
-        "area9 area18"
-        "area10 area17"
-        "area11 area12"
-        "area13 area14"
-        "area15 area16"; 
+        "area9 area9"
+        "area10 area11"
+        "area12 area13"
+        "area12 area14"
+        "area15 area16"
+        "area17 area18"
+        "area19 area20" 
+        "area19 dummy_s"; 
     }
         
-    .item1 {grid-area: area1;}
-    .item2 {grid-area: area2;}
-    .item3 {grid-area: area3;}
-    .item4 {grid-area: area4;}
-    .item5 {grid-area: area5;}
-    .item6 {grid-area: area6;}
-    .item7 {grid-area: area7;}
-    .item8 {grid-area: area8;}
-    .item9 {grid-area: area9;}
-    .item10 {grid-area: area10;}
-    .item11 {grid-area: area11;}
-    .item12 {grid-area: area12;}
-    .item13 {grid-area: area13;}
-    .item14 {grid-area: area14;}
-    .item15 {grid-area: area15;}
-    .item16 {grid-area: area16;}
-    .item17 {grid-area: area17;}
-    .item18 {grid-area: area18;}
+    .container_request .item1 {grid-area: area1;}
+    .container_request .item2 {grid-area: area2;}
+    .container_request .item3 {grid-area: area3;}
+    .container_request .item4 {grid-area: area4;}
+    .container_request .item5 {grid-area: area5;}
+    .container_request .item6 {grid-area: area6;}
+    .container_request .item7 {grid-area: area7;}
+    .container_request .item8 {grid-area: area8;}
+    .container_request .item9 {grid-area: area9;}
+    .container_request .item10 {grid-area: area10;}
+    .container_request .item11 {grid-area: area11;}
+    .container_request .item12 {grid-area: area12;}
+    .container_request .item13 {grid-area: area13;}
+    .container_request .item14 {grid-area: area14;}
+    .container_request .item15 {grid-area: area15;}
+    .container_request .item16 {grid-area: area16;}
+    .container_request .item17 {grid-area: area17;}
+    .container_request .item18 {grid-area: area18;}
+    .container_request .item19 {grid-area: area19;}
+    .container_request .item20 {grid-area: area20;}
 
-}
-
-
-@media screen and (min-width: 800px) {
-    .container_detail{
-        grid-template-rows: repeat(7, auto);
-        grid-template-columns: 33.33% 33.33% 33.33%;
-        grid-template-areas:
-        "area1 area2 area3"
-        "area4 area5 area6"
-        "area7 area8 area15"
-        "area9 area9 area18"
-        "area10 area10 area17"
-        "area11 area12 area16"
-        "area13 area14 dummy_l";
-    }
-
-    .item_dl_dummy_l{
-        grid-area: dummy_l;
+    .container_request .item_dl_dummy_s{
+        grid-area: dummy_s;
          display: flex;
     }
-    
 }
 
 
+@media screen and (min-width: 800px) {
+    .container_request{
+        grid-template-rows: repeat(9, auto);
+        grid-template-columns: 33.33% 33.33% 33.33%;
+        grid-template-areas:
+        "area1 area2 area3"
+        "area4 area5 area6"
+        "area7 area8 area10"
+        "area9 area9 area11"
+        "area12 area13 area15"
+        "area12 area14 area15"
+        "area16 area17 area19"
+        "area16 area18 area19"
+        "area20 dummy_s dummy_s";
+    }
+}
 
-/* create_requestのレイアウト */
 
-.container_create{
+/* request create, updateのレイアウト */
+
+.container_request_edit{
     display: grid;
-    grid-template-rows: repeat(14, auto);
+    grid-template-rows: repeat(20, auto);
     grid-template-columns: 100%;
     margin: 0 1rem;
 }
-.container_create .item_dl_dummy_s,
-.container_create .item_dl_dummy_l{
+.container_request_edit .item_dl_dummy_s1,
+.container_request_edit .item_dl_dummy_s2{
     display: none;
 }
 
 @media screen and (min-width: 500px) {
-    .container_create{
+    .container_request_edit{
         display: grid;
-        grid-template-rows: repeat(9, auto);
+        grid-template-rows: repeat(13, auto);
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area0 area0"
@@ -526,134 +540,67 @@ hr{
         "area3 area4"
         "area5 area6"
         "area7 area8"
-        "area9 area11"
-        "area12 dummy_s"
-        "area10 area14"
-        "area13 dummy_l";
+        "area9 area9"
+        "area10 area11"
+        "area12 area13"
+        "area12 area14"
+        "area12 dummy_s1"
+        "area15 area16"
+        "area17 area18"
+        "area19 area20"
+        "area19 dummy_s2";
     }
 
-    .container_create .item0 {grid-area: area0;}
-    .container_create .item1 {grid-area: area1;}
-    .container_create .item2 {grid-area: area2;}
-    .container_create .item3 {grid-area: area3;}
-    .container_create .item4 {grid-area: area4;}
-    .container_create .item5 {grid-area: area5;}
-    .container_create .item6 {grid-area: area6;}
-    .container_create .item7 {grid-area: area7;}
-    .container_create .item8 {grid-area: area8;}
-    .container_create .item9 {grid-area: area9;}
-    .container_create .item10 {grid-area: area10;}
-    .container_create .item11 {grid-area: area11;}
-    .container_create .item12 {grid-area: area12;}
-    .container_create .item13 {grid-area: area13;}
-    .container_create .item14 {grid-area: area14;}
+    .container_request_edit .item0 {grid-area: area0;}
+    .container_request_edit .item1 {grid-area: area1;}
+    .container_request_edit .item2 {grid-area: area2;}
+    .container_request_edit .item3 {grid-area: area3;}
+    .container_request_edit .item4 {grid-area: area4;}
+    .container_request_edit .item5 {grid-area: area5;}
+    .container_request_edit .item6 {grid-area: area6;}
+    .container_request_edit .item7 {grid-area: area7;}
+    .container_request_edit .item8 {grid-area: area8;}
+    .container_request_edit .item9 {grid-area: area9;}
+    .container_request_edit .item10 {grid-area: area10;}
+    .container_request_edit .item11 {grid-area: area11;}
+    .container_request_edit .item12 {grid-area: area12;}
+    .container_request_edit .item13 {grid-area: area13;}
+    .container_request_edit .item14 {grid-area: area14;}
+    .container_request_edit .item15 {grid-area: area15;}
+    .container_request_edit .item16 {grid-area: area16;}
+    .container_request_edit .item17 {grid-area: area17;}
+    .container_request_edit .item18 {grid-area: area18;}
+    .container_request_edit .item19 {grid-area: area19;}
+    .container_request_edit .item20 {grid-area: area20;}
 
-    .container_create .item_dl_dummy_s{
-        display: flex;
-        grid-area: dummy_s;
+    .container_request_edit .item_dl_dummy_s1{
+        grid-area: dummy_s1;
+         display: flex;
     }
-    .container_create .item_dl_dummy_l{
-        display: flex;
-        grid-area: dummy_l;
+    .container_request_edit .item_dl_dummy_s2{
+        grid-area: dummy_s2;
+         display: flex;
     }
 }
-
 
 @media screen and (min-width: 800px) {
-    .container_create{
-        grid-template-rows: repeat(8, auto);
-        grid-template-columns: 33.33% 33.33% 33.33%;
-        grid-template-areas:
-        "area0 area0 area0"
-        "area1 area2 area3"
-        "area4 area5 area6"
-        "area7 area8 area11"
-        "area9 area9 area12"
-        "area10 area10 area14"
-        "area13 area13 dummy_l"; 
-    }
-
-    .container_create .item_dl_dummy_s{
-        display: none;
-    }
-
-    .container_create .item_dl_dummy_l{
-        display: flex;
-        grid-area: dummy_l;
-    }
-}
-
-
-/* update_requestのレイアウト */
-
-.container_update{
-    display: grid;
-    grid-template-rows: repeat(18, auto);
-    grid-template-columns: 100%;
-    margin: 0 1rem;
-}
-.container_update .item_dl_dummy_s,
-.container_update .item_dl_dummy_l{
-    display: none;
-}
-
-@media screen and (min-width: 500px) {
-    .container_update{
-        display: grid;
+    .container_request_edit{
         grid-template-rows: repeat(10, auto);
-        grid-template-columns: 50% 50%;
-        grid-template-areas:
-        "area0 area0"
-        "area1 area2"
-        "area3 area4"
-        "area5 area6"
-        "area7 area8"
-        "area9 area18"
-        "area10 area17"
-        "area11 area12"
-        "area13 area14"
-        "area15 area16";
-    }
-
-    .container_update .item0 {grid-area: area0;}
-    .container_update .item1 {grid-area: area1;}
-    .container_update .item2 {grid-area: area2;}
-    .container_update .item3 {grid-area: area3;}
-    .container_update .item4 {grid-area: area4;}
-    .container_update .item5 {grid-area: area5;}
-    .container_update .item6 {grid-area: area6;}
-    .container_update .item7 {grid-area: area7;}
-    .container_update .item8 {grid-area: area8;}
-    .container_update .item9 {grid-area: area9;}
-    .container_update .item10 {grid-area: area10;}
-    .container_update .item11 {grid-area: area11;}
-    .container_update .item12 {grid-area: area12;}
-    .container_update .item13 {grid-area: area13;}
-    .container_update .item14 {grid-area: area14;}
-    .container_update .item15 {grid-area: area15;}
-    .container_update .item16 {grid-area: area16;}
-    .container_update .item17 {grid-area: area17;}
-    .container_update .item18 {grid-area: area18;}
-}
-
-
-@media screen and (min-width: 800px) {
-    .container_update{
-        grid-template-rows: repeat(9, auto);
         grid-template-columns: 33.33% 33.33% 33.33%;
         grid-template-areas:
         "area0 area0 area0"
         "area1 area2 area3"
         "area4 area5 area6"
-        "area7 area8 area11"
-        "area9 area9 area12"
-        "area10 area10 area17"
-        "area13 area14 area15"
-        "area13 area14 area18"
-        "area13 area14 area16"; 
+        "area7 area8 area10"
+        "area9 area9 area11"
+        "area12 area13 area15"
+        "area12 area14 area15"
+        "area12 dummy_s1 area15"
+        "area16 area17 area19"
+        "area16 area18 area19"
+        "area16 area20 dummy_s2"; 
     }
 }
-
 
 
 /* detail_orderのレイアウト */
@@ -1077,7 +1024,7 @@ hr{
     align-items: center;
     align-content: center;
     justify-content: left;
-    margin: 2rem 1rem 1rem 1rem;
+    margin: 3rem 1rem 1rem 1rem;
     display: flex;
 }
 
@@ -1099,7 +1046,7 @@ hr{
 
 
 
-/* 検収画面1 */
+/* 検収画面 */
 .title_inspenction{
     margin: 1rem;
 }
@@ -1189,5 +1136,4 @@ hr{
     font-size: 1.4rem;
     padding: 0.5rem;
 }
-
 

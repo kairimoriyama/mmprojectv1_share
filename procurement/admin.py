@@ -91,7 +91,7 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'requestDescription', 'itemCategory1', 'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'adminDescription',
+            'adminDescription', 'project', 'approved',
             'deletedItem'
             )
     resource_class = OrderRequestResource

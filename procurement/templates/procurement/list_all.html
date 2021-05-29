@@ -42,9 +42,9 @@
   <div><h3>依頼</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
-    <p class="menu_bt menu_bt_mg_left row-blue" id="acceptance_start" onclick="accepance_start()">検収処理</p>
+    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">検収処理</p>
     <a class="menu_bt menu_bt_mg_left row-green" id="acceptance_done">検収実行</a>
-    <a class="menu_bt menu_bt_mg_left row-gray" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
+    <a class="menu_bt menu_bt_mg_left row-gray yubi" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
 </div>
 
@@ -62,9 +62,11 @@
     <th>依頼者所属</th>
     <th>希望納期</th>
 		<th>納品先</th>
-		<th>分類1</th>
-		<th>分類2</th>
+		<th>大分類</th>
+		<th>小分類</th>
 		<th>標準備品</th>
+    <th>稟議</th>
+    <th>プロジェクト</th>
     <th>目的・発注要件</th>
 		<th>数量</th>
 		<th>税込総額</th>
@@ -113,6 +115,16 @@
       <td>{{ item.itemCategory1.name }}</td>
       <td>{{ item.itemCategory2.name }}</td>
       <td>{{ item.standardItem.name }}</td>
+      <td>{% if item.approved %}
+            {{ item.approved }}
+          {%  else %}
+          {% endif %}  
+      </td>
+      <td>{% if item.project %}
+            {{ item.project }}
+          {%  else %}
+          {% endif %}  
+      </td>
       <td class="longText">{{ item.requestDescription }}</td>
       <td>{{ item.quantity }}</td>
       <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
@@ -157,7 +169,7 @@
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <input type="submit" value="発注報告" class="menu_bt menu_bt_mg_left row-yellow">
+    <input type="submit" value="発注報告" class="menu_bt menu_bt_mg_left row-yellow yubi">
   </div>
 </div>
 
