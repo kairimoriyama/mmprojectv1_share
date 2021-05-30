@@ -14,7 +14,7 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder, UpdateFormRequestToOrder
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
 
 # Create your views here.
 
@@ -32,6 +32,27 @@ class ListALL(ListView):
             'object_list_order': OrderInfo.objects.all(),
         })
         return context
+    
+    # 検収・発注報告をPOSTメソッドにより実施
+    def post(self, request, *args, **kwargs):
+
+        selected_order_pk_acceptance = self.request.POST.get('selected_order_pk_acceptance')
+        selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance')
+
+        if request.method == 'POST' and selected_order_pk_acceptance != "" and selected_request_pk_acceptance != "":
+            acceptanceStaff = self.request.POST.get('staff_acceptance')
+            acceptanceStaffDivision = self.request.POST.get('division_acceptance')
+            acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
+            acceptanceMemo = self.request.POST.get('acceptanceMemo_acceptance')
+
+            print(acceptanceStaff)
+            return self.get(request, *args, **kwargs)
+        else:
+            return self.get(request, *args, **kwargs)
+
+        
+
+
 
 class ListRequest(ListView):
     template_name = 'procurement/list_request.html'
@@ -147,13 +168,4 @@ class UpdateOrder(UpdateView):
 
     def get_success_url(self):
         return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
-
-
-class UpdateRequestToOrder(UpdateView):
-    template_name = 'procurement/update_request_order.html'
-    model  = OrderInfo
-    form_class = UpdateFormRequestToOrder
-
-    def get_success_url(self):
-        return reverse('procurement:update_order', kwargs={'pk': self.object.id})
 

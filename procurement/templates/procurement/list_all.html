@@ -12,30 +12,35 @@
 
 
 {% block content %}
-
+<form method="post">{% csrf_token %}
 <h3 class="title_inspenction" id="acceptance_title">検収処理<br>（商品・サービスについて精査が完了した場合に実行）</h3>
 
 <div class="inspenction" id="inspenction">
 
   <dl class="inspenction1">
     <dt>検収者</dt>
-    <dd><input type="text"></dd>
+    <dd><input type="text" name="staff_acceptance"></dd>
   </dl>
 
   <dl class="inspenction2">
     <dt>部門</dt>
-    <dd><input type="text"></dd>
+    <dd><input type="text" name="division_acceptance"></dd>
   </dl>
 
   <dl class="inspenction3">
     <dt>検収日</dt>
-    <dd><input type="date"></dd>
+    <dd><input type="date" name="acceptanceDate_acceptance"></dd>
   </dl>
 
   <dl class="inspenction4">
     <dt class="long_inspection_dt">メモ</dt>
-    <dd class="long_inspection_dd"><textarea ></textarea></dd>
+    <dd class="long_inspection_dd"><textarea  name="acceptanceMemo_acceptance"></textarea></dd>
   </dl>
+  <!-- 発注のpkを自動入力 -->
+  <input type="hidden" name="selected_order_pk_acceptance" id="selected_order_pk_acceptance">
+  
+  <!-- 依頼番号 -->
+  <input type="hidden" name="selected_request_pk_acceptance" id="selected_request_pk_acceptance">
 </div>
 
 
@@ -44,7 +49,7 @@
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
     <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">検収処理</p>
-    <a class="menu_bt menu_bt_mg_left row-green" id="acceptance_done">検収実行</a>
+    <button class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit">検収実行</button>
     <a class="menu_bt menu_bt_mg_left row-gray yubi" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
 </div>
@@ -94,7 +99,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ forloop.counter }}">
+        <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ item.pk }}">
       </td>
 
       <td class="sticky_col_td second_col">
@@ -152,25 +157,23 @@
 <div class="menu_wrapper amount_check" id="amount_check">
 
   <dt>依頼</dt>
-  <dd><input type="tel" id="request_amount" readonly="readonly"></dd>
+  <dd><input type="tel" id="request_amount" name="request_amount" readonly="readonly"></dd>
 
   <dt>- 発注</dt>
-  <dd><input type="tel" id="order_amount" readonly="readonly"></dd>
+  <dd><input type="tel" id="order_amount" name="order_amount" readonly="readonly"></dd>
 
   <dt>= 差額</dt>
-  <dd><input type="tel" id="diff_amount" readonly="readonly"></dd>
+  <dd><input type="tel" id="diff_amount" name="diff_amount" readonly="readonly"></dd>
 
 </div>
 
 
 
-<form action="{% url 'procurement:update_request_order' 1 %}" method="post">
-{% csrf_token %}
 <div class="menu_wrapper">
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <input type="submit" value="発注報告" class="menu_bt menu_bt_mg_left row-yellow yubi">
+    <button type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi">発注報告</button>
   </div>
 </div>
 
@@ -212,7 +215,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input onclick="clickOrder()" type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ forloop.counter }}" checked="checked" >
+        <input onclick="clickOrder()" type="radio" name="selected_order" id="selected_order{{ forloop.counter }}" value="{{ item.pk }}" checked="checked" >
       </td>
 
       <td class="sticky_col_td second_col">
