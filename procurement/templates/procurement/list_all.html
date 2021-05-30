@@ -49,7 +49,7 @@
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
     <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">検収処理</p>
-    <button class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit">検収実行</button>
+    <input class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit" value="検収実行" name="button_acceptance">
     <a class="menu_bt menu_bt_mg_left row-gray yubi" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
 </div>
@@ -173,7 +173,7 @@
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <button type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi">発注報告</button>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" value="発注報告" name="button_report_order">
   </div>
 </div>
 

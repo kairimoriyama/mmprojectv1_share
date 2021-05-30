@@ -36,17 +36,27 @@ class ListALL(ListView):
     # 検収・発注報告をPOSTメソッドにより実施
     def post(self, request, *args, **kwargs):
 
-        selected_order_pk_acceptance = self.request.POST.get('selected_order_pk_acceptance')
-        selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance')
+        
 
-        if request.method == 'POST' and selected_order_pk_acceptance != "" and selected_request_pk_acceptance != "":
-            acceptanceStaff = self.request.POST.get('staff_acceptance')
-            acceptanceStaffDivision = self.request.POST.get('division_acceptance')
-            acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
-            acceptanceMemo = self.request.POST.get('acceptanceMemo_acceptance')
+        if request.method == 'POST':
+            if 'button_acceptance' in request.POST:
+                acceptanceStaff = self.request.POST.get('staff_acceptance')
+                acceptanceStaffDivision = self.request.POST.get('division_acceptance')
+                acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
+                acceptanceMemo = self.request.POST.get('acceptanceMemo_acceptance')
+                selected_order_pk_acceptance = self.request.POST.get('selected_order_pk_acceptance')
+                selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance')
 
-            print(acceptanceStaff)
+                print(acceptanceStaff)
+
+                return self.get(request, *args, **kwargs)
+
+            if 'button_report_order' in request.POST:
+
+                print('発注報告')
+
             return self.get(request, *args, **kwargs)
+
         else:
             return self.get(request, *args, **kwargs)
 
