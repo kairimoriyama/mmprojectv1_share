@@ -2,9 +2,13 @@
 // 初期値として0を設定
 function input_zero(){
     document.getElementById('amount_t10').children[1].value = 0;
+    document.getElementById('amount_t10').children[2].value = 0;
     document.getElementById('amount_t8').children[1].value = 0;
+    document.getElementById('amount_t8').children[2].value = 0;
     document.getElementById('amount_t0').children[1].value = 0;
+    document.getElementById('amount_t0').children[2].value = 0;
     document.getElementById('amount_total').children[1].value = 0;
+    document.getElementById('amount_total').children[2].value = 0;
   };
   window.onload = input_zero();
   
