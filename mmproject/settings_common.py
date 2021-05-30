@@ -1,5 +1,5 @@
 from pathlib import Path
-import os
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,9 +45,7 @@ ROOT_URLCONF = 'mmproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
-        ],
+        'DIRS': [ BASE_DIR/ 'templates' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,9 +104,7 @@ NUMBER_GROUPING = 3
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATICFILES_DIRS = (BASE_DIR/ "static",)
 
 MEDIA_URL = '/media/'
 
