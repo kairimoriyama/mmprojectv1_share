@@ -482,5 +482,7 @@ class ItemUpdateDue(UpdateView):
     form_class = ItemUpdateFrom
     
     def get_success_url(self):
-        return reverse('goodidea:detail_due', kwargs={'pk': self.object.id})
-
+        if self.object.progress.no == 2: 
+            return reverse('goodidea:detail_due', kwargs={'pk': self.object.id})
+        else:
+            return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
