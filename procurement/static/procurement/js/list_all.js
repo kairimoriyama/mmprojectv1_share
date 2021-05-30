@@ -3,6 +3,9 @@ function accepance_menu_default(){
   document.getElementById("acceptance_done").style.display ="none";
   document.getElementById("acceptance_none").style.display ="none";
   document.getElementById("acceptance_title").style.display ="none";
+  
+  document.getElementById("selected_order_pk_acceptance").value = "";
+  document.getElementById("selected_request_pk_acceptance").value =[];
 };
 window.onload = accepance_menu_default();
 
@@ -16,6 +19,33 @@ function accepance_start(){
     document.getElementById("acceptance_done").style.display ="block";
     document.getElementById("acceptance_none").style.display ="block";
     document.getElementById("acceptance_title").style.display ="block";
+    
+  //発注番号の自動入力
+    let list_order = document.getElementsByName('selected_order');
+    let len_list_order = list_order.length;
+    let selected_order_pk = ''
+
+    for (let i = 0; i < len_list_order ; i++){
+      if (list_order[i].checked){
+        selected_order_pk = list_order[i].value;
+      }
+    }
+    document.getElementById("selected_order_pk_acceptance").value = selected_order_pk;
+    console.log(selected_order_pk)
+
+  //依頼番号の自動入力
+    let list_request = document.getElementsByName('selected_request');
+    let len_list_request = list_request.length;
+    let selected_request_pk = []
+
+    for (let i = 0; i < len_list_request ; i++){
+      if (list_request[i].checked){
+        selected_request_pk.push(Number(list_request[i].value));
+      }
+    }
+    document.getElementById("selected_request_pk_acceptance").value = selected_request_pk;
+    console.log(selected_request_pk)
+
   }else{
     alert('未検収の発注と対応する全ての依頼を選択してください')
   };
