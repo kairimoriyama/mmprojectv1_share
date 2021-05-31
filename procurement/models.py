@@ -136,6 +136,10 @@ class OrderInfo(models.Model):
     acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
     acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
+
+    settlementDate = models.DateField(blank=True,null=True)
+    settlement = models.BooleanField(default=False)
+
     deletedItem = models.BooleanField(default=False)
 
     class Meta:

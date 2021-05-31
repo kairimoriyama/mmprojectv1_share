@@ -99,8 +99,11 @@ class CreateFormOrder(ModelForm):
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'payment', 'orderDescription',
+            'settlementDate',
             )
-        widgets = {'orderDate': DateInput(),'arrivalDate': DateInput()}
+        widgets = {'orderDate': DateInput(),
+                   'arrivalDate': DateInput(),
+                   'settlementDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
         super(CreateFormOrder, self).__init__(*args, **kwargs)
@@ -193,11 +196,14 @@ class UpdateFormOrder(ModelForm):
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'payment', 'orderDescription',
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
-            'acceptanceMemo','deletedItem'
+            'acceptanceMemo',
+            'settlementDate','settlement',
+            'deletedItem'
             )
         widgets = {'orderDate': DateInput(),
             'arrivalDate': DateInput(),
-            'acceptanceDate': DateInput()}
+            'acceptanceDate': DateInput(),
+            'settlementDate': DateInput()}
 
 
     def __init__(self, *args, **kwargs):
