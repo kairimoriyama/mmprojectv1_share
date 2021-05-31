@@ -24,7 +24,13 @@
 
   <dl class="inspenction2">
     <dt>部門</dt>
-    <dd><input type="text" name="division_acceptance"></dd>
+    <dd>
+      <select id="division" name="division_acceptance">
+        {% for division in divisionSelect_list %}
+          <option value="{{ division.id }}">{{ division.name }}</option>
+        {% endfor %}
+      </select>
+    </dd>
   </dl>
 
   <dl class="inspenction3">
