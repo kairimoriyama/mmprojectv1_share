@@ -4,13 +4,12 @@ from django.db import transaction
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect, get_object_or_404, render
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.core import validators
 import unicodecsv as csv
 from django.contrib import messages
 
 
-from django.db.models import Max
 import datetime
 from django.utils import timezone
 
@@ -44,15 +43,21 @@ class ListALL(ListView):
 
         if request.method == 'POST':
             if 'button_acceptance' in request.POST:
+
+                # HTMLから取得した値
                 acceptanceStaff = self.request.POST.get('staff_acceptance')
                 acceptanceStaffDivision = self.request.POST.get('division_acceptance')
                 acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
                 acceptanceMemo = self.request.POST.get('acceptanceMemo_acceptance')
                 selected_order_pk_acceptance = self.request.POST.get('selected_order_pk_acceptance')
-                selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance')
 
-                print(acceptanceStaffDivision)
-                print(self.request.POST.get('division_acceptance'))
+                # リスト型
+                selected_request_pk_acceptance = []
+                # カンマ区切りでリスト型へ
+                selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance').split(sep=',')
+
+                print(selected_request_pk_acceptance)
+                print(selected_order_pk_acceptance)
 
 
                 if acceptanceStaff is None or  acceptanceStaff == "" or acceptanceStaffDivision is None or acceptanceDate is None:
@@ -60,21 +65,32 @@ class ListALL(ListView):
 
                 else:
                     # 注文の検収情報を更新
-                    orderInfo = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
-                    orderInfo.acceptanceStaff = acceptanceStaff
+                    orderInfoAcceptance = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
+                    orderInfoAcceptance.acceptanceStaff = acceptanceStaff
                     
                     # Foreignkey Division
                     divisionAcceptance = get_object_or_404(Division, pk=acceptanceStaffDivision)
-                    orderInfo.acceptanceStaffDivision = divisionAcceptance
+                    orderInfoAcceptance.acceptanceStaffDivision = divisionAcceptance
 
-                    orderInfo.acceptanceDate = acceptanceDate
-                    orderInfo.acceptanceMemo = acceptanceMemo
+                    orderInfoAcceptance.acceptanceDate = acceptanceDate
+                    orderInfoAcceptance.acceptanceMemo = acceptanceMemo
 
                     # Foreignkey Progress
                     progressAcceptance = get_object_or_404(Progress, pk=3)
-                    orderInfo.progress = progressAcceptance
+                    orderInfoAcceptance.progress = progressAcceptance
 
-                    orderInfo.save()
+                    # 発注情報の更新を保存
+                    orderInfoAcceptance.save()
+
+                    # 依頼を検収済みに更新
+                    for acceptance_request_pk in selected_request_pk_acceptance:
+                        print(acceptance_request_pk)
+                        orderRequestAcceptance = get_object_or_404(OrderRequest, pk=acceptance_request_pk)
+                        adminCheckAcceptance = get_object_or_404(AdminCheck, pk=5)
+                        # リストで全件更新
+                        orderRequestAcceptance.adminCheck = adminCheckAcceptance 
+                        orderRequestAcceptance.save()
+                                        
                     print('Successfully updated!')
 
                 return self.get(request, *args, **kwargs)
