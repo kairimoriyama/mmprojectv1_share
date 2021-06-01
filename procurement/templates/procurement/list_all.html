@@ -24,7 +24,13 @@
 
   <dl class="inspenction2">
     <dt>部門</dt>
-    <dd><input type="text" name="division_acceptance"></dd>
+    <dd>
+      <select id="division" name="division_acceptance">
+        {% for division in divisionSelect_list %}
+          <option value="{{ division.id }}">{{ division.name }}</option>
+        {% endfor %}
+      </select>
+    </dd>
   </dl>
 
   <dl class="inspenction3">
@@ -199,6 +205,8 @@
 		<th>納品担当者</th>
 		<th>納品担部門</th>
 		<th>納品メモ</th>
+    <th>支払日</th>
+    <th>支払完了</th>
   </tr>
   
   {% for item in object_list_order %}
@@ -274,6 +282,21 @@
         {% else %}
         {% endif %}
       </td>
+
+      <td class="date_col">
+        {% if item.settlementDate %}
+          {{ item.settlementDate | date:"Y/m/d"  }}
+        {% else %}-
+        {% endif %}
+      </td>
+
+      <td>
+        {% if item.settlement == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
+
   </tr>
 
   {% endfor %}

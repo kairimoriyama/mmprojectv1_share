@@ -3,10 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db import transaction
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404, render
 from django.db.models import Q
 from django.core import validators
 import unicodecsv as csv
+from django.contrib import messages
 
 
 from django.db.models import Max
@@ -31,12 +32,14 @@ class ListALL(ListView):
         context.update({
             'object_list_order': OrderInfo.objects.all(),
         })
+
+        context['divisionSelect_list'] = Division.objects.all()
+
         return context
     
     # 検収・発注報告をPOSTメソッドにより実施
     def post(self, request, *args, **kwargs):
-
-        
+      
 
         if request.method == 'POST':
             if 'button_acceptance' in request.POST:
@@ -47,7 +50,17 @@ class ListALL(ListView):
                 selected_order_pk_acceptance = self.request.POST.get('selected_order_pk_acceptance')
                 selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance')
 
-                print(acceptanceStaff)
+                print(acceptanceStaffDivision)
+                print(self.request.POST.get('division_acceptance'))
+
+                orderInfo = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
+                orderInfo.acceptanceStaff = acceptanceStaff
+                # orderInfo.acceptanceStaffDivision = models.ForeignKey(Division.id=acceptanceStaffDivision)
+                orderInfo.acceptanceDate = acceptanceDate
+                orderInfo.acceptanceMemo = acceptanceMemo
+                orderInfo.progress.id = 3
+                orderInfo.save()
+                print('Successfully updated!')
 
                 return self.get(request, *args, **kwargs)
 

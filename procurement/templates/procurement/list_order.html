@@ -56,6 +56,8 @@
 		<th>納品日</th>
 		<th>納品担当者</th>
 		<th>納品メモ</th>
+    <th>支払日</th>
+    <th>支払完了</th>
   </tr>
   
   {% for item in object_list %}
@@ -103,6 +105,20 @@
       <td>{{ item.acceptanceStaffDivision.name }}</td>
 
       <td class="longText">{{ item.acceptanceMemo }}</td>
+      <td class="date_col">
+        {% if item.settlementDate %}
+          {{ item.settlementDate | date:"Y/m/d"  }}
+        {% else %}-
+        {% endif %}
+      </td>
+
+      <td>
+        {% if item.settlement == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
+
   </tr>
 
   {% endfor %}
