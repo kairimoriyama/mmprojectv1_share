@@ -62,7 +62,9 @@ class ListALL(ListView):
                     # 注文の検収情報を更新
                     orderInfo = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
                     orderInfo.acceptanceStaff = acceptanceStaff
-                    # orderInfo.acceptanceStaffDivision = models.ForeignKey(Division.id=acceptanceStaffDivision)
+                    
+                    orderInfo.acceptanceStaffDivision.id = acceptanceStaffDivision
+
                     orderInfo.acceptanceDate = acceptanceDate
                     orderInfo.acceptanceMemo = acceptanceMemo
                     orderInfo.progress.id = 3
@@ -78,7 +80,7 @@ class ListALL(ListView):
             return self.get(request, *args, **kwargs)
 
         else:
-            return self.get(request, *args, **kwargs)
+            pass
 
         
 
