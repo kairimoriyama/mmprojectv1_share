@@ -1055,38 +1055,38 @@ hr{
 
 
 /* 検収画面 */
-.title_inspenction{
+.acceptance_title{
     margin: 1rem;
     padding: 1rem;
     background-color:rgb(177, 219, 177);
     color:  rgb(0, 51, 141);
 }
 
-.inspenction{
+.acceptance_wrapper{
     display: grid;
     grid-template-rows: repeat(4, auto);
     grid-template-columns: 100%;
-    margin: 0.5rem 1rem 0 1rem;
+    margin: 0.5rem 2rem 0 2rem;
     max-width: 90rem;
 }
 
 @media screen and (min-width: 800px) {
-    .inspenction{
+    .acceptance_wrapper{
         grid-template-rows: repeat(3, auto);
         grid-template-columns: 33.33% 33.33% 33.33%;
         grid-template-areas:
         "item1 item2 item3"
         "item4 item4 item4"; 
     }
-    .inspenction1 .item1 {grid-area: area1;}
-    .inspenction2 .item2 {grid-area: area2;}
-    .inspenction3 .item3 {grid-area: area3;}
-    .inspenction4 .item4 {grid-area: area4;}
+    .acceptance_item1 .item1 {grid-area: area1;}
+    .acceptance_item2 .item2 {grid-area: area2;}
+    .acceptance_item3 .item3 {grid-area: area3;}
+    .acceptance_item4 .item4 {grid-area: area4;}
 
 }
 
 
-.inspenction dl{
+.acceptance_wrapper dl{
     display: flex;
     align-items: center;
     align-content: center;
@@ -1098,33 +1098,106 @@ hr{
 }
 
 
-.inspenction dl dt{
+.acceptance_wrapper dl dt{
     width: 10%;
     margin-right: 0.5rem;
     margin-right: 0.5rem;
 }
 
-.inspenction dl dd{
+.acceptance_wrapper dl dd{
     width: 90%;
 }
 
 @media screen and (min-width: 800px) {
-    .inspenction dl dt{
+    .acceptance_wrapper dl dt{
         width: 20%;
     }
-    .inspenction dl dd{
+    .acceptance_wrapper dl dd{
         width: 80%;
     }
     
-    .inspenction dl .long_inspection_dt{
+    .acceptance_wrapper dl .acceptance_dt_long{
         width: 21.5%;
     }
-    .inspenction dl .long_inspection_dd{
+    .acceptance_wrapper dl .acceptance_dd_long{
         width : 78.5%;
     }
 }
 
-.inspenction dl dd input{
+.acceptance_wrapper dl dd input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    
+    display: block;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+    width: 20rem;
+    margin-right: 2rem;
+}
+.acceptance_wrapper dl dd select{
+    box-sizing: border-box;
+    display: block;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+    width: 20rem;
+    margin-right: 2rem;
+}
+
+.acceptance_wrapper dd textarea{
+    display: block;
+    resize: none;
+    width: 40rem;
+    border:solid 0.1rem #bfbfbf;
+    font-size: 1.4rem;
+    padding: 0.5rem;
+}
+
+
+/* 発注準備 */
+.selectSupplier_title{
+    margin: 1rem;
+    padding: 1rem;
+    background-color:rgb(255, 255, 227);
+    color:  rgb(0, 51, 141);
+}
+
+.selectSupplier_wrapper{
+    display: grid;
+    grid-template-rows: repeat(1, auto);
+    grid-template-columns: 100%;
+    margin: 0.5rem 2rem 0 2rem;
+    max-width: 90rem;
+}
+
+.selectSupplier_wrapper dl{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content:left;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: rgb(0, 51, 141);
+}
+
+
+.selectSupplier_wrapper dl dt{
+    width: 10%;
+    margin-right: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.selectSupplier_wrapper dl dd{
+    width: 90%;
+}
+
+.selectSupplier_wrapper dl dd input{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -1139,12 +1212,10 @@ hr{
     margin-right: 2rem;
 }
 
-.inspenction dd textarea{
-    display: block;
-    resize: none;
-    width: 40rem;
-    border:solid 0.1rem #bfbfbf;
-    font-size: 1.4rem;
-    padding: 0.5rem;
+/* 発注完了報告 */
+.reportOrder_title{
+    margin: 3rem 1rem 0 1rem;
+    padding: 1rem;
+    background-color:rgb(192, 222, 236);
+    color:  rgb(0, 51, 141);
 }
-

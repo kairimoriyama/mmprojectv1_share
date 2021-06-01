@@ -1,18 +1,35 @@
-function accepance_menu_default(){
-  $("#inspenction").hide(0);
+function menu_default(){
+
+  document.getElementById("create_request").style.display ="block";
+
+  $("#acceptance_wrapper").hide(0);
+  document.getElementById("acceptance_start").style.display ="block";
   document.getElementById("acceptance_done").style.display ="none";
   document.getElementById("acceptance_none").style.display ="none";
   document.getElementById("acceptance_title").style.display ="none";
   
   document.getElementById("selected_order_pk_acceptance").value = "";
   document.getElementById("selected_request_pk_acceptance").value =[];
+
+  $("#selectSupplier_wrapper").hide(0);
+  document.getElementById("selectSupplier_start").style.display ="block";
+  document.getElementById("selectSupplier_done").style.display ="none";
+  document.getElementById("selectSupplier_stop").style.display ="none";
+  document.getElementById("selectSupplier_title").style.display ="none";
+
+  document.getElementById("selected_order_pk_selectSupplier").value =[];
+
+
+  document.getElementById("selected_order_pk_orderReport").value ="";
+  document.getElementById("selected_request_pk_orderReport").value =[];
+
 };
-window.onload = accepance_menu_default();
+window.onload = menu_default();
 
 // acceptance_start のクリックにより判定
 function accepance_start(){
   if(document.getElementById("diff_amount").value != "" && document.getElementById("diff_amount").value == 0){
-    $("#inspenction").show(150);
+    $("#acceptance_wrapper").show(150);
     $("#amount_check").hide(0);
     document.getElementById("create_request").style.display ="none";
     document.getElementById("acceptance_start").style.display ="none";
@@ -61,7 +78,7 @@ function accepance_start(){
 
 // 検収中止
 function accepance_stop(){
-  $("#inspenction").hide(150);
+  $("#acceptance_wrapper").hide(150);
   $("#amount_check").show(0);
   document.getElementById("create_request").style.display ="block";
   document.getElementById("acceptance_start").style.display ="block";
@@ -144,6 +161,36 @@ function correspondOrderNumber(){
   
 };
 
+// 発注報告
+function reportOrder(){
+  //発注番号の自動入力
+  let list_order = document.getElementsByName('selected_order');
+  let len_list_order = list_order.length;
+  let selected_order_pk = ''
+
+  for (let i = 0; i < len_list_order ; i++){
+    if (list_order[i].checked){
+      selected_order_pk = list_order[i].value;
+    }
+  }
+  document.getElementById("selected_order_pk_orderReport").value = selected_order_pk;
+  console.log(selected_order_pk)
+
+//依頼番号の自動入力
+  let list_request = document.getElementsByName('selected_request');
+  let len_list_request = list_request.length;
+  let selected_request_pk = []
+
+  for (let i = 0; i < len_list_request ; i++){
+    if (list_request[i].checked){
+      selected_request_pk.push(Number(list_request[i].value));
+    }
+  }
+  document.getElementById("selected_request_pk_orderReport").value = selected_request_pk;
+  console.log(selected_request_pk)
+};
+
+
 function clickRequest() {
   correspondOrderNumber();
   checkAmount();
@@ -194,3 +241,54 @@ function clickOrder() {
   correspondRequest();
   checkAmount();
 }
+
+
+// 発注準備の実施 
+function selectSupplier_start(){
+
+  let list_request = document.getElementsByName('selected_request');
+  let len_list_request = list_request.length;
+  let selected_request_pk = []
+
+  for (let i = 0; i < len_list_request ; i++){
+    if (list_request[i].checked){
+      selected_request_pk.push(Number(list_request[i].value));
+    }
+  }
+  console.log(selected_request_pk)
+
+  if(!selected_request_pk.length){
+    alert('対象の依頼を選択してください')
+  }else{
+    
+    $("#selectSupplier_wrapper").show(150);
+    $("#amount_check").hide(0);
+    document.getElementById("create_request").style.display ="none";
+    document.getElementById("acceptance_start").style.display ="none";
+    document.getElementById("selectSupplier_start").style.display ="none";
+    document.getElementById("selectSupplier_done").style.display ="block";
+    document.getElementById("selectSupplier_stop").style.display ="block";
+    document.getElementById("selectSupplier_title").style.display ="block";
+    
+    document.getElementById("create_order").style.display ="none";
+    document.getElementById("report_order").style.display ="none";
+
+    document.getElementById("selected_request_pk_selectSupplier").value = selected_request_pk;
+    console.log(selected_request_pk)
+  };
+};
+
+// 発注準備中止
+function selectSupplier_stop(){
+  $("#selectSupplier_wrapper").hide(150);
+  $("#amount_check").show(0);
+  document.getElementById("create_request").style.display ="block";
+  document.getElementById("acceptance_start").style.display ="block";
+  document.getElementById("selectSupplier_start").style.display ="block";
+  document.getElementById("selectSupplier_done").style.display ="none";
+  document.getElementById("selectSupplier_stop").style.display ="none";
+  document.getElementById("selectSupplier_title").style.display ="none";
+
+  document.getElementById("create_order").style.display ="block";
+  document.getElementById("report_order").style.display ="block";
+};

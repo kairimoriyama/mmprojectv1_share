@@ -13,16 +13,18 @@
 
 {% block content %}
 <form method="post">{% csrf_token %}
-<h3 class="title_inspenction" id="acceptance_title">検収処理<br>（商品・サービスについて精査が完了した場合に実行）</h3>
 
-<div class="inspenction" id="inspenction">
+<!-- 検収メニュー -->
+<h3 class="acceptance_title" id="acceptance_title">検収処理<br>（商品・サービスについて精査が完了した場合に実行）</h3>
 
-  <dl class="inspenction1">
+<div class="acceptance_wrapper" id="acceptance_wrapper">
+
+  <dl class="acceptance_item1">
     <dt>検収者</dt>
     <dd><input type="text" name="staff_acceptance"></dd>
   </dl>
 
-  <dl class="inspenction2">
+  <dl class="acceptance_item2">
     <dt>部門</dt>
     <dd>
       <select id="division" name="division_acceptance">
@@ -33,14 +35,14 @@
     </dd>
   </dl>
 
-  <dl class="inspenction3">
+  <dl class="acceptance_item3">
     <dt>検収日</dt>
     <dd><input type="date" name="acceptanceDate_acceptance" id="acceptanceDate_acceptance"></dd>
   </dl>
 
-  <dl class="inspenction4">
-    <dt class="long_inspection_dt">メモ</dt>
-    <dd class="long_inspection_dd"><textarea  name="acceptanceMemo_acceptance"></textarea></dd>
+  <dl class="acceptance_item4">
+    <dt class="acceptance_dt_long">メモ</dt>
+    <dd class="acceptance_dd_long"><textarea  name="acceptanceMemo_acceptance"></textarea></dd>
   </dl>
   <!-- 発注のpkを自動入力 -->
   <input type="hidden" name="selected_order_pk_acceptance" id="selected_order_pk_acceptance">
@@ -50,11 +52,15 @@
 </div>
 
 
+
+
+
 <div class="menu_wrapper">
   <div><h3>依頼</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
-    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">検収処理</p>
+
+    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">検収実行</p>
     <input class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit" value="検収実行" name="button_acceptance">
     <a class="menu_bt menu_bt_mg_left row-gray yubi" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
@@ -160,6 +166,37 @@
   
 </table>
 
+
+<!-- 発注準備メニュー -->
+<h3 class="selectSupplier_title" id="selectSupplier_title">発注準備</h3>
+
+<div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
+
+  <dl class="selectSupplier_item1">
+    <dt>発注対応者</dt>
+    <dd><input type="text" name="selectSupplier_adminStaff"></dd>
+  </dl>
+
+  <!-- 発注のpkを自動入力 -->
+  <input type="hidden" name="selected_request_pk_selectSupplier" id="selected_request_pk_selectSupplier">
+  
+</div>
+
+
+
+<!-- 発注報告メニュー -->
+<div>
+  <!-- 発注のpkを自動入力 -->
+  <input type="hidden" name="selected_order_pk_orderReport" id="selected_order_pk_orderReport">
+  
+  <!-- 依頼番号 -->
+  <input type="hidden" name="selected_request_pk_orderReport" id="selected_request_pk_orderReport">
+</div>
+
+
+
+
+
 <div class="menu_wrapper amount_check" id="amount_check">
 
   <dt>依頼</dt>
@@ -178,8 +215,12 @@
 <div class="menu_wrapper">
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" value="発注報告" name="button_report_order">
+    <p class="menu_bt menu_bt_mg_left yubi" id="selectSupplier_start" onclick="selectSupplier_start()">発注準備</p>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="発注準備" name="button_selectSupplier">
+    <a class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">発注準備中止</a>
+
+    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">発注実施</a>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" value="発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
   </div>
 </div>
 
