@@ -46,6 +46,14 @@ function accepance_start(){
     document.getElementById("selected_request_pk_acceptance").value = selected_request_pk;
     console.log(selected_request_pk)
 
+    //検収日の自動入力
+    let now = new Date();
+    let year = now.getFullYear();
+    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
+    let day = ("0"+ (now.getDate())).slice(-2);
+    let today =year+'-'+mon+'-'+day;
+    document.getElementById("acceptanceDate_acceptance").value = today;
+
   }else{
     alert('未検収の発注と対応する全ての依頼を選択してください')
   };
