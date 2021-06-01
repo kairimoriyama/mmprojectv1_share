@@ -15,7 +15,7 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder, AcceptanceForm
 
 # Create your views here.
 
@@ -39,7 +39,8 @@ class ListALL(ListView):
     
     # 検収・発注報告をPOSTメソッドにより実施
     def post(self, request, *args, **kwargs):
-      
+       
+        # 検収入力フォーム
 
         if request.method == 'POST':
             if 'button_acceptance' in request.POST:
@@ -53,14 +54,20 @@ class ListALL(ListView):
                 print(acceptanceStaffDivision)
                 print(self.request.POST.get('division_acceptance'))
 
-                orderInfo = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
-                orderInfo.acceptanceStaff = acceptanceStaff
-                # orderInfo.acceptanceStaffDivision = models.ForeignKey(Division.id=acceptanceStaffDivision)
-                orderInfo.acceptanceDate = acceptanceDate
-                orderInfo.acceptanceMemo = acceptanceMemo
-                orderInfo.progress.id = 3
-                orderInfo.save()
-                print('Successfully updated!')
+
+                if acceptanceStaff is None or  acceptanceStaff == "" or acceptanceStaffDivision is None or acceptanceDate is None:
+                    pass
+
+                else:
+                    # 注文の検収情報を更新
+                    orderInfo = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
+                    orderInfo.acceptanceStaff = acceptanceStaff
+                    # orderInfo.acceptanceStaffDivision = models.ForeignKey(Division.id=acceptanceStaffDivision)
+                    orderInfo.acceptanceDate = acceptanceDate
+                    orderInfo.acceptanceMemo = acceptanceMemo
+                    orderInfo.progress.id = 3
+                    orderInfo.save()
+                    print('Successfully updated!')
 
                 return self.get(request, *args, **kwargs)
 
