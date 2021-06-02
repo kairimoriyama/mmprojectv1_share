@@ -24,12 +24,12 @@ class ListALL(ListView):
     model  = OrderRequest
     fields = '__all__'
     queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('-id').order_by('adminCheck__no').exclude(adminCheck__gte=5)
+    ).order_by('adminCheck__no').exclude(adminCheck__gte=5)
 
     def get_context_data(self, **kwargs):
         context = super(ListALL, self).get_context_data(**kwargs)
         context.update({
-            'object_list_order': OrderInfo.objects.exclude(progress__gte=3),
+            'object_list_order': OrderInfo.objects.order_by('progress__no').exclude(progress__gte=3),
         })
 
         context['divisionSelect_list'] = Division.objects.all()
@@ -44,7 +44,7 @@ class ListALL(ListView):
         if request.method == 'POST':
             if 'button_acceptance' in request.POST:
 
-                # HTMLから取得した値
+                # HTMLから取得したorder
                 acceptanceStaff = self.request.POST.get('staff_acceptance')
                 acceptanceStaffDivision = self.request.POST.get('division_acceptance')
                 acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
@@ -53,7 +53,7 @@ class ListALL(ListView):
 
                 # リスト型
                 selected_request_pk_acceptance = []
-                # カンマ区切りでリスト型へ
+                # HTMLから取得したrequest カンマ区切りでリスト型へ
                 selected_request_pk_acceptance = self.request.POST.get('selected_request_pk_acceptance').split(sep=',')
 
                 print(selected_request_pk_acceptance)
@@ -95,6 +95,35 @@ class ListALL(ListView):
 
                 return self.get(request, *args, **kwargs)
 
+            if 'button_selectSupplier' in request.POST:
+
+                # HTMLから取得した値
+                adminStaff = self.request.POST.get('selectSupplier_adminStaff')
+
+                # リスト型
+                selected_request_pk_selectSupplier = []
+                # カンマ区切りでリスト型へ
+                selected_request_pk_selectSupplier = self.request.POST.get('selected_request_pk_selectSupplier').split(sep=',')
+
+
+                if adminStaff is None or adminStaff == "":
+                    pass
+
+                else:
+                    # 依頼を更新
+                    for selectSupplier_request_pk in selected_request_pk_selectSupplier:
+                        print(selectSupplier_request_pk)
+                        orderRequestSelectSupplier = get_object_or_404(OrderRequest, pk=selectSupplier_request_pk)
+                        adminCheckSelectSupplier = get_object_or_404(AdminCheck, pk=2)
+
+                        # リストで全件更新
+                        orderRequestSelectSupplier.adminStaff = adminStaff
+                        orderRequestSelectSupplier.adminCheck = adminCheckSelectSupplier
+
+                        orderRequestSelectSupplier.save()
+
+                print('発注準備')
+            
             if 'button_report_order' in request.POST:
 
                 print('発注報告')
@@ -113,14 +142,14 @@ class ListRequest(ListView):
     model  = OrderRequest
     fields = '__all__'
     queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('-id').order_by('adminCheck__no')
+    ).order_by('adminCheck__no')
     paginate_by = 22
 
 class ListOrder(ListView):
     template_name = 'procurement/list_order.html'
     model  = OrderInfo
     fields = '__all__'
-    queryset = OrderInfo.objects.filter(deletedItem=False).order_by('-id')
+    queryset = OrderInfo.objects.filter(deletedItem=False).order_by('-id').order_by('progress__no')
     paginate_by = 22
 
 
