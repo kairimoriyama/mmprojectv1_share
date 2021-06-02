@@ -75,7 +75,10 @@ class ItemCreateFromAction(ModelForm):
 
         
         # 初期値・入力規則
+        today = datetime.date.today()
+
         self.fields['progress'].initial = 4
+        self.fields['completionDate'].initial = today
         self.fields['completionDate'].required = True
         self.fields['staff'].required = True
         self.fields['division'].required = True
