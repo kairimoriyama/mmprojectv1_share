@@ -139,6 +139,7 @@ class OrderInfo(models.Model):
 
     settlementDate = models.DateField(blank=True,null=True)
     settlement = models.BooleanField(default=False)
+    refFile = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
     deletedItem = models.BooleanField(default=False)
 

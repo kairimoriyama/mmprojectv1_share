@@ -42,6 +42,8 @@ class ListALL(ListView):
         # 検収入力フォーム
 
         if request.method == 'POST':
+
+            # 検収ボタン
             if 'button_acceptance' in request.POST:
 
                 # HTMLから取得したorder
@@ -95,6 +97,7 @@ class ListALL(ListView):
 
                 return self.get(request, *args, **kwargs)
 
+            # 発注準備ボタン
             if 'button_selectSupplier' in request.POST:
 
                 # HTMLから取得した値
@@ -124,15 +127,51 @@ class ListALL(ListView):
 
                 print('発注準備')
             
+
+            # 発注報告ボタン
             if 'button_report_order' in request.POST:
 
-                print('発注報告')
+                if self.request.POST.get('diff_amount') and (int(self.request.POST.get('request_amount')) >0 and int(self.request.POST.get('order_amount')) >0 and int(self.request.POST.get('diff_amount')) == 0) :
 
-            return self.get(request, *args, **kwargs)
+                    # 注文の検収情報を更新
+                    selected_order_pk_orderReport = self.request.POST.get('selected_order_pk_orderReport')
+                    print("報告対象 発注番号" + selected_order_pk_orderReport)
+                
+                    orderInfoOrderReport = get_object_or_404(OrderInfo, pk=selected_order_pk_orderReport)
 
+                    # Foreignkey Progress
+                    progressOrderReport = get_object_or_404(Progress, pk=2)
+                    orderInfoOrderReport.progress = progressOrderReport
+                    orderInfoOrderReport.save()
+
+                    selected_request_pk_orderReport = self.request.POST.get('selected_request_pk_orderReport')
+                    print("報告対象 依頼番号" + selected_request_pk_orderReport)
+
+                    # リスト型
+                    selected_request_pk_orderReport = []
+                    # カンマ区切りでリスト型へ
+                    selected_request_pk_orderReport = self.request.POST.get('selected_request_pk_orderReport').split(sep=',')
+
+                    # 依頼を更新
+                    for orderReport_request_pk in selected_request_pk_orderReport:
+                        print(orderReport_request_pk)
+                        orderRequestOrderReport = get_object_or_404(OrderRequest, pk=orderReport_request_pk)
+                        adminCheckOrderReport = get_object_or_404(AdminCheck, pk=4)
+
+                        # リストで全件更新
+                        orderRequestOrderReport.adminCheck = adminCheckOrderReport
+                        orderRequestOrderReport.orderInfo = orderInfoOrderReport
+
+                        orderRequestOrderReport.save()
+
+                    print('発注報告')
+                    return self.get(request, *args, **kwargs)
+                else:
+                    return self.get(request, *args, **kwargs)
+            else:
+                return self.get(request, *args, **kwargs)
         else:
-            pass
-
+            return self.get(request, *args, **kwargs)
         
 
 

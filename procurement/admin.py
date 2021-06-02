@@ -109,7 +109,7 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'totalAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo',
-            'settlementDate','settlement',
+            'settlementDate','settlement', 'refFile',
             'deletedItem'
             )
     resource_class = OrderInfoResource

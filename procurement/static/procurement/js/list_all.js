@@ -11,13 +11,14 @@ function menu_default(){
   document.getElementById("selected_order_pk_acceptance").value = "";
   document.getElementById("selected_request_pk_acceptance").value =[];
 
+
+  document.getElementById("selected_request_pk_selectSupplier").value =[];
   $("#selectSupplier_wrapper").hide(0);
   document.getElementById("selectSupplier_start").style.display ="block";
   document.getElementById("selectSupplier_done").style.display ="none";
   document.getElementById("selectSupplier_stop").style.display ="none";
   document.getElementById("selectSupplier_title").style.display ="none";
 
-  document.getElementById("selected_order_pk_selectSupplier").value =[];
 
 
   document.getElementById("selected_order_pk_orderReport").value ="";
@@ -161,8 +162,8 @@ function correspondOrderNumber(){
   
 };
 
-// 発注報告
-function reportOrder(){
+// 発注報告について番号自動入力
+function reportOrder_number(){
   //発注番号の自動入力
   let list_order = document.getElementsByName('selected_order');
   let len_list_order = list_order.length;
@@ -188,12 +189,24 @@ function reportOrder(){
   }
   document.getElementById("selected_request_pk_orderReport").value = selected_request_pk;
   console.log(selected_request_pk)
+
 };
 
 
+
+// 発注報告
+function reportOrder(){
+
+  reportOrder_number();
+
+};
+
+
+// 依頼番号選択 → 自動入力
 function clickRequest() {
   correspondOrderNumber();
   checkAmount();
+  reportOrder_number();
 }
 
 // 発注を選択すると自動で依頼を選択
@@ -237,9 +250,11 @@ function correspondRequest(){
   };
 };
 
+// 発注番号選択 → 自動入力
 function clickOrder() {
   correspondRequest();
   checkAmount();
+  reportOrder_number();
 }
 
 

@@ -206,7 +206,7 @@ class UpdateFormOrder(ModelForm):
             'totalAmount', 'payment', 'orderDescription',
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo',
-            'settlementDate','settlement',
+            'settlementDate','settlement','refFile',
             'deletedItem'
             )
         widgets = {'orderDate': DateInput(),

@@ -217,10 +217,10 @@
   <div class="menu_wrapper_inner">
     <p class="menu_bt menu_bt_mg_left yubi" id="selectSupplier_start" onclick="selectSupplier_start()">発注準備</p>
     <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="発注準備" name="button_selectSupplier">
-    <a class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">発注準備中止</a>
+    <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">発注準備中止</p>
 
-    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" value="発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
+    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">発注作成</a>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-blue yubi" value="発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
   </div>
 </div>
 
