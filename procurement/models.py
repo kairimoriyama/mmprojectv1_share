@@ -9,6 +9,9 @@ class Division(models.Model):
     no = models.IntegerField(blank=False,null=False)
     name = models.CharField(max_length=50,blank=False,null=False)
 
+    class Meta:
+        ordering = ('no',)
+
     def __str__(self):
         return self.name
 
@@ -18,6 +21,7 @@ class DeliveryAddress(models.Model):
 
     class Meta:
         verbose_name_plural="DeliveryAddress"
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -29,6 +33,7 @@ class AdminCheck(models.Model):
 
     class Meta:
         verbose_name_plural="AdminCheck"
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -39,6 +44,7 @@ class Category1(models.Model):
 
     class Meta:
         verbose_name_plural="Category1"
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -50,6 +56,7 @@ class Category2(models.Model):
 
     class Meta:
         verbose_name_plural="Category2"
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -60,6 +67,7 @@ class Progress(models.Model):
 
     class Meta:
         verbose_name_plural="Progress"
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -71,6 +79,7 @@ class Payment(models.Model):
 
     class Meta:
         verbose_name_plural="Payment"
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -88,6 +97,7 @@ class Supplier(models.Model):
 
     class Meta:
         verbose_name_plural="Supplier"
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
@@ -107,6 +117,7 @@ class StandardItem(models.Model):
 
     class Meta:
         verbose_name_plural="StandardItem"
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
