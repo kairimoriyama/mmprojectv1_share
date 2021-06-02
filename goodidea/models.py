@@ -10,6 +10,9 @@ from django_resized import ResizedImageField
 class Progress(models.Model):
     no = models.IntegerField(blank=True,null=True)
     name = models.CharField(max_length=50)
+    
+    class Meta:
+        ordering = ('no',)
 
     def __str__(self):
         return self.name
@@ -18,12 +21,18 @@ class Division(models.Model):
     no = models.IntegerField(blank=True,null=True)
     name = models.CharField(max_length=50)
 
+    class Meta:
+        ordering = ('no',)
+
     def __str__(self):
         return self.name
 
 class Category(models.Model):
     no = models.IntegerField(blank=True,null=True)
     name = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ('no',)
 
     def __str__(self):
         return self.name

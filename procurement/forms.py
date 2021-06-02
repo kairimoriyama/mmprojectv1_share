@@ -48,6 +48,12 @@ class SelectFormDivision(ModelForm):
 
 class CreateFormRequest(ModelForm):
 
+    # 親カテゴリー
+    parent_category = forms.ModelChoiceField(
+        queryset=Category1.objects,
+        required=True
+    )
+
     class Meta:
         model  = OrderRequest
         fields = ('submissionDate',
@@ -55,7 +61,7 @@ class CreateFormRequest(ModelForm):
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
             'requestDescription', 'project','approved',
-            'itemCategory1', 'itemCategory2', 
+            'parent_category' ,'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
             'refFile',
@@ -80,7 +86,6 @@ class CreateFormRequest(ModelForm):
         self.fields['dueDate'].initial = today
         self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
-        self.fields['itemCategory1'].required = True
         self.fields['itemCategory2'].required = True
         self.fields['costCenter1'].required = True
 
