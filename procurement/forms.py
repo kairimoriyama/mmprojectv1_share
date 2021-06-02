@@ -58,7 +58,7 @@ class CreateFormRequest(ModelForm):
             'itemCategory1', 'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'refFile'
+            'refFile',
             )
 
         widgets = {'submissionDate': DateInput(),
@@ -109,7 +109,7 @@ class CreateFormOrder(ModelForm):
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'payment', 'orderDescription',
-            'settlementDate',
+            'settlementDate','refFile',
             )
         widgets = {'orderDate': DateInput(),
                    'arrivalDate': DateInput(),
