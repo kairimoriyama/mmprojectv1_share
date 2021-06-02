@@ -58,6 +58,7 @@ class CreateFormRequest(ModelForm):
             'itemCategory1', 'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
+            'refFile'
             )
 
         widgets = {'submissionDate': DateInput(),
@@ -160,7 +161,7 @@ class UpdateFormRequest(ModelForm):
             'itemCategory1', 'itemCategory2', 
             'standardItem','quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'adminDescription',
+            'adminDescription','refFile',
             'deletedItem',
             )
         widgets = {'submissionDate': DateInput(),'dueDate': DateInput()}
