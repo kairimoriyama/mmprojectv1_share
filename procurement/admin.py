@@ -91,6 +91,7 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'requestDescription', 'itemCategory1', 'itemCategory2', 
             'standardItem', 'quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
+            'refFile',
             'adminDescription', 'project', 'approved',
             'deletedItem'
             )
@@ -109,7 +110,7 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'totalAmount', 'payment', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo',
-            'settlementDate','settlement',
+            'settlementDate','settlement', 'refFile',
             'deletedItem'
             )
     resource_class = OrderInfoResource

@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<form class="container_create_order" action="" method="POST" enctype="multipart/form-data">
+<form class="container_create_order" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
@@ -37,7 +37,7 @@
     
   <dl class="item_dl item3">
     <dt>進捗</dt>
-    <dd>{{ form.progress}}</dd>
+    <dd  class="no_click">{{ form.progress}}</dd>
   </dl>
 
   <dl class="item_dl item4">
@@ -116,8 +116,16 @@
     <dd>{{ form.settlement }}</dd>
   </dl>
 
+  <dl class="item_dl item18">
+    <dt>請求書等</dt>
+    <dd class="mono_URL">{{ form.refFile }}</dd>
+  </dl>
 
-  <dl class="item_dl item_dl_dummy_s">
+  <dl class="item_dl item_dl_dummy_s1">
+    <dt></dt> <dd></dd>
+  </dl>
+
+  <dl class="item_dl item_dl_dummy_s2">
     <dt></dt> <dd></dd>
   </dl>
 

@@ -201,6 +201,17 @@
     </dd>
   </dl>
 
+  
+  <dl class="item_dl item21">
+    <dt>資料<br>（稟議等）</dt>
+    <dd>
+      {% if not object.refFile %}
+      {% else %}
+        <a href="/media/{{ object.refFile }}" target="_blank">{{ object.refFile }}</a>
+      {% endif %}
+    </dd>
+  </dl>
+
   <dl class="item_dl item_dl_dummy_s">
     <dt></dt> <dd></dd>
   </dl>

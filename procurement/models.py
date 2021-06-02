@@ -139,6 +139,7 @@ class OrderInfo(models.Model):
 
     settlementDate = models.DateField(blank=True,null=True)
     settlement = models.BooleanField(default=False)
+    refFile = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
     deletedItem = models.BooleanField(default=False)
 
@@ -183,6 +184,8 @@ class OrderRequest(models.Model):
     refURL1 = models.URLField(max_length=300, blank=True,null=True)
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
     refURL3 = models.URLField(max_length=300, blank=True,null=True)
+
+    refFile = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
     adminDescription = models.TextField(max_length=300,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)

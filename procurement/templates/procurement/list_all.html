@@ -97,9 +97,9 @@
 
   <!-- 進捗状況に応じた色の設定 -->
     {% if item.adminCheck.no == 1 %}
-    <tr class="row-white">
+    <tr class="row-yellow">
     {%  elif item.adminCheck.no == 2 %}
-      <tr class="row-yellow">
+      <tr class="row-white">
     {%  elif item.adminCheck.no == 0 %}
       <tr class="row-red">
     {%  elif item.adminCheck.no == 4 %}
@@ -215,12 +215,12 @@
 <div class="menu_wrapper">
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
-    <p class="menu_bt menu_bt_mg_left yubi" id="selectSupplier_start" onclick="selectSupplier_start()">発注準備</p>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="発注準備" name="button_selectSupplier">
-    <a class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">発注準備中止</a>
+    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">発注検討</p>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="検討実施" name="button_selectSupplier">
+    <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">検討中止</p>
 
-    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">発注実施</a>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" value="発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
+    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">発注作成</a>
+    <input type="submit" class="menu_bt menu_bt_mg_left yubi" value="発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
   </div>
 </div>
 
@@ -254,7 +254,7 @@
 
     <!-- 進捗状況に応じた色の設定 -->
     {% if item.progress.no == 1 %}
-      <tr class="row-yellow">
+      <tr class="row-white">
     {%  elif item.progress.no == 2 %}
       <tr class="row-blue">
     {%  elif item.progress.no == 3 %}

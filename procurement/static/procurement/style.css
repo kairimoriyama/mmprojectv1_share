@@ -456,7 +456,7 @@ hr{
 
 .container_request{
     display: grid;
-    grid-template-rows: repeat(20, auto);
+    grid-template-rows: repeat(21, auto);
     grid-template-columns: 100%;
     margin: 1rem 1rem 0 1rem;
 }
@@ -477,7 +477,7 @@ hr{
         "area15 area16"
         "area17 area18"
         "area19 area20" 
-        "area19 dummy_s"; 
+        "area19 area21"; 
     }
         
     .container_request .item1 {grid-area: area1;}
@@ -500,11 +500,8 @@ hr{
     .container_request .item18 {grid-area: area18;}
     .container_request .item19 {grid-area: area19;}
     .container_request .item20 {grid-area: area20;}
+    .container_request .item21 {grid-area: area21;}
 
-    .container_request .item_dl_dummy_s{
-        grid-area: dummy_s;
-         display: flex;
-    }
 }
 
 
@@ -521,7 +518,11 @@ hr{
         "area12 area14 area15"
         "area16 area17 area19"
         "area16 area18 area19"
-        "area20 dummy_s dummy_s";
+        "area20 area21 dummy_s";
+    }
+    .container_request .item_dl_dummy_s{
+        grid-area: dummy_s;
+         display: flex;
     }
 }
 
@@ -530,7 +531,7 @@ hr{
 
 .container_request_edit{
     display: grid;
-    grid-template-rows: repeat(20, auto);
+    grid-template-rows: repeat(22, auto);
     grid-template-columns: 100%;
     margin: 0 1rem;
 }
@@ -542,7 +543,7 @@ hr{
 @media screen and (min-width: 500px) {
     .container_request_edit{
         display: grid;
-        grid-template-rows: repeat(13, auto);
+        grid-template-rows: repeat(14 auto);
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area0 area0"
@@ -558,7 +559,7 @@ hr{
         "area15 area16"
         "area17 area18"
         "area19 area20"
-        "area19 dummy_s2";
+        "area19 area21";
     }
 
     .container_request_edit .item0 {grid-area: area0;}
@@ -582,13 +583,10 @@ hr{
     .container_request_edit .item18 {grid-area: area18;}
     .container_request_edit .item19 {grid-area: area19;}
     .container_request_edit .item20 {grid-area: area20;}
+    .container_request_edit .item21 {grid-area: area21;}
 
     .container_request_edit .item_dl_dummy_s1{
         grid-area: dummy_s1;
-         display: flex;
-    }
-    .container_request_edit .item_dl_dummy_s2{
-        grid-area: dummy_s2;
          display: flex;
     }
 }
@@ -608,7 +606,7 @@ hr{
         "area12 dummy_s1 area15"
         "area16 area17 area19"
         "area16 area18 area19"
-        "area16 area20 dummy_s2"; 
+        "area16 area20 area21"; 
     }
 }
 
@@ -621,7 +619,8 @@ hr{
     grid-template-columns: 100%;
     margin: 1rem 1rem 0 1rem;
 }
-.container_detail_order .item_dl_dummy_s,
+.container_detail_order .item_dl_dummy_s1,
+.container_detail_order .item_dl_dummy_s2,
 .container_detail_order .item_dl_dummy_l{
     display: none;
 }
@@ -637,12 +636,13 @@ hr{
         "area2 area5"
         "area3 area6"
         "area7 area8"
-        "area10 dummy_s"
+        "area10 dummy_s1"
         "area9 area11"
         "area12 area15"
         "area13 area15"
         "area14 area15"
-        "area16 area17";
+        "area16 area17"
+        "area18 dummy_s2";
     }
 
     .container_detail_order .item0 {grid-area: area0;}
@@ -663,10 +663,15 @@ hr{
     .container_detail_order .item15 {grid-area: area15;}
     .container_detail_order .item16 {grid-area: area16;}
     .container_detail_order .item17 {grid-area: area17;}
+    .container_detail_order .item18 {grid-area: area18;}
 
-    .container_detail_order .item_dl_dummy_s{
+    .container_detail_order .item_dl_dummy_s1{
         display: flex;
-        grid-area: dummy_s;
+        grid-area: dummy_s1;
+    }
+    .container_detail_order .item_dl_dummy_s2{
+        display: flex;
+        grid-area: dummy_s2;
     }
 }
 
@@ -684,7 +689,13 @@ hr{
         "area12 area15 area15"
         "area13 area15 area15"
         "area14 area15 area15"
-        "area16 area17 dummy_s"; 
+        "area16 area17 area18"; 
+    }
+    .container_detail_order .item_dl_dummy_s1{
+        display: none;
+    }
+    .container_detail_order .item_dl_dummy_s2{
+        display: none;
     }
 }
 
@@ -698,7 +709,8 @@ hr{
     grid-template-columns: 100%;
     margin: 0 1rem;
 }
-.container_create_order .item_dl_dummy_s,
+.container_create_order .item_dl_dummy_s1,
+.container_create_order .item_dl_dummy_s2,
 .container_create_order .item_dl_dummy_l{
     display: none;
 }
@@ -714,12 +726,13 @@ hr{
         "area2 area5"
         "area3 area6"
         "area7 area8"
-        "area10 dummy_s"
+        "area10 dummy_s1"
         "area9 area11"
         "area12 area15"
         "area13 area15"
         "area14 area15"
-        "area16 area17";
+        "area16 area17"
+        "area18 dummy_s2";
     }
 
     .container_create_order .item0 {grid-area: area0;}
@@ -740,10 +753,15 @@ hr{
     .container_create_order .item15 {grid-area: area15;}
     .container_create_order .item16 {grid-area: area16;}
     .container_create_order .item17 {grid-area: area17;}
+    .container_create_order .item18 {grid-area: area18;}
 
-    .container_create_order .item_dl_dummy_s{
+    .container_create_order .item_dl_dummy_s1{
         display: flex;
-        grid-area: dummy_s;
+        grid-area: dummy_s1;
+    }
+    .container_create_order .item_dl_dummy_s2{
+        display: flex;
+        grid-area: dummy_s2;
     }
 }
 
@@ -761,7 +779,13 @@ hr{
         "area12 area15 area15"
         "area13 area15 area15"
         "area14 area15 area15"
-        "area16 area17 dummy_s"; 
+        "area16 area17 area18"; 
+    }
+    .container_create_order .item_dl_dummy_s1{
+        display: none;
+    }
+    .container_create_order .item_dl_dummy_s2{
+        display: none;
     }
 }
 
@@ -903,6 +927,22 @@ hr{
 .multiple_items_child p{
     padding-right: 0.5rem;
 }
+
+/* 単一URL */
+.mono_URL{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    align-content:top ;
+}
+.mono_URL input[type="url"]{
+    width: 80%;
+    height:50rem;
+    margin: 1rem;
+}
+
 
 
 /* 複数アイテムdd select*/
