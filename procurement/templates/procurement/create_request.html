@@ -48,7 +48,7 @@
 
   <dl class="item_dl item7">
     <dt>大分類</dt>
-    <dd>{{ form.itemCategory1}}</dd>
+    <dd>{{ form.parent_category}}</dd>
   </dl>
 
   <dl class="item_dl item8">
@@ -128,7 +128,7 @@
   </dl>
 
   <dl class="item_dl item21">
-    <dt>資料<br>（稟議等）</dt>
+    <dt>資料（稟議等）</dt>
     <dd>{{ form.refFile }}</dd>
   </dl>
 
@@ -146,8 +146,10 @@
 <hr>
 
 {% load static %}
+{% block extrajs %}
 <script src="{% static 'procurement/js/create_request.js' %}"></script>
 
+{% endblock extrajs %}
 
 {% endblock content%}
 

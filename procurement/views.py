@@ -223,6 +223,12 @@ class CreateRequest(CreateView):
     template_name = 'procurement/create_request.html'
     form_class = CreateFormRequest
 
+    # 親カテゴリ
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['parentcategory_list'] = Category1.objects.all()
+        return context
+
     def post(self, request, *args, **kwargs):
 
         form = self.form_class(request.POST, request.FILES)
