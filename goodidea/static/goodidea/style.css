@@ -103,6 +103,17 @@ button{
     background-color: #fff;
 }
 
+
+/* 編集無効 クリック不可 */
+.no_click{
+    pointer-events: none;
+}
+
+/* ポインター 指 */
+.yubi {
+    cursor : pointer;
+}
+
 /* menu ボタンのwrapper */
 
 .menu_wrapper{

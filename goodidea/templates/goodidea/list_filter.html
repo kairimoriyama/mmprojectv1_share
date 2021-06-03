@@ -14,9 +14,9 @@
     
   <div class="menu_wrapper">
     <div class="filter_bt_wrapper">
-      <button id="search_btn" onclick="set_search_key()" class="menu_bt" type="submit">検索実施</button>
-      <a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:list_filter' %}">条件削除</a>
-      <p class="menu_bt menu_bt_mg_left" onclick="filter_item_bt()"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
+      <button class="menu_bt yubi" id="search_btn" onclick="set_search_key()" class="menu_bt" type="submit">検索実施</button>
+      <a class="menu_bt menu_bt_mg_left yubi" href="{% url 'goodidea:list_filter' %}">条件削除</a>
+      <p class="menu_bt menu_bt_mg_left yubi" onclick="filter_item_bt()"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
     </div>
 
     <ul class="page_nav">
