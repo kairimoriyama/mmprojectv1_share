@@ -131,7 +131,7 @@ class ListALL(ListView):
             # 発注報告ボタン
             if 'button_report_order' in request.POST:
 
-                if self.request.POST.get('diff_amount') and (int(self.request.POST.get('request_amount')) >0 and int(self.request.POST.get('order_amount')) >0 and int(self.request.POST.get('diff_amount')) == 0) :
+                if self.request.POST.get('diff_amount_int') and (int(self.request.POST.get('request_amount_int')) >0 and int(self.request.POST.get('order_amount_int')) >0 and int(self.request.POST.get('diff_amount_int')) == 0) :
 
                     # 注文の検収情報を更新
                     selected_order_pk_orderReport = self.request.POST.get('selected_order_pk_orderReport')

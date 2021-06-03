@@ -167,13 +167,13 @@
 </table>
 
 
-<!-- 発注準備メニュー -->
-<h3 class="selectSupplier_title" id="selectSupplier_title">発注準備</h3>
+<!-- 発注検討メニュー -->
+<h3 class="selectSupplier_title" id="selectSupplier_title">発注検討</h3>
 
 <div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
 
   <dl class="selectSupplier_item1">
-    <dt>発注対応者</dt>
+    <dt>発注検討者</dt>
     <dd><input type="text" name="selectSupplier_adminStaff"></dd>
   </dl>
 
@@ -208,6 +208,11 @@
   <dt>= 差額</dt>
   <dd><input type="tel" id="diff_amount" name="diff_amount" readonly="readonly"></dd>
 
+<!-- 金額 int-->
+  <input type="hidden" name="request_amount_int" id="request_amount_int">
+  <input type="hidden" name="order_amount_int" id="order_amount_int">
+  <input type="hidden" name="diff_amount_int" id="diff_amount_int">
+
 </div>
 
 
@@ -215,12 +220,12 @@
 <div class="menu_wrapper">
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
-    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">発注検討</p>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="検討実施" name="button_selectSupplier">
+    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">1-1 発注検討</p>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="1-2 検討実施" name="button_selectSupplier">
     <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">検討中止</p>
 
-    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">発注作成</a>
-    <input type="submit" class="menu_bt menu_bt_mg_left yubi" value="発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
+    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">2-1 発注作成</a>
+    <input type="submit" class="menu_bt menu_bt_mg_left yubi" value="2-2 発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
   </div>
 </div>
 
