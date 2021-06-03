@@ -163,7 +163,7 @@ class UpdateFormRequest(ModelForm):
             'adminCheck', 'adminStaff', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
             'requestDescription', 'project','approved',
-            'itemCategory1', 'itemCategory2', 
+            'itemCategory2', 
             'standardItem','quantity', 
             'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
             'adminDescription','refFile',
@@ -182,7 +182,6 @@ class UpdateFormRequest(ModelForm):
         self.fields['requestStaffDivision'].required = True
         self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
-        self.fields['itemCategory1'].required = True
         self.fields['itemCategory2'].required = True
         self.fields['costCenter1'].required = True
 

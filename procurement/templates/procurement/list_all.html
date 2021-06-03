@@ -80,7 +80,6 @@
     <th>依頼者所属</th>
     <th>希望納期</th>
 		<th>納品先</th>
-		<th>大分類</th>
 		<th>小分類</th>
 		<th>標準備品</th>
     <th>稟議</th>
@@ -130,7 +129,6 @@
       <td class="date_col">{{ item.dueDate | date:"Y/m/d"}}</td>
       <td>{{ item.deliveryAddress.name }}</td>
 
-      <td>{{ item.itemCategory1.name }}</td>
       <td>{{ item.itemCategory2.name }}</td>
       <td>{{ item.standardItem.name }}</td>
       <td>{% if item.approved %}
