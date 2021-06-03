@@ -108,6 +108,7 @@ class Item(models.Model):
     report = models.TextField(max_length=2500, blank=True,null=True)
     inchargeDivision = models.CharField(max_length=50, blank=True,null=True)
     inchargeStaff = models.CharField(max_length=50, blank=True,null=True)
+    internalDiscussion = models.BooleanField(default=False)
     completionDate = models.DateField(blank=True,null=True)
     dueDate = models.DateField(blank=True,null=True)
     adminMemo = models.CharField(max_length=100, blank=True,null=True)

@@ -74,6 +74,11 @@ h2{
     font-size: 1.8rem;
 }
 
+.app_title{
+    color: rgb(0,51,141);
+    line-height: 3rem;
+}
+
 header ul{
     margin-top: 0rem;
     display: flex;
@@ -96,6 +101,17 @@ button{
     text-decoration: none;
     border: none;
     background-color: #fff;
+}
+
+
+/* 編集無効 クリック不可 */
+.no_click{
+    pointer-events: none;
+}
+
+/* ポインター 指 */
+.yubi {
+    cursor : pointer;
 }
 
 /* menu ボタンのwrapper */
@@ -441,16 +457,22 @@ button{
     height: 5rem;
     font-size: 1.4rem;
 }
-.category_dd{
+
+.dd_children_flex{
     display: flex;
     justify-content: space-between;
 }
+
 .purchase{
     min-width: 3rem;
     margin-left: 1rem;
 }
 .system{
     min-width: 6.5rem;
+    margin-left: 0.5rem;
+}
+.internalDiscussion{
+    min-width: 7rem;
     margin-left: 0.5rem;
 }
 
@@ -1030,7 +1052,7 @@ img{
     color:#fff;
     background-color: rgb(0,51,141);
 
-    background-image: url(./img/pulldown_img.png);
+    background-image: url(./img/img_pulldown.png);
 	background-repeat: no-repeat;
 	background-size: 1rem 1rem;
 	background-position: right 0 center;

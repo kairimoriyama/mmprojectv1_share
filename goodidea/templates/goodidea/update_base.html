@@ -70,7 +70,7 @@
 
     <dl class="item_dl item5">
       <dt>分類</dt>
-      <dd class="category_dd">
+      <dd class="dd_children_flex">
         {{ form.category}}
         <div class="purchase"><p>購入</p>{{ form.purchase}}</div>
         <div class="system"><p>システム</p>{{ form.system}}</div>
@@ -116,10 +116,12 @@
 
 
     <dl class="item_dl item15">
-      <dt>実施部門<br>/PJ</dt>
-      <dd>{{ form.inchargeDivision}}</dd>
+      <dt class="dd_children_flex">実施部門/PJ</dt>
+      <dd>{{ form.inchargeDivision}}
+        <div class="internalDiscussion"><p>要部門決裁</p>{{ form.internalDiscussion}}</div>
+      </dd>
     </dl>
-  
+
     <dl class="item_dl item17">
       <dt class="height_l sentence_dt">報告</dt>
       <dd class="height_l sentence_dd">{{ form.report}}</dd>

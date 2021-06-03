@@ -73,6 +73,10 @@ h2{
     color: black;
     font-size: 1.8rem;
 }
+.app_title{
+    color: rgb(0,51,141);
+    line-height: 3rem;
+}
 
 h3{
     color: rgb(0, 51, 141);

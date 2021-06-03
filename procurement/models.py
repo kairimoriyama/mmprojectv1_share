@@ -181,7 +181,6 @@ class OrderRequest(models.Model):
     costCenter2 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_cost2_dividion',blank=True,null=True) 
     costCenter3 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_cost3_dividion',blank=True,null=True) 
 
-    itemCategory1 = models.ForeignKey(Category1,on_delete=models.PROTECT, related_name ='orderRequest_category1',blank=True,null=True) 
     itemCategory2 = models.ForeignKey(Category2,on_delete=models.PROTECT, related_name ='orderRequest_category2',blank=True,null=True) 
     standardItem = models.ForeignKey(StandardItem,on_delete=models.PROTECT, related_name ='orderRequest_standardItem',blank=True,null=True) 
     requestDescription = models.TextField(max_length=400,blank=True,null=True)

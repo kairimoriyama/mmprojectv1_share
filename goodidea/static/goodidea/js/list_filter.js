@@ -115,6 +115,7 @@ function set_search_key(){
 
   let purchase = document.getElementById('purchase').checked;
   let system = document.getElementById('system').checked;
+  let internalDiscussion = document.getElementById('internalDiscussion').checked;
 
   let dataset = ({
     "key1": staff,
@@ -129,7 +130,8 @@ function set_search_key(){
     "key10": completionDateTo,
     "key11": checkedValue,  //ラジオボタンの値
     "key12": purchase,  //チェックリストの状態
-    "key13": system  //チェックリストの状態
+    "key13": system,  //チェックリストの状態
+    "key14": internalDiscussion  //チェックリストの状態
 
   });
  
@@ -177,6 +179,12 @@ function get_search_key() {
       document.getElementById('system').checked = true;
     }else{
       document.getElementById('system').checked = false;
+    };
+
+    if (dataset["key14"] == true) {
+      document.getElementById('internalDiscussion').checked = true;
+    }else{
+      document.getElementById('internalDiscussion').checked = false;
     };
 
     if (dataset["key5"]==4) {

@@ -14,9 +14,9 @@
     
   <div class="menu_wrapper">
     <div class="filter_bt_wrapper">
-      <button id="search_btn" onclick="set_search_key()" class="menu_bt" type="submit">検索実施</button>
-      <a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:list_filter' %}">条件削除</a>
-      <p class="menu_bt menu_bt_mg_left" onclick="filter_item_bt()"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
+      <button class="menu_bt yubi" id="search_btn" onclick="set_search_key()" class="menu_bt" type="submit">検索実施</button>
+      <a class="menu_bt menu_bt_mg_left yubi" href="{% url 'goodidea:list_filter' %}">条件削除</a>
+      <p class="menu_bt menu_bt_mg_left yubi" onclick="filter_item_bt()"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
     </div>
 
     <ul class="page_nav">
@@ -65,6 +65,13 @@
         <dt>システム</dt>
         <dd>
           <input id="system" name="system" type="checkbox" value="1">
+        </dd>
+      </dl>
+
+      <dl class="category_internalDiscussion_filter">
+        <dt>要部門決裁</dt>
+        <dd>
+          <input id="internalDiscussion" name="internalDiscussion" type="checkbox" value="1">
         </dd>
       </dl>
 
