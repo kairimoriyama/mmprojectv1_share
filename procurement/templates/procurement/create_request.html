@@ -48,12 +48,12 @@
 
   <dl class="item_dl item7">
     <dt>大分類</dt>
-    <dd>{{ form.parent_category}}</dd>
+    <dd id="parent_category">{{ form.parent_category}}</dd>
   </dl>
 
   <dl class="item_dl item8">
     <dt>小分類</dt>
-    <dd>{{ form.itemCategory2}}</dd>
+    <dd id="category2">{{ form.itemCategory2}}</dd>
   </dl>
 
   <dl class="item_dl item9">
@@ -153,7 +153,82 @@
 {% block extrajs %}
 <script>
 
-  
+/*ajax起動用*/
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          console.log(csrftoken);
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  }
+});
+/*----------*/
+
+
+const parentCategoryElement = document.getElementById('parent_category').children[0];
+console.log(parentCategoryElement)
+
+const categoryElement = document.getElementById('category2').children[0];
+console.log(categoryElement)
+
+const changeCategory = (select) => {
+  // 子カテゴリの選択欄を空にする。
+  categoryElement.remove();
+
+  console.log(parentCategoryElement.value)
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_category2' %}",
+      type: 'GET',
+      data: {'pk': parentCategoryElement.value},
+  }).done(response => {
+      // 子カテゴリの選択肢を作成・追加
+      for (const category2 of response.categoryList) {
+          const option = $('<option>');
+          option.val(category2['pk']);
+          option.text(category2['name']);
+          categoryElement.append(option);
+      }
+
+      // カテゴリを選択
+      if (select !== undefined) {
+          categoryElement.val(select);
+      }
+
+    });
+};
+
+parentCategoryElement.addEventListener('change', () => {
+  changeCategory();
+});
+
+// 入力値に問題があって再表示された場合、ページ表示時点で小カテゴリが絞り込まれるようにする
+if (parentCategoryElement.value) {
+    const selectedCategory = categoryElement.val();
+    changeCategory(selectedCategory);
+}
+
 </script>
 {% endblock extrajs %}
 

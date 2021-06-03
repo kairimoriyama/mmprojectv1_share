@@ -22,5 +22,4 @@
         document.getElementById('amount').children[1].value = amount;
       });
   });
-  
- 
+
