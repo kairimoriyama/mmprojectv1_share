@@ -20,9 +20,12 @@ function menu_default(){
   document.getElementById("selectSupplier_title").style.display ="none";
 
 
-
   document.getElementById("selected_order_pk_orderReport").value ="";
   document.getElementById("selected_request_pk_orderReport").value =[];
+
+  document.getElementById('request_amount_int').value = "";
+  document.getElementById('order_amount_int').value = "";
+  document.getElementById('diff_amount_int').value = "";
 
 };
 window.onload = menu_default();
@@ -121,12 +124,15 @@ function checkAmount(){
   // 差額を計算
   let str1 = document.getElementById('request_amount').value;
   let num1 = Number(str1.replace(/[^0-9]/g, ''));
+  document.getElementById('request_amount_int').value = num1;
 
   let str2 = document.getElementById('order_amount').value;
   let num2 = Number(str2.replace(/[^0-9]/g, ''));
+  document.getElementById('order_amount_int').value = num2;
 
   let diff = num2 - num1;
   let wnum = new String(diff).replace(/,/g, "");
+  document.getElementById('diff_amount_int').value = wnum;
 
   // 最上位桁まで下桁から３桁ごとにカンマ付加を繰り返す
   while(wnum != (wnum = wnum.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
