@@ -14,6 +14,25 @@
 {% block content %}
 <form method="post">{% csrf_token %}
 
+  
+<!-- 発注検討メニュー -->
+<h3 class="selectSupplier_title" id="selectSupplier_title">発注検討</h3>
+
+<div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
+
+  <dl class="selectSupplier_item1">
+    <dt>発注検討者</dt>
+    <dd><input type="text" name="selectSupplier_adminStaff"></dd>
+  </dl>
+
+  <!-- 発注のpkを自動入力 -->
+  <input type="hidden" name="selected_request_pk_selectSupplier" id="selected_request_pk_selectSupplier">
+  
+</div>
+
+
+
+
 <!-- 検収メニュー -->
 <h3 class="acceptance_title" id="acceptance_title">検収処理<br>（商品・サービスについて精査が完了した場合に実行）</h3>
 
@@ -58,10 +77,14 @@
 <div class="menu_wrapper">
   <div><h3>依頼</h3></div>
   <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">依頼作成</a>
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">1 依頼作成</a>
 
-    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">検収実行</p>
-    <input class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit" value="検収実行" name="button_acceptance">
+    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">2-1 発注検討</p>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="2-2 検討実施" name="button_selectSupplier">
+    <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">検討中止</p>
+
+    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">4-1 検収</p>
+    <input class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit" value="4-2 検収実行" name="button_acceptance">
     <a class="menu_bt menu_bt_mg_left row-gray yubi" id="acceptance_none" onclick="accepance_stop()">検収中止</a>
   </div>
 </div>
@@ -82,11 +105,14 @@
 		<th>納品先</th>
 		<th>小分類</th>
 		<th>標準備品</th>
-    <th>稟議</th>
-    <th>プロジェクト</th>
     <th>目的・発注要件</th>
+
 		<th>数量</th>
 		<th>税込総額</th>
+
+    <th>稟議</th>
+    <th>プロジェクト</th>
+
 		<th>管理担当</th>
 		<th>管理メモ</th>
 
@@ -131,6 +157,12 @@
 
       <td>{{ item.itemCategory2.name }}</td>
       <td>{{ item.standardItem.name }}</td>
+
+      <td class="longText">{{ item.requestDescription }}</td>
+
+      <td>{{ item.quantity }}</td>
+      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
+
       <td>{% if item.approved %}
             {{ item.approved }}
           {%  else %}
@@ -141,9 +173,6 @@
           {%  else %}
           {% endif %}  
       </td>
-      <td class="longText">{{ item.requestDescription }}</td>
-      <td>{{ item.quantity }}</td>
-      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
 
       <td>
         {%  if item.adminStaff %}
@@ -165,20 +194,6 @@
 </table>
 
 
-<!-- 発注検討メニュー -->
-<h3 class="selectSupplier_title" id="selectSupplier_title">発注検討</h3>
-
-<div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
-
-  <dl class="selectSupplier_item1">
-    <dt>発注検討者</dt>
-    <dd><input type="text" name="selectSupplier_adminStaff"></dd>
-  </dl>
-
-  <!-- 発注のpkを自動入力 -->
-  <input type="hidden" name="selected_request_pk_selectSupplier" id="selected_request_pk_selectSupplier">
-  
-</div>
 
 
 
@@ -218,12 +233,8 @@
 <div class="menu_wrapper">
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
-    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">1-1 発注検討</p>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="1-2 検討実施" name="button_selectSupplier">
-    <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">検討中止</p>
-
-    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">2-1 発注作成</a>
-    <input type="submit" class="menu_bt menu_bt_mg_left yubi" value="2-2 発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
+    <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
+    <input type="submit" class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
   </div>
 </div>
 
