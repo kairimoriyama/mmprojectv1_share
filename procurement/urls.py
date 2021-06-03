@@ -17,4 +17,7 @@ urlpatterns = [
 
     path('update_request/<int:pk>', views.UpdateRequest.as_view(), name='update_request'),
     path('update_order/<int:pk>', views.UpdateOrder.as_view(), name='update_order'),
+
+    path('api/category2/get/', views.ajax_get_category2, name='ajax_get_category2') 
+
 ]

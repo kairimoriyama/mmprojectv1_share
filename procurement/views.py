@@ -280,6 +280,22 @@ class CreateOrder(CreateView):
             return redirect('procurement:detail_order', pk= obj.id)
 
 
+def ajax_get_category2(request):
+    pk = request.GET.get('pk')
+    # pkなし
+    if not pk:
+        category_list = Category2.objects.all()
+
+    # pkあり 
+    else:
+        category_list = Category2.objects.filter(parent__pk=pk)
+
+    category_list = [{'pk': category2.pk, 'name': category2.name} for category2 in category_list]
+
+    # JSON
+    return JsonResponse({'categoryList': category_list})
+
+
 class UpdateRequest(UpdateView):
     template_name = 'procurement/update_request.html'
     model  = OrderRequest
