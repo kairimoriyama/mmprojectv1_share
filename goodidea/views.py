@@ -33,6 +33,7 @@ class ItemListALL(ListView):
         return context
 
 
+# 未使用
 def item_export(request):
     template_name = 'goodidea/export.html'
     success_url = reverse_lazy('goodidea:list_all')
@@ -126,6 +127,7 @@ class ItemListFilter(ListView):
         completionDateFrom = self.request.GET.get('completionDateFrom')
         completionDateTo = self.request.GET.get('completionDateTo')
         ideaOrAction = self.request.GET.get('ideaOrAction')
+        internalDiscussion = self.request.GET.get('internalDiscussion')
 
 
         #  値をセッションで保持
@@ -144,13 +146,14 @@ class ItemListFilter(ListView):
         self.request.session['completionDateFrom'] = completionDateFrom
         self.request.session['completionDateTo'] = completionDateTo
         self.request.session['ideaOrAction'] = ideaOrAction
+        self.request.session['internalDiscussion'] = internalDiscussion
 
         # 絞り込み前の初期値
         queryset0 = Item.objects_list.all_list().order_by('-itemNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if progress or purchase or system or staff or division or inchargeStaff or inchargeDivision or word or\
-            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo):
+            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or internalDiscussion:
 
             # 協議案件/共有案件
             if ideaOrAction == "0":   #協議案件のみ
@@ -221,10 +224,17 @@ class ItemListFilter(ListView):
             else: 
                 queryset10 = queryset9.all() 
 
+
+            # 部門決裁の絞り込み
+            if internalDiscussion == "1":
+                queryset11 = queryset10.filter(internalDiscussion__exact=True)
+            else:
+                queryset11 = queryset10.all()
+
             # セッションで選択されたデータを保持
             self.request.session['item_list_type'] = 'filter'
             
-            queryset = queryset10.order_by('-itemNum')
+            queryset = queryset11.order_by('-itemNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
@@ -280,6 +290,7 @@ class ItemDetailFilter(DetailView):
         completionDateFrom = self.request.session['completionDateFrom']
         completionDateTo = self.request.session['completionDateTo']
         ideaOrAction = self.request.session['ideaOrAction']
+        internalDiscussion = self.request.session['internalDiscussion']
   
         # 絞込み前の初期値
         queryset0 = Item.objects_list.all_list()
@@ -356,8 +367,14 @@ class ItemDetailFilter(DetailView):
                     Q(discussionNote__icontains=word)| Q(report__icontains=word))
             else: 
                 queryset10 = queryset9.all() 
+            
+            # 部門決裁の絞り込み
+            if internalDiscussion == "1":
+                queryset11 = queryset10.filter(internalDiscussion__exact=True)
+            else:
+                queryset11 = queryset10.all()
 
-            item_list_queryset = queryset10
+            item_list_queryset = queryset11
           
         else:
             item_list_queryset = queryset0

@@ -19,7 +19,7 @@ class ItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'picture1','picture2','picture3','picture4','picture5','picture6',
             'refFile1','refFile2','refFile3',
             'discussionDate','discussionNote','report',
-            'inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
+            'inchargeDivision','inchargeStaff','internalDiscussion','completionDate','dueDate','adminMemo','deletedItem')
     resource_class = ItemResource
 
 

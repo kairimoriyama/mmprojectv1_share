@@ -441,15 +441,21 @@ button{
     height: 5rem;
     font-size: 1.4rem;
 }
-.category_dd{
+
+.dd_children_flex{
     display: flex;
     justify-content: space-between;
 }
+
 .purchase{
     min-width: 3rem;
     margin-left: 1rem;
 }
 .system{
+    min-width: 6.5rem;
+    margin-left: 0.5rem;
+}
+.internalDiscussion{
     min-width: 6.5rem;
     margin-left: 0.5rem;
 }

@@ -41,7 +41,11 @@ class ItemCreateFromIdea(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
+        fields = ('submissionDate','progress','division','staff',
+        'category','system','purchase','title','description',
+        'refURL1','refURL2','refURL3',
+        'picture1','picture2','picture3','picture4','picture5','picture6',
+        'refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff' )
         widgets = {'submissionDate': DateInput()}
 
     def __init__(self, *args, **kwargs):
@@ -67,7 +71,12 @@ class ItemCreateFromAction(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','inchargeDivision','inchargeStaff', 'completionDate' )
+        fields = ('submissionDate','progress','division','staff','category',
+        'system','purchase','title','description',
+        'refURL1','refURL2','refURL3',
+        'picture1','picture2','picture3','picture4','picture5','picture6',
+        'refFile1','refFile2','refFile3',
+        'inchargeDivision','inchargeStaff', 'completionDate' )
         widgets = {'submissionDate': DateInput(), 'completionDate': DateInput()}
     
     def __init__(self, *args, **kwargs):
@@ -99,7 +108,13 @@ class ItemUpdateFrom(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('ideaNum','actionNum','submissionDate','progress','division','staff','category','system','purchase','title','description','refURL1','refURL2','refURL3','picture1','picture2','picture3','picture4','picture5','picture6','refFile1','refFile2','refFile3','discussionDate','discussionNote','report','inchargeDivision','inchargeStaff','completionDate','dueDate','adminMemo','deletedItem')
+        fields = ('ideaNum','actionNum','submissionDate','progress','division','staff',
+        'category','system','purchase','title','description',
+        'refURL1','refURL2','refURL3',
+        'picture1','picture2','picture3','picture4','picture5','picture6',
+        'refFile1','refFile2','refFile3',
+        'discussionDate','discussionNote','report','inchargeDivision','inchargeStaff', 'internalDiscussion',
+        'completionDate','dueDate','adminMemo','deletedItem')
 
         widgets = { 'discussionDate': DateInput(), 'completionDate': DateInput(), 'dueDate': DateInput()}
     
