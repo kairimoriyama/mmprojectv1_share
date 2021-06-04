@@ -13,7 +13,7 @@ from django.contrib import messages
 import datetime
 from django.utils import timezone
 
-from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
+from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
 
 # Create your views here.
@@ -223,11 +223,6 @@ class CreateRequest(CreateView):
     template_name = 'procurement/create_request.html'
     form_class = CreateFormRequest
 
-    # 親カテゴリ
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['parentcategory_list'] = Category1.objects.all()
-        return context
 
     def post(self, request, *args, **kwargs):
 

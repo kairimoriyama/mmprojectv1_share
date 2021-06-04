@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
-from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
+from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from django.forms import ModelForm, inlineformset_factory 
 
 
@@ -40,23 +40,17 @@ class SelectFormDivision(ModelForm):
 
 class CreateFormRequest(ModelForm):
 
-    # 親カテゴリー Category1
-    parent_category = forms.ModelChoiceField(
-        queryset=Category1.objects,
-        required=True
-    )
-
     class Meta:
         model  = OrderRequest
         fields = ('submissionDate',
             'requestStaffDivision', 'requestStaff',
             'dueDate', 'deliveryAddress', 
-            'costCenter1', 'costCenter2', 'costCenter3', 
-            'requestDescription', 'project','approved',
-            'parent_category' ,'itemCategory2', 
-            'standardItem', 'quantity', 
-            'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'refFile',
+            'costCenter1', 'costCenter2', 'costCenter3',
+            'purpose', 'standardItem', 'requestDetail', 'requestMemo',
+            'project','approval', 
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1','refFile2','refFile3',
             )
 
         widgets = {'submissionDate': DateInput(),
@@ -72,28 +66,23 @@ class CreateFormRequest(ModelForm):
         self.fields['submissionDate'].initial = today
         self.fields['submissionDate'].widget.attrs['readonly'] = True
 
+
+        self.fields['dueDate'].initial = today + datetime.timedelta(days=7)
+        self.fields['dueDate'].required = True
         self.fields['requestStaff'].required = True
         self.fields['requestStaffDivision'].required = True
 
-        self.fields['dueDate'].initial = today
-        self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
-        self.fields['itemCategory2'].required = True
-        self.fields['costCenter1'].required = True
 
-        # if self.fields['itemCategory2'] :
-        #     self.fields['requestDescription'].required = True
-        # else:
-        #     self.fields['itemCategory2'].required = True
+        self.fields['purpose'].required = True
+        self.fields['requestDetail'].required = True
 
         self.fields['quantity'].required = True
         self.fields['estimatedAmount'].required = True
-
+        self.fields['costCenter1'].required = True
 
         # プレースホルダ
-        self.fields['requestDescription'].widget.attrs['placeholder'] = '標準品以外の依頼の場合、依頼目的と商品の要件を記入'
-
-
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '商品の内容・必要な仕様（「URL参照」でもOK）'
 
 
 class CreateFormOrder(ModelForm):
@@ -105,7 +94,7 @@ class CreateFormOrder(ModelForm):
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totalAmount', 'payment', 'orderDescription',
+            'totalAmount', 'paymentMethod', 'orderDescription',
             'settlementDate','refFile',
             )
         widgets = {'orderDate': DateInput(),
@@ -122,9 +111,11 @@ class CreateFormOrder(ModelForm):
         self.fields['orderDate'].required = True
         self.fields['orderDate'].initial = today
         self.fields['orderDate'].widget.attrs['readonly'] = True
-               
-        self.fields['arrivalDate'].required = True
+                       
+        self.fields['arrivalDate'].required = True + datetime.timedelta(days=7)
         self.fields['arrivalDate'].initial = today
+
+        self.fields['registeredSupplier'].initial = 1
 
         self.fields['orderStaff'].required = True
         self.fields['orderStaffDivision'].required = True
@@ -138,7 +129,7 @@ class CreateFormOrder(ModelForm):
         self.fields['amount2'].required = True
         self.fields['amount3'].required = True
         self.fields['totalAmount'].required = True
-        self.fields['payment'].required = True
+        self.fields['paymentMethod'].required = True
 
         # プレースホルダ
         self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
@@ -154,12 +145,12 @@ class UpdateFormRequest(ModelForm):
             'dueDate', 'deliveryAddress', 
             'adminCheck', 'adminStaff', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
-            'requestDescription', 'project','approved',
-            'itemCategory2', 
-            'standardItem','quantity', 
-            'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'adminDescription','refFile',
-            'deletedItem',
+            'purpose','standardItem', 'requestDetail','requestMemo',
+            'project','approval',
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1', 'refFile2', 'refFile3',
+            'adminDescription','deletedItem',
             )
         widgets = {'submissionDate': DateInput(),'dueDate': DateInput()}
 
@@ -174,21 +165,16 @@ class UpdateFormRequest(ModelForm):
         self.fields['requestStaffDivision'].required = True
         self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
-        self.fields['itemCategory2'].required = True
+        self.fields['purpose'].required = True
+        self.fields['requestDetail'].required = True
         self.fields['costCenter1'].required = True
-
-        # if self.fields['itemCategory2'] :
-        #     self.fields['requestDescription'].required = True
-        # else:
-        #     self.fields['itemCategory2'].required = True
 
         self.fields['quantity'].required = True
         self.fields['estimatedAmount'].required = True
 
-    
-        # プレースホルダ
-        self.fields['requestDescription'].widget.attrs['placeholder'] = '標準品以外の依頼の場合、依頼目的と商品の要件を記入'
 
+        # プレースホルダ
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '商品の内容・必要な仕様（「URL参照」でもOK）'
 
 
 class UpdateFormOrder(ModelForm):
@@ -200,7 +186,7 @@ class UpdateFormOrder(ModelForm):
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totalAmount', 'payment', 'orderDescription',
+            'totalAmount', 'paymentMethod', 'orderDescription',
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo',
             'settlementDate','settlement','refFile',
@@ -231,9 +217,8 @@ class UpdateFormOrder(ModelForm):
         self.fields['amount2'].required = True
         self.fields['amount3'].required = True
         self.fields['totalAmount'].required = True
-        self.fields['payment'].required = True
+        self.fields['paymentMethod'].required = True
 
         # プレースホルダ
         self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
-
 

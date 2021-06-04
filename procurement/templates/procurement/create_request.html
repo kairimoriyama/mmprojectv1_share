@@ -41,45 +41,48 @@
     <dd>{{ form.requestStaffDivision}}</dd>
   </dl>
 
+
   <dl class="item_dl item6">
     <dt>納品先</dt>
     <dd>{{ form.deliveryAddress}}</dd>
   </dl>
 
+
   <dl class="item_dl item7">
-    <dt>大分類</dt>
-    <dd id="parent_category">{{ form.parent_category}}</dd>
+    <dt>区分</dt>
+    <dd>{{ form.purpose}}</div>
+    </dd>
   </dl>
 
   <dl class="item_dl item8">
-    <dt>小分類</dt>
-    <dd id="category2">{{ form.itemCategory2}}</dd>
+    <dt>標準品</dt>
+    <dd>{{ form.standardItem}}</div>
+    </dd>
   </dl>
 
   <dl class="item_dl item9">
-    <dt class="sentence_dt1">標準品</dt>
-    <dd class="sentence_dd1">{{ form.standardItem}}</dd>
+    <dt class="height_m sentence_dt2">仕様</dt>
+    <dd class="height_m sentence_dd2">{{ form.requestDetail}}</dd>
   </dl>
 
-    <dl class="item_dl item10">
+  <dl class="item_dl item10">
+    <dt class="height_m sentence_dt2">備考</dt>
+    <dd class="height_m sentence_dd2">{{ form.requestMemo}}</dd>
+  </dl>
+
+  <dl class="item_dl item11">
     <dt>数量</dt>
     <dd>{{ form.quantity }}</dd>
   </dl>
 
-  <dl class="item_dl item11">
+  <dl class="item_dl item12">
     <dt>税込総額</dt>
     <dd id="amount" class="request_amount"><input type="tel">{{ form.estimatedAmount }}</dd>
   </dl>
 
-
-  <dl class="item_dl item12">
-    <dt class="height_l">目的・依頼内容</dt>
-    <dd class="height_l">{{ form.requestDescription}}</dd>
-  </dl>
-
   <dl class="item_dl item13">
     <dt>稟議番号</dt>
-    <dd>{{ form.approved}}</dd>
+    <dd>{{ form.approval}}</dd>
   </dl>
 
   <dl class="item_dl item14">
@@ -105,32 +108,50 @@
     </dd>
   </dl>
 
+  
   <dl class="item_dl item17">
+    <dt class="height_l">資料（稟議等）</dt>
+    <dd class="height_l multiple_items_update">
+
+      <div class="attachment_update">
+        <p>資料（1）</p>
+        <div>{{ form.refFile1 }}</div>
+      </div>
+
+      <div class="attachment_update">
+        <p>資料（2）</p>
+        <div>{{ form.refFile2 }}</div>
+      </div>
+      
+      <div class="attachment_update">
+        <p>資料（3）</p>
+        <div>{{ form.refFile3 }}</div>
+      </div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item18">
     <dt>管理者</dt>
     <dd>-</dd>
   </dl>
 
-  <dl class="item_dl item18">
+  <dl class="item_dl item19">
     <dt>進捗</dt>
     <dd>-</dd>
   </dl>
 
   
-  <dl class="item_dl item19">
+  <dl class="item_dl item20">
     <dt class="height_m">管理メモ</dt>
     <dd class="height_m">-</dd>
   </dl>
 
 
-  <dl class="item_dl item20">
+  <dl class="item_dl item21">
     <dt>発注番号</dt>
     <dd>-</dd>
   </dl>
 
-  <dl class="item_dl item21">
-    <dt>資料（稟議等）</dt>
-    <dd>{{ form.refFile }}</dd>
-  </dl>
 
   <dl class="item_dl item_dl_dummy_s1">
     <dt></dt>
@@ -148,92 +169,6 @@
 {% load static %}
 
 <script src="{% static 'procurement/js/create_request.js' %}"></script>
-
-
-{% block extrajs %}
-<script>
-
-/*ajax起動用*/
-function getCookie(name) {
-  var cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-
-function csrfSafeMethod(method) {
-  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-$.ajaxSetup({
-  beforeSend: function (xhr, settings) {
-      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          console.log(csrftoken);
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }
-  }
-});
-/*----------*/
-
-
-let parentCategoryElement = document.getElementById('parent_category').children[0];
-let categoryElement = document.getElementById('category2').children[0];
-
-for (let i = categoryElement.childElementCount-1 ; i >= 0; i--) {  
-    categoryElement.remove(i);
-  };
-
-const changeCategory = (select) => {
- 
-  $.ajax({
-      url: "{% url 'procurement:ajax_get_category2' %}",
-      type: 'GET',
-      data: {'pk': parentCategoryElement.value},
-  }).done(response => {
-
-    // Category2の選択肢を作成
-    
-    let item_category2 = response.categoryList
-    console.log(item_category2)
-    console.log(item_category2.length)
-
-    for (let i = 0; i < item_category2.length; i++) {  
-      let option = document.createElement('option')
-      option.setAttribute('value', item_category2[i]['pk']);
-      option.innerHTML = item_category2[i]['name'];
-
-      categoryElement.appendChild(option); 
-      };
-
-      if (select !== undefined) {
-          categoryElement.val(select);
-      };
-
-    });
-};
-
-parentCategoryElement.addEventListener('change', () => {
-  changeCategory();
-});
-
-// 入力値に問題があって再表示された場合、ページ表示時点で小カテゴリが絞り込まれるようにする
-if (parentCategoryElement.value) {
-    const selectedCategory = categoryElement.val();
-    changeCategory(selectedCategory);
-}
-
-</script>
-{% endblock extrajs %}
 
 {% endblock content%}
 
