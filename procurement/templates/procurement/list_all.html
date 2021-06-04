@@ -15,13 +15,13 @@
 <form method="post">{% csrf_token %}
 
   
-<!-- 発注検討メニュー -->
-<h3 class="selectSupplier_title" id="selectSupplier_title">発注検討</h3>
+<!-- 検討メニュー -->
+<h3 class="selectSupplier_title" id="selectSupplier_title">検討</h3>
 
 <div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
 
   <dl class="selectSupplier_item1">
-    <dt>発注検討者</dt>
+    <dt>検討者</dt>
     <dd><input type="text" name="selectSupplier_adminStaff"></dd>
   </dl>
 
@@ -79,7 +79,7 @@
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">1 依頼作成</a>
 
-    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">2-1 発注検討</p>
+    <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">2-1 検討</p>
     <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="2-2 検討実施" name="button_selectSupplier">
     <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">検討中止</p>
 
@@ -104,7 +104,7 @@
     <th>希望納期</th>
 		<th>納品先</th>
 		<th>小分類</th>
-		<th>標準備品</th>
+		<th>標準品</th>
     <th>目的・発注要件</th>
 
 		<th>数量</th>
