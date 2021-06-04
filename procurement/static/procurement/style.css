@@ -37,6 +37,16 @@ input, textarea, select{
     font-family:'Meiryo', sans-serif;
 }
 
+/* 必須入力の色設定 */
+input:required,
+select:required,
+textarea:required{
+  background: rgb(255, 255, 227);
+}
+
+.must_color input{
+    background: rgb(255, 255, 227);
+}
 
 .excel_output{
     display: none;
@@ -837,7 +847,6 @@ hr{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: transparent;
     
     display: block;
     height: 3.2rem;
@@ -991,10 +1000,10 @@ hr{
 /* 単一URL */
 .mono_URL{
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
     padding-top: 1rem;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
     align-content:top ;
 }
 .mono_URL input[type="url"]{
@@ -1041,7 +1050,6 @@ hr{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: transparent;
     
     display: block;
     font-size: 1.4rem;
@@ -1063,7 +1071,6 @@ hr{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: transparent;
     
     display: block;
     height: 3.2rem;
@@ -1228,7 +1235,6 @@ hr{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: transparent;
     
     display: block;
     height: 3.2rem;
@@ -1301,7 +1307,6 @@ hr{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: transparent;
     
     display: block;
     height: 3.2rem;
