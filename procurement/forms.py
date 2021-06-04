@@ -65,8 +65,7 @@ class CreateFormRequest(ModelForm):
 
         self.fields['submissionDate'].initial = today
         self.fields['submissionDate'].widget.attrs['readonly'] = True
-        self.fields['submissionDate'].required = True
-
+  
 
         self.fields['dueDate'].initial = today + datetime.timedelta(days=7)
         self.fields['dueDate'].required = True
