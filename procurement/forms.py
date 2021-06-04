@@ -65,6 +65,7 @@ class CreateFormRequest(ModelForm):
 
         self.fields['submissionDate'].initial = today
         self.fields['submissionDate'].widget.attrs['readonly'] = True
+        self.fields['submissionDate'].required = True
 
 
         self.fields['dueDate'].initial = today + datetime.timedelta(days=7)
@@ -82,7 +83,7 @@ class CreateFormRequest(ModelForm):
         self.fields['costCenter1'].required = True
 
         # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '商品の内容・必要な仕様（「URL参照」でもOK）'
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
 
 
 class CreateFormOrder(ModelForm):
@@ -112,8 +113,8 @@ class CreateFormOrder(ModelForm):
         self.fields['orderDate'].initial = today
         self.fields['orderDate'].widget.attrs['readonly'] = True
                        
-        self.fields['arrivalDate'].required = True + datetime.timedelta(days=7)
-        self.fields['arrivalDate'].initial = today
+        self.fields['arrivalDate'].required = True
+        self.fields['arrivalDate'].initial = today + datetime.timedelta(days=7)
 
         self.fields['registeredSupplier'].initial = 1
 
@@ -133,7 +134,6 @@ class CreateFormOrder(ModelForm):
 
         # プレースホルダ
         self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
-
 
 
 class UpdateFormRequest(ModelForm):
@@ -174,7 +174,8 @@ class UpdateFormRequest(ModelForm):
 
 
         # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '商品の内容・必要な仕様（「URL参照」でもOK）'
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
+        self.fields['requestMemo'].widget.attrs['placeholder'] = '必要に応じて記入'
 
 
 class UpdateFormOrder(ModelForm):
