@@ -19,6 +19,6 @@ urlpatterns = [
     path('update_order/<int:pk>', views.UpdateOrder.as_view(), name='update_order'),
 
     # ajax
-    path('category2/', views.ajax_get_category2, name='ajax_get_category2') 
+    path('update_request/category2/', views.ajax_get_category2, name='ajax_get_category2') 
 
 ]

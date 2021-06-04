@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db import transaction
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy, reverse
@@ -14,7 +14,7 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder, AcceptanceForm
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
 
 # Create your views here.
 
@@ -282,15 +282,17 @@ class CreateOrder(CreateView):
 
 def ajax_get_category2(request):
     pk = request.GET.get('pk')
+    print('pk:'+pk)
     # pkなし
     if not pk:
         category_list = Category2.objects.all()
 
     # pkあり 
     else:
-        category_list = Category2.objects.filter(parent__pk=pk)
+        category_list = Category2.objects.filter(category1__pk=pk)
+        print(category_list)
 
-    category_list = [{'pk': category2.pk, 'name': category2.name} for category2 in category_list]
+    category_list = [{'pk': category2.pk,'no': category2.pk,'name': category2.name} for category2 in category_list]
 
     # JSON
     return JsonResponse({'categoryList': category_list})

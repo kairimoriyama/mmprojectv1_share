@@ -11,14 +11,6 @@ from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress,
 from django.forms import ModelForm, inlineformset_factory 
 
 
-# 検収用フォーム 使いたいが使えていない
-class AcceptanceForm(forms.Form):
-    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck',default=1)    
-    acceptanceDate = models.DateField(blank=True,null=True)
-    acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
-    acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
-    acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
-
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -48,7 +40,7 @@ class SelectFormDivision(ModelForm):
 
 class CreateFormRequest(ModelForm):
 
-    # 親カテゴリー
+    # 親カテゴリー Category1
     parent_category = forms.ModelChoiceField(
         queryset=Category1.objects,
         required=True

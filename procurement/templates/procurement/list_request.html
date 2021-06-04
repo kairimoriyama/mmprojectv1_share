@@ -51,11 +51,16 @@
 		<th>納品先</th>
 		<th>小分類</th>
 		<th>標準備品</th>
-    <th>稟議</th>
-    <th>プロジェクト</th>
+
+
     <th>目的・依頼内容</th>
 		<th>数量</th>
 		<th>税込総額</th>
+
+        
+    <th>稟議</th>
+    <th>プロジェクト</th>
+
 		<th>管理担当</th>
 		<th>管理メモ</th>
 
@@ -96,6 +101,12 @@
 
       <td>{{ item.itemCategory2.name }}</td>
       <td>{{ item.standardItem.name }}</td>
+
+      <td class="longText">{{ item.requestDescription }}</td>
+
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.estimatedAmount|intcomma }}</td>
+
       <td>{% if item.approved %}
             {{ item.approved }}
           {%  else %}
@@ -106,9 +117,6 @@
           {%  else %}
           {% endif %}  
       </td>
-      <td class="longText">{{ item.requestDescription }}</td>
-      <td>{{ item.quantity }}</td>
-      <td>{{ item.estimatedAmount|intcomma }}</td>
 
       <td>
         {%  if item.adminStaff %}
