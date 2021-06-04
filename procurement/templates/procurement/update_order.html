@@ -25,7 +25,7 @@
   </div>
 
 
-  <dl class="item_dl item1">
+  <dl class="item_dl item1 free_color">
     <dt>発注番号</dt>
     <dd class="itemNum">{{ form.orderNum}}</dd>
   </dl>
@@ -55,12 +55,12 @@
     <dd>{{ form.arrivalDate }}</dd>
   </dl>
 
-  <dl class="item_dl item7">
+  <dl class="item_dl item7 alternative_color">
     <dt>標準発注先</dt>
     <dd>{{ form.registeredSupplier}}</dd>
   </dl>
 
-  <dl class="item_dl item8">
+  <dl class="item_dl item8 alternative_color">
     <dt>個別発注先</dt>
     <dd>{{ form.irregularSupplier}}</dd>
   </dl>
@@ -69,9 +69,9 @@
     <dt class="height_l">金額</dt>
     <dd class="height_l">
 
-      <div id="amount_t10"><p>税率10%</p><input type="tel">{{ form.amount1}}</div>
-      <div id="amount_t8"><p>税率8%</p><input type="tel">{{ form.amount2}}</div>
-      <div id="amount_t0"><p>非課税</p><input type="tel">{{ form.amount3}}</div>
+      <div class="must_color" id="amount_t10"><p>税率10%</p><input type="tel">{{ form.amount1}}</div>
+      <div class="must_color" id="amount_t8"><p>税率8%</p><input type="tel">{{ form.amount2}}</div>
+      <div class="must_color" id="amount_t0"><p>非課税</p><input type="tel">{{ form.amount3}}</div>
       <div id="amount_total" class="amount_total"><p>合計金額</p><input type="tel" readonly="readonly">{{ form.totalAmount}}</div>
     </dd>
   </dl>
@@ -118,7 +118,7 @@
 
   <dl class="item_dl item18">
     <dt class="height_m  sentence_dt2">請求書等</dt>
-    <dd class="mono_URL height_m  sentence_dd2">{{ form.refFile }}</dd>
+    <dd class="height_m  sentence_dd2">{{ form.refFile }}</dd>
   </dl>
 
   <dl class="item_dl item_dl_dummy_s1">
