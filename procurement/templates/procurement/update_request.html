@@ -26,7 +26,7 @@
 
   <dl class="item_dl item1">
     <dt>依頼番号</dt>
-    <dd class="itemNum">{{ form.requestNum}}</dd>
+    <dd class="itemNum free_color">{{ form.requestNum}}</dd>
   </dl>
 
   <dl class="item_dl item2">
@@ -56,40 +56,41 @@
   </dl>
 
   <dl class="item_dl item7">
-    <dt>大分類</dt>
-    <dd></dd>
-  </dl>
-
-  <dl class="item_dl item8">
-    <dt>小分類</dt>
-    <dd>{{ form.itemCategory2}}</dd>
-  </dl>
-
-  <dl class="item_dl item9">
-    <dt class="sentence_dt1">標準備品</dt>
-    <dd class="sentence_dd1">
-      {{ form.standardItem}}
+    <dt>区分</dt>
+    <dd>{{ form.purpose}}</div>
     </dd>
   </dl>
 
+
+  <dl class="item_dl item8">
+    <dt>標準品</dt>
+    <dd>{{ form.standardItem}}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="height_m sentence_dt2">仕様</dt>
+    <dd class="height_m sentence_dd2">{{ form.requestDetail}}</dd>
+  </dl>
+
   <dl class="item_dl item10">
+    <dt class="height_m sentence_dt2">備考</dt>
+    <dd class="height_m sentence_dd2">{{ form.requestMemo}}</dd>
+  </dl>
+
+  <dl class="item_dl item11">
     <dt>数量</dt>
     <dd>{{ form.quantity }}</dd>
   </dl>
 
-  <dl class="item_dl item11">
+  <dl class="item_dl item12">
     <dt>税込総額</dt>
     <dd id="amount" class="request_amount"><input type="tel">{{ form.estimatedAmount }}</dd>
   </dl>
 
-  <dl class="item_dl item12">
-    <dt class="height_l">目的・依頼内容</dt>
-    <dd class="height_l">{{ form.requestDescription}}</dd>
-  </dl>
-
   <dl class="item_dl item13">
     <dt>稟議番号</dt>
-    <dd>{{ form.approved}}</dd>
+    <dd>{{ form.approval}}</dd>
   </dl>
 
   <dl class="item_dl item14">
@@ -115,32 +116,50 @@
     </dd>
   </dl>
 
+
   <dl class="item_dl item17">
-    <dt>管理者</dt>
-    <dd>{{ form.adminStaff }}</dd>
+    <dt class="height_l">資料（稟議等）</dt>
+    <dd class="height_l multiple_items_update">
+
+      <div class="attachment_update">
+        <p>資料（1）</p>
+        <div>{{ form.refFile1 }}</div>
+      </div>
+
+      <div class="attachment_update">
+        <p>資料（2）</p>
+        <div>{{ form.refFile2 }}</div>
+      </div>
+      
+      <div class="attachment_update">
+        <p>資料（3）</p>
+        <div>{{ form.refFile3 }}</div>
+      </div>
+    </dd>
   </dl>
 
   <dl class="item_dl item18">
+    <dt>管理者</dt>
+    <dd class="no_click">{{ form.adminStaff }}</dd>
+  </dl>
+
+  <dl class="item_dl item19">
     <dt>進捗</dt>
     <dd class="no_click">{{ form.adminCheck }}</dd>
   </dl>
 
   
-  <dl class="item_dl item19">
+  <dl class="item_dl item20">
     <dt class="height_m">管理メモ</dt>
     <dd class="height_m">{{ form.adminDescription }}</dd>
   </dl>
 
 
-  <dl class="item_dl item20">
+  <dl class="item_dl item21">
     <dt>発注番号</dt>
     <dd class="no_click">{{ form.orderInfo }}</dd>
   </dl>
   
-  <dl class="item_dl item21">
-    <dt>資料<br>（稟議等）</dt>
-    <dd>{{ form.refFile }}</dd>
-  </dl>
 
   <dl class="item_dl item_dl_dummy_s1">
     <dt></dt>

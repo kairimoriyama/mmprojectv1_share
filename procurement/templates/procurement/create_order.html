@@ -48,32 +48,32 @@
 
   <dl class="item_dl item7">
     <dt>標準発注先</dt>
-    <dd>{{ form.registeredSupplier}}</dd>
+    <dd class="alternative_color">{{ form.registeredSupplier}}</dd>
   </dl>
 
   <dl class="item_dl item8">
     <dt>個別発注先</dt>
-    <dd>{{ form.irregularSupplier}}</dd>
+    <dd class="alternative_color">{{ form.irregularSupplier}}</dd>
   </dl>
 
   <dl class="item_dl item9 multiple_items_amount">
     <dt class="height_l">金額</dt>
     <dd class="height_l">
 
-      <div id="amount_t10"><p>税率10%</p><input type="tel">{{ form.amount1}}</div>
-      <div id="amount_t8"><p>税率8%</p><input type="tel">{{ form.amount2}}</div>
-      <div id="amount_t0"><p>非課税</p><input type="tel">{{ form.amount3}}</div>
+      <div class="must_color" id="amount_t10"><p>税率10%</p><input type="tel">{{ form.amount1}}</div>
+      <div class="must_color" id="amount_t8"><p>税率8%</p><input type="tel">{{ form.amount2}}</div>
+      <div class="must_color" id="amount_t0"><p>非課税</p><input type="tel">{{ form.amount3}}</div>
       <div id="amount_total" class="amount_total"><p>合計金額</p><input type="tel" readonly="readonly">{{ form.totalAmount}}</div>
     </dd>
   </dl>
 
   <dl class="item_dl item10">
     <dt>支払方法</dt>
-    <dd>{{ form.payment}}</dd>
+    <dd>{{ form.paymentMethod}}</dd>
   </dl>
 
   <dl class="item_dl item11">
-    <dt class="height_l sentence_dt2">発注者備考</dt>
+    <dt class="height_l sentence_dt2">発注備考</dt>
     <dd class="height_l sentence_dd2">{{ form.orderDescription}}</dd>
   </dl>
 
@@ -108,8 +108,8 @@
   </dl>
 
   <dl class="item_dl item18">
-    <dt>請求書等</dt>
-    <dd>{{ form.refFile }}</dd>
+    <dt class="height_m sentence_dt2">請求書等</dt>
+    <dd class="height_m sentence_dd2">{{ form.refFile }}</dd>
   </dl>
 
   <dl class="item_dl item_dl_dummy_s1">

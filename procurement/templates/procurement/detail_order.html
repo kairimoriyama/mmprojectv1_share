@@ -82,7 +82,7 @@
 
   <dl class="item_dl item10">
     <dt>支払方法</dt>
-    <dd>{{ object.payment.name}}</dd>
+    <dd>{{ object.paymentMethod.name}}</dd>
   </dl>
 
   <dl class="item_dl item11">
@@ -131,7 +131,7 @@
   </dl>
 
   <dl class="item_dl item16">
-    <dt>支払日</dt>
+    <dt>支払（予定）日</dt>
     <dd>
       {% if object.settlementDate %}
       {{ object.settlementDate | date:"Y/m/d" }}

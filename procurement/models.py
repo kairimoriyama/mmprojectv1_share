@@ -38,28 +38,17 @@ class AdminCheck(models.Model):
     def __str__(self):
         return self.name
 
-class Category1(models.Model):
+class Purpose(models.Model):
     no = models.IntegerField(blank=False,null=False)
     name = models.CharField(max_length=50,blank=False,null=False)
 
     class Meta:
-        verbose_name_plural="Category1"
+        verbose_name_plural="Purpose"
         ordering = ('no',)
 
     def __str__(self):
         return self.name
 
-class Category2(models.Model):
-    no = models.IntegerField(blank=False,null=False)
-    name = models.CharField(max_length=50,blank=False,null=False)
-    category1 = models.ForeignKey(Category1,on_delete=models.PROTECT, related_name ='category2_category1',blank=True,null=True)
-
-    class Meta:
-        verbose_name_plural="Category2"
-        ordering = ('no',)
-
-    def __str__(self):
-        return self.name
 
 class Progress(models.Model):
     no = models.IntegerField(blank=False,null=False)
@@ -73,12 +62,12 @@ class Progress(models.Model):
         return self.name
 
 
-class Payment(models.Model):
+class PaymentMethod(models.Model):
     no = models.IntegerField(blank=False,null=False)
     name = models.CharField(max_length=50,blank=False,null=False)
 
     class Meta:
-        verbose_name_plural="Payment"
+        verbose_name_plural="PaymentMethod"
         ordering = ('no',)
 
     def __str__(self):
@@ -103,10 +92,22 @@ class Supplier(models.Model):
         return self.name
 
 
+class ItemCategory(models.Model):
+    no = models.IntegerField(blank=False,null=False)
+    name = models.CharField(max_length=50,blank=False,null=False)
+
+    class Meta:
+        verbose_name_plural="ItemCategory"
+        ordering = ('no',)
+
+    def __str__(self):
+        return self.name
+
+
 class StandardItem(models.Model):
     no = models.IntegerField(blank=False,null=False)
     name = models.CharField(max_length=50,blank=False,null=False)
-    category2 = models.ForeignKey(Category2,on_delete=models.PROTECT, related_name ='standardItem_category2',blank=True,null=True)
+    itemCategory = models.ForeignKey(ItemCategory,on_delete=models.PROTECT, related_name ='standardItem_itemCategory',blank=True,null=True)
     description = models.TextField(max_length=400, blank=True,null=True)
     price = models.IntegerField(blank=True,null=True)
     picture1 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
@@ -140,7 +141,7 @@ class OrderInfo(models.Model):
     amount2 = models.IntegerField(blank=True,null=True)
     amount3 = models.IntegerField(blank=True,null=True)
     totalAmount = models.IntegerField(blank=True,null=True)
-    payment = models.ForeignKey(Payment,on_delete=models.PROTECT, related_name ='orderInfo_payment',blank=True,null=True)    
+    paymentMethod = models.ForeignKey(PaymentMethod,on_delete=models.PROTECT, related_name ='orderInfo_paymentMethod',blank=True,null=True)    
     orderDescription = models.TextField(max_length=50,blank=True,null=True)
 
     acceptanceDate = models.DateField(blank=True,null=True)
@@ -181,12 +182,13 @@ class OrderRequest(models.Model):
     costCenter2 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_cost2_dividion',blank=True,null=True) 
     costCenter3 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_cost3_dividion',blank=True,null=True) 
 
-    itemCategory2 = models.ForeignKey(Category2,on_delete=models.PROTECT, related_name ='orderRequest_category2',blank=True,null=True) 
-    standardItem = models.ForeignKey(StandardItem,on_delete=models.PROTECT, related_name ='orderRequest_standardItem',blank=True,null=True) 
-    requestDescription = models.TextField(max_length=400,blank=True,null=True)
+    purpose = models.ForeignKey(Purpose,on_delete=models.PROTECT, related_name ='orderRequest_purpose',blank=True,null=True) 
+    standardItem = models.BooleanField(default=False)
+    requestDetail = models.TextField(max_length=400,blank=True,null=True)
+    requestMemo = models.TextField(max_length=400,blank=True,null=True)
 
     project = models.CharField(max_length=30,blank=True,null=True)
-    approved = models.CharField(max_length=30,blank=True,null=True)
+    approval = models.CharField(max_length=30,blank=True,null=True)
 
     quantity = models.CharField(max_length=100)
     estimatedAmount = models.IntegerField(blank=True,null=True)
@@ -195,7 +197,9 @@ class OrderRequest(models.Model):
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
     refURL3 = models.URLField(max_length=300, blank=True,null=True)
 
-    refFile = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
     adminDescription = models.TextField(max_length=300,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)

@@ -4,7 +4,7 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportMixin
 
-from .models import AdminCheck, Category1, Category2, Division, DeliveryAddress, OrderRequest, OrderInfo, Payment, Progress, Supplier, StandardItem
+from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 # Register your models here.
 
 
@@ -31,19 +31,12 @@ class AdminCheckAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             fields = ('id','no', 'name')
     resource_class = AdminCheckResource
 
-class Category1Admin(ImportExportModelAdmin, admin.ModelAdmin):
-    class Category1Resource(resources.ModelResource):
+class PurposeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    class PurposeResource(resources.ModelResource):
         class Meta:
-            model = Category1
+            model = Purpose
             fields = ('id','no', 'name')
-    resource_class = Category1Resource
-
-class Category2Admin(ImportExportModelAdmin, admin.ModelAdmin):
-    class Category2Resource(resources.ModelResource):
-        class Meta:
-            model = Category2
-            fields = ('id','no', 'name', 'category1', )
-    resource_class = Category2Resource
+    resource_class = PurposeResource
 
 
 class ProgressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -53,12 +46,12 @@ class ProgressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             fields = ('id','no', 'name')
     resource_class = ProgressResource
 
-class PaymentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    class PaymentResource(resources.ModelResource):
+class PaymentMethodAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    class PaymentMethodResource(resources.ModelResource):
         class Meta:
-            model = Payment
+            model = PaymentMethod
             fields = ('id','no', 'name')
-    resource_class = PaymentResource
+    resource_class = PaymentMethodResource
 
 
 
@@ -70,11 +63,20 @@ class SupplierAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'webpageURL', 'commonId', 'commonPass', 'description')
     resource_class = SupplierResource
 
+
+
+class ItemCategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    class ItemCategoryResource(resources.ModelResource):
+        class Meta:
+            model = ItemCategory
+            fields = ('id','no', 'name')
+    resource_class = ItemCategoryResource
+
 class StandardItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     class StandardItemResource(resources.ModelResource):
         class Meta:
             model = StandardItem
-            fields = ('id','no', 'name', 'category2', 'description',
+            fields = ('id','no', 'name', 'itemCategory', 'description',
              'price', 'picture1', 'picture2', 'refURL1', 'refURL2', 'supplier')
     resource_class = StandardItemResource
 
@@ -84,16 +86,18 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         class Meta:
             model = OrderRequest
             fields = ('id','requestNum', 'submissionDate',
+            'orderInfo',
             'requestStaffDivision', 'requestStaff',
-            'adminCheck', 'adminStaff', 'orderInfo',
+            'adminCheck', 'adminStaff', 
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
-            'requestDescription', 'itemCategory2', 
-            'standardItem', 'quantity', 
-            'estimatedAmount', 'refURL1', 'refURL2', 'refURL3',
-            'refFile',
-            'adminDescription', 'project', 'approved',
-            'deletedItem'
+            'purpose', 'standardItem',
+            'requestDetail', 'requestMemo', 
+            'project', 'approval', 
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1','refFile2','refFile3',
+            'adminDescription', 'deletedItem'
             )
     resource_class = OrderRequestResource
 
@@ -107,7 +111,7 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
-            'totalAmount', 'payment', 'orderDescription', 
+            'totalAmount', 'paymentMethod', 'orderDescription', 
             'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
             'acceptanceMemo',
             'settlementDate','settlement', 'refFile',
@@ -120,11 +124,12 @@ admin.site.register(Division, DivisionAdmin)
 admin.site.register(DeliveryAddress, DeliveryAddressAdmin)
 
 admin.site.register(AdminCheck, AdminCheckAdmin)
-admin.site.register(Category1, Category1Admin)
-admin.site.register(Category2, Category2Admin)
+admin.site.register(Purpose, PurposeAdmin)
 admin.site.register(Progress, ProgressAdmin)
-admin.site.register(Payment, PaymentAdmin)
+admin.site.register(PaymentMethod, PaymentMethodAdmin)
 admin.site.register(Supplier, SupplierAdmin)
+
+admin.site.register(ItemCategory, ItemCategoryAdmin)
 admin.site.register(StandardItem, StandardItemAdmin)
 
 admin.site.register(OrderRequest, OrderRequestAdmin)

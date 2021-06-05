@@ -100,12 +100,13 @@
     <th>進捗</th>
     <th>発注番号</th>
     <th>依頼者</th>
-    <th>依頼者所属</th>
+    <th>所属</th>
     <th>希望納期</th>
 		<th>納品先</th>
-		<th>小分類</th>
+		<th>目的</th>
 		<th>標準品</th>
-    <th>目的・発注要件</th>
+    <th>仕様</th>
+    <th>備考</th>
 
 		<th>数量</th>
 		<th>税込総額</th>
@@ -145,20 +146,31 @@
         </a>
       </td>
      
-      <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
+      <td class="date_col">{{ item.submissionDate | date:"m/d"}}</td>
       <td>{{ item.adminCheck.name }}</td>
       <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
 
       <td>{{ item.requestStaff }}</td>
       <td>{{ item.requestStaffDivision }}</td>
     
-      <td class="date_col">{{ item.dueDate | date:"Y/m/d"}}</td>
+      <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
       <td>{{ item.deliveryAddress.name }}</td>
 
-      <td>{{ item.itemCategory2.name }}</td>
-      <td>{{ item.standardItem.name }}</td>
+      <td>{{ item.purpose.name }}</td>
+      <td class="date_col">
+        {% if item.standardItem == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
 
-      <td class="longText">{{ item.requestDescription }}</td>
+      <td class="longText">{{ item.requestDetail }}</td>
+      <td class="longText">
+        {% if item.requestMemo == True %}
+          {{ item.requestMemo }}
+        {% else %}
+        {% endif %}
+      </td>
 
       <td>{{ item.quantity }}</td>
       <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
@@ -180,6 +192,7 @@
         {%  else %}
         {% endif %}  
       </td>
+
       <td class="longText">
         {%  if item.adminDescription %}
           {{ item.adminDescription }}
@@ -249,18 +262,15 @@
     <th>発注者</th>
     <th>発注者所属</th>
     <th>発注先</th>
-		<th>到着予定日</th>
-		<th>税込10%</th>
-		<th>税込8%</th>
-		<th>非課税</th>
+		<th>到着予定</th>
 		<th>税込合計</th>
 		<th>支払方法</th>
-		<th>発注メモ</th>
+		<th>発注備考</th>
 		<th>納品日</th>
 		<th>検収担当者</th>
 		<th>所属</th>
 		<th>検収メモ</th>
-    <th>支払日</th>
+    <th>支払（予定）日</th>
     <th>支払完了</th>
   </tr>
   
@@ -287,7 +297,7 @@
         </a>
       </td>
      
-      <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
+      <td class="date_col">{{ item.orderDate | date:"m/d"}}</td>
       <td>{{ item.progress.name }}</td>
       <td>{{ item.orderStaff }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
@@ -300,19 +310,16 @@
       {% endif %}
       </td>
 
-      <td>{{ item.arrivalDate | date:"Y/m/d" }}</td>
+      <td class="date_col">{{ item.arrivalDate | date:"m/d" }}</td>
 
-      <td class="number_col">{{ item.amount1|intcomma }}</td>
-      <td class="number_col">{{ item.amount2|intcomma }}</td>
-      <td class="number_col">{{ item.amount3|intcomma }}</td>
       <td class="number_col" name="selected_order_amount">{{ item.totalAmount|intcomma }}</td>
 
-      <td>{{ item.payment.name }}</td>
+      <td>{{ item.paymentMethod.name }}</td>
       <td>{{ item.orderDescription }}</td>
 
       <td class="date_col">
         {% if item.acceptanceDate %}
-          {{ item.acceptanceDate | date:"Y/m/d"  }}
+          {{ item.acceptanceDate | date:"m/d"  }}
         {% else %}-
         {% endif %}
       </td>
@@ -340,7 +347,7 @@
 
       <td class="date_col">
         {% if item.settlementDate %}
-          {{ item.settlementDate | date:"Y/m/d"  }}
+          {{ item.settlementDate | date:"m/d"  }}
         {% else %}-
         {% endif %}
       </td>
