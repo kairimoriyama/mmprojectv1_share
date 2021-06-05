@@ -23,9 +23,10 @@ class StaffDB(models.Model):
     staffDivision1 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision1',blank=False,null=False) 
     staffDivision2 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision2',blank=True,null=True) 
     staffDivision3 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision3',blank=True,null=True) 
+    deletedItem = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('no',)
 
     def __str__(self):
-        return str(self.no) + self.fullName 
+        return str(self.no) + " " + self.fullName 

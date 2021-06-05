@@ -41,7 +41,7 @@ class ItemCreateFromIdea(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('submissionDate','progress','division','staff','staffdb',
+        fields = ('submissionDate','progress','division','staffdb',
         'category','system','purchase','title','description',
         'refURL1','refURL2','refURL3',
         'picture1','picture2','picture3','picture4','picture5','picture6',
