@@ -81,6 +81,18 @@
       </dl>
 
       <dl>
+        <dt>提案者db</dt>
+        <dd>
+          <select>
+            <option value=0>-</option>
+          {% for staffdb in staffdb_list %}
+            <option value="{{ staffdb.id }}">{{ staffdb.no }}{{ staffdb.fullName }}</option>
+          {% endfor %}
+        </select>
+        </dd>
+      </dl>
+
+      <dl>
         <dt>所属</dt>
         <dd>
           <select id="division" name="division" class="list_filter_select" type="number">

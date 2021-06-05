@@ -100,6 +100,7 @@ class ItemListFilter(ListView):
 
         context['progressSelect_list'] = Progress.objects.all()
         context['divisionSelect_list'] = Division.objects.all()
+        context['staffdb_list'] = StaffDB.objects.all()
 
         context['list_type'] = 'list_filter'
 
