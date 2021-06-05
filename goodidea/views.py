@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from django.core import validators
 import unicodecsv as csv
-
+from staffdb.models import StaffDB
 
 from django.db.models import Max
 import datetime
