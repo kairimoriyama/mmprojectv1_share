@@ -18,7 +18,7 @@ class StaffDBAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     class StaffDBResource(resources.ModelResource):
         class Meta:
             model = StaffDB
-            fields = ('id','no', 'fullName', 'kanaName', 'staffDivision')
+            fields = ('id','no', 'fullName', 'kanaName', 'staffDivision1', 'staffDivision2', 'staffDivision3')
     resource_class = StaffDBResource
 
 admin.site.register(Division, DivisionAdmin)

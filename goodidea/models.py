@@ -5,6 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
 from django_resized import ResizedImageField
+from staffdb.models import StaffDB
 
 
 class Progress(models.Model):
