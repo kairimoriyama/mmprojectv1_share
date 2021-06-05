@@ -77,18 +77,14 @@
 
       <dl>
         <dt>提案者</dt>
-        <dd><input id="staff" name="staff" value="{{ request.GET.staff }}" type="text"></dd>
-      </dl>
-
-      <dl>
-        <dt>提案者db</dt>
         <dd>
-          <select d="staffdb" name="staffdb" class="list_filter_select" type="number">
+          <input id="staffNumber" name="staffNumber" value="{{ request.GET.staff }}" type="number">
+          <select id="staffdb" name="staffdb" class="list_filter_select" type="number">
             <option value=0>-</option>
-          {% for staffdb in staffdb_list %}
-            <option value="{{ staffdb.id }}">{{ staffdb.no }} {{ staffdb.fullName }}</option>
-          {% endfor %}
-        </select>
+            {% for staffdb in staffdb_list %}
+              <option value="{{ staffdb.id }}">{{ staffdb.no }} {{ staffdb.fullName }}</option>
+            {% endfor %}
+          </select>
         </dd>
       </dl>
 

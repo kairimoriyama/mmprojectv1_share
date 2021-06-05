@@ -38,6 +38,24 @@ input, textarea, select{
 }
 
 
+/* 必須入力の色設定 */
+input:required,
+select:required,
+textarea:required{
+  background: rgb(255, 255, 227);
+}
+
+.must_color input{
+    background: rgb(255, 255, 227);
+}
+.alternative_color input,
+.alternative_color select{
+    background: rgb(192, 222, 236);
+}
+.free_color input{
+    background-color: #fff;
+}
+
 .excel_output{
     display: none;
 }
@@ -367,6 +385,23 @@ button{
     border: solid 0.1rem  #bfbfbf;
     margin-right: 0;
 }
+
+.list_filter_items input[type="number"]{
+    display: block;
+    width: 8rem;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0rem 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+    margin-right: 0;
+}
+
+.list_filter_items input[type="number"]::-webkit-outer-spin-button, 
+.list_filter_items input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
+
 
 .list_filter_select{
     display: block;
@@ -879,12 +914,12 @@ hr{
 /* input型 */
 .item_dl input[type="date"],
 .item_dl input[type="url"],
-.item_dl input[type="text"] {
-
+.item_dl input[type="text"],
+.item_dl input[type="number"] 
+{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: transparent;
     
     display: block;
     height: 3.2rem;
