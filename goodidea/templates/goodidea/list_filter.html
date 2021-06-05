@@ -76,10 +76,10 @@
       </dl>
 
       <dl>
-        <dt>提案者</dt>
+        <dt>社員番号 &#8658; 提案者</dt>
         <dd>
           <input id="staffNumber" name="staffNumber" value="{{ request.GET.staff }}" type="number">
-          <select id="staffdb" name="staffdb" class="list_filter_select" type="number">
+          <select id="staffdb" name="staffdb" class="list_filter_select_s" type="number">
             <option value=0>-</option>
             {% for staffdb in staffdb_list %}
               <option value="{{ staffdb.id }}">{{ staffdb.no }} {{ staffdb.fullName }}</option>

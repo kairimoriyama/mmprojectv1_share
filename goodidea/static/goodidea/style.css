@@ -332,18 +332,18 @@ button{
 .list_filter_items dl{
     margin-top: 1rem;
     margin-right: 2rem;
-    width: 20rem;
+    width: 22rem;
 }
 
 /* 協議案件・共有案件 */
 .list_filter_items .ideaOrAction_filter{
-    width: 27rem; 
+    width: 29rem; 
 }
 .list_filter_items .category_purchase_filter{
-    width: 4rem;
+    width: 5rem;
 }
 .list_filter_items .category_system_filter{
-    width: 7rem;
+    width: 8rem;
 }
 
 
@@ -355,7 +355,7 @@ button{
 }
 
 .list_filter_items .list_filter_date{
-    width: 42rem;
+    width: 46rem;
 }
 
 .list_filter_date p{
@@ -378,7 +378,7 @@ button{
 
 .list_filter_items input[type="text"]{
     display: block;
-    width: 20rem;
+    width: 22rem;
     height: 3.2rem;
     font-size: 1.4rem;
     padding: 0rem 0.5rem;
@@ -386,14 +386,15 @@ button{
     margin-right: 0;
 }
 
+/* 社員番号入力用 */
 .list_filter_items input[type="number"]{
     display: block;
-    width: 8rem;
+    width: 7.5rem;
     height: 3.2rem;
     font-size: 1.4rem;
     padding: 0rem 0.5rem;
     border: solid 0.1rem  #bfbfbf;
-    margin-right: 0;
+    margin-right: 0.5rem;
 }
 
 .list_filter_items input[type="number"]::-webkit-outer-spin-button, 
@@ -401,6 +402,18 @@ button{
   -webkit-appearance: none; 
   margin: 0; 
 } 
+
+
+/* 社員リスト */
+
+.list_filter_select_s{
+    display: block;
+    width: 14rem;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0rem;
+    border: solid 0.1rem  #bfbfbf;
+}
 
 
 .list_filter_select{
@@ -412,10 +425,9 @@ button{
     border: solid 0.1rem  #bfbfbf;
 }
 
-
 .list_filter_items input[type="date"] {
     display: block;
-    width: 20rem;
+    width: 22rem;
     height: 3.2rem;
     border: solid 0.1rem #bfbfbf;
     padding: 0rem 0.5rem;
@@ -507,7 +519,7 @@ button{
     margin-left: 0.5rem;
 }
 .internalDiscussion{
-    min-width: 7rem;
+    min-width: 6rem;
     margin-left: 0.5rem;
 }
 

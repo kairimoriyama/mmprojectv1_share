@@ -200,10 +200,10 @@ class ItemListFilter(ListView):
                 queryset6 = queryset5.all()
 
             # 担当者の絞込
-            if staffdb:
-                queryset7 = queryset6.filter(staffdb__exact=staffdb)
-            else: 
+            if staffdb == "0":   #全社員
                 queryset7 = queryset6.all()
+            else: 
+                queryset7 = queryset6.filter(staffdb__exact=staffdb)
             
             # 実行担当者の絞込
             if inchargeStaff:
@@ -344,10 +344,10 @@ class ItemDetailFilter(DetailView):
                 queryset6 = queryset5.all()
 
             # 担当者の絞込
-            if staffdb:
-                queryset7 = queryset6.filter(staffdb__exact=staffdb)
-            else: 
+            if staffdb == "0":   #全社員
                 queryset7 = queryset6.all()
+            else: 
+                queryset7 = queryset6.filter(staffdb__exact=staffdb)
             
             # 実行担当者の絞込
             if inchargeStaff:
