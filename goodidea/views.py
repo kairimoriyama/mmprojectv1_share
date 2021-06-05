@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import transaction
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy, reverse
@@ -15,6 +15,7 @@ from django.utils import timezone
 
 from .models import Item, Progress, Division, Category
 from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom
+from staffdb.models import StaffDB
 
 # Create your views here.
 
@@ -504,3 +505,25 @@ class ItemUpdateDue(UpdateView):
             return reverse('goodidea:detail_due', kwargs={'pk': self.object.id})
         else:
             return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
+
+
+
+def ajax_get_staff(request):
+    staffNumber = request.GET.get('staffNumber')
+    print('staffNumber:'+ str(staffNumber))
+    # staffNumber入力なし
+    if not staffNumber:
+        staff_list = StaffDB.objects.all()
+        print("R")
+        print(staff_list)
+
+    # staffNumber入力あり 
+    else:
+        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        print("A")
+        print(staff_list)
+
+    staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # JSON
+    return JsonResponse({'staffList': staff_list})

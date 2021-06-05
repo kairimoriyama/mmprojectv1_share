@@ -10,13 +10,13 @@
 {% block content %}
 
 
-  <form action="{% url 'goodidea:list_filter' %}" method="GET" class="list_filter">
+  <form onsubmit="return false;" action="{% url 'goodidea:list_filter' %}" method="GET" class="list_filter">
     
   <div class="menu_wrapper">
     <div class="filter_bt_wrapper">
-      <button class="menu_bt yubi row-yellow" id="search_btn" onclick="set_search_key()" class="menu_bt" type="submit">検索実施</button>
-      <a class="menu_bt menu_bt_mg_left yubi" href="{% url 'goodidea:list_filter' %}">条件削除</a>
-      <p class="menu_bt menu_bt_mg_left yubi" id="display_button_color" onclick="filter_item_bt()"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></p>
+      <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
+      <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'goodidea:list_filter' %}">条件削除</a>
+      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt()"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></p>
     </div>
 
     <ul class="page_nav">
@@ -77,12 +77,12 @@
 
       <dl>
         <dt>社員番号 &#8658; 提案者</dt>
-        <dd>
-          <input id="staffNumber" name="staffNumber" value="{{ request.GET.staff }}" type="number">
+        <dd id="staffNumber">
+          <input name="staffNumber" type="number">
           <select id="staffdb" name="staffdb" class="list_filter_select_s" type="number">
             <option value=0>-</option>
             {% for staffdb in staffdb_list %}
-              <option value="{{ staffdb.id }}">{{ staffdb.no }} {{ staffdb.fullName }}</option>
+              <option value="{{ staffdb.id }}">{{ staffdb.fullName }}</option>
             {% endfor %}
           </select>
         </dd>
@@ -154,6 +154,87 @@
 
   {% load static %}
   <script src="{% static 'goodidea/js/list_filter.js' %}"></script>
+  
+
+  {% block extrajs %}
+  <script>
+  
+  /*ajax起動用*/
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+  
+  var csrftoken = getCookie('csrftoken');
+  
+  function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  
+  $.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            console.log(csrftoken);
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+  });
+  /*----------*/
+  
+  
+  let staffNumberElement = document.getElementById('staffNumber').children[0];
+  let staffdbElement = document.getElementById('staffNumber').children[1];
+  
+  console.log(staffNumberElement.value)
+  console.log(staffdbElement)
+  
+  const inputStaffNumber = (select) => {
+   
+    for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
+      staffdbElement.remove(i);
+    };
+  
+    $.ajax({
+        url: "{% url 'goodidea:ajax_get_staff' %}",
+        type: 'GET',
+        data: {'staffNumber': staffNumberElement.value},
+    }).done(response => {
+  
+      // 選択肢を作成
+      
+      let items_staffdb = response.staffList
+      console.log(items_staffdb)
+      console.log(items_staffdb.length)
+  
+      for (let i = 0; i < items_staffdb.length; i++) {  
+        let option = document.createElement('option')
+        option.setAttribute('value', items_staffdb[i]['pk']);
+        option.innerHTML = items_staffdb[i]['fullName'];
+  
+        staffdbElement.appendChild(option); 
+        };
+    });
+    console.log(staffdbElement)  
+  };
+  
+  
+  
+  staffNumberElement.addEventListener('change', () => {
+    inputStaffNumber();
+  });
+  
+  </script>
+  {% endblock extrajs %}
   
 
 {% endblock content%}
