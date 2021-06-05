@@ -941,6 +941,17 @@ hr{
     width: 100%;
 }
 
+/* 社員番号入力用 */
+.staffNumber input[type="number"]{
+    width: 7.5rem;
+}
+
+.staffNumber input[type="number"]::-webkit-outer-spin-button, 
+.staffNumber input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
+
 /* select型 */
 .item_dl select{
     box-sizing: border-box;
@@ -950,6 +961,8 @@ hr{
     line-height: 2rem;
     width: 100%;
 }
+
+
 
 
 /* submissionDate 非表示 */
