@@ -91,7 +91,7 @@ function set_search_key(){
   localStorage.setItem('count_key', '1'); //カウント1を設定
   localStorage.removeItem('search_key');
 
-  let staff = document.getElementById('staff').value;
+  let staffdb = document.getElementById('staffdb').value;
   let division = document.getElementById('division').value;
   let inchargeStaff = document.getElementById('inchargeStaff').value;
   let inchargeDivision = document.getElementById('inchargeDivision').value;
@@ -118,7 +118,7 @@ function set_search_key(){
   let internalDiscussion = document.getElementById('internalDiscussion').checked;
 
   let dataset = ({
-    "key1": staff,
+    "key1": staffdb,
     "key2": division,
     "key3": inchargeStaff,
     "key4":inchargeDivision,
@@ -154,7 +154,7 @@ function get_search_key() {
   }else{
 
     // 検索条件をフォームに入力
-    document.getElementById('staff').value= dataset["key1"];
+    document.getElementById('staffdb').value= dataset["key1"];
     document.getElementById('division').value = dataset["key2"];
     document.getElementById('inchargeStaff').value= dataset["key3"];
     document.getElementById('inchargeDivision').value= dataset["key4"];

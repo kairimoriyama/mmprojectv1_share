@@ -53,7 +53,6 @@ class ItemCreateFromIdea(ModelForm):
 
         # 初期値・入力規則
         self.fields['progress'].initial = 1
-        self.fields['staff'].required = True
         self.fields['staffdb'].required = True
         self.fields['division'].required = True
         self.fields['category'].required = True
@@ -72,7 +71,7 @@ class ItemCreateFromAction(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('submissionDate','progress','division','staff','staffdb','category',
+        fields = ('submissionDate','progress','division','staffdb','category',
         'system','purchase','title','description',
         'refURL1','refURL2','refURL3',
         'picture1','picture2','picture3','picture4','picture5','picture6',
@@ -90,7 +89,6 @@ class ItemCreateFromAction(ModelForm):
         self.fields['progress'].initial = 4
         self.fields['completionDate'].initial = today
         self.fields['completionDate'].required = True
-        self.fields['staff'].required = True
         self.fields['staffdb'].required = True
         self.fields['division'].required = True
         self.fields['category'].required = True
@@ -110,7 +108,7 @@ class ItemUpdateFrom(ModelForm):
 
     class Meta:
         model  = Item
-        fields = ('ideaNum','actionNum','submissionDate','progress','division','staff','staffdb',
+        fields = ('ideaNum','actionNum','submissionDate','progress','division','staffdb',
         'category','system','purchase','title','description',
         'refURL1','refURL2','refURL3',
         'picture1','picture2','picture3','picture4','picture5','picture6',
@@ -127,9 +125,7 @@ class ItemUpdateFrom(ModelForm):
         self.fields['actionNum'].widget.attrs['readonly'] = 'readonly'
         self.fields['progress'].required = True
         self.fields['division'].required = True
-        self.fields['staff'].required = True
         self.fields['staffdb'].required = True
         self.fields['category'].required = True
         self.fields['title'].required = True
         self.fields['description'].required = True
-

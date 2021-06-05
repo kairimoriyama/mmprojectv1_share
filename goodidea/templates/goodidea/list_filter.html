@@ -83,7 +83,7 @@
       <dl>
         <dt>提案者db</dt>
         <dd>
-          <select class="list_filter_select" type="number">
+          <select d="staffdb" name="staffdb" class="list_filter_select" type="number">
             <option value=0>-</option>
           {% for staffdb in staffdb_list %}
             <option value="{{ staffdb.id }}">{{ staffdb.no }} {{ staffdb.fullName }}</option>

@@ -118,7 +118,7 @@ class ItemListFilter(ListView):
         purchase = self.request.GET.get('purchase')
         system = self.request.GET.get('system')
 
-        staff = self.request.GET.get('staff')
+        staffdb = self.request.GET.get('staffdb')
         division = self.request.GET.get('division')
         inchargeStaff = self.request.GET.get('inchargeStaff')
         inchargeDivision = self.request.GET.get('inchargeDivision')
@@ -137,7 +137,7 @@ class ItemListFilter(ListView):
         self.request.session['purchase'] = purchase
         self.request.session['system'] = system
         
-        self.request.session['staff'] = staff
+        self.request.session['staffdb'] = staffdb
         self.request.session['division'] = division
         self.request.session['inchargeStaff'] = inchargeStaff
         self.request.session['inchargeDivision'] = inchargeDivision
@@ -153,7 +153,7 @@ class ItemListFilter(ListView):
         queryset0 = Item.objects_list.all_list().order_by('-itemNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
-        if progress or purchase or system or staff or division or inchargeStaff or inchargeDivision or word or\
+        if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
             (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or internalDiscussion:
 
             # 協議案件/共有案件
@@ -200,8 +200,8 @@ class ItemListFilter(ListView):
                 queryset6 = queryset5.all()
 
             # 担当者の絞込
-            if staff:
-                queryset7 = queryset6.filter(staff__icontains=staff)
+            if staffdb:
+                queryset7 = queryset6.filter(staffdb__exact=staffdb)
             else: 
                 queryset7 = queryset6.all()
             
@@ -280,7 +280,7 @@ class ItemDetailFilter(DetailView):
         progress = self.request.session['progress']
         purchase = self.request.session['purchase']
         system = self.request.session['system']
-        staff = self.request.session['staff']
+        staffdb = self.request.session['staffdb']
         division = self.request.session['division']
         inchargeStaff = self.request.session['inchargeStaff']
         inchargeDivision = self.request.session['inchargeDivision']
@@ -344,8 +344,8 @@ class ItemDetailFilter(DetailView):
                 queryset6 = queryset5.all()
 
             # 担当者の絞込
-            if staff:
-                queryset7 = queryset6.filter(staff__icontains=staff)
+            if staffdb:
+                queryset7 = queryset6.filter(staffdb__exact=staffdb)
             else: 
                 queryset7 = queryset6.all()
             
