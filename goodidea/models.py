@@ -5,7 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
 from django_resized import ResizedImageField
-from staffdb.models import StaffDB
+from staffdb.models import StaffDB, Division
 
 
 class Progress(models.Model):
@@ -18,15 +18,6 @@ class Progress(models.Model):
     def __str__(self):
         return self.name
 
-class Division(models.Model):
-    no = models.IntegerField(blank=True,null=True)
-    name = models.CharField(max_length=50)
-
-    class Meta:
-        ordering = ('no',)
-
-    def __str__(self):
-        return self.name
 
 class Category(models.Model):
     no = models.IntegerField(blank=True,null=True)
@@ -78,12 +69,17 @@ class Item(models.Model):
     actionNum = models.IntegerField(blank=True,null=True, default=0)
     submissionDate = models.DateField(default=timezone.now, blank=True)
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT,
-    related_name ='item_progress', blank=False,null=False)
+        related_name ='item_progress', blank=False,null=False)
     division = models.ForeignKey(Division,on_delete=models.PROTECT,
-    related_name ='item_dividion', blank=False,null=False)     
+        related_name ='item_dividion', blank=False,null=False)     
+
+    # foreignkey で staff情報を管理 
     staff = models.CharField(max_length=100)
+    staffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
+        related_name ='item_staffdb', blank=True,null=True)
+
     category = models.ForeignKey(Category,on_delete=models.PROTECT,
-    related_name ='item_category', blank=False,null=False)
+        related_name ='item_category', blank=False,null=False)
     system = models.BooleanField(default=False)
     purchase = models.BooleanField(default=False)
     title = models.TextField(max_length=2500, blank=False,null=False)

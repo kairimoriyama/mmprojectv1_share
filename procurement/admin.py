@@ -4,17 +4,9 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportMixin
 
-from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
+from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 # Register your models here.
 
-
-
-class DivisionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    class DivisionResource(resources.ModelResource):
-        class Meta:
-            model = Division
-            fields = ('id','no', 'name')
-    resource_class = DivisionResource
 
 
 class DeliveryAddressAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -120,7 +112,6 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = OrderInfoResource
 
 
-admin.site.register(Division, DivisionAdmin)
 admin.site.register(DeliveryAddress, DeliveryAddressAdmin)
 
 admin.site.register(AdminCheck, AdminCheckAdmin)
