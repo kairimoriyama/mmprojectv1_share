@@ -14,11 +14,15 @@
       p.style.display ="flex";
       q.style.display ="block";
       r.style.display ="none";
+      document.getElementById("display_button_color").style.background = "rgb(216, 214, 214)";
+
       
     }else{
       p.style.display ="none";
       q.style.display ="none";
       r.style.display ="block";
+      document.getElementById("display_button_color").style.background = "rgb(192, 222, 236)";
+
     }
   };
 
@@ -39,6 +43,9 @@
       document.getElementById("submissionDateTo").value=yyyy2+'-'+mm+'-'+dd;
 
     }else{};
+
+    // 表示・非表示ボタンの色設定
+    document.getElementById("display_button_color").style.background = "rgb(216, 214, 214)";
   };
 
   window.onload = submissionDateInit();
