@@ -51,7 +51,10 @@
 
   <dl class="item_dl item6">
     <dt>提案者</dt>
-    <dd>{{ form.staff}}{{ form.staffdb}}</dd>
+    <dd>
+      <input id="staffNumber" name="staffNumber" value="{{ request.GET.staff }}" type="number">
+      {{ form.staffdb}}
+    </dd>
   </dl>
 
   <dl class="item_dl item7">
