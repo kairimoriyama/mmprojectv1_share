@@ -5,7 +5,6 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.db.models import Q, Max
-from django.forms import model_to_dict
 from django.core import validators
 import unicodecsv as csv
 from django.contrib import messages

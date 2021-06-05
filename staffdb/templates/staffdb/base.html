@@ -1,0 +1,44 @@
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'userdb/style.css' %}">
+    <script type="text/javascript"  src="{% static 'jquery-3.6.0.min.js' %}"></script>
+       
+
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+
+    <title>社員情報</title>
+
+  </head>
+
+  
+  <body>
+   
+    <header>
+      <div>
+        <h1><a href="{% url 'home' %}">管理ツール</a></h1>
+        <h2 class="app_title">社員情報</h2>
+      </div>
+
+      <nav>
+        <ul>
+        {% block header %}
+        {% endblock header%}
+        </ul>
+      </nav>
+    
+    </header>
+
+    {% block content %}
+    {% endblock content%}
+
+    <script src="{% static 'staffdb/js/base.js' %}"></script>
+
+  </body>
+
+</html>

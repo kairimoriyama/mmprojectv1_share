@@ -14,6 +14,7 @@ urlpatterns = [
     path('goodidea/', include('goodidea.urls')),
     path('receipt/', include('receipt.urls')),
     path('procurement/', include('procurement.urls')),
+    path('staffdb/', include('staffdb.urls')),
 
     # 開発サーバーでメディアを配信できるようにする設定
 ]+ static( settings_common.MEDIA_URL, document_root = dev.MEDIA_ROOT )
