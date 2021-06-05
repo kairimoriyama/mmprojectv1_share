@@ -4,7 +4,7 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin, ImportMixin
 
-from .models import Category, Progress, Division, Item
+from .models import Category, Progress, Item
 # Register your models here.
 
 
