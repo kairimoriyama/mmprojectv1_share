@@ -104,8 +104,6 @@ class CreateFormOrder(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateFormOrder, self).__init__(*args, **kwargs)
 
-        
-
         # 初期値・入力規則
         today = datetime.date.today()
         self.fields['orderDate'].required = True

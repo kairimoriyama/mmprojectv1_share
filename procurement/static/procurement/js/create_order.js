@@ -36,3 +36,36 @@ function input_zero(){
         document.getElementById('amount_total').children[2].value = amount4;
       });
   });
+
+
+// 標準発注先の変更  標準発注先 or 個別発注先
+function change_registeredSupplier(){
+  let registeredSupplier = document.getElementById("id_registeredSupplier").value;
+
+  if (registeredSupplier != "" || registeredSupplier != null){
+    document.getElementById("id_registeredSupplier").style.background = "rgb(255, 255, 227)";
+    document.getElementById("id_irregularSupplier").style.background = "rgb(192, 222, 236)";
+    document.getElementById("id_irregularSupplier").value = ""
+  };
+};
+
+document.getElementById("id_registeredSupplier").addEventListener('focusout', (e) => {
+  change_registeredSupplier(e)
+});
+
+// 個別発注先の変更  標準発注先 or 個別発注先
+function change_irregularSupplier(){
+  let irregularSupplier = document.getElementById("id_irregularSupplier").value;
+
+  if (irregularSupplier != "" || irregularSupplier != null){
+    
+    document.getElementById("id_irregularSupplier").style.background = "rgb(255, 255, 227)";
+    document.getElementById("id_registeredSupplier").style.background = "rgb(192, 222, 236)";
+    document.getElementById("id_registeredSupplier").value = "";
+  };  
+};
+
+document.getElementById("id_irregularSupplier").addEventListener('focusout', (e) => {
+  change_irregularSupplier(e)
+});
+
