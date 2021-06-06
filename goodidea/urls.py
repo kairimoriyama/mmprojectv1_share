@@ -23,4 +23,7 @@ urlpatterns = [
     path('update_filter/<int:pk>', views.ItemUpdateFilter.as_view(), name='update_filter'),
     path('update_due/<int:pk>', views.ItemUpdateDue.as_view(), name='update_due'),
 
+    # ajax
+    path('ajax_get_staff/', views.ajax_get_staff, name='ajax_get_staff') 
+
 ]

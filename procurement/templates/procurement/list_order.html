@@ -46,16 +46,13 @@
     <th>発注者所属</th>
     <th>発注先</th>
 		<th>到着予定日</th>
-		<th>税込10%</th>
-		<th>税込8%</th>
-		<th>非課税</th>
 		<th>税込合計</th>
 		<th>支払方法</th>
 		<th>発注メモ</th>
-		<th>予定金額</th>
 		<th>納品日</th>
-		<th>納品担当者</th>
-		<th>納品メモ</th>
+		<th>検収者</th>
+    <th>検収者所属</th>
+		<th>検収メモ</th>
     <th>支払日</th>
     <th>支払完了</th>
   </tr>
@@ -81,7 +78,7 @@
      
       <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
       <td>{{ item.progress.name }}</td>
-      <td>{{ item.orderStaff }}</td>
+      <td>{{ item.orderStaffdb.fullName }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
 
       <td>
@@ -94,16 +91,13 @@
 
       <td>{{ item.arrivalDate | date:"Y/m/d" }}</td>
 
-      <td class="number_col">{{ item.amount1|intcomma }}</td>
-      <td class="number_col">{{ item.amount2|intcomma }}</td>
-      <td class="number_col">{{ item.amount3|intcomma }}</td>
       <td class="number_col">{{ item.totalAmount|intcomma }}</td>
 
-      <td>{{ item.payment.name }}</td>
+      <td>{{ item.paymentMethod.name }}</td>
       <td>{{ item.orderDescription }}</td>
 
       <td>{{ item.acceptanceDate | date:"Y/m/d" }}</td>
-      <td>{{ item.acceptanceStaff }}</td>
+      <td>{{ item.acceptanceStaffdb.fullName }}</td>
       <td>{{ item.acceptanceStaffDivision.name }}</td>
 
       <td class="longText">{{ item.acceptanceMemo }}</td>

@@ -21,8 +21,16 @@
 <div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
 
   <dl class="selectSupplier_item1">
-    <dt>検討者</dt>
-    <dd><input type="text" name="selectSupplier_adminStaff"></dd>
+    <dt>精査者</dt>
+    <dd id="staffNumber_selectSupplier">
+      <input type="number">
+      <input type="text" name="selectSupplier_adminStaff">
+      <select name="selectSupplierStaffNumberdb">
+        {% for item_staffdb in staffSelect_list %}
+          <option value="{{ item_staffdb.id }}">{{ item_staffdb.fullName }}</option>
+        {% endfor %}
+      </select>
+    </dd>
   </dl>
 
   <!-- 発注のpkを自動入力 -->
@@ -40,7 +48,15 @@
 
   <dl class="acceptance_item1">
     <dt>検収者</dt>
-    <dd><input type="text" name="staff_acceptance"></dd>
+    <dd id="staffNumber_acceptance">
+      <input type="number">
+      <input type="text" name="staff_acceptance">
+      <select name="acceptanceStaffNumberdb">
+        {% for item_staffdb in staffSelect_list %}
+          <option value="{{ item_staffdb.id }}">{{ item_staffdb.fullName }}</option>
+        {% endfor %}
+      </select>
+    </dd>
   </dl>
 
   <dl class="acceptance_item2">
@@ -114,7 +130,7 @@
     <th>稟議</th>
     <th>プロジェクト</th>
 
-		<th>管理担当</th>
+		<th>精査者</th>
 		<th>管理メモ</th>
 
   </tr>
@@ -150,7 +166,7 @@
       <td>{{ item.adminCheck.name }}</td>
       <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
 
-      <td>{{ item.requestStaff }}</td>
+      <td>{{ item.requestStaffdb.fullName }}</td>
       <td>{{ item.requestStaffDivision }}</td>
     
       <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
@@ -187,8 +203,8 @@
       </td>
 
       <td>
-        {%  if item.adminStaff %}
-          {{ item.adminStaff }}
+        {%  if item.adminStaffdb %}
+          {{ item.adminStaffdb.fullName }}
         {%  else %}
         {% endif %}  
       </td>
@@ -267,8 +283,8 @@
 		<th>支払方法</th>
 		<th>発注備考</th>
 		<th>納品日</th>
-		<th>検収担当者</th>
-		<th>所属</th>
+		<th>検収者</th>
+		<th>検収者所属</th>
 		<th>検収メモ</th>
     <th>支払（予定）日</th>
     <th>支払完了</th>
@@ -299,7 +315,7 @@
      
       <td class="date_col">{{ item.orderDate | date:"m/d"}}</td>
       <td>{{ item.progress.name }}</td>
-      <td>{{ item.orderStaff }}</td>
+      <td>{{ item.orderStaffdb.fullName }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
 
       <td>
@@ -325,8 +341,8 @@
       </td>
 
       <td>
-        {% if item.acceptanceStaff %}
-          {{ item.acceptanceStaff }}
+        {% if item.acceptanceStaffdb %}
+          {{ item.acceptanceStaffdb }}
         {% else %}
         {% endif %}
       </td>

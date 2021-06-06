@@ -36,6 +36,7 @@ function accepance_start(){
     $("#acceptance_wrapper").show(150);
     $("#amount_check").hide(0);
     document.getElementById("create_request").style.display ="none";
+    document.getElementById("selectSupplier_start").style.display ="none";
     document.getElementById("acceptance_start").style.display ="none";
     document.getElementById("acceptance_done").style.display ="block";
     document.getElementById("acceptance_none").style.display ="block";
@@ -85,6 +86,7 @@ function accepance_stop(){
   $("#acceptance_wrapper").hide(150);
   $("#amount_check").show(0);
   document.getElementById("create_request").style.display ="block";
+  document.getElementById("selectSupplier_start").style.display ="block";
   document.getElementById("acceptance_start").style.display ="block";
   document.getElementById("acceptance_done").style.display ="none";
   document.getElementById("acceptance_none").style.display ="none";
@@ -154,6 +156,8 @@ function correspondOrderNumber(){
     if (list_request[i].checked && Number(list_orderNumInRequest[i].textContent) > 0){
       
       orderNumInRequest = list_orderNumInRequest[i].textContent;
+      
+      console.log("依頼→発注 対象あり")
 
       // order のチェックを入れる
       for (let k = 0; k < len_list_order ; k++){
@@ -164,8 +168,7 @@ function correspondOrderNumber(){
         };
       };
     };
-  };
-  
+  }; 
 };
 
 // 発注報告について番号自動入力
