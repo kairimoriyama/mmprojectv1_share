@@ -37,12 +37,15 @@
     
   <dl class="item_dl item3">
     <dt>進捗</dt>
-    <dd  class="no_click">{{ form.progress}}</dd>
+    <dd class="no_click">{{ form.progress}}</dd>
   </dl>
 
   <dl class="item_dl item4">
     <dt>発注者</dt>
-    <dd>{{ form.orderStaff}}</dd>
+    <dd id="staffNumber">
+      <input name="orderStaffNumber" type="number">
+      {{ form.orderStaff}}
+    </dd>
   </dl>
 
   <dl class="item_dl item5">
@@ -88,17 +91,17 @@
 
   <dl class="item_dl item12">
     <dt>検収日</dt>
-    <dd>{{ form.acceptanceDate}}</dd>
+    <dd class="no_click">{{ form.acceptanceDate}}</dd>
   </dl>
 
   <dl class="item_dl item13">
     <dt>検収者</dt>
-    <dd>{{ form.acceptanceStaff }}</dd>
+    <dd class="no_click">{{ form.acceptanceStaff }}</dd>
   </dl>
 
   <dl class="item_dl item14">
     <dt>検収者所属</dt>
-    <dd>{{ form.acceptanceStaffDivision }}</dd>
+    <dd class="no_click">{{ form.acceptanceStaffDivision }}</dd>
   </dl>
 
   <dl class="item_dl item15">

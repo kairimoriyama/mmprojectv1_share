@@ -36,6 +36,7 @@ function accepance_start(){
     $("#acceptance_wrapper").show(150);
     $("#amount_check").hide(0);
     document.getElementById("create_request").style.display ="none";
+    document.getElementById("selectSupplier_start").style.display ="none";
     document.getElementById("acceptance_start").style.display ="none";
     document.getElementById("acceptance_done").style.display ="block";
     document.getElementById("acceptance_none").style.display ="block";
@@ -85,6 +86,7 @@ function accepance_stop(){
   $("#acceptance_wrapper").hide(150);
   $("#amount_check").show(0);
   document.getElementById("create_request").style.display ="block";
+  document.getElementById("selectSupplier_start").style.display ="block";
   document.getElementById("acceptance_start").style.display ="block";
   document.getElementById("acceptance_done").style.display ="none";
   document.getElementById("acceptance_none").style.display ="none";

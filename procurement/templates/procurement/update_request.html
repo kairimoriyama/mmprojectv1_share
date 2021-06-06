@@ -42,7 +42,10 @@
 
   <dl class="item_dl item4">
     <dt>依頼者</dt>
-    <dd>{{ form.requestStaff}}</dd>
+    <dd id="staffNumber">
+      <input name="requestStaffNumber" type="number">
+      {{ form.requestStaff}}
+    </dd>
   </dl>
 
   <dl class="item_dl item5">
@@ -139,8 +142,11 @@
   </dl>
 
   <dl class="item_dl item18">
-    <dt>管理者</dt>
-    <dd class="no_click">{{ form.adminStaff }}</dd>
+    <dt>精査者</dt>
+    <dd id="staffNumber">
+      <input name="adminStaffNumber" type="number">
+      {{ form.adminStaff }}
+    </dd>
   </dl>
 
   <dl class="item_dl item19">

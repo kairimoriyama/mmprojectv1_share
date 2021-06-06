@@ -33,7 +33,10 @@
     
   <dl class="item_dl item4">
     <dt>依頼者</dt>
-    <dd>{{ form.requestStaff}}</dd>
+    <dd id="staffNumber">
+      <input name="requestStaffNumber" type="number">
+      {{ form.requestStaff}}
+    </dd>
   </dl>
 
   <dl class="item_dl item5">

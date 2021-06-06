@@ -33,7 +33,10 @@
 
   <dl class="item_dl item4">
     <dt>発注者</dt>
-    <dd>{{ form.orderStaff}}</dd>
+    <dd id="staffNumber">
+      <input name="orderStaffNumber" type="number">
+      {{ form.orderStaff}}
+    </dd>
   </dl>
 
   <dl class="item_dl item5">
