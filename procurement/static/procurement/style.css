@@ -93,6 +93,7 @@ h2{
 .app_title{
     color: rgb(0,51,141);
     line-height: 3rem;
+    font-weight: bold;
 }
 
 h3{
@@ -873,6 +874,19 @@ hr{
     text-align: left;
 }
 
+/* 社員番号入力用 */
+.staffNumber input[type="number"]{
+    width: 7.5rem;
+    text-align: left;
+}
+
+.staffNumber input[type="number"]::-webkit-outer-spin-button, 
+.staffNumber input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
+
+
 /* select型 */
 .item_dl select{
     box-sizing: border-box;
@@ -1218,6 +1232,10 @@ hr{
 
 .acceptance_wrapper dl dd{
     width: 90%;
+    display:flex; 
+    align-items: center;
+    align-content: center;
+    margin-right: 1rem;
 }
 
 @media screen and (min-width: 800px) {
@@ -1247,7 +1265,7 @@ hr{
     padding: 0 0.5rem;
     border: solid 0.1rem  #bfbfbf;
     width: 20rem;
-    margin-right: 2rem;
+    margin-right: 1rem;
 }
 .acceptance_wrapper dl dd select{
     box-sizing: border-box;
@@ -1258,6 +1276,10 @@ hr{
     border: solid 0.1rem  #bfbfbf;
     width: 20rem;
     margin-right: 2rem;
+}
+
+.acceptance_wrapper dl dd p{
+    margin-right: 1rem;
 }
 
 .acceptance_wrapper dd textarea{
@@ -1306,7 +1328,16 @@ hr{
 
 .selectSupplier_wrapper dl dd{
     width: 90%;
+    display:flex; 
+    align-items: center;
+    align-content: center;
+    margin-right: 1rem;
 }
+
+.selectSupplier_wrapper dl dd p{
+    margin-right: 1rem;
+}
+
 
 .selectSupplier_wrapper dl dd input{
     -webkit-appearance: none;
@@ -1321,6 +1352,18 @@ hr{
     width: 20rem;
     margin-right: 2rem;
 }
+
+.selectSupplier_wrapper dl dd select{
+    box-sizing: border-box;
+    display: block;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+    border: solid 0.1rem  #bfbfbf;
+    width: 20rem;
+    margin-right: 2rem;
+}
+
 
 /* 発注完了報告 */
 .reportOrder_title{
