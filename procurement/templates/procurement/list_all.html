@@ -23,8 +23,13 @@
   <dl class="selectSupplier_item1">
     <dt>精査者</dt>
     <dd id="staffNumber_selectSupplier">
-      <input name="adminStaffNumber" type="number">
+      <input type="number">
       <input type="text" name="selectSupplier_adminStaff">
+      <select name="selectSupplierStaffNumberdb">
+        {% for item_staffdb in staffSelect_list %}
+          <option value="{{ item_staffdb.id }}">{{ item_staffdb.fullName }}</option>
+        {% endfor %}
+      </select>
     </dd>
   </dl>
 
@@ -44,8 +49,13 @@
   <dl class="acceptance_item1">
     <dt>検収者</dt>
     <dd id="staffNumber_acceptance">
-      <input name="acceptanceStaffNumber" type="number">
+      <input type="number">
       <input type="text" name="staff_acceptance">
+      <select name="acceptanceStaffNumberdb">
+        {% for item_staffdb in staffSelect_list %}
+          <option value="{{ item_staffdb.id }}">{{ item_staffdb.fullName }}</option>
+        {% endfor %}
+      </select>
     </dd>
   </dl>
 
@@ -156,7 +166,7 @@
       <td>{{ item.adminCheck.name }}</td>
       <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
 
-      <td>{{ item.requestStaff }}</td>
+      <td>{{ item.requestStaff }}{{ item.requestStaffdb }}</td>
       <td>{{ item.requestStaffDivision }}</td>
     
       <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
@@ -196,7 +206,11 @@
         {%  if item.adminStaff %}
           {{ item.adminStaff }}
         {%  else %}
-        {% endif %}  
+        {% endif %}
+        {%  if item.adminStaffdb %}
+        {{ item.adminStaffdb }}
+      {%  else %}
+      {% endif %}  
       </td>
 
       <td class="longText">
@@ -273,8 +287,8 @@
 		<th>支払方法</th>
 		<th>発注備考</th>
 		<th>納品日</th>
-		<th>検収担当者</th>
-		<th>所属</th>
+		<th>検収者</th>
+		<th>検収者所属</th>
 		<th>検収メモ</th>
     <th>支払（予定）日</th>
     <th>支払完了</th>
@@ -305,7 +319,7 @@
      
       <td class="date_col">{{ item.orderDate | date:"m/d"}}</td>
       <td>{{ item.progress.name }}</td>
-      <td>{{ item.orderStaff }}</td>
+      <td>{{ item.orderStaff }}{{ item.orderStaffdb }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
 
       <td>
@@ -335,6 +349,10 @@
           {{ item.acceptanceStaff }}
         {% else %}
         {% endif %}
+        {% if item.acceptanceStaffdb %}
+        {{ item.acceptanceStaffdb }}
+      {% else %}
+      {% endif %}
       </td>
 
       <td>

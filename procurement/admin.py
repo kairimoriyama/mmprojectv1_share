@@ -79,8 +79,8 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             model = OrderRequest
             fields = ('id','requestNum', 'submissionDate',
             'orderInfo',
-            'requestStaffDivision', 'requestStaff',
-            'adminCheck', 'adminStaff', 
+            'requestStaffDivision', 'requestStaff', 'requestStaffdb',
+            'adminCheck', 'adminStaff', 'adminStaffdb', 
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
             'purpose', 'standardItem',
@@ -99,12 +99,12 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         class Meta:
             model = OrderInfo
             fields = ('id','orderNum', 'orderDate',
-            'progress', 'orderStaff',
+            'progress', 'orderStaff','orderStaffdb',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'paymentMethod', 'orderDescription', 
-            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
+            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffdb', 'acceptanceStaffDivision', 
             'acceptanceMemo',
             'settlementDate','settlement', 'refFile',
             'deletedItem'

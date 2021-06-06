@@ -43,7 +43,7 @@ class CreateFormRequest(ModelForm):
     class Meta:
         model  = OrderRequest
         fields = ('submissionDate',
-            'requestStaffDivision', 'requestStaff',
+            'requestStaffDivision', 'requestStaff','requestStaffdb',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3',
             'purpose', 'standardItem', 'requestDetail', 'requestMemo',
@@ -69,7 +69,7 @@ class CreateFormRequest(ModelForm):
 
         self.fields['dueDate'].initial = today + datetime.timedelta(days=7)
         self.fields['dueDate'].required = True
-        self.fields['requestStaff'].required = True
+        self.fields['requestStaffdb'].required = True
         self.fields['requestStaffDivision'].required = True
 
         self.fields['deliveryAddress'].required = True
@@ -90,7 +90,7 @@ class CreateFormOrder(ModelForm):
     class Meta:
         model = OrderInfo
         fields = ('orderDate',
-            'orderStaff',
+            'orderStaff','orderStaffdb',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
@@ -115,7 +115,7 @@ class CreateFormOrder(ModelForm):
 
         self.fields['registeredSupplier'].initial = 1
 
-        self.fields['orderStaff'].required = True
+        self.fields['orderStaffdb'].required = True
         self.fields['orderStaffDivision'].required = True
 
         self.fields['amount1'].initial = 0
@@ -138,9 +138,9 @@ class UpdateFormRequest(ModelForm):
     class Meta:
         model  = OrderRequest
         fields = ('requestNum','submissionDate',
-            'requestStaffDivision', 'requestStaff', 
+            'requestStaffDivision', 'requestStaff', 'requestStaffdb', 
             'dueDate', 'deliveryAddress', 
-            'adminCheck', 'adminStaff', 'orderInfo',
+            'adminCheck', 'adminStaff','adminStaffdb', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
             'purpose','standardItem', 'requestDetail','requestMemo',
             'project','approval',
@@ -158,7 +158,7 @@ class UpdateFormRequest(ModelForm):
     # 初期値・入力規則
         self.fields['requestNum'].widget.attrs['readonly'] = True
         self.fields['submissionDate'].widget.attrs['readonly'] = True
-        self.fields['requestStaff'].required = True
+        self.fields['requestStaffdb'].required = True
         self.fields['requestStaffDivision'].required = True
         self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
@@ -180,7 +180,7 @@ class UpdateFormOrder(ModelForm):
     class Meta:
         model = OrderInfo
         fields = ('orderNum', 'orderDate',
-            'progress', 'orderStaff',
+            'progress', 'orderStaff','orderStaffdb',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
@@ -208,7 +208,7 @@ class UpdateFormOrder(ModelForm):
         
         self.fields['arrivalDate'].required = True
 
-        self.fields['orderStaff'].required = True
+        self.fields['orderStaffdb'].required = True
         self.fields['orderStaffDivision'].required = True
 
         self.fields['amount1'].required = True

@@ -13,8 +13,9 @@ from django.contrib import messages
 import datetime
 from django.utils import timezone
 
-from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
+from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
+from staffdb.models import StaffDB, Division
 
 # Create your views here.
 
@@ -33,6 +34,7 @@ class ListALL(ListView):
         })
 
         context['divisionSelect_list'] = Division.objects.all()
+        context['staffSelect_list'] = StaffDB.objects.all()
 
         return context
     
@@ -48,6 +50,7 @@ class ListALL(ListView):
 
                 # HTMLから取得したorder
                 acceptanceStaff = self.request.POST.get('staff_acceptance')
+                acceptanceStaffdb = self.request.POST.get('acceptanceStaffNumberdb')
                 acceptanceStaffDivision = self.request.POST.get('division_acceptance')
                 acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
                 acceptanceMemo = self.request.POST.get('acceptanceMemo_acceptance')
@@ -62,13 +65,17 @@ class ListALL(ListView):
                 print(selected_order_pk_acceptance)
 
 
-                if acceptanceStaff is None or  acceptanceStaff == "" or acceptanceStaffDivision is None or acceptanceDate is None:
+                if acceptanceStaff is None or acceptanceStaff == "" or acceptanceStaffDivision is None:
                     pass
 
                 else:
                     # 注文の検収情報を更新
                     orderInfoAcceptance = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
+
+                    # 検収者
                     orderInfoAcceptance.acceptanceStaff = acceptanceStaff
+                    staffdbAcceptance = get_object_or_404(StaffDB, pk=acceptanceStaffdb)
+                    orderInfoAcceptance.acceptanceStaffdb = staffdbAcceptance
                     
                     # Foreignkey Division
                     divisionAcceptance = get_object_or_404(Division, pk=acceptanceStaffDivision)
@@ -102,6 +109,7 @@ class ListALL(ListView):
 
                 # HTMLから取得した値
                 adminStaff = self.request.POST.get('selectSupplier_adminStaff')
+                adminStaffdb = self.request.POST.get('selectSupplierStaffNumberdb')
 
                 # リスト型
                 selected_request_pk_selectSupplier = []
@@ -117,10 +125,12 @@ class ListALL(ListView):
                     for selectSupplier_request_pk in selected_request_pk_selectSupplier:
                         print(selectSupplier_request_pk)
                         orderRequestSelectSupplier = get_object_or_404(OrderRequest, pk=selectSupplier_request_pk)
+                        adminStaffdbSelectSupplier = get_object_or_404(StaffDB, pk=adminStaffdb)
                         adminCheckSelectSupplier = get_object_or_404(AdminCheck, pk=2)
 
                         # リストで全件更新
                         orderRequestSelectSupplier.adminStaff = adminStaff
+                        orderRequestSelectSupplier.adminStaffdb = adminStaffdbSelectSupplier
                         orderRequestSelectSupplier.adminCheck = adminCheckSelectSupplier
 
                         orderRequestSelectSupplier.save()
