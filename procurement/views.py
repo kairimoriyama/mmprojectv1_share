@@ -285,22 +285,6 @@ class CreateOrder(CreateView):
             return redirect('procurement:detail_order', pk= obj.id)
 
 
-def ajax_get_costCenter1(request):
-    pk = request.GET.get('pk')
-    print('pk:'+pk)
-    # pkなし
-    if not pk:
-        division_list = Division.objects.all()
-
-    # pkあり 
-    else:
-        division_list = Division.objects.filter(requestStaffDivision__pk=pk)
-        print(category_list)
-
-    division_list = [{'pk': costCenter1.pk,'no': costCenter1.pk,'name': costCenter1.name} for costCenter1 in division_list]
-
-    # JSON
-    return JsonResponse({'categoryList': division_list})
 
 
 class UpdateRequest(UpdateView):
@@ -320,3 +304,88 @@ class UpdateOrder(UpdateView):
     def get_success_url(self):
         return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
 
+
+
+def ajax_get_requestStaff(request):
+    staffNumber = request.GET.get('requestStaffNumber')
+    print('staffNumber:'+ str(staffNumber))
+    # staffNumber入力なし
+    if not staffNumber:
+        staff_list = StaffDB.objects.all()
+        print("R")
+        print(staff_list)
+
+    # staffNumber入力あり 
+    else:
+        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        print("A")
+        print(staff_list)
+
+    staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # JSON
+    return JsonResponse({'staffList': staff_list})
+
+
+def ajax_get_adminStaff(request):
+    staffNumber = request.GET.get('staffNumber')
+    print('staffNumber:'+ str(staffNumber))
+    # staffNumber入力なし
+    if not staffNumber:
+        staff_list = StaffDB.objects.all()
+        print("R")
+        print(staff_list)
+
+    # staffNumber入力あり 
+    else:
+        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        print("A")
+        print(staff_list)
+
+    staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # JSON
+    return JsonResponse({'staffList': staff_list})
+
+
+def ajax_get_orderStaff(request):
+    staffNumber = request.GET.get('staffNumber')
+    print('staffNumber:'+ str(staffNumber))
+    # staffNumber入力なし
+    if not staffNumber:
+        staff_list = StaffDB.objects.all()
+        print("R")
+        print(staff_list)
+
+    # staffNumber入力あり 
+    else:
+        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        print("A")
+        print(staff_list)
+
+    staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # JSON
+    return JsonResponse({'staffList': staff_list})
+
+
+    
+def ajax_get_acceptanceStaff(request):
+    staffNumber = request.GET.get('staffNumber')
+    print('staffNumber:'+ str(staffNumber))
+    # staffNumber入力なし
+    if not staffNumber:
+        staff_list = StaffDB.objects.all()
+        print("R")
+        print(staff_list)
+
+    # staffNumber入力あり 
+    else:
+        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        print("A")
+        print(staff_list)
+
+    staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # JSON
+    return JsonResponse({'staffList': staff_list})
