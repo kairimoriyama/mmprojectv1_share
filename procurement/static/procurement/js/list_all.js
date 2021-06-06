@@ -1,3 +1,17 @@
+
+// クリックでの送信禁止
+$(function () {
+    $("input").keydown(function (e) {
+        if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+            return false;
+        } else {
+            return true;
+        }
+    });
+  });
+
+
+
 function menu_default(){
 
   // 依頼作成
