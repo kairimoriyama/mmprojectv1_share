@@ -12,7 +12,7 @@
 
 
 {% block content %}
-<form method="post">{% csrf_token %}
+<form id="form_list_all" method="post">{% csrf_token %}
 
   
 <!-- 検討メニュー -->
@@ -20,13 +20,14 @@
 
 <div class="selectSupplier_wrapper" id="selectSupplier_wrapper">
 
-  <dl class="selectSupplier_item1">
+  <dl>
     <dt>精査者</dt>
-    <dd id="staffNumber_selectSupplier">
-      <input type="number">
-      <input type="text" name="selectSupplier_adminStaff">
-      <select name="selectSupplierStaffNumberdb">
-        {% for item_staffdb in staffSelect_list %}
+    <dd id="staffNumber_selectSupplier" class="staffNumber">
+      <p>No：</p>
+      <input name="adminStaffNumber" type="number">
+      <p>&#8658;</p>
+      <select name="selectSupplierStaffNumberdb" class="list_filter_select_s">
+        {% for item_staffdb in staffSelect_list_selectSupplier %}
           <option value="{{ item_staffdb.id }}">{{ item_staffdb.fullName }}</option>
         {% endfor %}
       </select>
@@ -48,9 +49,10 @@
 
   <dl class="acceptance_item1">
     <dt>検収者</dt>
-    <dd id="staffNumber_acceptance">
-      <input type="number">
-      <input type="text" name="staff_acceptance">
+    <dd id="staffNumber_acceptance"  class="staffNumber">
+      <p>No：</p>
+      <input name="acceptanceStaffNumber" type="number">
+      <p>&#8658;</p>
       <select name="acceptanceStaffNumberdb">
         {% for item_staffdb in staffSelect_list %}
           <option value="{{ item_staffdb.id }}">{{ item_staffdb.fullName }}</option>
@@ -79,6 +81,7 @@
     <dt class="acceptance_dt_long">メモ</dt>
     <dd class="acceptance_dd_long"><textarea  name="acceptanceMemo_acceptance"></textarea></dd>
   </dl>
+
   <!-- 発注のpkを自動入力 -->
   <input type="hidden" name="selected_order_pk_acceptance" id="selected_order_pk_acceptance">
   
@@ -263,7 +266,7 @@
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
-    <input type="submit" class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order"  onclick="reportOrder()">
+    <input type="submit" onclick="reportOrder()"  class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order" >
   </div>
 </div>
 
@@ -384,6 +387,120 @@
 
 {% load static %}
 <script src="{% static 'procurement/js/list_all.js' %}"></script>
+
+{% block extrajs %}
+<script>
+
+
+/*ajax起動用*/
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  }
+});
+/*----------*/
+
+
+
+/*-----検収者-----*/
+
+let staffNumberElement = document.getElementById('staffNumber_acceptance').children[1];
+let staffdbElement = document.getElementById('staffNumber_acceptance').children[3];
+
+const inputStaffNumber = (select) => {
+ 
+  for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
+    staffdbElement.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_acceptanceStaff' %}",
+      type: 'GET',
+      data: {'acceptanceStaffNumber': staffNumberElement.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      staffdbElement.appendChild(option); 
+      };
+  });
+};
+
+staffNumberElement.addEventListener('change', () => {
+  inputStaffNumber();
+});
+
+
+
+/*-----精査者-----*/
+
+let staffNumberElement2 = document.getElementById('staffNumber_selectSupplier').children[1];
+let staffdbElement2 = document.getElementById('staffNumber_selectSupplier').children[3];
+
+const inputStaffNumber2 = (select) => {
+ 
+  for (let i = staffdbElement2.childElementCount-1 ; i >= 0; i--) {  
+    staffdbElement2.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_adminStaff' %}",
+      type: 'GET',
+      data: {'adminStaffNumber': staffNumberElement2.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      staffdbElement2.appendChild(option); 
+      };
+  });
+};
+
+
+staffNumberElement2.addEventListener('change', () => {
+  inputStaffNumber2();
+});
+
+</script>
+{% endblock extrajs %}
+
 
 
 {% endblock content%}

@@ -185,7 +185,7 @@ class UpdateFormOrder(ModelForm):
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'paymentMethod', 'orderDescription',
-            'acceptanceDate', 'acceptanceStaff', 'acceptanceStaffDivision', 
+            'acceptanceDate', 'acceptanceStaffdb', 'acceptanceStaffDivision', 
             'acceptanceMemo',
             'settlementDate','settlement','refFile',
             'deletedItem'

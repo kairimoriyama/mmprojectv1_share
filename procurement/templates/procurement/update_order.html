@@ -40,9 +40,9 @@
     <dd class="no_click">{{ form.progress}}</dd>
   </dl>
 
-  <dl class="item_dl item4">
+  <dl class="item_dl item4 staffNumber">
     <dt>発注者</dt>
-    <dd id="staffNumber">
+    <dd id="orderStaffNumber">
       <input name="orderStaffNumber" type="number">
       {{ form.orderStaffdb}}
     </dd>
@@ -143,6 +143,87 @@
 {% load static %}
 <script src="{% static 'procurement/js/update_order.js' %}"></script>
 
+
+
+{% block extrajs %}
+<script>
+
+/*ajax起動用*/
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  }
+});
+/*----------*/
+
+
+let staffNumberElement = document.getElementById('orderStaffNumber').children[0];
+let staffdbElement = document.getElementById('orderStaffNumber').children[1];
+
+console.log(staffNumberElement)
+console.log(staffNumberElement.value)
+console.log(staffdbElement)
+
+const inputStaffNumber = (select) => {
+ 
+  for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
+    staffdbElement.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_orderStaff' %}",
+      type: 'GET',
+      data: {'orderStaffNumber': staffNumberElement.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+    console.log(items_staffdb)
+    console.log(items_staffdb.length)
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      staffdbElement.appendChild(option); 
+      };
+  });
+  console.log(staffdbElement)  
+};
+
+
+
+staffNumberElement.addEventListener('change', () => {
+  inputStaffNumber();
+});
+
+</script>
+{% endblock extrajs %}
 
 
 {% endblock content%}

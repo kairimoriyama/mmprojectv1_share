@@ -35,7 +35,7 @@ class ListALL(ListView):
 
         context['divisionSelect_list'] = Division.objects.all()
         context['staffSelect_list'] = StaffDB.objects.all()
-
+        
         return context
     
     # 検収・発注報告をPOSTメソッドにより実施
@@ -105,8 +105,11 @@ class ListALL(ListView):
             # 発注準備ボタン
             if 'button_selectSupplier' in request.POST:
 
+                print("正常")
+
                 # HTMLから取得した値
                 adminStaffdb = self.request.POST.get('selectSupplierStaffNumberdb')
+                print("selectSupplierStaffNumberdb")
 
                 # リスト型
                 selected_request_pk_selectSupplier = []
@@ -136,6 +139,8 @@ class ListALL(ListView):
 
             # 発注報告ボタン
             if 'button_report_order' in request.POST:
+
+                print("正常")
 
                 if self.request.POST.get('diff_amount_int') and (int(self.request.POST.get('request_amount_int')) >0 and int(self.request.POST.get('order_amount_int')) >0 and int(self.request.POST.get('diff_amount_int')) == 0) :
 
@@ -307,17 +312,17 @@ class UpdateOrder(UpdateView):
 
 
 def ajax_get_requestStaff(request):
-    staffNumber = request.GET.get('requestStaffNumber')
-    print('staffNumber:'+ str(staffNumber))
-    # staffNumber入力なし
-    if not staffNumber:
+    requestStaffNumber = request.GET.get('requestStaffNumber')
+    print('requestStaffNumber:'+ str(requestStaffNumber))
+    # requestStaffNumber入力なし
+    if not requestStaffNumber:
         staff_list = StaffDB.objects.all()
         print("R")
         print(staff_list)
 
-    # staffNumber入力あり 
+    # requestStaffNumber入力あり 
     else:
-        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        staff_list = StaffDB.objects.all().filter(no__startswith=requestStaffNumber)
         print("A")
         print(staff_list)
 
@@ -328,17 +333,17 @@ def ajax_get_requestStaff(request):
 
 
 def ajax_get_adminStaff(request):
-    staffNumber = request.GET.get('staffNumber')
-    print('staffNumber:'+ str(staffNumber))
-    # staffNumber入力なし
-    if not staffNumber:
+    adminStaffNumber = request.GET.get('adminStaffNumber')
+    print('adminStaffNumber:'+ str(adminStaffNumber))
+    # adminStaffNumber入力なし
+    if not adminStaffNumber:
         staff_list = StaffDB.objects.all()
         print("R")
         print(staff_list)
 
-    # staffNumber入力あり 
+    # adminStaffNumber入力あり 
     else:
-        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        staff_list = StaffDB.objects.all().filter(no__startswith=adminStaffNumber)
         print("A")
         print(staff_list)
 
@@ -349,17 +354,17 @@ def ajax_get_adminStaff(request):
 
 
 def ajax_get_orderStaff(request):
-    staffNumber = request.GET.get('staffNumber')
-    print('staffNumber:'+ str(staffNumber))
-    # staffNumber入力なし
-    if not staffNumber:
+    orderStaffNumber = request.GET.get('orderStaffNumber')
+    print('orderStaffNumber:'+ str(orderStaffNumber))
+    # orderStaffNumber入力なし
+    if not orderStaffNumber:
         staff_list = StaffDB.objects.all()
         print("R")
         print(staff_list)
 
-    # staffNumber入力あり 
+    # orderStaffNumber入力あり 
     else:
-        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        staff_list = StaffDB.objects.all().filter(no__startswith=orderStaffNumber)
         print("A")
         print(staff_list)
 
@@ -371,17 +376,17 @@ def ajax_get_orderStaff(request):
 
     
 def ajax_get_acceptanceStaff(request):
-    staffNumber = request.GET.get('staffNumber')
-    print('staffNumber:'+ str(staffNumber))
-    # staffNumber入力なし
-    if not staffNumber:
+    acceptanceStaffNumber = request.GET.get('acceptanceStaffNumber')
+    print('acceptanceStaffNumber:'+ str(acceptanceStaffNumber))
+    # acceptanceStaffNumber入力なし
+    if not acceptanceStaffNumber:
         staff_list = StaffDB.objects.all()
         print("R")
         print(staff_list)
 
-    # staffNumber入力あり 
+    # acceptanceStaffNumber入力あり 
     else:
-        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        staff_list = StaffDB.objects.all().filter(no__startswith=acceptanceStaffNumber)
         print("A")
         print(staff_list)
 

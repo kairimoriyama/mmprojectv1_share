@@ -52,7 +52,7 @@
   <dl class="item_dl item6 staffNumber">
     <dt>提案者</dt>
     <dd id="staffNumber">
-        <input name="staffNumber" type="number">
+      <input name="staffNumber" type="number">
       {{ form.staffdb}}
     </dd>
   </dl>
@@ -197,7 +197,7 @@ function csrfSafeMethod(method) {
 $.ajaxSetup({
   beforeSend: function (xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          console.log(csrftoken);
+          
           xhr.setRequestHeader("X-CSRFToken", csrftoken);
       }
   }

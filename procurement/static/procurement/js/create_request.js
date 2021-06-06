@@ -1,5 +1,5 @@
 
-  // 初期値として0を設定
+ // 初期値として0を設定
   function input_zero(){
     document.getElementById('amount').children[0].value = 0;
     document.getElementById('amount').children[1].value = 0;

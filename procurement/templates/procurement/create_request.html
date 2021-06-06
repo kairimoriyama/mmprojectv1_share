@@ -31,9 +31,9 @@
     <dd>{{ form.dueDate }}</dd>
   </dl>
     
-  <dl class="item_dl item4">
+  <dl class="item_dl item4 staffNumber">
     <dt>依頼者</dt>
-    <dd id="staffNumber">
+    <dd id="requestStaffNumber">
       <input name="requestStaffNumber" type="number">
       {{ form.requestStaffdb}}
     </dd>
@@ -211,8 +211,8 @@ $.ajaxSetup({
 /*----------*/
 
 
-let staffNumberElement = document.getElementById('staffNumber').children[0];
-let staffdbElement = document.getElementById('staffNumber').children[1];
+let staffNumberElement = document.getElementById('requestStaffNumber').children[0];
+let staffdbElement = document.getElementById('requestStaffNumber').children[1];
 
 console.log(staffNumberElement)
 console.log(staffNumberElement.value)
@@ -227,7 +227,7 @@ const inputStaffNumber = (select) => {
   $.ajax({
       url: "{% url 'procurement:ajax_get_requestStaff' %}",
       type: 'GET',
-      data: {'staffNumber': staffNumberElement.value},
+      data: {'requestStaffNumber': staffNumberElement.value},
   }).done(response => {
 
     // 選択肢を作成
