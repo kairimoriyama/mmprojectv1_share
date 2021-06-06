@@ -2,13 +2,75 @@
 
 {% block header %}
 
-  <li><a href=""></a></li>
-  
 
-{% endblock%}
-
+{% endblock header %}
 
 {% block content %}
+
+
+
+<div class="menu_wrapper">
+
+  <div><h3>社員一覧</h3></div>
+ 
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="">新規追加</a>
+    <ul class="page_nav">
+      <li>
+        {% if page_obj.has_previous %}
+          <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
+        {% else %}
+        {% endif %}
+      </li>
+
+      <li>
+        {% if page_obj.has_next %}
+          <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
+        {% else %}
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<table class="item-table table_order">
+
+	<tr>
+		<th class="sticky_col_th">社員番号</th>
+    <th>名前</th>
+    <th>カナ</th>
+    <th>所属1</th>
+    <th>所属2</th>
+    <th>所属3</th>
+    <th>退職者</th>
+  </tr>
+  
+  {% for item in object_list %}
+    <tr>
+      <td class="sticky_col_td">
+        <a href="">
+          {{ item.no }}
+        </a>
+      </td>
+      <td>{{ item.fullName }}</td>
+      <td>{{ item.kanaName }}</td>
+      <td>{{ item.staffDivision1 }}</td>
+      <td>{{ item.staffDivision2 }}</td>
+      <td>{{ item.staffDivision3 }}</td>
+      <td>
+        {% if item.deletedItem == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
+
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
 
 {% endblock content%}
 
