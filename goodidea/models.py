@@ -74,9 +74,9 @@ class Item(models.Model):
         related_name ='item_dividion', blank=False,null=False)     
 
     # foreignkey で staff情報を管理 
-    staff = models.CharField(max_length=100)
+    staff = models.CharField(max_length=100, blank=True,null=True)
     staffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
-        related_name ='item_staffdb', blank=True,null=True)
+        related_name ='item_staffdb', blank=False,null=False, default=9999)
 
     category = models.ForeignKey(Category,on_delete=models.PROTECT,
         related_name ='item_category', blank=False,null=False)

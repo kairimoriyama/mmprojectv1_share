@@ -26,7 +26,7 @@ class StaffDB(models.Model):
     deletedItem = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('no',)
+        ordering = ('kanaName',)
 
     def __str__(self):
-        return str(self.no) + " " + self.fullName 
+        return self.fullName 
