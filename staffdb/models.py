@@ -18,9 +18,11 @@ class Division(models.Model):
 
 class StaffDB(models.Model):
     no = models.IntegerField(blank=False,null=False)
-    fullName = models.CharField(max_length=50,blank=False,null=False)
+    # 後でblank=False,null=Falseに修正
+    fullName = models.CharField(max_length=50,blank=True,null=True)
     kanaName = models.CharField(max_length=50,blank=True,null=True)
-    staffDivision1 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision1',blank=False,null=False) 
+    # 後でblank=False,null=Falseに修正
+    staffDivision1 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision1',blank=True,null=True) 
     staffDivision2 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision2',blank=True,null=True) 
     staffDivision3 = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='staffDivision3',blank=True,null=True) 
     deletedItem = models.BooleanField(default=False)

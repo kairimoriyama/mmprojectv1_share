@@ -70,8 +70,9 @@ class Item(models.Model):
     submissionDate = models.DateField(default=timezone.now, blank=True)
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT,
         related_name ='item_progress', blank=False,null=False)
+    # 後でblank=False,null=Falseに修正
     division = models.ForeignKey(Division,on_delete=models.PROTECT,
-        related_name ='item_dividion', blank=False,null=False)     
+        related_name ='item_dividion', blank=True,null=True)     
 
     # foreignkey で staff情報を管理 
     staff = models.CharField(max_length=100, blank=True,null=True)
