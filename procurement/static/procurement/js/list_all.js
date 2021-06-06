@@ -34,17 +34,21 @@ function menu_default(){
 window.onload = menu_default();
 
 
-
+// 依頼と発注の差額を計算
 function checkAmount(){
 
-// 発注依頼を選択する度にフォームに金額を入力
+// 発注依頼を選択する度に金額を入力
   let list_request = document.getElementsByName('selected_request');
+
+  // 依頼の件数を確認
   let len_list_request = list_request.length;
+
+  // 依頼の金額を集計するため
   let selected_request_num = 0;
-  console.log(list_request)
-
+  
+  // 各依頼の金額
   let list_request_amount = document.getElementsByName('selected_request_amount');
-
+  
   for (let i = 0; i < len_list_request ; i++){
     if (list_request[i].checked){
       selected_request_num = selected_request_num + Number(list_request_amount[i].textContent.replace(/,/g, ''));
@@ -99,7 +103,6 @@ function correspondOrderNumber(){
     if (list_request[i].checked && Number(list_orderNumInRequest[i].textContent) > 0){
       
       orderNumInRequest = list_orderNumInRequest[i].textContent;
-     
 
       // order のチェックを入れる
       for (let k = 0; k < len_list_order ; k++){
@@ -139,7 +142,6 @@ function reportOrder_number(){
   document.getElementById("selected_request_pk_orderReport").value = selected_request_pk;
 
 };
-
 
 
 // 発注報告

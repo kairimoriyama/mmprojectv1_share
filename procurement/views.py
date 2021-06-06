@@ -35,7 +35,7 @@ class ListALL(ListView):
 
         context['divisionSelect_list'] = Division.objects.all()
         context['staffSelect_list'] = StaffDB.objects.all()
-
+        
         return context
     
     # 検収・発注報告をPOSTメソッドにより実施
@@ -105,8 +105,11 @@ class ListALL(ListView):
             # 発注準備ボタン
             if 'button_selectSupplier' in request.POST:
 
+                print("正常")
+
                 # HTMLから取得した値
                 adminStaffdb = self.request.POST.get('selectSupplierStaffNumberdb')
+                print("selectSupplierStaffNumberdb")
 
                 # リスト型
                 selected_request_pk_selectSupplier = []
@@ -136,6 +139,8 @@ class ListALL(ListView):
 
             # 発注報告ボタン
             if 'button_report_order' in request.POST:
+
+                print("正常")
 
                 if self.request.POST.get('diff_amount_int') and (int(self.request.POST.get('request_amount_int')) >0 and int(self.request.POST.get('order_amount_int')) >0 and int(self.request.POST.get('diff_amount_int')) == 0) :
 

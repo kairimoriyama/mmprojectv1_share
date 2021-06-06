@@ -1193,7 +1193,7 @@ hr{
     grid-template-rows: repeat(4, auto);
     grid-template-columns: 100%;
     margin: 0.5rem 2rem 0 2rem;
-    max-width: 90rem;
+    max-width: 130rem;
 }
 
 @media screen and (min-width: 800px) {
