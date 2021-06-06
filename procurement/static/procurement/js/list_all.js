@@ -1,17 +1,20 @@
 function menu_default(){
 
+  // 依頼作成
   document.getElementById("create_request").style.display ="block";
 
+  // 検収メニュー
   $("#acceptance_wrapper").hide(0);
   document.getElementById("acceptance_start").style.display ="block";
   document.getElementById("acceptance_done").style.display ="none";
   document.getElementById("acceptance_none").style.display ="none";
   document.getElementById("acceptance_title").style.display ="none";
   
+  // 検収メニュー 案件番号
   document.getElementById("selected_order_pk_acceptance").value = "";
   document.getElementById("selected_request_pk_acceptance").value =[];
 
-
+  // 検討メニュー
   document.getElementById("selected_request_pk_selectSupplier").value =[];
   $("#selectSupplier_wrapper").hide(0);
   document.getElementById("selectSupplier_start").style.display ="block";
@@ -19,79 +22,18 @@ function menu_default(){
   document.getElementById("selectSupplier_stop").style.display ="none";
   document.getElementById("selectSupplier_title").style.display ="none";
 
-
+  // 検討メニュー 案件番号
   document.getElementById("selected_order_pk_orderReport").value ="";
   document.getElementById("selected_request_pk_orderReport").value =[];
 
+  // 依頼・発注 金額突合
   document.getElementById('request_amount_int').value = "";
   document.getElementById('order_amount_int').value = "";
   document.getElementById('diff_amount_int').value = "";
-
 };
 window.onload = menu_default();
 
-// acceptance_start のクリックにより判定
-function accepance_start(){
-  if(document.getElementById("diff_amount").value != "" && document.getElementById("diff_amount").value == 0){
-    $("#acceptance_wrapper").show(150);
-    $("#amount_check").hide(0);
-    document.getElementById("create_request").style.display ="none";
-    document.getElementById("selectSupplier_start").style.display ="none";
-    document.getElementById("acceptance_start").style.display ="none";
-    document.getElementById("acceptance_done").style.display ="block";
-    document.getElementById("acceptance_none").style.display ="block";
-    document.getElementById("acceptance_title").style.display ="block";
-    
-  //発注番号の自動入力
-    let list_order = document.getElementsByName('selected_order');
-    let len_list_order = list_order.length;
-    let selected_order_pk = ''
 
-    for (let i = 0; i < len_list_order ; i++){
-      if (list_order[i].checked){
-        selected_order_pk = list_order[i].value;
-      }
-    }
-    document.getElementById("selected_order_pk_acceptance").value = selected_order_pk;
-    console.log(selected_order_pk)
-
-  //依頼番号の自動入力
-    let list_request = document.getElementsByName('selected_request');
-    let len_list_request = list_request.length;
-    let selected_request_pk = []
-
-    for (let i = 0; i < len_list_request ; i++){
-      if (list_request[i].checked){
-        selected_request_pk.push(Number(list_request[i].value));
-      }
-    }
-    document.getElementById("selected_request_pk_acceptance").value = selected_request_pk;
-    console.log(selected_request_pk)
-
-    //検収日の自動入力
-    let now = new Date();
-    let year = now.getFullYear();
-    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
-    let day = ("0"+ (now.getDate())).slice(-2);
-    let today =year+'-'+mon+'-'+day;
-    document.getElementById("acceptanceDate_acceptance").value = today;
-
-  }else{
-    alert('未検収の発注と対応する全ての依頼を選択してください')
-  };
-};
-
-// 検収中止
-function accepance_stop(){
-  $("#acceptance_wrapper").hide(150);
-  $("#amount_check").show(0);
-  document.getElementById("create_request").style.display ="block";
-  document.getElementById("selectSupplier_start").style.display ="block";
-  document.getElementById("acceptance_start").style.display ="block";
-  document.getElementById("acceptance_done").style.display ="none";
-  document.getElementById("acceptance_none").style.display ="none";
-  document.getElementById("acceptance_title").style.display ="none";
-};
 
 function checkAmount(){
 
@@ -99,6 +41,7 @@ function checkAmount(){
   let list_request = document.getElementsByName('selected_request');
   let len_list_request = list_request.length;
   let selected_request_num = 0;
+  console.log(list_request)
 
   let list_request_amount = document.getElementsByName('selected_request_amount');
 
@@ -156,13 +99,11 @@ function correspondOrderNumber(){
     if (list_request[i].checked && Number(list_orderNumInRequest[i].textContent) > 0){
       
       orderNumInRequest = list_orderNumInRequest[i].textContent;
-      
-      console.log("依頼→発注 対象あり")
+     
 
       // order のチェックを入れる
       for (let k = 0; k < len_list_order ; k++){
 
-        console.log(list_orderNumInOrder[k].textContent);
         if (list_orderNumInOrder[k].textContent == orderNumInRequest){
           list_order[k].checked  = true;
         };
@@ -184,7 +125,6 @@ function reportOrder_number(){
     }
   }
   document.getElementById("selected_order_pk_orderReport").value = selected_order_pk;
-  console.log(selected_order_pk)
 
 //依頼番号の自動入力
   let list_request = document.getElementsByName('selected_request');
@@ -197,7 +137,6 @@ function reportOrder_number(){
     }
   }
   document.getElementById("selected_request_pk_orderReport").value = selected_request_pk;
-  console.log(selected_request_pk)
 
 };
 
@@ -279,7 +218,6 @@ function selectSupplier_start(){
       selected_request_pk.push(Number(list_request[i].value));
     }
   }
-  console.log(selected_request_pk)
 
   if(!selected_request_pk.length){
     alert('対象の依頼を選択してください')
@@ -298,7 +236,6 @@ function selectSupplier_start(){
     document.getElementById("report_order").style.display ="none";
 
     document.getElementById("selected_request_pk_selectSupplier").value = selected_request_pk;
-    console.log(selected_request_pk)
   };
 };
 
@@ -315,4 +252,66 @@ function selectSupplier_stop(){
 
   document.getElementById("create_order").style.display ="block";
   document.getElementById("report_order").style.display ="block";
+};
+
+// acceptance_start のクリックにより判定
+function accepance_start(){
+  if(document.getElementById("diff_amount").value != "" && document.getElementById("diff_amount").value == 0){
+    $("#acceptance_wrapper").show(150);
+    $("#amount_check").hide(0);
+    document.getElementById("create_request").style.display ="none";
+    document.getElementById("selectSupplier_start").style.display ="none";
+    document.getElementById("acceptance_start").style.display ="none";
+    document.getElementById("acceptance_done").style.display ="block";
+    document.getElementById("acceptance_none").style.display ="block";
+    document.getElementById("acceptance_title").style.display ="block";
+    
+  //発注番号の自動入力
+    let list_order = document.getElementsByName('selected_order');
+    let len_list_order = list_order.length;
+    let selected_order_pk = ''
+
+    for (let i = 0; i < len_list_order ; i++){
+      if (list_order[i].checked){
+        selected_order_pk = list_order[i].value;
+      }
+    }
+    document.getElementById("selected_order_pk_acceptance").value = selected_order_pk;
+
+  //依頼番号の自動入力
+    let list_request = document.getElementsByName('selected_request');
+    let len_list_request = list_request.length;
+    let selected_request_pk = []
+
+    for (let i = 0; i < len_list_request ; i++){
+      if (list_request[i].checked){
+        selected_request_pk.push(Number(list_request[i].value));
+      }
+    }
+    document.getElementById("selected_request_pk_acceptance").value = selected_request_pk;
+
+
+    //検収日の自動入力
+    let now = new Date();
+    let year = now.getFullYear();
+    let mon = ("0"+ (now.getMonth()+1)).slice(-2);
+    let day = ("0"+ (now.getDate())).slice(-2);
+    let today =year+'-'+mon+'-'+day;
+    document.getElementById("acceptanceDate_acceptance").value = today;
+
+  }else{
+    alert('未検収の発注と対応する全ての依頼を選択してください')
+  };
+};
+
+// 検収中止
+function accepance_stop(){
+  $("#acceptance_wrapper").hide(150);
+  $("#amount_check").show(0);
+  document.getElementById("create_request").style.display ="block";
+  document.getElementById("selectSupplier_start").style.display ="block";
+  document.getElementById("acceptance_start").style.display ="block";
+  document.getElementById("acceptance_done").style.display ="none";
+  document.getElementById("acceptance_none").style.display ="none";
+  document.getElementById("acceptance_title").style.display ="none";
 };

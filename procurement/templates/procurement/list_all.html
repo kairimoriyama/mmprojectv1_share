@@ -417,8 +417,7 @@ function csrfSafeMethod(method) {
 $.ajaxSetup({
   beforeSend: function (xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          console.log(csrftoken);
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
       }
   }
 });
@@ -430,10 +429,6 @@ $.ajaxSetup({
 
 let staffNumberElement = document.getElementById('staffNumber_acceptance').children[1];
 let staffdbElement = document.getElementById('staffNumber_acceptance').children[3];
-
-console.log(staffNumberElement)
-console.log(staffNumberElement.value)
-console.log(staffdbElement)
 
 const inputStaffNumber = (select) => {
  
@@ -450,8 +445,6 @@ const inputStaffNumber = (select) => {
     // 選択肢を作成
     
     let items_staffdb = response.staffList
-    console.log(items_staffdb)
-    console.log(items_staffdb.length)
 
     for (let i = 0; i < items_staffdb.length; i++) {  
       let option = document.createElement('option')
@@ -461,7 +454,6 @@ const inputStaffNumber = (select) => {
       staffdbElement.appendChild(option); 
       };
   });
-  console.log(staffdbElement)  
 };
 
 staffNumberElement.addEventListener('change', () => {
@@ -474,10 +466,6 @@ staffNumberElement.addEventListener('change', () => {
 
 let staffNumberElement2 = document.getElementById('staffNumber_selectSupplier').children[1];
 let staffdbElement2 = document.getElementById('staffNumber_selectSupplier').children[3];
-
-console.log(staffNumberElement2)
-console.log(staffNumberElement2.value)
-console.log(staffdbElement2)
 
 const inputStaffNumber2 = (select) => {
  
@@ -494,8 +482,6 @@ const inputStaffNumber2 = (select) => {
     // 選択肢を作成
     
     let items_staffdb = response.staffList
-    console.log(items_staffdb)
-    console.log(items_staffdb.length)
 
     for (let i = 0; i < items_staffdb.length; i++) {  
       let option = document.createElement('option')
@@ -505,7 +491,6 @@ const inputStaffNumber2 = (select) => {
       staffdbElement2.appendChild(option); 
       };
   });
-  console.log(staffdbElement2)  
 };
 
 
