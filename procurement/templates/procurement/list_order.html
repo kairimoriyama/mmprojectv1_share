@@ -78,7 +78,7 @@
      
       <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
       <td>{{ item.progress.name }}</td>
-      <td>{{ item.orderStaff }}{{ item.orderStaffdb }}</td>
+      <td>{{ item.orderStaffdb.fullName }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
 
       <td>
@@ -97,7 +97,7 @@
       <td>{{ item.orderDescription }}</td>
 
       <td>{{ item.acceptanceDate | date:"Y/m/d" }}</td>
-      <td>{{ item.acceptanceStaff }}{{ item.acceptanceStaffdb }}</td>
+      <td>{{ item.acceptanceStaffdb.fullName }}</td>
       <td>{{ item.acceptanceStaffDivision.name }}</td>
 
       <td class="longText">{{ item.acceptanceMemo }}</td>

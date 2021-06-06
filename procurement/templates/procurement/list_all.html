@@ -166,7 +166,7 @@
       <td>{{ item.adminCheck.name }}</td>
       <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
 
-      <td>{{ item.requestStaff }}{{ item.requestStaffdb }}</td>
+      <td>{{ item.requestStaffdb.fullName }}</td>
       <td>{{ item.requestStaffDivision }}</td>
     
       <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
@@ -203,14 +203,10 @@
       </td>
 
       <td>
-        {%  if item.adminStaff %}
-          {{ item.adminStaff }}
-        {%  else %}
-        {% endif %}
         {%  if item.adminStaffdb %}
-        {{ item.adminStaffdb }}
-      {%  else %}
-      {% endif %}  
+          {{ item.adminStaffdb.fullName }}
+        {%  else %}
+        {% endif %}  
       </td>
 
       <td class="longText">
@@ -319,7 +315,7 @@
      
       <td class="date_col">{{ item.orderDate | date:"m/d"}}</td>
       <td>{{ item.progress.name }}</td>
-      <td>{{ item.orderStaff }}{{ item.orderStaffdb }}</td>
+      <td>{{ item.orderStaffdb.fullName }}</td>
       <td>{{ item.orderStaffDivision.name }}</td>
 
       <td>
@@ -345,14 +341,10 @@
       </td>
 
       <td>
-        {% if item.acceptanceStaff %}
-          {{ item.acceptanceStaff }}
+        {% if item.acceptanceStaffdb %}
+          {{ item.acceptanceStaffdb }}
         {% else %}
         {% endif %}
-        {% if item.acceptanceStaffdb %}
-        {{ item.acceptanceStaffdb }}
-      {% else %}
-      {% endif %}
       </td>
 
       <td>

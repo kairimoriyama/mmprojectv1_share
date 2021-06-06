@@ -93,7 +93,7 @@
       <td>{{ item.adminCheck.name }}</td>
       <td>{{ item.orderInfo.orderNum }}</td>
 
-      <td>{{ item.requestStaff }}{{ item.requestStaffdb }}</td>
+      <td>{{ item.requestStaffdb.fullName }}</td>
       <td>{{ item.requestStaffDivision }}</td>
     
       <td class="date_col">{{ item.dueDate | date:"Y/m/d"}}</td>
@@ -119,14 +119,10 @@
       </td>
 
       <td>
-        {%  if item.adminStaff %}
-          {{ item.adminStaff }}
+        {%  if item.adminStafdb %}
+          {{ item.adminStaffdb.fullName }}
         {%  else %}
         {% endif %}
-        {%  if item.adminStafdb %}
-        {{ item.adminStaffdb }}
-      {%  else %}
-      {% endif %}
       </td>
       <td class="longText">
         {%  if item.adminDescription %}

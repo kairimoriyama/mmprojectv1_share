@@ -42,7 +42,7 @@
 
   <dl class="item_dl item4">
     <dt>依頼者</dt>
-    <dd>{{ object.requestStaff}}{{ object.requestStaffdb}}</dd>
+    <dd>{{ object.requestStaffdb.fullName}}</dd>
   </dl>
 
   <dl class="item_dl item5">
@@ -208,14 +208,10 @@
   <dl class="item_dl item18">
     <dt>精査者</dt>
     <dd>
-      {% if object.adminStaff %}
-        {{ object.adminStaff }}
+      {% if object.adminStaffdb %}
+        {{ object.adminStaffdb.fullName }}
       {% else %}
       {% endif %}
-      {% if object.adminStaffdb %}
-      {{ object.adminStaffdb }}
-    {% else %}
-    {% endif %}
     </dd>
   </dl>
 

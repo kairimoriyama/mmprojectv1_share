@@ -43,7 +43,7 @@ class CreateFormRequest(ModelForm):
     class Meta:
         model  = OrderRequest
         fields = ('submissionDate',
-            'requestStaffDivision', 'requestStaff','requestStaffdb',
+            'requestStaffDivision', 'requestStaffdb',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3',
             'purpose', 'standardItem', 'requestDetail', 'requestMemo',
@@ -90,7 +90,7 @@ class CreateFormOrder(ModelForm):
     class Meta:
         model = OrderInfo
         fields = ('orderDate',
-            'orderStaff','orderStaffdb',
+            'orderStaffdb',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
@@ -138,9 +138,9 @@ class UpdateFormRequest(ModelForm):
     class Meta:
         model  = OrderRequest
         fields = ('requestNum','submissionDate',
-            'requestStaffDivision', 'requestStaff', 'requestStaffdb', 
+            'requestStaffDivision', 'requestStaffdb', 
             'dueDate', 'deliveryAddress', 
-            'adminCheck', 'adminStaff','adminStaffdb', 'orderInfo',
+            'adminCheck', 'adminStaffdb', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
             'purpose','standardItem', 'requestDetail','requestMemo',
             'project','approval',
@@ -180,7 +180,7 @@ class UpdateFormOrder(ModelForm):
     class Meta:
         model = OrderInfo
         fields = ('orderNum', 'orderDate',
-            'progress', 'orderStaff','orderStaffdb',
+            'progress', 'orderStaffdb',
             'orderStaffDivision', 'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 

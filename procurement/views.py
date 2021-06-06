@@ -49,7 +49,6 @@ class ListALL(ListView):
             if 'button_acceptance' in request.POST:
 
                 # HTMLから取得したorder
-                acceptanceStaff = self.request.POST.get('staff_acceptance')
                 acceptanceStaffdb = self.request.POST.get('acceptanceStaffNumberdb')
                 acceptanceStaffDivision = self.request.POST.get('division_acceptance')
                 acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
@@ -65,7 +64,7 @@ class ListALL(ListView):
                 print(selected_order_pk_acceptance)
 
 
-                if acceptanceStaff is None or acceptanceStaff == "" or acceptanceStaffDivision is None:
+                if acceptanceStaffdb is None or acceptanceStaffdb == "" or acceptanceStaffDivision is None:
                     pass
 
                 else:
@@ -73,7 +72,6 @@ class ListALL(ListView):
                     orderInfoAcceptance = get_object_or_404(OrderInfo, pk=selected_order_pk_acceptance)
 
                     # 検収者
-                    orderInfoAcceptance.acceptanceStaff = acceptanceStaff
                     staffdbAcceptance = get_object_or_404(StaffDB, pk=acceptanceStaffdb)
                     orderInfoAcceptance.acceptanceStaffdb = staffdbAcceptance
                     
@@ -108,7 +106,6 @@ class ListALL(ListView):
             if 'button_selectSupplier' in request.POST:
 
                 # HTMLから取得した値
-                adminStaff = self.request.POST.get('selectSupplier_adminStaff')
                 adminStaffdb = self.request.POST.get('selectSupplierStaffNumberdb')
 
                 # リスト型
@@ -117,7 +114,7 @@ class ListALL(ListView):
                 selected_request_pk_selectSupplier = self.request.POST.get('selected_request_pk_selectSupplier').split(sep=',')
 
 
-                if adminStaff is None or adminStaff == "":
+                if adminStaffdb is None or adminStaffdb == "":
                     pass
 
                 else:
@@ -129,7 +126,6 @@ class ListALL(ListView):
                         adminCheckSelectSupplier = get_object_or_404(AdminCheck, pk=2)
 
                         # リストで全件更新
-                        orderRequestSelectSupplier.adminStaff = adminStaff
                         orderRequestSelectSupplier.adminStaffdb = adminStaffdbSelectSupplier
                         orderRequestSelectSupplier.adminCheck = adminCheckSelectSupplier
 

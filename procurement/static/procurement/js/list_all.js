@@ -156,6 +156,8 @@ function correspondOrderNumber(){
     if (list_request[i].checked && Number(list_orderNumInRequest[i].textContent) > 0){
       
       orderNumInRequest = list_orderNumInRequest[i].textContent;
+      
+      console.log("依頼→発注 対象あり")
 
       // order のチェックを入れる
       for (let k = 0; k < len_list_order ; k++){
@@ -166,8 +168,7 @@ function correspondOrderNumber(){
         };
       };
     };
-  };
-  
+  }; 
 };
 
 // 発注報告について番号自動入力
