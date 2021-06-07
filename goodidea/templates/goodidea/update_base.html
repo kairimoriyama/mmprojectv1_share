@@ -290,13 +290,17 @@ const inputStaffNumber = (select) => {
 
       staffdbElement.appendChild(option); 
       };
-  });
+    });
   console.log(staffdbElement)  
 };
 
-
-
 staffNumberElement.addEventListener('change', () => {
+  inputStaffNumber();
+});
+
+
+staffdbElement.addEventListener('focus', () => {
+  console.log("test");
   inputStaffNumber();
 });
 
