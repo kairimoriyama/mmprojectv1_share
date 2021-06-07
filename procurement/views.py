@@ -34,7 +34,7 @@ class ListALL(ListView):
         })
 
         context['divisionSelect_list'] = Division.objects.all()
-        context['staffSelect_list'] = StaffDB.objects.all()
+        context['staffSelect_list'] = StaffDB.objects.staff_active()
         
         return context
     

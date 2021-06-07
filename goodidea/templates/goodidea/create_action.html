@@ -246,7 +246,11 @@ staffNumberElement.addEventListener('change', () => {
   inputStaffNumber();
 });
 
-window.onload = inputStaffNumber();
+
+staffdbElement.addEventListener('focus', () => {
+  console.log("test");
+  inputStaffNumber();
+});
 
 </script>
 {% endblock extrajs %}
