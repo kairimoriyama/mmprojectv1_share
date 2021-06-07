@@ -76,7 +76,7 @@ class Item(models.Model):
     # foreignkey で staff情報を管理 
     staff = models.CharField(max_length=100, blank=True,null=True)
     staffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
-        related_name ='item_staffdb', blank=True,null=True, default=1)
+        related_name ='item_staffdb', blank=True,null=True)
 
     category = models.ForeignKey(Category,on_delete=models.PROTECT,
         related_name ='item_category', blank=False,null=False)
