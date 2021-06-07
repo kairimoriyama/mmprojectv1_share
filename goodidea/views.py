@@ -509,19 +509,49 @@ def ajax_get_staff(request):
     # staffNumber入力なし
     if not staffNumber:
 
-        # StaffQuerySet のstaff_active()で絞り込めていない
+        # StaffQuerySet のstaff_active()で絞り込み
         staff_list = StaffDB.objects.staff_active()
         print("R")
         print(staff_list)
 
     # staffNumber入力あり 
     else:
-        # StaffQuerySet のstaff_active()で絞り込めていない
+        # StaffQuerySet のstaff_active()で絞り込み
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=staffNumber)
         print("A")
         print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # JSON
+    return JsonResponse({'staffList': staff_list})
+
+
+
+# 先頭に空データ追加の追加あり
+def ajax_get_staff_filter(request):
+    staffNumber = request.GET.get('staffNumber')
+    print('staffNumber:'+ str(staffNumber))
+    # staffNumber入力なし
+    if not staffNumber:
+
+        # StaffQuerySet のstaff_active()で絞り込み
+        staff_list = StaffDB.objects.staff_active()
+        print("R")
+        print(staff_list)
+
+    # staffNumber入力あり 
+    else:
+        # StaffQuerySet のstaff_active()で絞り込み
+        staff_list = StaffDB.objects.staff_active().filter(no__startswith=staffNumber)
+        print("A")
+        print(staff_list)
+
+    staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
+
+    # 先頭に空データ追加
+    dummy_staff = {'pk': 0,'no': 0,'fullName': "-"} 
+    staff_list.insert(0, dummy_staff)
 
     # JSON
     return JsonResponse({'staffList': staff_list})
