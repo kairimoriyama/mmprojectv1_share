@@ -52,14 +52,7 @@ def item_export(request):
         '資料1','資料2','資料3',
         '検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
     for item in Item.objects.all():
-        writer.writerow([item.itemNum,item.ideaNum,item.actionNum,
-        item.submissionDate,item.progress,item.staff,item.division,
-        item.category,item.purchase,item.system,item.title,item.description,
-        item.refURL1,item.refURL2,item.refURL3,
-        item.picture1,item.picture2,item.picture3,item.picture4,item.picture5,item.picture6,
-        item.refFile1,item.refFile2,item.refFile3,
-        item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,
-        item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
+        writer.writerow([item.itemNum])
 
     return response
 
