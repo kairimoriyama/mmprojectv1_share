@@ -94,7 +94,9 @@ class ItemListFilter(ListView):
 
         context['progressSelect_list'] = Progress.objects.all()
         context['divisionSelect_list'] = Division.objects.all()
-        context['staffdb_list'] = StaffDB.objects.all()
+        
+        # StaffQuerySet のstaff_activeで絞込
+        context['staffdb_list'] = StaffDB.objects.staff_active()
 
         context['list_type'] = 'list_filter'
 
