@@ -317,13 +317,13 @@ def ajax_get_requestStaff(request):
     # requestStaffNumber入力なし
     if not requestStaffNumber:
         staff_list = StaffDB.objects.staff_active()
-        print("R")
+        print("R1")
         print(staff_list)
 
     # requestStaffNumber入力あり 
     else:
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=requestStaffNumber)
-        print("A")
+        print("A1")
         print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
@@ -338,13 +338,13 @@ def ajax_get_adminStaff(request):
     # adminStaffNumber入力なし
     if not adminStaffNumber:
         staff_list = StaffDB.objects.staff_active()
-        print("R")
+        print("R2")
         print(staff_list)
 
     # adminStaffNumber入力あり 
     else:
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=adminStaffNumber)
-        print("A")
+        print("A2")
         print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
@@ -359,13 +359,13 @@ def ajax_get_orderStaff(request):
     # orderStaffNumber入力なし
     if not orderStaffNumber:
         staff_list = StaffDB.objects.staff_active()
-        print("R")
+        print("R3")
         print(staff_list)
 
     # orderStaffNumber入力あり 
     else:
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=orderStaffNumber)
-        print("A")
+        print("A3")
         print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
@@ -381,13 +381,13 @@ def ajax_get_acceptanceStaff(request):
     # acceptanceStaffNumber入力なし
     if not acceptanceStaffNumber:
         staff_list = StaffDB.objects.staff_active()
-        print("R")
+        print("R4")
         print(staff_list)
 
     # acceptanceStaffNumber入力あり 
     else:
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=acceptanceStaffNumber)
-        print("A")
+        print("A4")
         print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]

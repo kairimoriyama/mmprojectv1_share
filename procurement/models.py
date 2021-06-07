@@ -120,7 +120,7 @@ class OrderInfo(models.Model):
     orderNum =  models.IntegerField(blank=False,null=False)
     orderDate = models.DateField(default=timezone.now, blank=True)
     
-    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck')    
+    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck',default=1)    
     # orderStaff = models.CharField(max_length=20,blank=True,null=True)
     orderStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_orderStaff',blank=True,null=True)
