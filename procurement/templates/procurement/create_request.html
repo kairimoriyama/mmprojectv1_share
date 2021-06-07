@@ -203,7 +203,6 @@ function csrfSafeMethod(method) {
 $.ajaxSetup({
   beforeSend: function (xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          console.log(csrftoken);
           xhr.setRequestHeader("X-CSRFToken", csrftoken);
       }
   }
@@ -248,15 +247,11 @@ const inputStaffNumber = (select) => {
 };
 
 
-
-staffNumberElement.addEventListener('change', () => {
-  inputStaffNumber();
-});
-
 staffdbElement.addEventListener('focus', () => {
-  console.log("test");
+  console.log("test2");
   inputStaffNumber();
 });
+
 
 </script>
 {% endblock extrajs %}
