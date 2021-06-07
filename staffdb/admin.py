@@ -20,7 +20,7 @@ class StaffDBAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             model = StaffDB
             fields = ('id','no', 'fullName', 'kanaName', 
                 'staffDivision1', 'staffDivision2', 'staffDivision3',
-                'deletedItem')
+                'inactive','academy','deletedItem')
     resource_class = StaffDBResource
 
 admin.site.register(Division, DivisionAdmin)
