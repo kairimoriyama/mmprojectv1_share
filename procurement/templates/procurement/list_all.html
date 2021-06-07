@@ -461,6 +461,12 @@ staffNumberElement.addEventListener('change', () => {
 });
 
 
+staffdbElement.addEventListener('focus', () => {
+  console.log("test");
+  inputStaffNumber();
+});
+
+
 
 /*-----精査者-----*/
 
@@ -497,6 +503,13 @@ const inputStaffNumber2 = (select) => {
 staffNumberElement2.addEventListener('change', () => {
   inputStaffNumber2();
 });
+
+staffdbElement2.addEventListener('focus', () => {
+  console.log("test");
+  inputStaffNumber2();
+});
+
+
 
 </script>
 {% endblock extrajs %}
