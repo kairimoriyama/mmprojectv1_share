@@ -506,13 +506,16 @@ def ajax_get_staff(request):
     print('staffNumber:'+ str(staffNumber))
     # staffNumber入力なし
     if not staffNumber:
-        staff_list = StaffDB.objects.all()
+
+        # StaffQuerySet のstaff_active()で絞り込めていない
+        staff_list = StaffDB.objects.staff_active()
         print("R")
         print(staff_list)
 
     # staffNumber入力あり 
     else:
-        staff_list = StaffDB.objects.all().filter(no__startswith=staffNumber)
+        # StaffQuerySet のstaff_active()で絞り込めていない
+        staff_list = StaffDB.objects.staff_active().filter(no__startswith=staffNumber)
         print("A")
         print(staff_list)
 
