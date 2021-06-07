@@ -209,5 +209,5 @@ class OrderRequest(models.Model):
         verbose_name_plural="OrderRequest"
 
     def __str__(self):
-        return   str(self.requestNum)+' '+self.requestStaffdb
+        return   str(self.requestNum)+' '+str(self.requestStaffdb)
 
