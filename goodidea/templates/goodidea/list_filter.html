@@ -204,7 +204,7 @@
     };
   
     $.ajax({
-        url: "{% url 'goodidea:ajax_get_staff' %}",
+        url: "{% url 'goodidea:ajax_get_staff_filter' %}",
         type: 'GET',
         data: {'staffNumber': staffNumberElement.value},
     }).done(response => {
@@ -228,10 +228,11 @@
   
   
   
-  staffNumberElement.addEventListener('change', () => {
+  staffdbElement.addEventListener('focus', () => {
+    console.log("test");
     inputStaffNumber();
   });
-  
+
   </script>
   {% endblock extrajs %}
   
