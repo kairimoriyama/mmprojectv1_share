@@ -123,7 +123,7 @@ class OrderInfo(models.Model):
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck',default=1)    
     # orderStaff = models.CharField(max_length=20,blank=True,null=True)
     orderStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
-        related_name ='orderInfo_orderStaff',blank=True,null=True, default=1)
+        related_name ='orderInfo_orderStaff',blank=True,null=True)
     orderStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderInfo_orderStafDividion',blank=True,null=True) 
 
     registeredSupplier = models.ForeignKey(Supplier,on_delete=models.PROTECT, related_name ='orderInfo_supplier',blank=True,null=True) 
@@ -140,7 +140,7 @@ class OrderInfo(models.Model):
     acceptanceDate = models.DateField(blank=True,null=True)
     # acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
-        related_name ='orderInfo_acceptanceStaff',blank=True,null=True, default=1)
+        related_name ='orderInfo_acceptanceStaff',blank=True,null=True)
     acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
     acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
 
@@ -166,13 +166,13 @@ class OrderRequest(models.Model):
     requestStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_dividion') 
     # requestStaff = models.CharField(max_length=20, blank=True,null=True)
     requestStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
-        related_name ='orderRequest_requestStaff',blank=True,null=True, default=1)
+        related_name ='orderRequest_requestStaff',blank=True,null=True)
 
 
     adminCheck = models.ForeignKey(AdminCheck,on_delete=models.PROTECT, related_name ='orderRequest_adminCheck',default=1)    
     # adminStaff = models.CharField(max_length=20,blank=True,null=True)
     adminStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
-        related_name ='orderRequest_adminStaff',blank=True,null=True, default=1)
+        related_name ='orderRequest_adminStaff',blank=True,null=True)
     
     
     dueDate = models.DateField(default=timezone.now, blank=True)
