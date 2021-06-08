@@ -48,6 +48,7 @@ textarea:required{
     background: rgb(255, 255, 227);
 }
 .alternative_color input,
+.alternative_color textarea,
 .alternative_color select{
     background: rgb(192, 222, 236);
 }
