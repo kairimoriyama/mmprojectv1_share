@@ -64,14 +64,19 @@
   </dl>
 
   <dl class="item_dl item9">
-    <dt class="height_m sentence_dt2">仕様</dt>
-    <dd class="height_m sentence_dd2">{{ form.requestDetail}}</dd>
+    <dt class="height_l sentence_dt2">仕様</dt>
+    <dd class="height_l sentence_dd2">{{ form.requestDetail}}</dd>
   </dl>
 
-  <dl class="item_dl item10">
-    <dt class="height_m sentence_dt2">備考</dt>
-    <dd class="height_m sentence_dd2"></dd>
+  <dl class="item_dl item10 multiple_items_URL">
+    <dt class="height_l">URL</dt>
+    <dd class="height_l">
+      <div>{{ form.refURL1 }}</div>
+      <div>{{ form.refURL2 }}</div>
+      <div>{{ form.refURL3 }}</div>
+    </dd>
   </dl>
+
 
   <dl class="item_dl item11">
     <dt>数量</dt>
@@ -93,16 +98,9 @@
     <dd>{{ form.project}}</dd>
   </dl>
 
-  <dl class="item_dl item15 multiple_items_URL">
-    <dt class="height_l">URL</dt>
-    <dd class="height_l">
-      <div>{{ form.refURL1 }}</div>
-      <div>{{ form.refURL2 }}</div>
-      <div>{{ form.refURL3 }}</div>
-    </dd>
-  </dl>
 
-  <dl class="item_dl item16 multiple_items_select">
+
+  <dl class="item_dl item15 multiple_items_select">
     <dt class="height_l">費用負担</dt>
     <dd class="height_l">
       <div>{{ form.costCenter1 }}</div>
@@ -112,7 +110,7 @@
   </dl>
 
   
-  <dl class="item_dl item17">
+  <dl class="item_dl item16">
     <dt class="height_l">資料（稟議等）</dt>
     <dd class="height_l multiple_items_update">
 
@@ -133,38 +131,34 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item18">
-    <dt>管理者</dt>
+  <dl class="item_dl item17">
+    <dt>精査者</dt>
     <dd>-</dd>
   </dl>
 
-  <dl class="item_dl item19">
+  <dl class="item_dl item18">
     <dt>進捗</dt>
     <dd>-</dd>
   </dl>
 
   
-  <dl class="item_dl item20">
-    <dt class="height_m">管理メモ</dt>
-    <dd class="height_m">-</dd>
+  <dl class="item_dl item19">
+    <dt class="height_l">管理メモ</dt>
+    <dd class="height_l">-</dd>
   </dl>
 
 
-  <dl class="item_dl item21">
+  <dl class="item_dl item20">
     <dt>発注番号</dt>
     <dd>-</dd>
   </dl>
 
 
-  <dl class="item_dl item_dl_dummy_s1">
+  <dl class="item_dl item_dl_dummy_s">
     <dt></dt>
     <dd></dd>
   </dl>
 
-  <dl class="item_dl item_dl_dummy_s2">
-    <dt></dt>
-    <dd></dd>
-  </dl>
   
 </form>
 <hr>

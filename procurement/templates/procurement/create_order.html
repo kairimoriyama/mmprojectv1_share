@@ -25,13 +25,18 @@
     <dt>発注日</dt>
     <dd>{{ form.orderDate  }}</dd>
   </dl>
-    
+  
   <dl class="item_dl item3">
+    <dt>到着日<br>（予定）</dt>
+    <dd>{{ form.arrivalDate }}</dd>
+  </dl>
+    
+  <dl class="item_dl item4">
     <dt>進捗</dt>
     <dd>発注完了</dd>
   </dl>
 
-  <dl class="item_dl item4 staffNumber">
+  <dl class="item_dl item5 staffNumber">
     <dt>発注者</dt>
     <dd id="orderStaffNumber">
       <input name="orderStaffNumber" type="number">
@@ -39,24 +44,20 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item5">
-    <dt>発注者所属</dt>
-    <dd></dd>
-  </dl>
-
   <dl class="item_dl item6">
-    <dt>到着日<br>（予定）</dt>
-    <dd>{{ form.arrivalDate }}</dd>
-  </dl>
-
-  <dl class="item_dl item7">
     <dt>標準発注先</dt>
     <dd class="alternative_color">{{ form.registeredSupplier}}</dd>
   </dl>
 
-  <dl class="item_dl item8">
+  <dl class="item_dl item7">
     <dt>個別発注先</dt>
     <dd class="alternative_color">{{ form.irregularSupplier}}</dd>
+  </dl>
+
+  
+  <dl class="item_dl item8">
+    <dt>支払方法</dt>
+    <dd>{{ form.paymentMethod}}</dd>
   </dl>
 
   <dl class="item_dl item9 multiple_items_amount">
@@ -70,60 +71,47 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item10">
-    <dt>支払方法</dt>
-    <dd>{{ form.paymentMethod}}</dd>
-  </dl>
 
-  <dl class="item_dl item11">
+  <dl class="item_dl item10">
     <dt class="height_l sentence_dt2">発注備考</dt>
     <dd class="height_l sentence_dd2">{{ form.orderDescription}}</dd>
   </dl>
 
-  <dl class="item_dl item12">
+  <dl class="item_dl item11">
     <dt>検収日</dt>
     <dd>-</dd>
   </dl>
 
-  <dl class="item_dl item13">
+  <dl class="item_dl item12">
     <dt>検収者</dt>
     <dd>-</dd>
   </dl>
 
+  <dl class="item_dl item13">
+    <dt class="height_m sentence_dt2">検収メモ</dt>
+    <dd class="height_m sentence_dd2">-</dd>
+  </dl>
+
   <dl class="item_dl item14">
-    <dt>検収者所属</dt>
-    <dd>-</dd>
-  </dl>
-
-  <dl class="item_dl item15">
-    <dt class="height_l sentence_dt2">検収メモ</dt>
-    <dd class="height_l sentence_dd2">-</dd>
-  </dl>
-
-  <dl class="item_dl item16">
-    <dt>支払日</dt>
+    <dt>支払（予定）日</dt>
     <dd>{{ form.settlementDate }}</dd>
   </dl>
 
-  <dl class="item_dl item17">
+  <dl class="item_dl item15">
     <dt>支払完了</dt>
     <dd>-</dd>
   </dl>
 
-  <dl class="item_dl item18">
-    <dt class="height_m sentence_dt2">請求書等</dt>
-    <dd class="height_m sentence_dd2">{{ form.refFile }}</dd>
+  <dl class="item_dl item16">
+    <dt class="height_m">請求書等</dt>
+    <dd class="height_m">{{ form.refFile }}</dd>
   </dl>
 
-  <dl class="item_dl item_dl_dummy_s1">
+  <dl class="item_dl item_dl_dummy_s">
     <dt></dt> <dd></dd>
   </dl>
 
-  <dl class="item_dl item_dl_dummy_s2">
-    <dt></dt> <dd></dd>
-  </dl>
-
-  <dl class="item_dl item_dl_dummy_l height_l">
+  <dl class="item_dl item_dl_dummy_l height_m">
     <dt></dt> <dd></dd>
   </dl>
   
