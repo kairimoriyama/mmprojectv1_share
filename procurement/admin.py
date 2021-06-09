@@ -84,7 +84,7 @@ class OrderRequestAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3', 
             'purpose', 'standardItem',
-            'requestDetail', 'requestMemo', 
+            'requestDetail',  
             'project', 'approval', 
             'quantity', 'estimatedAmount',
             'refURL1', 'refURL2', 'refURL3',
@@ -100,11 +100,11 @@ class OrderInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             model = OrderInfo
             fields = ('id','orderNum', 'orderDate',
             'progress', 'orderStaffdb',
-            'orderStaffDivision', 'arrivalDate', 
+            'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'paymentMethod', 'orderDescription', 
-            'acceptanceDate', 'acceptanceStaffdb', 'acceptanceStaffDivision', 
+            'acceptanceDate', 'acceptanceStaffdb',  
             'acceptanceMemo',
             'settlementDate','settlement', 'refFile',
             'deletedItem'

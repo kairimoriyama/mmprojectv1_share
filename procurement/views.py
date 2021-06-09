@@ -15,7 +15,7 @@ from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
-from staffdb.models import StaffDB, Division
+from staffdb.models import StaffDB
 
 # Create your views here.
 
@@ -33,7 +33,6 @@ class ListALL(ListView):
             'object_list_order': OrderInfo.objects.order_by('progress__no').exclude(progress__gte=3),
         })
 
-        context['divisionSelect_list'] = Division.objects.all()
         context['staffSelect_list'] = StaffDB.objects.staff_active()
         
         return context
@@ -50,7 +49,6 @@ class ListALL(ListView):
 
                 # HTMLから取得したorder
                 acceptanceStaffdb = self.request.POST.get('acceptanceStaffNumberdb')
-                acceptanceStaffDivision = self.request.POST.get('division_acceptance')
                 acceptanceDate = self.request.POST.get('acceptanceDate_acceptance')
                 acceptanceMemo = self.request.POST.get('acceptanceMemo_acceptance')
                 selected_order_pk_acceptance = self.request.POST.get('selected_order_pk_acceptance')
@@ -64,7 +62,7 @@ class ListALL(ListView):
                 print(selected_order_pk_acceptance)
 
 
-                if acceptanceStaffdb is None or acceptanceStaffdb == "" or acceptanceStaffDivision is None:
+                if acceptanceStaffdb is None or acceptanceStaffdb == "" is None:
                     pass
 
                 else:
@@ -75,10 +73,7 @@ class ListALL(ListView):
                     staffdbAcceptance = get_object_or_404(StaffDB, pk=acceptanceStaffdb)
                     orderInfoAcceptance.acceptanceStaffdb = staffdbAcceptance
                     
-                    # Foreignkey Division
-                    divisionAcceptance = get_object_or_404(Division, pk=acceptanceStaffDivision)
-                    orderInfoAcceptance.acceptanceStaffDivision = divisionAcceptance
-
+              
                     orderInfoAcceptance.acceptanceDate = acceptanceDate
                     orderInfoAcceptance.acceptanceMemo = acceptanceMemo
 
