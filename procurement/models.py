@@ -121,7 +121,6 @@ class OrderInfo(models.Model):
     orderDate = models.DateField(default=timezone.now, blank=True)
     
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck',default=1)    
-    # orderStaff = models.CharField(max_length=20,blank=True,null=True)
     orderStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_orderStaff',blank=True,null=True)
 
@@ -137,7 +136,6 @@ class OrderInfo(models.Model):
     orderDescription = models.TextField(max_length=50,blank=True,null=True)
 
     acceptanceDate = models.DateField(blank=True,null=True)
-    # acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_acceptanceStaff',blank=True,null=True)
     acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
@@ -162,13 +160,11 @@ class OrderRequest(models.Model):
     orderInfo = models.ForeignKey(OrderInfo,on_delete=models.PROTECT, related_name ='orderRequest_orderInfo',blank=True,null=True) 
 
     requestStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_dividion') 
-    # requestStaff = models.CharField(max_length=20, blank=True,null=True)
     requestStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderRequest_requestStaff',blank=True,null=True)
 
 
     adminCheck = models.ForeignKey(AdminCheck,on_delete=models.PROTECT, related_name ='orderRequest_adminCheck',default=1)    
-    # adminStaff = models.CharField(max_length=20,blank=True,null=True)
     adminStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderRequest_adminStaff',blank=True,null=True)
     
