@@ -3,7 +3,7 @@
 
 {% block header %}
 
-  <li><a href="{% url 'procurement:list_all' %}">一覧へ戻る</a></li>
+  <li><a href="{% url 'procurement:list_all' %}">Topへ戻る</a></li>
 
 
 {% endblock%}
@@ -48,6 +48,7 @@
     <th>依頼者</th>
     <th>依頼者所属</th>
     <th>希望納期</th>
+    <th>予定納期</th>
 		<th>納品先</th>
 		<th>小分類</th>
 		<th>標準品</th>
@@ -97,6 +98,13 @@
       <td>{{ item.requestStaffDivision }}</td>
     
       <td class="date_col">{{ item.dueDate | date:"Y/m/d"}}</td>
+      <td>
+        {%  if item.orderInfo %}
+          {{ item.orderInfo.arrivalDate | date:"Y/m/d" }}
+        {%  else %}
+          <p>-</p>
+        {% endif %}
+      </td>
       <td>{{ item.deliveryAddress.name }}</td>
 
       <td>{{ item.itemCategory2.name }}</td>
