@@ -71,15 +71,41 @@
   </dl>
 
   <dl class="item_dl item9">
-    <dt class="height_m">仕様</dt>
-    <dd class="height_m sentence_dd_scroll">
+    <dt class="height_m sentence_dt1">仕様</dt>
+    <dd class="height_m  sentence_dd1 sentence_dd_scroll">
       {{ object.requestDetail}}
     </dd>
   </dl>
 
-  <dl class="item_dl item10">
-    <dt class="height_m">備考</dt>
-    <dd class="height_m sentence_dd_scroll">
+  
+  <dl class="item_dl item10 multiple_items_URL">
+    <dt class="height_m">URL</dt>
+    <dd class="height_m">
+
+      {% if not object.refURL1 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL1：</p>
+        <a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a>
+      </div>
+      {% endif %}
+
+      {% if not object.refURL2 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL2：</p>
+        <a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a>
+      </div>
+      {% endif %}
+
+      {% if not object.refURL3 %}
+      {% else %}
+      <div class="multiple_items_child">
+        <p>URL3：</p>
+        <a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a>
+      </div>
+      {% endif %}
+
     </dd>
   </dl>
 
@@ -116,38 +142,7 @@
   </dl>
 
 
-  <dl class="item_dl item15 multiple_items_URL">
-    <dt class="height_m">URL</dt>
-    <dd class="height_m">
-
-      {% if not object.refURL1 %}
-      {% else %}
-      <div class="multiple_items_child">
-        <p>URL1：</p>
-        <a href="{{ object.refURL1 }}">{{ object.refURL1 }}</a>
-      </div>
-      {% endif %}
-
-      {% if not object.refURL2 %}
-      {% else %}
-      <div class="multiple_items_child">
-        <p>URL2：</p>
-        <a href="{{ object.refURL2 }}">{{ object.refURL2 }}</a>
-      </div>
-      {% endif %}
-
-      {% if not object.refURL3 %}
-      {% else %}
-      <div class="multiple_items_child">
-        <p>URL3：</p>
-        <a href="{{ object.refURL3 }}">{{ object.refURL3 }}</a>
-      </div>
-      {% endif %}
-
-    </dd>
-  </dl>
-
-  <dl class="item_dl item16 multiple_items">
+  <dl class="item_dl item15 multiple_items">
     <dt class="height_m">費用負担</dt>
     <dd class="height_m">
       {% if not object.costCenter1 %}
@@ -173,7 +168,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item17 multiple_items">
+  <dl class="item_dl item16 multiple_items">
     <dt class="height_m">資料（稟議等）</dt>
     <dd class="height_m">
       {% if not object.refFile1 %}
@@ -204,7 +199,7 @@
   </dl>
 
 
-  <dl class="item_dl item18">
+  <dl class="item_dl item17">
     <dt>精査者</dt>
     <dd>
       {% if object.adminStaffdb %}
@@ -214,14 +209,14 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item19">
+  <dl class="item_dl item18">
     <dt>進捗</dt>
     <dd>{{ object.adminCheck }}</dd>
   </dl>
 
-  <dl class="item_dl item20">
-    <dt class="height_m">管理<br>メモ</dt>
-    <dd class="height_m sentence_dd_scroll">
+  <dl class="item_dl item19">
+    <dt class="height_m sentence_dt1">管理<br>メモ</dt>
+    <dd class="height_m sentence_dd1 sentence_dd_scroll">
       {% if not object.adminDescription %}
       {% else %}
         {{ object.adminDescription }}
@@ -229,7 +224,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item21">
+  <dl class="item_dl item20">
     <dt>発注番号</dt>
     <dd>
       {% if object.orderInfo %}

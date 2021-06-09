@@ -490,27 +490,27 @@ hr{
 
 .container_request{
     display: grid;
-    grid-template-rows: repeat(21, auto);
+    grid-template-rows: repeat(20, auto);
     grid-template-columns: 100%;
     margin: 1rem 1rem 0 1rem;
 }
 
 @media screen and (min-width: 500px) {
     .container_request{
-        grid-template-rows: repeat(11, auto);
+        grid-template-rows: repeat(13, auto);
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area1 area2"
         "area3 area4"
         "area5 area6"
         "area7 area8"
-        "area9 area10"
-        "area11 area12"
+        "area9 area9"
+        "area10 area11"
+        "area10 area12"
         "area13 area14"
         "area15 area16"
         "area17 area18"
-        "area17 area19"
-        "area20 area21" 
+        "area19 area19" 
         "area20 dummy_s"; 
     }
         
@@ -534,7 +534,6 @@ hr{
     .container_request .item18 {grid-area: area18;}
     .container_request .item19 {grid-area: area19;}
     .container_request .item20 {grid-area: area20;}
-    .container_request .item21 {grid-area: area21;}
 
     .container_request .item_dl_dummy_s{
         grid-area: dummy_s;
@@ -550,18 +549,14 @@ hr{
         grid-template-areas:
         "area1 area2 area3"
         "area4 area5 area6"
-        "area7 area9 area10"
-        "area8 area9 area10"
-        "area11 area13 area15"
-        "area12 area14 area15"
-        "area16 area17 area18"
-        "area16 area17 area19"
-        "area20 area21 dummy_l"
-        "area20 dummy_s dummy_l";
-    }
-    .container_request .item_dl_dummy_l{
-        grid-area: dummy_l;
-         display: flex;
+        "area7 area9 area9"
+        "area8 area9 area9"
+        "area11 area10 area13"
+        "area12 area10 area14"
+        "area15 area16 area17"
+        "area15 area16 area18"
+        "area19 area19 area20"
+        "area19 area19 dummy_s";
     }
 }
 
@@ -574,8 +569,7 @@ hr{
     grid-template-columns: 100%;
     margin: 0 1rem;
 }
-.container_request_edit .item_dl_dummy_s1,
-.container_request_edit .item_dl_dummy_s2{
+.container_request_edit .item_dl_dummy_s{
     display: none;
 }
 
@@ -594,10 +588,9 @@ hr{
         "area11 area12"
         "area13 area14"
         "area15 area16"
-        "area17 area18"
-        "area17 area19"
-        "area17 area21"
-        "area20 dummy_s1";
+        "area19 area17"
+        "area19 area18"
+        "area19 area20";
     }
 
     .container_request_edit .item0 {grid-area: area0;}
@@ -621,7 +614,6 @@ hr{
     .container_request_edit .item18 {grid-area: area18;}
     .container_request_edit .item19 {grid-area: area19;}
     .container_request_edit .item20 {grid-area: area20;}
-    .container_request_edit .item21 {grid-area: area21;}
 
     .container_request_edit .item_dl_dummy_s1{
         display: flex;
@@ -638,23 +630,20 @@ hr{
         "area0 area0 area0"
         "area1 area2 area3"
         "area4 area5 area6"
-        "area7 area9 area9"
+        "area7  area9 area9"
         "area8 area9 area9"
-        "area11 area10 area10"
-        "area12 area10 area10"
-        "area13 area14 dummy_s1"
-        "area15 area16 area17"
-        "area18 area20 area21"
-        "area19 area20 dummy_s2"; 
+        "area11 area9 area9"
+        "area12 area10 area15"
+        "area13 area10 area15"
+        "area14 area10 area15"
+        "area16 area17 area19"
+        "area16 area18 area19"
+        "area16 area20 area19"; 
     }
-    .container_request_edit .item_dl_dummy_s1{
-        display: flex;
-        grid-area: dummy_s1;
+    .container_request_edit .item_dl_dummy_s{
+        display: none;
     }
-    .container_request_edit .item_dl_dummy_s2{
-        display: flex;
-        grid-area: dummy_s2;
-    }
+
 }
 
 
