@@ -46,7 +46,7 @@ class CreateFormRequest(ModelForm):
             'requestStaffDivision', 'requestStaffdb',
             'dueDate', 'deliveryAddress', 
             'costCenter1', 'costCenter2', 'costCenter3',
-            'purpose', 'standardItem', 'requestDetail', 'requestMemo',
+            'purpose', 'standardItem', 'requestDetail', 
             'project','approval', 
             'quantity', 'estimatedAmount',
             'refURL1', 'refURL2', 'refURL3',
@@ -91,7 +91,7 @@ class CreateFormOrder(ModelForm):
         model = OrderInfo
         fields = ('orderDate',
             'orderStaffdb',
-            'orderStaffDivision', 'arrivalDate', 
+            'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'paymentMethod', 'orderDescription',
@@ -116,7 +116,6 @@ class CreateFormOrder(ModelForm):
         self.fields['registeredSupplier'].initial = 1
 
         self.fields['orderStaffdb'].required = True
-        self.fields['orderStaffDivision'].required = True
 
         self.fields['amount1'].initial = 0
         self.fields['amount2'].initial = 0
@@ -142,7 +141,7 @@ class UpdateFormRequest(ModelForm):
             'dueDate', 'deliveryAddress', 
             'adminCheck', 'adminStaffdb', 'orderInfo',
             'costCenter1', 'costCenter2', 'costCenter3', 
-            'purpose','standardItem', 'requestDetail','requestMemo',
+            'purpose','standardItem', 'requestDetail',
             'project','approval',
             'quantity', 'estimatedAmount',
             'refURL1', 'refURL2', 'refURL3',
@@ -172,7 +171,6 @@ class UpdateFormRequest(ModelForm):
 
         # プレースホルダ
         self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
-        self.fields['requestMemo'].widget.attrs['placeholder'] = '必要に応じて記入'
 
 
 class UpdateFormOrder(ModelForm):
@@ -181,11 +179,11 @@ class UpdateFormOrder(ModelForm):
         model = OrderInfo
         fields = ('orderNum', 'orderDate',
             'progress', 'orderStaffdb',
-            'orderStaffDivision', 'arrivalDate', 
+            'arrivalDate', 
             'registeredSupplier', 'irregularSupplier',
             'amount1', 'amount2', 'amount3', 
             'totalAmount', 'paymentMethod', 'orderDescription',
-            'acceptanceDate', 'acceptanceStaffdb', 'acceptanceStaffDivision', 
+            'acceptanceDate', 'acceptanceStaffdb',  
             'acceptanceMemo',
             'settlementDate','settlement','refFile',
             'deletedItem'
@@ -209,7 +207,6 @@ class UpdateFormOrder(ModelForm):
         self.fields['arrivalDate'].required = True
 
         self.fields['orderStaffdb'].required = True
-        self.fields['orderStaffDivision'].required = True
 
         self.fields['amount1'].required = True
         self.fields['amount2'].required = True

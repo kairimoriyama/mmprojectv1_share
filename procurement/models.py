@@ -124,7 +124,6 @@ class OrderInfo(models.Model):
     # orderStaff = models.CharField(max_length=20,blank=True,null=True)
     orderStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_orderStaff',blank=True,null=True)
-    orderStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderInfo_orderStafDividion',blank=True,null=True) 
 
     registeredSupplier = models.ForeignKey(Supplier,on_delete=models.PROTECT, related_name ='orderInfo_supplier',blank=True,null=True) 
     irregularSupplier = models.CharField(max_length=100,blank=True,null=True)
@@ -141,7 +140,6 @@ class OrderInfo(models.Model):
     # acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_acceptanceStaff',blank=True,null=True)
-    acceptanceStaffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='orderRequest_acceptanceStaff',blank=True,null=True) 
     acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
 
     settlementDate = models.DateField(blank=True,null=True)
@@ -185,7 +183,6 @@ class OrderRequest(models.Model):
     purpose = models.ForeignKey(Purpose,on_delete=models.PROTECT, related_name ='orderRequest_purpose',blank=True,null=True) 
     standardItem = models.BooleanField(default=False)
     requestDetail = models.TextField(max_length=400,blank=True,null=True)
-    requestMemo = models.TextField(max_length=400,blank=True,null=True)
 
     project = models.CharField(max_length=30,blank=True,null=True)
     approval = models.CharField(max_length=30,blank=True,null=True)
