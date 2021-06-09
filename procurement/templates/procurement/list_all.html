@@ -108,7 +108,7 @@
     <th>進捗</th>
     <th>発注番号</th>
     <th>依頼者</th>
-    <th>内容</th>
+    <th>依頼内容</th>
     <th>希望納期</th>
     <th>納品予定</th>
 		<th>納品先</th>
@@ -171,8 +171,8 @@
       <td>{{ item.deliveryAddress.name }}</td>
 
       <td>
-        {%  if not item.irregularSupplier %}
-        {{ item.registeredSupplier.name }}
+        {%  if item.orderInfo %}
+        {{ item.orderInfo.registeredSupplier.name }}
         {%  else %}
         {{ item.irregularSupplier }}
         {% endif %}
@@ -261,6 +261,7 @@
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
+    <p class="menu_bt_mg_left">&#8658;</p>
     <input type="submit" onclick="reportOrder()"  class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order" >
   </div>
 </div>

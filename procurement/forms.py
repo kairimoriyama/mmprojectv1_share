@@ -26,17 +26,6 @@ class SelectFormProgress(ModelForm):
         fields = '__all__'
 
 
-class SelectFormDivision(ModelForm):
-    
-    divisionSelect = forms.ModelChoiceField(
-        queryset=Division.objects,
-        required=False
-    )     
-    class Meta:
-        model = Division
-        fields = '__all__'
-
-
 
 class CreateFormRequest(ModelForm):
 
@@ -67,7 +56,7 @@ class CreateFormRequest(ModelForm):
         self.fields['submissionDate'].widget.attrs['readonly'] = True
   
 
-        self.fields['dueDate'].initial = today + datetime.timedelta(days=7)
+        self.fields['dueDate'].initial = today + datetime.timedelta(days=5)
         self.fields['dueDate'].required = True
         self.fields['requestStaffdb'].required = True
         self.fields['requestStaffDivision'].required = True
@@ -82,7 +71,7 @@ class CreateFormRequest(ModelForm):
         self.fields['costCenter1'].required = True
 
         # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
 
 class CreateFormOrder(ModelForm):
@@ -111,7 +100,7 @@ class CreateFormOrder(ModelForm):
         self.fields['orderDate'].widget.attrs['readonly'] = True
                        
         self.fields['arrivalDate'].required = True
-        self.fields['arrivalDate'].initial = today + datetime.timedelta(days=7)
+        self.fields['arrivalDate'].initial = today + datetime.timedelta(days=2)
 
         self.fields['registeredSupplier'].initial = 1
 
@@ -170,7 +159,7 @@ class UpdateFormRequest(ModelForm):
 
 
         # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
 
 class UpdateFormOrder(ModelForm):
