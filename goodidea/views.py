@@ -20,19 +20,6 @@ from staffdb.models import StaffDB
 # Create your views here.
 
     
-class ItemListALL(ListView):
-    template_name = 'goodidea/list_all.html'
-    model  = Item
-    fields = '__all__'
-    queryset =Item.objects_list.all_list().order_by('-itemNum')
-    paginate_by = 22
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['list_type'] = 'list_all'
-        return context
-
 
 # 未使用
 def item_export(request):

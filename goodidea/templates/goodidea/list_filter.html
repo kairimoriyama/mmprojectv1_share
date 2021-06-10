@@ -2,9 +2,10 @@
 
 
 {% block header %}
-  <li>
-    <a href="{% url 'goodidea:list_all' %}">一覧へ戻る</a>
-  </li>
+  <li><a class="menu_bt" href="{% url 'goodidea:create_idea' %}">協議案件作成</a></li>
+  <li><a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:create_action' %}">共有案件作成</a></li>
+  <li><a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:list_due' %}">期日管理</a></li>   
+  
 {% endblock%}
 
 {% block content %}
