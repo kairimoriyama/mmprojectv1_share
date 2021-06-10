@@ -24,7 +24,7 @@ from staffdb.models import StaffDB
 # 未使用
 def item_export(request):
     template_name = 'goodidea/export.html'
-    success_url = reverse_lazy('goodidea:list_all')
+    success_url = reverse_lazy('goodidea:list_filter')
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="goodidea.csv"; unicode="shift-jis"'
