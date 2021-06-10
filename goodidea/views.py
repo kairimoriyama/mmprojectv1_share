@@ -19,29 +19,6 @@ from staffdb.models import StaffDB
 
 # Create your views here.
 
-    
-
-# 未使用
-def item_export(request):
-    template_name = 'goodidea/export.html'
-    success_url = reverse_lazy('goodidea:list_filter')
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="goodidea.csv"; unicode="shift-jis"'
-
-    writer = csv.writer(response, delimiter=',', encoding='shift-jis')
-
-    writer.writerow(['番号','協議案件No','共有案件No',
-        '登録日','進捗','提案者','所属',
-        '分類','購入','システム','提案・実施内容','根拠',
-        'URL1','URL2','URL3',
-        '写真1','写真2','写真3','写真4','写真5','写真6',
-        '資料1','資料2','資料3',
-        '検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
-    for item in Item.objects.all():
-        writer.writerow([item.itemNum])
-
-    return response
 
 
 class ItemListDue(ListView):
@@ -56,8 +33,6 @@ class ItemListDue(ListView):
         context['list_type'] = 'list_due'
         return context
 
-    # def get_queryset(request):
-    #     return Item.objects_list.due_list().order_by('itemNum').order_by('dueDate')
 
 
 
@@ -92,8 +67,7 @@ class ItemListFilter(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
-        
+       
      
         # 入力した検索条件の取得
         progress = self.request.GET.get('progress')
@@ -226,23 +200,6 @@ class ItemListFilter(ListView):
         
         return queryset.order_by('-itemNum')
 
-
-class ItemDetail(DetailView):
-    template_name = 'goodidea/detail_item.html'
-    model  = Item
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        item = self.object
-
-        item_list_queryset = Item.objects_list.all_list()
-
-        prev = item_list_queryset
-        next = item_list_queryset
-
-        context['prev'] = prev
-        context['next'] = next
-        return context
 
 
 
@@ -411,7 +368,7 @@ class ItemCreateIdea(CreateView):
                 obj.itemNum = maxItemNum +1 
 
             obj.save()
-            return redirect('goodidea:detail_item', pk= obj.id)
+            return redirect('goodidea:detail_filter', pk= obj.id)
 
 
 
@@ -454,17 +411,9 @@ class ItemCreateAction(CreateView):
                 obj.itemNum = maxItemNum +1 
 
             obj.save()
-            return redirect('goodidea:detail_item', pk= obj.id )
+            return redirect('goodidea:detail_filter', pk= obj.id )
 
 
-
-class ItemUpdate(UpdateView):
-    template_name = 'goodidea/update_item.html'
-    model  = Item
-    form_class = ItemUpdateFrom
-    
-    def get_success_url(self):
-        return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
 
 
 class ItemUpdateFilter(UpdateView):
@@ -486,27 +435,23 @@ class ItemUpdateDue(UpdateView):
         if self.object.progress.no == 2: 
             return reverse('goodidea:detail_due', kwargs={'pk': self.object.id})
         else:
-            return reverse('goodidea:detail_item', kwargs={'pk': self.object.id})
+            return reverse('goodidea:detail_filter', kwargs={'pk': self.object.id})
 
 
 
 def ajax_get_staff(request):
     staffNumber = request.GET.get('staffNumber')
-    print('staffNumber:'+ str(staffNumber))
     # staffNumber入力なし
     if not staffNumber:
 
         # StaffQuerySet のstaff_active()で絞り込み
         staff_list = StaffDB.objects.staff_active()
-        print("R")
-        print(staff_list)
+
 
     # staffNumber入力あり 
     else:
         # StaffQuerySet のstaff_active()で絞り込み
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=staffNumber)
-        print("A")
-        print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
 
@@ -518,21 +463,16 @@ def ajax_get_staff(request):
 # 先頭に空データ追加の追加あり
 def ajax_get_staff_filter(request):
     staffNumber = request.GET.get('staffNumber')
-    print('staffNumber:'+ str(staffNumber))
     # staffNumber入力なし
     if not staffNumber:
 
         # StaffQuerySet のstaff_active()で絞り込み
         staff_list = StaffDB.objects.staff_active()
-        print("R")
-        print(staff_list)
 
     # staffNumber入力あり 
     else:
         # StaffQuerySet のstaff_active()で絞り込み
         staff_list = StaffDB.objects.staff_active().filter(no__startswith=staffNumber)
-        print("A")
-        print(staff_list)
 
     staff_list = [{'pk': staff_obj.pk,'no': staff_obj.no,'fullName': staff_obj.fullName} for staff_obj in staff_list]
 

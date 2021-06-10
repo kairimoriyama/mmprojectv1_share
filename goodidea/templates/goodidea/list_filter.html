@@ -3,8 +3,8 @@
 
 {% block header %}
   <li><a class="menu_bt" href="{% url 'goodidea:create_idea' %}">協議案件作成</a></li>
-  <li><a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:create_action' %}">共有案件作成</a></li>
-  <li><a class="menu_bt menu_bt_mg_left" href="{% url 'goodidea:list_due' %}">期日管理</a></li>   
+  <li><a class="menu_bt" href="{% url 'goodidea:create_action' %}">共有案件作成</a></li>
+  <li><a class="menu_bt" href="{% url 'goodidea:list_due' %}">期日管理</a></li>   
   
 {% endblock%}
 
@@ -16,8 +16,8 @@
   <div class="menu_wrapper">
     <div class="filter_bt_wrapper">
       <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
-      <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'goodidea:list_filter' %}">条件削除</a>
-      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt()"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></p>
+      <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a>
+      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
     </div>
 
     <ul class="page_nav">

@@ -1,30 +1,61 @@
-  //表示・非表示の初期値
-  document.getElementById("filter_items").style.display ="flex";
-  document.getElementById("filter_bt_on").style.display ="block";
-  document.getElementById("filter_bt_off").style.display ="none";
-  document.getElementById("completionDateFilter").style.display ="none";
+const filter_items = document.getElementById("filter_items");
+const filter_bt_on = document.getElementById("filter_bt_on");
+const filter_bt_off = document.getElementById("filter_bt_off");
 
-
-  function filter_item_bt(){
-    const p = document.getElementById("filter_items");
-    const q = document.getElementById("filter_bt_on");
-    const r = document.getElementById("filter_bt_off");
+function display_on(){
   
-    if(p.style.display=="none"){
-      p.style.display ="flex";
-      q.style.display ="block";
-      r.style.display ="none";
-      document.getElementById("display_button_color").style.background = "rgb(255, 255, 227)";
+  filter_items.style.display ="flex";
+  filter_bt_on.style.display ="block";
+  filter_bt_off.style.display ="none";
+  document.getElementById("display_button_color").style.background = "rgb(255, 255, 227)";
 
-      
-    }else{
-      p.style.display ="none";
-      q.style.display ="none";
-      r.style.display ="block";
-      document.getElementById("display_button_color").style.background = "rgb(192, 222, 236)";
+};
 
-    }
+function display_off(){
+  
+  filter_items.style.display ="none";
+    filter_bt_on.style.display ="none";
+    filter_bt_off.style.display ="block";
+    document.getElementById("display_button_color").style.background = "rgb(192, 222, 236)";
+
+};
+
+//表示・非表示の初期値
+function display_criteria(){
+
+  if (parseInt(localStorage.getItem('display_key'))==1) {
+
+    display_on();
+    
+  }else{
+
+    display_off();
+
   };
+};
+
+window.onload = display_criteria();
+
+function filter_item_bt(){
+
+  if(filter_items.style.display=="none"){
+
+    display_on();
+
+    localStorage.setItem('display_key', '1'); //1を設定
+    
+  }else{
+
+    display_off();
+
+    localStorage.setItem('display_key', '0'); //0を設定
+  }
+};
+
+function clear_criteria(){
+  localStorage.setItem('display_key', '1'); //0を設定
+};
+
 
   //登録日From To の初期値
   function submissionDateInit() {
@@ -145,9 +176,9 @@ function set_search_key(){
 };
 
 
-function count_key_clear(){
-  localStorage.removeItem('count_key'); //他のページへ遷移する場合にcount_key削除
-};
+// function count_key_clear(){
+//   localStorage.removeItem('count_key'); //他のページへ遷移する場合にcount_key削除
+// };
 
 
 function get_search_key() {
