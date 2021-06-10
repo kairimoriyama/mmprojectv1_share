@@ -3,7 +3,7 @@
 {% block header %}
 
   <li>
-    <a href="{% url 'procurement:list_all' %}"><p>一覧へ戻る</p></a>
+    <a href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
   </li>
   
 {% endblock header %}
@@ -46,12 +46,12 @@
 
   <dl class="item_dl item6">
     <dt>標準発注先</dt>
-    <dd class="alternative_color">{{ form.registeredSupplier}}</dd>
+    <dd class="must_color" id="registeredSupplier">{{ form.registeredSupplier}}</dd>
   </dl>
 
   <dl class="item_dl item7">
     <dt>個別発注先</dt>
-    <dd class="alternative_color">{{ form.irregularSupplier}}</dd>
+    <dd class="must_color" id="irregularSupplier">{{ form.irregularSupplier}}</dd>
   </dl>
 
   
@@ -88,8 +88,8 @@
   </dl>
 
   <dl class="item_dl item13">
-    <dt class="height_m sentence_dt2">検収メモ</dt>
-    <dd class="height_m sentence_dd2">-</dd>
+    <dt class="height_m sentence_dt1">検収メモ</dt>
+    <dd class="height_m sentence_dd1">-</dd>
   </dl>
 
   <dl class="item_dl item14">

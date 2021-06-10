@@ -37,7 +37,7 @@ class StaffQuerySet(models.QuerySet):
         ).filter(deletedItem=False)
 
 class StaffDB(models.Model):
-    no = models.IntegerField(blank=False,null=False)
+    no = models.CharField(max_length=8,blank=False,null=False)
     # 後でblank=False,null=Falseに修正
     fullName = models.CharField(max_length=50,blank=True,null=True)
     kanaName = models.CharField(max_length=50,blank=True,null=True)

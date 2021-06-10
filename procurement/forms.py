@@ -10,6 +10,8 @@ from django.shortcuts import redirect
 from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from django.forms import ModelForm, inlineformset_factory 
 
+from django.core import validators
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -23,17 +25,6 @@ class SelectFormProgress(ModelForm):
     )     
     class Meta:
         model = Progress
-        fields = '__all__'
-
-
-class SelectFormDivision(ModelForm):
-    
-    divisionSelect = forms.ModelChoiceField(
-        queryset=Division.objects,
-        required=False
-    )     
-    class Meta:
-        model = Division
         fields = '__all__'
 
 
@@ -67,7 +58,7 @@ class CreateFormRequest(ModelForm):
         self.fields['submissionDate'].widget.attrs['readonly'] = True
   
 
-        self.fields['dueDate'].initial = today + datetime.timedelta(days=7)
+        self.fields['dueDate'].initial = today + datetime.timedelta(days=5)
         self.fields['dueDate'].required = True
         self.fields['requestStaffdb'].required = True
         self.fields['requestStaffDivision'].required = True
@@ -82,7 +73,7 @@ class CreateFormRequest(ModelForm):
         self.fields['costCenter1'].required = True
 
         # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
 
 class CreateFormOrder(ModelForm):
@@ -111,9 +102,7 @@ class CreateFormOrder(ModelForm):
         self.fields['orderDate'].widget.attrs['readonly'] = True
                        
         self.fields['arrivalDate'].required = True
-        self.fields['arrivalDate'].initial = today + datetime.timedelta(days=7)
-
-        self.fields['registeredSupplier'].initial = 1
+        self.fields['arrivalDate'].initial = today + datetime.timedelta(days=2)
 
         self.fields['orderStaffdb'].required = True
 
@@ -170,7 +159,7 @@ class UpdateFormRequest(ModelForm):
 
 
         # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（「URL参照」や「添付資料参照」でもOK）'
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
 
 class UpdateFormOrder(ModelForm):
@@ -217,3 +206,18 @@ class UpdateFormOrder(ModelForm):
         # プレースホルダ
         self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
 
+    def clean(self):
+        cleaned_data = super().clean()
+        registeredSupplier = cleaned_data.get('registeredSupplier')
+        irregularSupplier = cleaned_data.get('irregularSupplier')
+        amount1 = int(cleaned_data.get('amount1'))
+        amount2 = int(cleaned_data.get('amount2'))
+        amount3 = int(cleaned_data.get('amount3'))
+
+        if not (registeredSupplier or irregularSupplier):
+            raise forms.ValidationError("発注先を入力して下さい")
+
+        if amount1 + amount2 + amount3 ==0 :
+            raise forms.ValidationError("金額を入力して下さい")
+        
+        return cleaned_data

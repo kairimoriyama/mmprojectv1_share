@@ -5,7 +5,6 @@ from . import views
 app_name = 'goodidea'
 
 urlpatterns = [
-    path('list_all/', views.ItemListALL.as_view(), name='list_all'),
     path('list_due/', views.ItemListDue.as_view(), name='list_due'),
     path('list_filter/', views.ItemListFilter.as_view(), name='list_filter'),
 

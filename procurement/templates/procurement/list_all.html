@@ -5,8 +5,7 @@
 
   <li><a href="">標準品</a></li>
   <li><a href="">標準発注先</a></li>
-  <li><a href="{% url 'procurement:list_request' %}">依頼</a></li>
-  <li><a href="{% url 'procurement:list_order' %}">発注</a></li>
+  <li><a href="{% url 'procurement:list_request' %}">依頼一覧</a></li>
 
 {% endblock%}
 
@@ -109,15 +108,16 @@
     <th>進捗</th>
     <th>発注番号</th>
     <th>依頼者</th>
-    <th>所属</th>
+    <th>依頼内容</th>
     <th>希望納期</th>
+    <th>納品予定</th>
 		<th>納品先</th>
-		<th>目的</th>
-		<th>標準品</th>
-    <th>仕様・備考</th>
+    <th>発注先</th>
+
 		<th>数量</th>
 		<th>税込総額</th>
-
+		<th>目的</th>
+    <th>標準品</th>
     <th>稟議</th>
     <th>プロジェクト</th>
 
@@ -152,16 +152,34 @@
           {{ item.requestNum }}
         </a>
       </td>
-     
+
       <td class="date_col">{{ item.submissionDate | date:"m/d"}}</td>
       <td>{{ item.adminCheck.name }}</td>
       <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
 
       <td>{{ item.requestStaffdb.fullName }}</td>
-      <td>{{ item.requestStaffDivision }}</td>
     
+      <td class="longText">{{ item.requestDetail }}</td>
       <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
+      <td class="date_col">
+        {%  if item.orderInfo %}
+          {{ item.orderInfo.arrivalDate | date:"m/d" }}
+        {%  else %}
+          <p>-</p>
+        {% endif %}
+      </td>
       <td>{{ item.deliveryAddress.name }}</td>
+
+      <td>
+        {%  if item.orderInfo %}
+        {{ item.orderInfo.registeredSupplier.name }}
+        {%  else %}
+        {{ item.irregularSupplier }}
+        {% endif %}
+      </td>
+
+      <td>{{ item.quantity }}</td>
+      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
 
       <td>{{ item.purpose.name }}</td>
       <td class="date_col">
@@ -171,12 +189,8 @@
         {% endif %}
       </td>
 
-      <td class="longText">{{ item.requestDetail }}</td>
-      <td>{{ item.quantity }}</td>
-      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
-
-      <td>{% if item.approved %}
-            {{ item.approved }}
+      <td>{% if item.approval %}
+            {{ item.approval }}
           {%  else %}
           {% endif %}  
       </td>
@@ -247,6 +261,7 @@
   <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
+    <p class="menu_bt_mg_left">&#8658;</p>
     <input type="submit" onclick="reportOrder()"  class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order" >
   </div>
 </div>

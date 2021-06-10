@@ -1,3 +1,17 @@
+// 個別・標準発注先の選定
+function select_supplier(){
+  let irregularSupplier = document.getElementById('irregularSupplier')
+  let registeredSupplier = document.getElementById('registeredSupplier')
+  if (irregularSupplier.children[0].value=="" || irregularSupplier.children[0].value==null){
+    irregularSupplier.children[0].style.background = "rgb(192, 222, 236)";
+    registeredSupplier.children[0].style.background = "rgb(255, 255, 227)";
+  }else{
+    irregularSupplier.children[0].style.background = "rgb(255, 255, 227)";
+    registeredSupplier.children[0].style.background = "rgb(192, 222, 236)";
+    registeredSupplier.children[0].value = "";
+  };
+};
+
 
 // 初期値として0を設定
 function input_zero(){
@@ -55,14 +69,7 @@ document.getElementById("id_registeredSupplier").addEventListener('focusout', (e
 
 // 個別発注先の変更  標準発注先 or 個別発注先
 function change_irregularSupplier(){
-  let irregularSupplier = document.getElementById("id_irregularSupplier").value;
-
-  if (irregularSupplier != "" || irregularSupplier != null){
-    
-    document.getElementById("id_irregularSupplier").style.background = "rgb(255, 255, 227)";
-    document.getElementById("id_registeredSupplier").style.background = "rgb(192, 222, 236)";
-    document.getElementById("id_registeredSupplier").value = "";
-  };  
+  select_supplier();
 };
 
 document.getElementById("id_irregularSupplier").addEventListener('focusout', (e) => {

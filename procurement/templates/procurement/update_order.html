@@ -55,12 +55,12 @@
 
   <dl class="item_dl item6 alternative_color">
     <dt>標準発注先</dt>
-    <dd>{{ form.registeredSupplier}}</dd>
+    <dd id="registeredSupplier">{{ form.registeredSupplier}}{{ form.registeredSupplier.errors }}</dd>
   </dl>
 
   <dl class="item_dl item7 alternative_color">
     <dt>個別発注先</dt>
-    <dd>{{ form.irregularSupplier}}</dd>
+    <dd id="irregularSupplier">{{ form.irregularSupplier}}{{ form.irregularSupplier.errors }}</dd>
   </dl>
 
     
