@@ -62,7 +62,7 @@ class ListALL(ListView):
                 print(selected_order_pk_acceptance)
 
 
-                if acceptanceStaffdb is None or acceptanceStaffdb == "" is None:
+                if acceptanceStaffdb is None or acceptanceStaffdb == "":
                     pass
 
                 else:
