@@ -10,8 +10,7 @@ from django.shortcuts import redirect
 from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from django.forms import ModelForm, inlineformset_factory 
 
-from django.core import validators
-
+from django.core.exceptions import ValidationError
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -75,6 +74,14 @@ class CreateFormRequest(ModelForm):
         # プレースホルダ
         self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     estimatedAmount = cleaned_data.get('estimatedAmount')
+    #     print('A')
+    #     if estimatedAmount or estimatedAmount == 0 :
+    #         print('B')
+    #         raise forms.ValidationError('aaaa')
+
 
 class CreateFormOrder(ModelForm):
 
@@ -119,6 +126,7 @@ class CreateFormOrder(ModelForm):
 
         # プレースホルダ
         self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
+
 
 
 class UpdateFormRequest(ModelForm):
@@ -214,7 +222,7 @@ class UpdateFormOrder(ModelForm):
         amount2 = int(cleaned_data.get('amount2'))
         amount3 = int(cleaned_data.get('amount3'))
 
-        if not (registeredSupplier or irregularSupplier):
+        if not (registeredSupplier and irregularSupplier):
             raise forms.ValidationError("発注先を入力して下さい")
 
         if amount1 + amount2 + amount3 ==0 :
