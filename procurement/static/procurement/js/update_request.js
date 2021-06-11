@@ -1,3 +1,16 @@
+// クリックでの送信禁止
+$(function () {
+  $("input").keydown(function (e) {
+      if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+          return false;
+      } else {
+          return true;
+      }
+  });
+});
+
+
+
 // 初期値を設定
 function input_zero(){
     document.getElementById('amount').children[0].value = document.getElementById('amount').children[1].value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');

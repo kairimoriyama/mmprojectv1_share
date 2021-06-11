@@ -1,3 +1,16 @@
+// クリックでの送信禁止
+$(function () {
+  $("input").keydown(function (e) {
+      if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+          return false;
+      } else {
+          return true;
+      }
+  });
+});
+
+
+
 // 個別・標準発注先の選定
 function select_supplier(){
   let irregularSupplier = document.getElementById('irregularSupplier')
