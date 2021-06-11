@@ -32,45 +32,42 @@
   </dl>
 
   <dl class="item_dl item2">
-    <dt>発注日</dt>
-    <dd>{{ object.orderDate | date:"Y/m/d" }}</dd>
-  </dl>
-    
-  <dl class="item_dl item3">
-    <dt>進捗</dt>
-    <dd>{{ object.progress.name}}</dd>
-  </dl>
-
-  <dl class="item_dl item4">
     <dt>発注者</dt>
     <dd>{{ object.orderStaffdb.fullName}}</dd>
   </dl>
 
-  <dl class="item_dl item5">
-    <dt>所属</dt>
-    <dd></dd>
+  <dl class="item_dl item3">
+    <dt>発注日</dt>
+    <dd>{{ object.orderDate | date:"Y/m/d" }}</dd>
   </dl>
 
-  <dl class="item_dl item6">
+  <dl class="item_dl item4">
     <dt>到着日</dt>
     <dd>{{ object.arrivalDate | date:"Y/m/d"}}</dd>
   </dl>
+    
+  <dl class="item_dl item5">
+    <dt>進捗</dt>
+    <dd>{{ object.progress.name}}</dd>
+  </dl>
+ 
 
-  <dl class="item_dl item7">
-    <dt>登録<br>発注先</dt>
+  <dl class="item_dl item6">
+    {% if object.registeredSupplier %}
+    <dt>標準<br>発注先</dt>
     <dd>{{ object.registeredSupplier.name}}</dd>
-  </dl>
-
-  <dl class="item_dl item8">
+    {% else %}
     <dt>個別<br>発注先</dt>
-    <dd>
-      {% if object.irregularSupplier %}
-        {{ object.irregularSupplier}}
-      {% endif %}
-    </dd>
+    <dd>{{ object.irregularSupplier}}</dd>
+    {% endif %}
+  </dl>
+  
+  <dl class="item_dl item7">
+    <dt>支払方法</dt>
+    <dd>{{ object.paymentMethod.name}}</dd>
   </dl>
 
-  <dl class="item_dl item9 multiple_items_amount">
+  <dl class="item_dl item8 multiple_items_amount">
     <dt class="height_l">金額</dt>
     <dd class="height_l">
       <div><p>税率10%</p>{{ object.amount1|intcomma}}円</div>
@@ -80,13 +77,9 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item10">
-    <dt>支払方法</dt>
-    <dd>{{ object.paymentMethod.name}}</dd>
-  </dl>
 
-  <dl class="item_dl item11">
-    <dt class="height_l sentence_dt2">発注者備考</dt>
+  <dl class="item_dl item9">
+    <dt class="height_l sentence_dt2">発注者<br>備考</dt>
     <dd class="height_l sentence_dd2">
       {% if object.orderDescription %}
       {{ object.orderDescription}}
@@ -94,7 +87,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item12">
+  <dl class="item_dl item10">
     <dt>検収日</dt>
     <dd>      
       {% if object.acceptanceDate %}
@@ -103,7 +96,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item13">
+  <dl class="item_dl item11">
     <dt>検収者</dt>
     <dd>
       {% if object.acceptanceStaffdb %}
@@ -112,13 +105,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item14">
-    <dt>所属</dt>
-    <dd>
-    </dd>
-  </dl>
-
-  <dl class="item_dl item15">
+  <dl class="item_dl item12">
     <dt class="height_l sentence_dt2">検収メモ</dt>
     <dd class="height_l sentence_dd2">
       {% if object.acceptanceMemo %}
@@ -127,7 +114,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item16">
+  <dl class="item_dl item13">
     <dt>支払（予定）日</dt>
     <dd>
       {% if object.settlementDate %}
@@ -136,7 +123,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item17">
+  <dl class="item_dl item14">
     <dt>支払完了</dt>
     <dd>
       {% if object.settlement == True %}
@@ -146,7 +133,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item18">
+  <dl class="item_dl item15">
     <dt>請求書等</dt>
     <dd>
       {% if not object.refFile %}
@@ -156,11 +143,7 @@
     </dd>
   </dl>
 
-  <dl class="item_dl item_dl_dummy_s1">
-    <dt></dt> <dd></dd>
-  </dl>
-
-  <dl class="item_dl item_dl_dummy_s2">
+  <dl class="item_dl item_dl_dummy_s">
     <dt></dt> <dd></dd>
   </dl>
 

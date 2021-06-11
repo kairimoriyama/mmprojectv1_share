@@ -642,12 +642,11 @@ hr{
 
 .container_detail_order{
     display: grid;
-    grid-template-rows: repeat(19, auto);
+    grid-template-rows: repeat(15, auto);
     grid-template-columns: 100%;
     margin: 1rem 1rem 0 1rem;
 }
-.container_detail_order .item_dl_dummy_s1,
-.container_detail_order .item_dl_dummy_s2,
+.container_detail_order .item_dl_dummy_s,
 .container_detail_order .item_dl_dummy_l{
     display: none;
 }
@@ -659,17 +658,15 @@ hr{
         grid-template-columns: 50% 50%;
         grid-template-areas:
         "area0 area0"
-        "area1 area4"
-        "area2 area5"
-        "area3 area6"
-        "area7 area8"
-        "area10 dummy_s1"
-        "area9 area11"
-        "area12 area15"
-        "area13 area15"
-        "area14 area15"
-        "area16 area17"
-        "area18 dummy_s2";
+        "area1 area2"
+        "area3 area4"
+        "area5 area6"
+        "area8 area9"
+        "area10 area11"
+        "area7 area12"
+        "area13 area12"
+        "area14 area12"
+        "area15 dummy_s";
     }
 
     .container_detail_order .item0 {grid-area: area0;}
@@ -688,17 +685,10 @@ hr{
     .container_detail_order .item13 {grid-area: area13;}
     .container_detail_order .item14 {grid-area: area14;}
     .container_detail_order .item15 {grid-area: area15;}
-    .container_detail_order .item16 {grid-area: area16;}
-    .container_detail_order .item17 {grid-area: area17;}
-    .container_detail_order .item18 {grid-area: area18;}
 
-    .container_detail_order .item_dl_dummy_s1{
+    .container_detail_order .item_dl_dummy_s{
         display: flex;
-        grid-area: dummy_s1;
-    }
-    .container_detail_order .item_dl_dummy_s2{
-        display: flex;
-        grid-area: dummy_s2;
+        grid-area: dummy_s;
     }
 }
 
@@ -711,17 +701,13 @@ hr{
         "area0 area0 area0"
         "area1 area2 area3"
         "area4 area5 area6"
-        "area7 area8 area10"
-        "area9 area11 area11"
-        "area12 area15 area15"
-        "area13 area15 area15"
-        "area14 area15 area15"
-        "area16 area17 area18"; 
+        "area8 area9 area9"
+        "area10 area12 area12"
+        "area11 area12 area12"
+        "area7 area12 area12"
+        "area13 area14 area15"; 
     }
-    .container_detail_order .item_dl_dummy_s1{
-        display: none;
-    }
-    .container_detail_order .item_dl_dummy_s2{
+    .container_detail_order .item_dl_dummy_s{
         display: none;
     }
 }
