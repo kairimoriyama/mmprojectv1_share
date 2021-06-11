@@ -214,18 +214,18 @@ class UpdateFormOrder(ModelForm):
         # プレースホルダ
         self.fields['irregularSupplier'].widget.attrs['placeholder'] = '標準発注先以外の場合に入力必要'
 
-    def clean(self):
-        cleaned_data = super().clean()
-        registeredSupplier = cleaned_data.get('registeredSupplier')
-        irregularSupplier = cleaned_data.get('irregularSupplier')
-        amount1 = int(cleaned_data.get('amount1'))
-        amount2 = int(cleaned_data.get('amount2'))
-        amount3 = int(cleaned_data.get('amount3'))
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     registeredSupplier = cleaned_data.get('registeredSupplier')
+    #     irregularSupplier = cleaned_data.get('irregularSupplier')
+    #     amount1 = int(cleaned_data.get('amount1'))
+    #     amount2 = int(cleaned_data.get('amount2'))
+    #     amount3 = int(cleaned_data.get('amount3'))
 
-        if not (registeredSupplier and irregularSupplier):
-            raise forms.ValidationError("発注先を入力して下さい")
+    #     if not (registeredSupplier and irregularSupplier):
+    #         raise forms.ValidationError("発注先を入力して下さい")
 
-        if amount1 + amount2 + amount3 ==0 :
-            raise forms.ValidationError("金額を入力して下さい")
+    #     if amount1 + amount2 + amount3 ==0 :
+    #         raise forms.ValidationError("金額を入力して下さい")
         
-        return cleaned_data
+    #     return cleaned_data
