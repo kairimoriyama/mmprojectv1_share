@@ -105,6 +105,11 @@ h3{
     line-height: 2rem;
 }
 
+.alert{
+    margin-top: 1rem;
+    color: rgb(158,48,57);
+}
+
 header ul{
     margin-top: 0rem;
     display: flex;

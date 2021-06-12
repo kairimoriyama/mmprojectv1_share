@@ -13,7 +13,10 @@
 <form class="container_request_edit" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
-    <input class="menu_bt" type="submit" value='依頼実行'>
+    <div>
+      <input class="menu_bt" type="submit" value='依頼実行'>
+      <h3 class="alert">{{ form.non_field_errors }}</h3>
+    </div>
   </div>
 
   <dl class="item_dl item1">
