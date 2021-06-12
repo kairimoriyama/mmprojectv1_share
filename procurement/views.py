@@ -209,10 +209,6 @@ class DetailRequest(DetailView):
         context = super().get_context_data(**kwargs)
         orderRequest = self.object
 
-        # # コピー するため
-        # self.request.session['clone_pk'] = str(self.object.pk)
-        # print(self.request.session['clone_pk'])
-
         return context
 
 
