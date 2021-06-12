@@ -15,9 +15,9 @@
 <form class="container_create_order" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
-    <div>
+    <div class="submit_btn_wrapper">
       <input class="menu_bt" type="submit" value='入力完了'>
-      <h3 class="alert">{{ form.non_field_errors }}</h3>
+      <h3 class="alert menu_bt_mg_left">{{ form.non_field_errors }}</h3>
     </div>
   </div>
 
