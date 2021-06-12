@@ -3,7 +3,7 @@
 
 {% block header %}
 
-  <li><a href="{% url 'procurement:list_all' %}">Topへ戻る</a></li>
+  <li><a class="menu_bt" href="{% url 'procurement:list_all' %}">Topへ戻る</a></li>
 
 
 {% endblock%}
@@ -17,7 +17,6 @@
   <div><h3>依頼一覧</h3></div>
 
   <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="{% url 'procurement:create_request' %}">依頼作成</a>
 
     <ul class="page_nav">
     <li>

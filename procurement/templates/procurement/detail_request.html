@@ -3,7 +3,7 @@
 
 {% block header %}
   <li>
-    <a href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
+    <a class="menu_bt" href="{% url 'procurement:list_all' %}">Topへ戻る</a>
   </li>
 {% endblock header %}
 
@@ -228,7 +228,9 @@
     <dt>発注番号</dt>
     <dd>
       {% if object.orderInfo %}
+        <a href="{% url 'procurement:detail_order'  object.orderInfo.pk %}">
         {{ object.orderInfo.orderNum }}
+        </a>
       {% else %}
       {% endif %}
     </dd>

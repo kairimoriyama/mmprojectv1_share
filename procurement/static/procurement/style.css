@@ -247,7 +247,7 @@ button{
     overflow: scroll;
 }
 .table_request, .table_order{
-    max-height: 50rem;
+    max-height: 100rem;
 }
 .item-table::-webkit-scrollbar {
     width: 1.5rem;
