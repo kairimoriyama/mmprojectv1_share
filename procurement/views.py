@@ -209,10 +209,6 @@ class DetailRequest(DetailView):
         context = super().get_context_data(**kwargs)
         orderRequest = self.object
 
-        # clone するため
-        self.request.session['clone_pk'] = str(self.object.pk)
-        print(self.request.session['clone_pk'])
-
         return context
 
 
@@ -237,6 +233,11 @@ class CreateRequest(CreateView):
     def post(self, request, *args, **kwargs):
 
         form = self.form_class(request.POST, request.FILES)
+
+        params = {
+            'form':form
+        }
+
         if form.is_valid():
             obj = form.save(commit=False)
     
@@ -255,6 +256,9 @@ class CreateRequest(CreateView):
 
             obj.save()
             return redirect('procurement:detail_request', pk= obj.id)
+        
+        else:
+            return render(request, self.template_name, params ) 
 
 
 class CreateOrder(CreateView):
@@ -264,6 +268,11 @@ class CreateOrder(CreateView):
     def post(self, request, *args, **kwargs):
 
         form = self.form_class(request.POST, request.FILES)
+
+        params = {
+            'form':form
+        }
+
         if form.is_valid():
             obj = form.save(commit=False)
 
@@ -284,6 +293,8 @@ class CreateOrder(CreateView):
             obj.save()
             return redirect('procurement:detail_order', pk= obj.id)
 
+        else:
+            return render(request, self.template_name, params ) 
 
 
 
@@ -303,7 +314,6 @@ class UpdateOrder(UpdateView):
 
     def get_success_url(self):
         return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
-
 
 
 def ajax_get_requestStaff(request):

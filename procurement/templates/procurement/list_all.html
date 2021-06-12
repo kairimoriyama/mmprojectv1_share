@@ -5,7 +5,7 @@
 
   <li><a href="">標準品</a></li>
   <li><a href="">標準発注先</a></li>
-  <li><a href="{% url 'procurement:list_request' %}">依頼一覧</a></li>
+  <li><a class="menu_bt" href="{% url 'procurement:list_request' %}">依頼一覧</a></li>
 
 {% endblock%}
 
@@ -155,7 +155,15 @@
 
       <td class="date_col">{{ item.submissionDate | date:"m/d"}}</td>
       <td>{{ item.adminCheck.name }}</td>
-      <td name="orderNumInRequest">{{ item.orderInfo.orderNum }}</td>
+
+      <td name="orderNumInRequest">
+        {% if item.orderInfo %}
+          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}">
+            {{ item.orderInfo.orderNum }}
+          </a>
+        {% else %}
+        {% endif %}
+      </td>
 
       <td>{{ item.requestStaffdb.fullName }}</td>
     

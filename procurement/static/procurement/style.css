@@ -105,6 +105,10 @@ h3{
     line-height: 2rem;
 }
 
+.alert{
+    color: rgb(158,48,57);
+}
+
 header ul{
     margin-top: 0rem;
     display: flex;
@@ -154,6 +158,12 @@ button{
     align-items: center;
     justify-content: space-between;
     margin: 1rem 0rem;
+}
+
+.submit_btn_wrapper{
+    display:flex;
+    align-items: center;
+    align-content: center;
 }
 
 
@@ -230,14 +240,14 @@ button{
 
 .item-table{
     display: block;
-    max-height: 35rem;
+    max-height: 60rem;
     margin: 0 1rem 0 1rem;
     border-width: 0;
     padding: 0;
     overflow: scroll;
 }
 .table_request, .table_order{
-    max-height: 50rem;
+    max-height: 100rem;
 }
 .item-table::-webkit-scrollbar {
     width: 1.5rem;

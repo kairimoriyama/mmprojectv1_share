@@ -123,7 +123,6 @@ class OrderInfo(models.Model):
     orderDate = models.DateField(default=timezone.now, blank=True)
     
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='orderInfo_adminCheck',default=1)    
-    # orderStaff = models.CharField(max_length=20,blank=True,null=True)
     orderStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_orderStaff',blank=True,null=True)
 
@@ -139,7 +138,6 @@ class OrderInfo(models.Model):
     orderDescription = models.TextField(max_length=50,blank=True,null=True)
 
     acceptanceDate = models.DateField(blank=True,null=True)
-    # acceptanceStaff = models.CharField(max_length=20,blank=True,null=True)
     acceptanceStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='orderInfo_acceptanceStaff',blank=True,null=True)
     acceptanceMemo = models.TextField(max_length=100,blank=True,null=True)
@@ -190,7 +188,7 @@ class OrderRequest(models.Model):
     approval = models.CharField(max_length=30,blank=True,null=True)
 
     quantity = models.CharField(max_length=100)
-    estimatedAmount = models.IntegerField(validators=[MinValueValidator(1)])
+    estimatedAmount = models.IntegerField(blank=True,null=True)
 
     refURL1 = models.URLField(max_length=300, blank=True,null=True)
     refURL2 = models.URLField(max_length=300, blank=True,null=True)

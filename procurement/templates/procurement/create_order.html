@@ -3,17 +3,22 @@
 {% block header %}
 
   <li>
-    <a href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
+    <a class="menu_bt" href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
   </li>
   
 {% endblock header %}
 
 {% block content %}
 
+
+
 <form class="container_create_order" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
   <div class="menu_wrapper_inner item0">
-    <input class="menu_bt" type="submit" value='入力完了'>
+    <div class="submit_btn_wrapper">
+      <input class="menu_bt" type="submit" value='入力完了'>
+      <h3 class="alert menu_bt_mg_left">{{ form.non_field_errors }}</h3>
+    </div>
   </div>
 
   <dl class="item_dl item1">
