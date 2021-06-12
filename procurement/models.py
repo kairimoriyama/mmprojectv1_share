@@ -5,6 +5,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from staffdb.models import StaffDB, Division
 
+from django.core.validators import MinValueValidator
+
 
 class DeliveryAddress(models.Model):
     no = models.IntegerField(blank=False,null=False)
@@ -188,7 +190,7 @@ class OrderRequest(models.Model):
     approval = models.CharField(max_length=30,blank=True,null=True)
 
     quantity = models.CharField(max_length=100)
-    estimatedAmount = models.IntegerField(blank=True,null=True)
+    estimatedAmount = models.IntegerField(validators=[MinValueValidator(1)])
 
     refURL1 = models.URLField(max_length=300, blank=True,null=True)
     refURL2 = models.URLField(max_length=300, blank=True,null=True)
