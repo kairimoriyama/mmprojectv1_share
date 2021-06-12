@@ -61,7 +61,8 @@
 
 		<th>精査者</th>
 		<th>管理メモ</th>
-
+		<th>検収日</th>
+    <th>検収者</th>
   </tr>
   
   {% for item in object_list %}
@@ -156,6 +157,22 @@
       {{ item.adminDescription }}
     {%  else %}
     {% endif %} 
+  </td>
+
+  <td class="date_col">
+    {%  if item.orderInfo %}
+      {{ item.orderInfo.acceptanceDate | date:"m/d" }}
+    {%  else %}
+      <p>-</p>
+    {% endif %}
+  </td>
+
+  <td class="date_col">
+    {%  if item.orderInfo %}
+      {{ item.orderInfo.acceptanceStaffdb.fullName }}
+    {%  else %}
+      <p>-</p>
+    {% endif %}
   </td>
       
 </tr>
