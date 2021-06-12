@@ -156,12 +156,13 @@
       <td class="date_col">{{ item.submissionDate | date:"m/d"}}</td>
       <td>{{ item.adminCheck.name }}</td>
 
-      <td name="orderNumInRequest">
+      <td class="date_col" name="orderNumInRequest">
         {% if item.orderInfo %}
           <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}">
             {{ item.orderInfo.orderNum }}
           </a>
         {% else %}
+          <p>-</p>
         {% endif %}
       </td>
 

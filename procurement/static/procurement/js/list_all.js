@@ -70,6 +70,7 @@ function checkAmount(){
   }
   document.getElementById("request_amount").value=String(selected_request_num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 
+
 // 発注情報を選択する度にフォームに金額を入力
   let list_order = document.getElementsByName('selected_order');
   let len_list_order = list_order.length;
@@ -187,24 +188,27 @@ function correspondRequest(){
     if (list_order[i].checked){
 
       orderNumInOrder = list_orderNumInOrder[i].textContent;
+      console.log(orderNumInOrder)
 
       // request に対応する発注番号の有無を調べる
       let orderNumCheck = 0;      
       for (let j = 0; j < len_list_request ; j++){
-        if (list_orderNumInRequest[j].textContent == orderNumInOrder){
+        console.log(list_orderNumInRequest[j].textContent.trim())
+        if (list_orderNumInRequest[j].textContent.trim() == orderNumInOrder){
           orderNumCheck = orderNumCheck + 1; // 1以上なら対応する注文あり
         };
       };
       // request のチェックを入れる
       for (let k = 0; k < len_list_request ; k++){
         if (orderNumCheck>0){
-          if (list_orderNumInRequest[k].textContent == orderNumInOrder){
+          if (list_orderNumInRequest[k].textContent.trim() == orderNumInOrder){
             list_request[k].checked  = true;
           }else{
             list_request[k].checked  = false;
           };
         }else{
-          if (Number(list_orderNumInRequest[k].textContent)>0){
+          console.log(list_orderNumInRequest[k].textContent.trim() )
+          if (Number(list_orderNumInRequest[k].textContent.trim())>0){
             list_request[k].checked  = false;
           };
         };
@@ -220,6 +224,8 @@ function clickOrder() {
   checkAmount();
   reportOrder_number();
 }
+
+
 
 
 // 発注準備の実施 
