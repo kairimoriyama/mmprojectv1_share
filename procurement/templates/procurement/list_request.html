@@ -11,6 +11,116 @@
 
 {% block content %}
 
+<form onsubmit="return false;" action="" method="GET" class="list_filter">
+    
+  <div class="menu_wrapper">
+    <div class="filter_bt_wrapper">
+      <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
+      <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a>
+      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
+    </div>
+
+    <ul class="page_nav">
+      <li>
+        {% if page_obj.has_previous %}
+          <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key()">
+            ＜
+          </a>
+        {% else %}
+        {% endif %}
+      </li>
+    
+      <li>
+        {% if page_obj.has_next %}
+          <a class="menu_bt menu_bt_mg_left next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
+            ＞
+          </a>
+        {% else %}
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+
+
+    <div id="filter_items" class="list_filter_items">
+
+      <form method="POST" aciton="">
+
+      <dl class="payment_radio">
+        <dt>支払</dt>
+        <dd>
+          <input class="radio_left_end" type="radio" name="settlementCheck" value="0">未
+          <input type="radio" name="ideaOrAction" value="1">済
+          <input type="radio" name="ideaOrAction" value="2" checked="checked">両方
+        </dd>
+      </dl>
+
+      
+      <dl class="list_filter_date" id="completionDateFilter">
+        <dt>支払日</dt>
+        <dd>
+          <input id="settlementDateFrom" name="settlementDateFrom" value="{{ request.GET.settlementDateFrom }}" type="date">
+          <p>-</p>
+          <input id="settlementDateTo" name="settlementDateTo" value="{{ request.GET.settlementDateTo }}" type="date"></dd>
+        </dd>
+      </dl>
+
+      
+      <dl>
+        <dt>個別発注先</dt>
+        <dd>
+          <select id="progress" onchange="progressSelect()" name="progress"  class="list_filter_select" type="number">
+              <option value=0>全進捗</option>
+            {% for progress in progressSelect_list %}
+              <option value="{{ progress.id }}">{{ progress.name }}</option>
+            {% endfor %}
+          </select>
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>社員番号 &#8658; 依頼者</dt>
+        <dd id="staffNumber">
+          <input name="staffNumber" type="number">
+          <select id="staffdb" name="staffdb" class="list_filter_select_s" type="number">
+            <option value=0>-</option>
+            {% for staffdb in staffdb_list %}
+              <option value="{{ staffdb.id }}">{{ staffdb.fullName }}</option>
+            {% endfor %}
+          </select>
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>所属</dt>
+        <dd>
+          <select id="division" name="division" class="list_filter_select" type="number">
+            <option value=0>全部門</option>
+          {% for division in divisionSelect_list %}
+            <option value="{{ division.id }}">{{ division.name }}</option>
+          {% endfor %}
+        </select>
+        </dd>
+      </dl>
+
+      <dl>
+        <dt>キーワード</dt>
+        <dd><input id="word" name="word" value="{{ request.GET.word }}" type="text"></dd>
+      </dl>
+
+      <dl class="list_filter_date">
+        <dt>依頼日</dt>
+        <dd>
+          <input id="submissionDateFrom" name="submissionDateFrom" value="{{ request.GET.submissionDateFrom }}" type="date">
+          <p>-</p>
+          <input id="submissionDateTo" name="submissionDateTo" value="{{ request.GET.submissionDateTo }}" type="date">
+        </dd>
+      </dl>
+
+    </div>
+  </form>
+
+
 
 <div class="menu_wrapper">
 
@@ -243,6 +353,89 @@
 
 
 
+{% load static %}
+<script src="{% static 'procurement/js/list_request.js' %}"></script>
+
+
+{% block extrajs %}
+<script>
+
+/*ajax起動用*/
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  }
+});
+/*----------*/
+
+
+let staffNumberElement = document.getElementById('staffNumber').children[0];
+let staffdbElement = document.getElementById('staffNumber').children[1];
+
+console.log(staffNumberElement.value)
+console.log(staffdbElement)
+
+const inputStaffNumber = (select) => {
+ 
+  for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
+    staffdbElement.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_requestStaff_filter' %}",
+      type: 'GET',
+      data: {'staffNumber': staffNumberElement.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+    console.log(items_staffdb)
+    console.log(items_staffdb.length)
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      staffdbElement.appendChild(option); 
+      };
+  });
+  console.log(staffdbElement)  
+};
+
+
+
+staffdbElement.addEventListener('focus', () => {
+  console.log("test");
+  inputStaffNumber();
+});
+
+</script>
+{% endblock extrajs %}
+
+
 {% endblock content%}
-
-
