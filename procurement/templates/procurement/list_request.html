@@ -48,10 +48,11 @@
     <th>依頼者</th>
     <th>依頼内容</th>
     <th>希望納期</th>
-    <th>納品予定</th>
+    <th>納品日</th>
 		<th>納品先</th>
     <th>発注先</th>
 
+    <th>発注日</th>
     <th>支払日</th>
     <th>支払完了</th>
 
@@ -63,7 +64,11 @@
     <th>プロジェクト</th>
 
 		<th>精査者</th>
-		<th>管理メモ</th>
+		<th>精査メモ</th>
+
+    <th>発注者</th>
+    <th>発注メモ</th>
+
 		<th>検収日</th>
     <th>検収者</th>
   </tr>
@@ -129,6 +134,14 @@
   </td>
 
   <td class="date_col">
+    {%  if item.orderInfo %}
+      {{ item.orderInfo.orderDate | date:"m/d" }}
+    {%  else %}
+      <p>-</p>
+    {% endif %}
+  </td>
+
+  <td class="date_col">
     {%  if item.orderInfo.paymentMethod.no == 1 and item.orderInfo.irregularSupplier %}
     {{ item.orderInfo.settlementDate | date:"m/d" }}
     {%  else %}
@@ -187,6 +200,24 @@
     {%  else %}
     {% endif %} 
   </td>
+  
+  
+  <td>
+    {%  if item.orderInfo %}
+      {{ item.orderInfo.orderStaffdb.fullName }}
+    {%  else %}
+      <p>-</p>
+    {% endif %}
+  </td>
+
+  <td class="longText">
+    {%  if item.orderInfo %}
+      {{ item.orderInfo.orderDescription }}
+    {%  else %}
+      <p>-</p>
+    {% endif %}
+  </td>
+
 
   <td class="date_col">
     {%  if item.orderInfo %}
