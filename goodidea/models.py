@@ -45,7 +45,7 @@ class ItemManager(models.Manager):
         ).filter(deletedItem=False
         ).filter(ideaNum__gt=0
         ).exclude(dueDate__isnull=True
-        ).order_by('itemNum').order_by('dueDate')
+        ).order_by('dueDate','itemNum')
 
 
 # 削除されていないデータ 期日のあるデータ システム案件 だけをクエリセットとして選択
@@ -158,7 +158,7 @@ class Item(models.Model):
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__lt=self.dueDate
-            ).order_by('-itemNum').order_by('dueDate').last()
+            ).order_by('dueDate','itemNum').last()
 
 
     def get_next_idea_by_dueDate(self):
@@ -180,4 +180,4 @@ class Item(models.Model):
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__gt=self.dueDate
-            ).order_by('-itemNum').order_by('dueDate').first()
+            ).order_by('dueDate','itemNum').first()

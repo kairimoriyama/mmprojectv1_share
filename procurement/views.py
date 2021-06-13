@@ -210,7 +210,7 @@ class ListRequest(ListView):
     model  = OrderRequest
     fields = '__all__'
     queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('adminCheck__no','orderInfo__orderNum')
+    ).order_by('adminCheck__no','-orderInfo__orderNum')
     paginate_by = 22
 
     
