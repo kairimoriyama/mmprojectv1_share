@@ -52,6 +52,9 @@
 		<th>納品先</th>
     <th>発注先</th>
 
+    <th>支払日</th>
+    <th>支払完了</th>
+
 		<th>数量</th>
 		<th>税込総額</th>
 		<th>目的</th>
@@ -117,11 +120,37 @@
 
   <td>
     {%  if item.orderInfo %}
-    {{ item.orderInfo.registeredSupplier.name }}
-    {%  else %}
-    {{ item.irregularSupplier }}
+      {%  if item.orderInfo.registeredSupplier %}
+        {{ item.orderInfo.registeredSupplier.name }}
+      {%  else %}
+        {{ item.orderInfo.irregularSupplier }}
+      {% endif %}
     {% endif %}
   </td>
+
+  <td class="date_col">
+    {%  if item.orderInfo.paymentMethod.no == 1 and item.orderInfo.irregularSupplier %}
+    {{ item.orderInfo.settlementDate | date:"m/d" }}
+    {%  else %}
+    <p>-</p>
+    {% endif %}
+  </td>
+
+  <td class="date_col">
+    {%  if item.orderInfo.paymentMethod.no == 1 and item.orderInfo.irregularSupplier %}
+
+      {%  if item.orderInfo.settlement == True %}
+      <p>&check;</p>
+      {%  else %}
+      <p>未</p>
+      {% endif %}
+
+    {%  else %}
+    <p>-</p>
+    {% endif %}
+  </td>
+
+
 
   <td>{{ item.quantity }}</td>
   <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>

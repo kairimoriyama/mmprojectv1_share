@@ -25,7 +25,7 @@ class ListALL(ListView):
     model  = OrderRequest
     fields = '__all__'
     queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('adminCheck__no').exclude(adminCheck__gte=5)
+    ).order_by('adminCheck__no','orderInfo__orderNum').exclude(adminCheck__gte=5)
 
     def get_context_data(self, **kwargs):
         context = super(ListALL, self).get_context_data(**kwargs)

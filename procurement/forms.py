@@ -129,13 +129,30 @@ class CreateFormOrder(ModelForm):
 
 
     def clean(self):
+        today = datetime.date.today()
         cleaned_data = super().clean()
-        totalAmount = cleaned_data.get('totalAmount')
-        print('A')
-        if totalAmount == 0 :
-            print('B')
-            raise forms.ValidationError('金額を入力してください')
+        registeredSupplier = cleaned_data.get('registeredSupplier')
+        irregularSupplier = cleaned_data.get('irregularSupplier')
+        totalAmount = int(cleaned_data.get('totalAmount'))
+        registeredSupplier = cleaned_data.get('registeredSupplier')
+        paymentMethod = cleaned_data.get('paymentMethod').no
+        settlementDate = cleaned_data.get('settlementDate')
 
+        print(registeredSupplier)
+        print(paymentMethod)
+        print(settlementDate)
+        
+        if (not irregularSupplier) and (not registeredSupplier):
+            raise forms.ValidationError("発注先を入力して下さい")
+
+        elif totalAmount ==0 :
+            raise forms.ValidationError("金額を入力して下さい")
+        
+        elif (not registeredSupplier) and paymentMethod ==1 and ((settlementDate is None) or (settlementDate < today )) :
+            raise forms.ValidationError('支払予定日を入力してください（個別発注先・銀行振込の場合）')
+        
+        else:
+            return cleaned_data
 
 
 class UpdateFormRequest(ModelForm):
@@ -236,16 +253,27 @@ class UpdateFormOrder(ModelForm):
 
 
     def clean(self):
+        today = datetime.date.today()
         cleaned_data = super().clean()
         registeredSupplier = cleaned_data.get('registeredSupplier')
         irregularSupplier = cleaned_data.get('irregularSupplier')
         totalAmount = int(cleaned_data.get('totalAmount'))
+        registeredSupplier = cleaned_data.get('registeredSupplier')
+        paymentMethod = cleaned_data.get('paymentMethod').no
+        settlementDate = cleaned_data.get('settlementDate')
 
+        print(registeredSupplier)
+        print(paymentMethod)
+        print(settlementDate)
+        
         if (not irregularSupplier) and (not registeredSupplier):
             raise forms.ValidationError("発注先を入力して下さい")
 
         elif totalAmount ==0 :
             raise forms.ValidationError("金額を入力して下さい")
+        
+        elif (not registeredSupplier) and paymentMethod ==1 and ((settlementDate is None) or (settlementDate < today )) :
+            raise forms.ValidationError('支払予定日を入力してください（個別発注先・銀行振込の場合）')
         
         else:
             return cleaned_data

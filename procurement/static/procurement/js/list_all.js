@@ -103,6 +103,7 @@ function checkAmount(){
   document.getElementById("diff_amount").value=wnum;
 };
 
+let list_request_id = [];
 
 // 依頼を選択すると自動で発注を選択
 function correspondOrderNumber(){
@@ -114,21 +115,76 @@ function correspondOrderNumber(){
   let len_list_request = list_request.length;
   let len_list_order = list_order.length;
 
+  let list_request_all =[];
   for (let i = 0; i < len_list_request ; i++){
-    if (list_request[i].checked && Number(list_orderNumInRequest[i].textContent) > 0){
+    list_request_all.push(list_request[i].value);
+  };
+  console.log(list_request_all);
+
+  let list_request_id_new = [];
+  for (let j = 0; j < len_list_request ; j++){
+    if (list_request[j].checked){
+    list_request_id_new.push(list_request[j].value);
+    };
+  };
+  console.log(list_request_id_new);
+
+  let list_diff= list_request_id_new.filter(l => list_request_id.indexOf(l) == -1);
+  console.log(list_diff);
+  list_request_id = list_request_id_new;
+  
+  if(list_diff.length>0){
+    let p = list_request_all.indexOf(list_diff[0]);
+    console.log(p);
+
+    if (Number(list_orderNumInRequest[p].textContent.trim()) > 0){
       
-      orderNumInRequest = list_orderNumInRequest[i].textContent;
+      let orderNumInRequest = list_orderNumInRequest[p].textContent.trim();
 
       // order のチェックを入れる
       for (let k = 0; k < len_list_order ; k++){
 
-        if (list_orderNumInOrder[k].textContent == orderNumInRequest){
+        if (list_orderNumInOrder[k].textContent.trim() == orderNumInRequest){
           list_order[k].checked  = true;
         };
       };
+
+      // request のチェックを入れる
+      for (let h = 0; h < len_list_request ; h++){
+        if (list_orderNumInRequest[h].textContent.trim() == orderNumInRequest){
+          list_request[h].checked  = true;
+        }else{
+          list_request[h].checked  = false;
+        };
+      };
+
+      list_request_id = [];
+      for (let m = 0; m < len_list_request ; m++){
+        if (list_request[m].checked){
+        list_request_id.push(list_request[m].value);
+        };
+      };
+      console.log(list_request_id);
+
+    }else{
+      // 対応するorderのあるrequest のチェックを外す
+      for (let h = 0; h < len_list_request ; h++){
+        if (list_orderNumInRequest[h].textContent.trim()>0){
+          list_request[h].checked  = false;
+        };
+      };
+      
+      list_request_id = [];
+      for (let m = 0; m < len_list_request ; m++){
+        if (list_request[m].checked){
+        list_request_id.push(list_request[m].value);
+        };
+      };
+      console.log(list_request_id);
     };
-  }; 
-};
+  };
+}; 
+
 
 // 発注報告について番号自動入力
 function reportOrder_number(){
