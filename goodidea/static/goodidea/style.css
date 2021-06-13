@@ -330,7 +330,7 @@ button{
     display: flex;
     justify-content:start;
     flex-wrap: wrap;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
 }
 
 .list_filter_items dl{
