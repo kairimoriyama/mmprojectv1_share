@@ -25,7 +25,7 @@ class ListALL(ListView):
     model  = OrderRequest
     fields = '__all__'
     queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('adminCheck__no').exclude(adminCheck__gte=5)
+    ).order_by('adminCheck__no','orderInfo__orderNum').exclude(adminCheck__gte=5)
 
     def get_context_data(self, **kwargs):
         context = super(ListALL, self).get_context_data(**kwargs)
@@ -34,6 +34,7 @@ class ListALL(ListView):
         })
 
         context['staffSelect_list'] = StaffDB.objects.staff_active()
+        self.request.session['returnPage_procurement'] = 1
         
         return context
     
@@ -187,16 +188,23 @@ class ListRequest(ListView):
     model  = OrderRequest
     fields = '__all__'
     queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('adminCheck__no')
+    ).order_by('adminCheck__no','orderInfo__orderNum')
     paginate_by = 22
+
+    
+    def get_context_data(self, **kwargs):
+        context = super(ListRequest, self).get_context_data(**kwargs)
+        self.request.session['returnPage_procurement'] = 2
+        print(self.request.session['returnPage_procurement'])
+        return context
+
 
 class ListOrder(ListView):
     template_name = 'procurement/list_order.html'
     model  = OrderInfo
     fields = '__all__'
-    queryset = OrderInfo.objects.filter(deletedItem=False).order_by('-id').order_by('progress__no')
+    queryset = OrderInfo.objects.filter(deletedItem=False)
     paginate_by = 22
-
 
 
 
@@ -205,11 +213,6 @@ class DetailRequest(DetailView):
     model  = OrderRequest
     fields = '__all__'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        orderRequest = self.object
-
-        return context
 
 
 class DetailOrder(DetailView):
@@ -217,18 +220,12 @@ class DetailOrder(DetailView):
     model  = OrderInfo
     fields = '__all__'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        orderInfo = self.object
-
-        return context
 
 
 
 class CreateRequest(CreateView):
     template_name = 'procurement/create_request.html'
     form_class = CreateFormRequest
-
 
     def post(self, request, *args, **kwargs):
 

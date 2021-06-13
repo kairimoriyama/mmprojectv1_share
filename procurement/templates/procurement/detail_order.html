@@ -3,7 +3,11 @@
 {% block header %}
 
   <li>
-    <a class="menu_bt" href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
+    {% if request.session.returnPage_procurement == 1 %}
+      <a class="menu_bt" href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
+    {% elif request.session.returnPage_procurement == 2 %}
+      <a class="menu_bt" href="{% url 'procurement:list_request' %}"><p>戻る</p></a>
+    {% endif %}
   </li>
   
 {% endblock header %}
