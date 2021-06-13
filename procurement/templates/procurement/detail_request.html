@@ -3,9 +3,9 @@
 
 {% block header %}
 <li>
-  {% if request.session.return_page == 1 %}
+  {% if request.session.returnPage_procurement == 1 %}
     <a class="menu_bt" href="{% url 'procurement:list_all' %}"><p>Topへ戻る</p></a>
-  {% elif request.session.return_page == 2 %}
+  {% elif request.session.returnPage_procurement == 2 %}
     <a class="menu_bt" href="{% url 'procurement:list_request' %}"><p>戻る</p></a>
   {% endif %}
 </li>

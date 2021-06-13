@@ -34,7 +34,7 @@ class ListALL(ListView):
         })
 
         context['staffSelect_list'] = StaffDB.objects.staff_active()
-        self.request.session['return_page'] = 1
+        self.request.session['returnPage_procurement'] = 1
         
         return context
     
@@ -194,7 +194,8 @@ class ListRequest(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(ListRequest, self).get_context_data(**kwargs)
-        self.request.session['return_page'] = 2
+        self.request.session['returnPage_procurement'] = 2
+        print(self.request.session['returnPage_procurement'])
         return context
 
 
@@ -212,11 +213,6 @@ class DetailRequest(DetailView):
     model  = OrderRequest
     fields = '__all__'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return_page = self.request.session['return_page']
-        print(return_page)
-        return context
 
 
 class DetailOrder(DetailView):
@@ -224,11 +220,6 @@ class DetailOrder(DetailView):
     model  = OrderInfo
     fields = '__all__'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return_page = self.request.session['return_page']
-        print(return_page)
-        return context
 
 
 
