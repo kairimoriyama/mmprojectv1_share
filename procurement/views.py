@@ -138,42 +138,64 @@ class ListALL(ListView):
 
                 print("正常")
 
-                if self.request.POST.get('diff_amount_int') and (int(self.request.POST.get('request_amount_int')) >0 and int(self.request.POST.get('order_amount_int')) >0 and int(self.request.POST.get('diff_amount_int')) == 0) :
+                if  (self.request.POST.get('request_amount_int') and self.request.POST.get('diff_amount_int') and int(self.request.POST.get('diff_amount_int')) == 0) :
 
-                    # 注文の検収情報を更新
+                    # 注文の進捗確認
+
                     selected_order_pk_orderReport = self.request.POST.get('selected_order_pk_orderReport')
                     print("報告対象 発注番号" + selected_order_pk_orderReport)
                 
                     orderInfoOrderReport = get_object_or_404(OrderInfo, pk=selected_order_pk_orderReport)
+                    print(orderInfoOrderReport.progress.no)
 
-                    # Foreignkey Progress
-                    progressOrderReport = get_object_or_404(Progress, pk=2)
-                    orderInfoOrderReport.progress = progressOrderReport
-                    orderInfoOrderReport.save()
 
-                    selected_request_pk_orderReport = self.request.POST.get('selected_request_pk_orderReport')
-                    print("報告対象 依頼番号" + selected_request_pk_orderReport)
+                    # 依頼の進捗確認
 
                     # リスト型
                     selected_request_pk_orderReport = []
                     # カンマ区切りでリスト型へ
                     selected_request_pk_orderReport = self.request.POST.get('selected_request_pk_orderReport').split(sep=',')
-
-                    # 依頼を更新
+                    
+                    list_selected_request_adminCheck = []
                     for orderReport_request_pk in selected_request_pk_orderReport:
                         print(orderReport_request_pk)
                         orderRequestOrderReport = get_object_or_404(OrderRequest, pk=orderReport_request_pk)
-                        adminCheckOrderReport = get_object_or_404(AdminCheck, pk=4)
+                        list_selected_request_adminCheck.append(orderRequestOrderReport.adminCheck.no)
+                    print(list_selected_request_adminCheck.count(4))
 
-                        # リストで全件更新
-                        orderRequestOrderReport.adminCheck = adminCheckOrderReport
-                        orderRequestOrderReport.orderInfo = orderInfoOrderReport
 
-                        orderRequestOrderReport.save()
+                    # 未報告の場合
+                    if orderInfoOrderReport.progress.no <2 and list_selected_request_adminCheck.count(4) ==0:
 
-                    print('発注報告')
-                    return self.get(request, *args, **kwargs)
+                        # 発注を更新
+
+                        # Foreignkey Progress
+                        progressOrderReport = get_object_or_404(Progress, pk=2)
+                        orderInfoOrderReport.progress = progressOrderReport
+                        orderInfoOrderReport.save()
+                       
+
+                        # 依頼を更新
+
+                        for orderReport_request_pk in selected_request_pk_orderReport:
+                            print(orderReport_request_pk)
+                            orderRequestOrderReport = get_object_or_404(OrderRequest, pk=orderReport_request_pk)
+                            adminCheckOrderReport = get_object_or_404(AdminCheck, pk=4)
+
+                            # リストで全件更新
+                            orderRequestOrderReport.adminCheck = adminCheckOrderReport
+                            orderRequestOrderReport.orderInfo = orderInfoOrderReport
+
+                            orderRequestOrderReport.save()
+
+                        print("報告完了")
+                        return self.get(request, *args, **kwargs)
+                    
+                    else:
+                        print("報告なし")
+                        return self.get(request, *args, **kwargs)
                 else:
+                    print("報告なし")
                     return self.get(request, *args, **kwargs)
             else:
                 return self.get(request, *args, **kwargs)
