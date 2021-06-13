@@ -73,7 +73,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:2rem 1rem 1rem 1rem;
+    padding:2rem 1.5rem 1rem 1.5rem;
 }
 
 header nav li{
@@ -151,7 +151,7 @@ button{
     align-items: center;
     align-content: center;
     justify-content: space-between;
-    margin: 1rem 1rem 0.2rem 1rem;
+    margin: 1rem 1.5rem 0.2rem 1.5rem;
 }
 .menu_wrapper_inner{
     display: flex;
