@@ -43,25 +43,9 @@
     {% endif %}
 
 
-    <!-- 場合分け list_all -->
-
-      {% if list_type == 'list_all' %}
-
-        <td class="sticky_col_td">
-          <a href="{% url 'goodidea:detail_item' item.pk %}">
-            {% if item.ideaNum != 0 %}
-                {{ item.ideaNum }}
-            {% else %}
-                {{ item.actionNum }}-共
-            {% endif %}
-          </a>
-        </td>
-
-
-
     <!-- 場合分け list_filter -->
 
-      {% elif list_type == 'list_filter' %}
+      {% if list_type == 'list_filter' %}
 
         <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()" >
           {% if item.ideaNum > 0 %}
