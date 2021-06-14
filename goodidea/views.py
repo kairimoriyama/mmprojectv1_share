@@ -35,7 +35,6 @@ class ItemListDue(ListView):
 
 
 
-
 class ItemListFilter(ListView):
     template_name = 'goodidea/list_filter.html'
     model  = Item

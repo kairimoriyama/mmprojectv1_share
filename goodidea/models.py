@@ -122,7 +122,7 @@ class Item(models.Model):
         return self.title  
 
     def get_absolute_url(self):
-        return reverse('goodidea:detail_item', args=[self.id])
+        return reverse('goodidea:detail_filter', args=[self.id])
 
     def get_prev_item_by_itemNum(self):
         """前のitemNumのitemを取得"""

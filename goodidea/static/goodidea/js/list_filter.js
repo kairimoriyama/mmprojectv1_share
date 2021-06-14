@@ -9,6 +9,18 @@ function display_on(){
   filter_bt_off.style.display ="none";
   document.getElementById("display_button_color").style.background = "rgb(255, 255, 227)";
 
+  let dataset = JSON.parse(localStorage.getItem('search_key'));
+
+  if (dataset === null) {
+    document.getElementById("completionDateFilter").style.display ="none";
+
+    let select = document.getElementById('progress').value;
+    if (select=="4"){
+        document.getElementById("completionDateFilter").style.display ="block";
+      }else{
+        document.getElementById("completionDateFilter").style.display ="none";
+      };
+  };
 };
 
 function display_off(){
@@ -17,6 +29,7 @@ function display_off(){
     filter_bt_on.style.display ="none";
     filter_bt_off.style.display ="block";
     document.getElementById("display_button_color").style.background = "rgb(192, 222, 236)";
+    document.getElementById("completionDateFilter").style.display ="none";
 
 };
 
@@ -66,7 +79,7 @@ function clear_criteria(){
 
       let today = new Date();
       today.setDate(today.getDate());
-      let yyyy1 = today.getFullYear()-10;
+      let yyyy1 = today.getFullYear()-1;
       let yyyy2 = today.getFullYear();
       let mm = ("0"+(today.getMonth()+1)).slice(-2);
       let dd = ("0"+today.getDate()).slice(-2);
