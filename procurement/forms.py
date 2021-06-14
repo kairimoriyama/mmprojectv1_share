@@ -17,29 +17,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class DivisionSelectForm(ModelForm):
-    
-    divisionSelect = forms.ModelChoiceField(
-        queryset=Division.objects,
-        required=False
-    )     
-    class Meta:
-        model = Division
-        fields = '__all__'
-
-
-
-class SelectFormProgress(ModelForm):
-    
-    progressSelect = forms.ModelChoiceField(
-        queryset=Progress.objects,
-        required=False
-    )     
-    class Meta:
-        model = Progress
-        fields = '__all__'
-
-
 
 class CreateFormRequest(ModelForm):
 
