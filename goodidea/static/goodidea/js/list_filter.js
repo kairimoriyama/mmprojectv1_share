@@ -106,7 +106,7 @@ function clear_criteria(){
         (function updateCompletionDate() {
           let today = new Date();
           today.setDate(today.getDate());
-          let yyyy1 = today.getFullYear()-5;
+          let yyyy1 = today.getFullYear()-1;
           let yyyy2 = today.getFullYear();
           let mm = ("0"+(today.getMonth()+1)).slice(-2);
           let dd = ("0"+today.getDate()).slice(-2);
