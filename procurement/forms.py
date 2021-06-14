@@ -7,13 +7,26 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
-from .models import AdminCheck, Division, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from django.forms import ModelForm, inlineformset_factory 
+from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
+from staffdb.models import StaffDB, Division
+from django.forms import ModelForm, inlineformset_factory
 
 from django.core.exceptions import ValidationError
 
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+
+class DivisionSelectForm(ModelForm):
+    
+    divisionSelect = forms.ModelChoiceField(
+        queryset=Division.objects,
+        required=False
+    )     
+    class Meta:
+        model = Division
+        fields = '__all__'
+
 
 
 class SelectFormProgress(ModelForm):

@@ -14,8 +14,8 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
-from staffdb.models import StaffDB
+from .forms import  DivisionSelectForm, CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
+from staffdb.models import StaffDB, Division
 
 # Create your views here.
 
@@ -23,8 +23,9 @@ from staffdb.models import StaffDB
 class ListALL(ListView):
     template_name = 'procurement/list_all.html'
     model  = OrderRequest
+    form_class = DivisionSelectForm
     fields = '__all__'
-    queryset = OrderRequest.objects.filter(deletedItem=False
+    queryset = OrderRequest.objects_list.all_list(
     ).order_by('adminCheck__no','orderInfo__orderNum').exclude(adminCheck__gte=5)
 
     def get_context_data(self, **kwargs):
@@ -209,12 +210,13 @@ class ListRequest(ListView):
     template_name = 'procurement/list_request.html'
     model  = OrderRequest
     fields = '__all__'
-    queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('adminCheck__no','-orderInfo__orderNum')
     paginate_by = 22
 
+    queryset = OrderRequest.objects_list.all_list(
+    ).order_by('adminCheck__no','-orderInfo__orderNum')
+    
     def __init__(self, **kwargs):
-        super(ItemListFilter, self).__init__(**kwargs)
+        super(ListRequest, self).__init__(**kwargs)
         self.form = None
     
     def get_context_data(self, **kwargs):
@@ -259,46 +261,51 @@ class ListRequest(ListView):
         self.request.session['settlementCheck'] = settlementCheck
 
         # 絞り込み前の初期値
-        queryset0 = Item.objects_list.all()
+        queryset0 = OrderRequest.objects_list.all_list().order_by('adminCheck__no','-orderInfo__orderNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
-        if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
-            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or internalDiscussion:
+        if staffdb or division or word or\
+            (submissionDateFrom and submissionDateTo) or \
+            (settlementDateFrom and settlementDateTo) or settlementCheck:
 
-            # 協議案件/共有案件
-            if ideaOrAction == "0":   #協議案件のみ
-                queryset1 = queryset0.filter( ideaNum__gt = 0)
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset1 = queryset0.filter( actionNum__gt = 0)
+            # 支払未/済/両方
+            if settlementCheck == "0":   #未のみ
+                queryset1 = queryset0.filter( orderInfo__settlement= False )
+            elif settlementCheck == "1": #済のみ
+                queryset1 = queryset0.filter( orderInfo__settlement= True )
             else:
                 queryset1 = queryset0.all()
 
-            # 購入案件の絞込
-            if purchase == "1":
-                queryset2 = queryset1.filter(purchase__exact=True)
-            else:
-                queryset2 = queryset1.all()
+            # # 日付の絞込
+            # if (settlementDateFrom and settlementDateTo) :
+            #     queryset2 = queryset1.filter(
+            #         settlementDate__range=(settlementDateFrom, settlementDateTo)
+            #     )
+            # else:                 
+            #     queryset2 = queryset1.all()
 
-            # システム案件の絞込
-            if system == "1":
-                queryset3 = queryset2.filter(system__exact=True)
-            else:
+            queryset2 = queryset1.all()
+
+            print(staffdb)
+            # 担当者の絞込
+            if staffdb == "0":   #全社員
                 queryset3 = queryset2.all()
+            else: 
+                queryset3 = queryset2.filter(staffdb__exact=staffdb)
 
             # 所属の絞り込み
             if division == "0": #全部門
                 queryset4 = queryset3.all()
             else:               #全部門以外
                 queryset4 = queryset3.filter(division__exact=division)
-            
-            # 進捗・完了日の絞り込み
-            if progress == "0":   #全進捗
-                queryset5 = queryset4.all()
-            elif progress == "4": #完了案件のみ
-                queryset5 = queryset4.filter(progress__exact=4
-                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
-            else:                 #新規/実施なし
-                queryset5 = queryset4.filter(progress__exact=progress)
+ 
+             # キーワードの絞込
+            if word :
+                queryset5 = queryset4.filter(
+                    Q(requestDetail__icontains=word)| Q(adminDescription__icontains=word))
+            else: 
+                queryset5 = queryset4.all() 
+
 
             # 日付の絞込
             if (submissionDateFrom and submissionDateTo) :
@@ -308,49 +315,17 @@ class ListRequest(ListView):
             else:                 
                 queryset6 = queryset5.all()
 
-            # 担当者の絞込
-            if staffdb == "0":   #全社員
-                queryset7 = queryset6.all()
-            else: 
-                queryset7 = queryset6.filter(staffdb__exact=staffdb)
-            
-            # 実行担当者の絞込
-            if inchargeStaff:
-                queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
-            else: 
-                queryset8 = queryset7.all()    
-
-            # 実行担当部署の絞込
-            if inchargeDivision:
-                queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
-            else: 
-                queryset9 = queryset8.all()   
-
-             # キーワードの絞込
-            if word :
-                queryset10 = queryset9.filter(
-                    Q(title__icontains=word)| Q(description__icontains=word)|
-                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
-            else: 
-                queryset10 = queryset9.all() 
-
-
-            # 部門決裁の絞り込み
-            if internalDiscussion == "1":
-                queryset11 = queryset10.filter(internalDiscussion__exact=True)
-            else:
-                queryset11 = queryset10.all()
 
             # セッションで選択されたデータを保持
-            self.request.session['item_list_type'] = 'filter'
+            self.request.session['item_list_type_procurement'] = 'filter'
             
-            queryset = queryset11.order_by('-itemNum')
+            queryset = queryset6.order_by('adminCheck__no','-orderInfo__orderNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
-            qeryset = queryset0.order_by('-itemNum')
+            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum')
         
-        return queryset.order_by('-itemNum')
+        return queryset
 
 
 
