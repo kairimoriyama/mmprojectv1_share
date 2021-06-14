@@ -1097,6 +1097,13 @@ hr{
     margin-bottom: 0.5rem;
 }
 
+.multiple_items_URL dd a{
+    width: 72rem;
+    margin-right: 1rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
 .multiple_items_URL dd::-webkit-scrollbar {
     width: 1rem;
     height: 1rem;
