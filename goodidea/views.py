@@ -14,7 +14,7 @@ import datetime
 from django.utils import timezone 
 
 from .models import Item, Progress, Division, Category
-from .forms import  ProgressSelectForm, DivisionSelectForm,ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom
+from .forms import  ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom
 from staffdb.models import StaffDB
 
 # Create your views here.
@@ -40,7 +40,6 @@ class ItemListDue(ListView):
 class ItemListFilter(ListView):
     template_name = 'goodidea/list_filter.html'
     model  = Item
-    form_class = ProgressSelectForm, DivisionSelectForm
     paginate_by = 22
 
     queryset =Item.objects_list.all_list()
