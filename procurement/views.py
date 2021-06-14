@@ -25,7 +25,7 @@ class ListALL(ListView):
     model  = OrderRequest
     form_class = DivisionSelectForm
     fields = '__all__'
-    queryset = OrderRequest.objects_list.all_list(
+    queryset = OrderRequest.objects.all(
     ).order_by('adminCheck__no','orderInfo__orderNum').exclude(adminCheck__gte=5)
 
     def get_context_data(self, **kwargs):
@@ -212,7 +212,7 @@ class ListRequest(ListView):
     fields = '__all__'
     paginate_by = 22
 
-    queryset = OrderRequest.objects_list.all_list(
+    queryset = OrderRequest.objects.all(
     ).order_by('adminCheck__no','-orderInfo__orderNum')
     
     def __init__(self, **kwargs):
@@ -261,7 +261,7 @@ class ListRequest(ListView):
         self.request.session['settlementCheck'] = settlementCheck
 
         # 絞り込み前の初期値
-        queryset0 = OrderRequest.objects_list.all_list().order_by('adminCheck__no','-orderInfo__orderNum')
+        queryset0 = OrderRequest.objects.all().order_by('adminCheck__no','-orderInfo__orderNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if staffdb or division or word or\
@@ -270,13 +270,15 @@ class ListRequest(ListView):
 
             # 支払未/済/両方
             if settlementCheck == "0":   #未のみ
-                queryset1 = queryset0.filter( orderInfo__settlement= False )
+                queryset1 = queryset0.filter( orderInfo__settlement= False
+                ).exclude(orderInfo__registeredSupplier__gte=0 )
 
                 queryset2 = queryset1.filter(
                     orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
 
             elif settlementCheck == "1": #済のみ
-                queryset1 = queryset0.filter( orderInfo__settlement= True )
+                queryset1 = queryset0.filter( orderInfo__settlement= True
+                ).exclude(orderInfo__registeredSupplier__gte=0 )
 
                 queryset2 = queryset1.filter(
                     orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
