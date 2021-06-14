@@ -6,7 +6,8 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
-from .models import Item, Progress, Division, Category
+from .models import Item, Progress, Category
+from staffdb.models import StaffDB, Division
 from django.forms import ModelForm, inlineformset_factory 
 
 

@@ -155,6 +155,12 @@ class OrderInfo(models.Model):
         return str(self.orderNum) + ' ' +  str(self.orderDate)
 
 
+class OrderRequestManager(models.Manager):
+
+    def all_list(self):
+        return super().get_queryset(
+        ).filter(deletedItem=False
+        )
 
 class OrderRequest(models.Model):
     requestNum =  models.IntegerField(blank=False,null=False)
@@ -201,6 +207,8 @@ class OrderRequest(models.Model):
     adminDescription = models.TextField(max_length=300,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)
 
+    # ListViewで抽出
+    objects_list = OrderRequestManager()
 
     class Meta:
         verbose_name_plural="OrderRequest"

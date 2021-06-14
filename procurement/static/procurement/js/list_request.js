@@ -147,7 +147,7 @@ function get_search_key() {
 
     //ラジオボタンの値設定
     let i = Number(dataset["key8"]);
-    document.getElementsByName('ideaOrAction')[i].checked = true;
+    document.getElementsByName('settlementCheck')[i].checked = true;
 
 
     // 更新・他のページからの遷移の際に検索実施

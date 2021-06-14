@@ -14,8 +14,8 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
-from staffdb.models import StaffDB
+from .forms import  DivisionSelectForm, CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
+from staffdb.models import StaffDB, Division
 
 # Create your views here.
 
@@ -23,8 +23,9 @@ from staffdb.models import StaffDB
 class ListALL(ListView):
     template_name = 'procurement/list_all.html'
     model  = OrderRequest
+    form_class = DivisionSelectForm
     fields = '__all__'
-    queryset = OrderRequest.objects.filter(deletedItem=False
+    queryset = OrderRequest.objects_list.all_list(
     ).order_by('adminCheck__no','orderInfo__orderNum').exclude(adminCheck__gte=5)
 
     def get_context_data(self, **kwargs):
@@ -209,12 +210,13 @@ class ListRequest(ListView):
     template_name = 'procurement/list_request.html'
     model  = OrderRequest
     fields = '__all__'
-    queryset = OrderRequest.objects.filter(deletedItem=False
-    ).order_by('adminCheck__no','-orderInfo__orderNum')
     paginate_by = 22
 
+    queryset = OrderRequest.objects_list.all_list(
+    ).order_by('adminCheck__no','-orderInfo__orderNum')
+    
     def __init__(self, **kwargs):
-        super(ItemListFilter, self).__init__(**kwargs)
+        super(ListRequest, self).__init__(**kwargs)
         self.form = None
     
     def get_context_data(self, **kwargs):
@@ -259,7 +261,7 @@ class ListRequest(ListView):
         self.request.session['settlementCheck'] = settlementCheck
 
         # 絞り込み前の初期値
-        queryset0 = OrderRequest.objects_list.all()
+        queryset0 = OrderRequest.objects_list.all_list().order_by('adminCheck__no','-orderInfo__orderNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if staffdb or division or word or\
@@ -268,21 +270,23 @@ class ListRequest(ListView):
 
             # 支払未/済/両方
             if settlementCheck == "0":   #未のみ
-                queryset1 = queryset0.filter( settlement__exact= False )
+                queryset1 = queryset0.filter( orderInfo__settlement= False )
             elif settlementCheck == "1": #済のみ
-                queryset1 = queryset0.filter( settlement__exact= True )
+                queryset1 = queryset0.filter( orderInfo__settlement= True )
             else:
                 queryset1 = queryset0.all()
 
-            # 日付の絞込
-            if (settlementDateFrom and settlementDateTo) :
-                queryset2 = queryset1.filter(
-                    settlementDate__range=(settlementDateFrom, settlementDateTo)
-                )
-            else:                 
-                queryset2 = queryset1.all()
+            # # 日付の絞込
+            # if (settlementDateFrom and settlementDateTo) :
+            #     queryset2 = queryset1.filter(
+            #         settlementDate__range=(settlementDateFrom, settlementDateTo)
+            #     )
+            # else:                 
+            #     queryset2 = queryset1.all()
 
+            queryset2 = queryset1.all()
 
+            print(staffdb)
             # 担当者の絞込
             if staffdb == "0":   #全社員
                 queryset3 = queryset2.all()
@@ -315,11 +319,11 @@ class ListRequest(ListView):
             # セッションで選択されたデータを保持
             self.request.session['item_list_type_procurement'] = 'filter'
             
-            queryset = queryset6
+            queryset = queryset6.order_by('adminCheck__no','-orderInfo__orderNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
-            qeryset = queryset0
+            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum')
         
         return queryset
 
