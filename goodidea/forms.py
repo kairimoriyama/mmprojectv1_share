@@ -56,6 +56,7 @@ class ItemCreateFromIdea(ModelForm):
         self.fields['progress'].initial = 1
         self.fields['staffdb'].required = True
         self.fields['division'].required = True
+        self.fields['division'].queryset = Division.objects.filter(no__lt=9000)
         self.fields['category'].required = True
         self.fields['title'].required = True
         self.fields['description'].required = True
@@ -92,6 +93,7 @@ class ItemCreateFromAction(ModelForm):
         self.fields['completionDate'].required = True
         self.fields['staffdb'].required = True
         self.fields['division'].required = True
+        self.fields['division'].queryset = Division.objects.filter(no__lt=9000)
         self.fields['category'].required = True
         self.fields['inchargeStaff'].required = True
         self.fields['title'].required = True
