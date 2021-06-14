@@ -47,7 +47,7 @@
       <form method="POST" aciton="">
 
       <dl class="payment_radio">
-        <dt>支払</dt>
+        <dt>支払（個別発注先・請求書）</dt>
         <dd>
           <input class="radio_left_end" type="radio" name="settlementCheck" value="0">未
           <input type="radio" name="settlementCheck" value="1">済
@@ -62,19 +62,6 @@
           <input id="settlementDateFrom" name="settlementDateFrom" value="{{ request.GET.settlementDateFrom }}" type="date">
           <p>-</p>
           <input id="settlementDateTo" name="settlementDateTo" value="{{ request.GET.settlementDateTo }}" type="date"></dd>
-        </dd>
-      </dl>
-
-      
-      <dl>
-        <dt>個別発注先</dt>
-        <dd>
-          <select id="progress" onchange="progressSelect()" name="progress"  class="list_filter_select" type="number">
-              <option value=0>全進捗</option>
-            {% for progress in progressSelect_list %}
-              <option value="{{ progress.id }}">{{ progress.name }}</option>
-            {% endfor %}
-          </select>
         </dd>
       </dl>
 
@@ -156,6 +143,7 @@
     <th>進捗</th>
     <th>発注番号</th>
     <th>依頼者</th>
+    <th>所属</th>
     <th>依頼内容</th>
     <th>希望納期</th>
     <th>納品日</th>
@@ -221,6 +209,7 @@
   </td>
 
   <td>{{ item.requestStaffdb.fullName }}</td>
+  <td>{{ item.requestStaffDivision.name }}</td>
 
   <td class="longText">{{ item.requestDetail }}</td>
   <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>

@@ -79,6 +79,7 @@
     <th>進捗</th>
     <th>発注番号</th>
     <th>依頼者</th>
+    <th>所属</th>
     <th>依頼内容</th>
     <th>希望納期</th>
     <th>納品予定</th>
@@ -138,6 +139,7 @@
       </td>
 
       <td>{{ item.requestStaffdb.fullName }}</td>
+      <td>{{ item.requestStaffDivision.name }}</td>
     
       <td class="longText">{{ item.requestDetail }}</td>
       <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>

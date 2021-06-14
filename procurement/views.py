@@ -271,33 +271,33 @@ class ListRequest(ListView):
             # 支払未/済/両方
             if settlementCheck == "0":   #未のみ
                 queryset1 = queryset0.filter( orderInfo__settlement= False )
+
+                queryset2 = queryset1.filter(
+                    orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
+
             elif settlementCheck == "1": #済のみ
                 queryset1 = queryset0.filter( orderInfo__settlement= True )
+
+                queryset2 = queryset1.filter(
+                    orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
+
             else:
                 queryset1 = queryset0.all()
-
-            # # 日付の絞込
-            # if (settlementDateFrom and settlementDateTo) :
-            #     queryset2 = queryset1.filter(
-            #         settlementDate__range=(settlementDateFrom, settlementDateTo)
-            #     )
-            # else:                 
-            #     queryset2 = queryset1.all()
-
-            queryset2 = queryset1.all()
+                queryset2 = queryset1.all()
+       
 
             print(staffdb)
             # 担当者の絞込
             if staffdb == "0":   #全社員
                 queryset3 = queryset2.all()
             else: 
-                queryset3 = queryset2.filter(staffdb__exact=staffdb)
+                queryset3 = queryset2.filter(requestStaffdb__exact=staffdb)
 
             # 所属の絞り込み
             if division == "0": #全部門
                 queryset4 = queryset3.all()
             else:               #全部門以外
-                queryset4 = queryset3.filter(division__exact=division)
+                queryset4 = queryset3.filter(requestStaffDivision__exact=division)
  
              # キーワードの絞込
             if word :
