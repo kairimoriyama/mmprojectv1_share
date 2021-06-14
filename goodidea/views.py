@@ -56,7 +56,7 @@ class ItemListFilter(ListView):
         context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
 
         context['progressSelect_list'] = Progress.objects.all()
-        context['divisionSelect_list'] = Division.objects.all()
+        context['divisionSelect_list'] = Division.objects.all().filter(no__lt=9000)
         
         # StaffQuerySet のstaff_activeで絞込
         context['staffdb_list'] = StaffDB.objects.staff_active()
