@@ -14,7 +14,7 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from .forms import  DivisionSelectForm, CreateFormRequest, CreateFormOrder, UpdateFormRequest ,UpdateFormOrder
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormOrder
 from staffdb.models import StaffDB, Division
 
 # Create your views here.
@@ -23,7 +23,6 @@ from staffdb.models import StaffDB, Division
 class ListALL(ListView):
     template_name = 'procurement/list_all.html'
     model  = OrderRequest
-    form_class = DivisionSelectForm
     fields = '__all__'
     queryset = OrderRequest.objects.all(
     ).order_by('adminCheck__no','orderInfo__orderNum').exclude(adminCheck__gte=5)
@@ -227,7 +226,7 @@ class ListRequest(ListView):
 
         self.request.session['returnPage_procurement'] = 2 # ページ移動
 
-        context['divisionSelect_list'] = Division.objects.all()
+        context['divisionSelect_list'] = Division.objects.filter(no__lt=9000)
         
         # StaffQuerySet のstaff_activeで絞込
         context['staffdb_list'] = StaffDB.objects.staff_active()
