@@ -83,24 +83,24 @@ header nav li{
 
 h1{
     color: black;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
 h2{
     color: black;
-    font-size: 1.8rem;
+    font-size: 2rem;
+
 }
 .app_title{
     color: rgb(0,51,141);
     line-height: 3rem;
-    font-weight: bold;
 }
 
 h3{
     color: rgb(0, 51, 141);
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: bold;
     line-height: 2rem;
 }
@@ -151,7 +151,7 @@ button{
     align-items: center;
     align-content: center;
     justify-content: space-between;
-    margin: 1rem 1.5rem 0.2rem 1.5rem;
+    margin: 1rem 1.5rem 1rem 1.5rem;
 }
 .menu_wrapper_inner{
     display: flex;
@@ -1257,7 +1257,7 @@ hr{
     align-items: center;
     align-content: center;
     justify-content: left;
-    margin: 3rem 1rem 1rem 1rem;
+    margin: 3rem 1rem 2rem 1rem;
     display: flex;
 }
 

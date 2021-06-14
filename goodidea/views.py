@@ -30,6 +30,8 @@ class ItemListDue(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # 移動先ページの場合分け
         context['list_type'] = 'list_due'
         return context
 
@@ -54,11 +56,12 @@ class ItemListFilter(ListView):
         context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
 
         context['progressSelect_list'] = Progress.objects.all()
-        context['divisionSelect_list'] = Division.objects.all()
+        context['divisionSelect_list'] = Division.objects.all().filter(no__lt=9000)
         
         # StaffQuerySet のstaff_activeで絞込
         context['staffdb_list'] = StaffDB.objects.staff_active()
 
+        # 移動先ページの場合分け
         context['list_type'] = 'list_filter'
 
 
@@ -188,7 +191,7 @@ class ItemListFilter(ListView):
             else:
                 queryset11 = queryset10.all()
 
-            # セッションで選択されたデータを保持
+            # セッションにて状態を保存
             self.request.session['item_list_type'] = 'filter'
             
             queryset = queryset11.order_by('-itemNum')
@@ -215,6 +218,8 @@ class ItemDetailFilter(DetailView):
         # 検索条件のパターン
         item_list_type = self.request.session.get('item_list_type')
 
+        print(item_list_type)
+
         # 検索条件を呼び出して必要なitemのみ表示
         progress = self.request.session['progress']
         purchase = self.request.session['purchase']
@@ -236,89 +241,95 @@ class ItemDetailFilter(DetailView):
         queryset0 = Item.objects_list.all_list()
         item_list_queryset = queryset0
 
+
         if item_list_type == 'filter':
+                
+            if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
+                (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or internalDiscussion:
 
-            # 協議案件/共有案件
-            if ideaOrAction == "0":   #協議案件のみ
-                queryset1 = queryset0.filter( ideaNum__gt = 0)
-            elif ideaOrAction == "1": #共有案件のみ
-                queryset1 = queryset0.filter( actionNum__gt = 0)
-            else:
-                queryset1 = queryset0.all()
+                # 協議案件/共有案件
+                if ideaOrAction == "0":   #協議案件のみ
+                    queryset1 = queryset0.filter( ideaNum__gt = 0)
+                elif ideaOrAction == "1": #共有案件のみ
+                    queryset1 = queryset0.filter( actionNum__gt = 0)
+                else:
+                    queryset1 = queryset0.all()
 
-            # 購入案件の絞込
-            if purchase == "1":
-                queryset2 = queryset1.filter(purchase__exact=True)
-            else:
-                queryset2 = queryset1.all()
+                # 購入案件の絞込
+                if purchase == "1":
+                    queryset2 = queryset1.filter(purchase__exact=True)
+                else:
+                    queryset2 = queryset1.all()
 
-            # システム案件の絞込
-            if system == "1":
-                queryset3 = queryset2.filter(system__exact=True)
-            else:
-                queryset3 = queryset2.all()
+                # システム案件の絞込
+                if system == "1":
+                    queryset3 = queryset2.filter(system__exact=True)
+                else:
+                    queryset3 = queryset2.all()
 
-            # 所属の絞り込み
-            if division == "0": #全部門
-                queryset4 = queryset3.all()
-            else:               #全部門以外
-                queryset4 = queryset3.filter( division__exact=division)
+                # 所属の絞り込み
+                if division == "0": #全部門
+                    queryset4 = queryset3.all()
+                else:               #全部門以外
+                    queryset4 = queryset3.filter( division__exact=division)
+                
+                # 進捗・完了日の絞り込み
+                if progress == "0":   #全進捗
+                    queryset5 = queryset4.all()
+                elif progress == "4": #完了案件のみ
+                    queryset5 = queryset4.filter(progress__exact=4
+                    ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+                else:                 #新規/実施なし
+                    queryset5 = queryset4.filter(progress__exact=progress)
+
+
+                # 日付の絞込
+                if (submissionDateFrom and submissionDateTo) :
+                    queryset6 = queryset5.filter(
+                        submissionDate__range=(submissionDateFrom, submissionDateTo)
+                    )
+                else:                 
+                    queryset6 = queryset5.all()
+
+                # 担当者の絞込
+                if staffdb == "0":   #全社員
+                    queryset7 = queryset6.all()
+                else: 
+                    queryset7 = queryset6.filter(staffdb__exact=staffdb)
+                
+                # 実行担当者の絞込
+                if inchargeStaff:
+                    queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
+                else: 
+                    queryset8 = queryset7.all()    
+
+                # 実行担当部署の絞込
+                if inchargeDivision:
+                    queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
+                else: 
+                    queryset9 = queryset8.all()   
+
+                # キーワードの絞込
+                if word :
+                    queryset10 = queryset9.filter(
+                        Q(title__icontains=word)| Q(description__icontains=word)|
+                        Q(discussionNote__icontains=word)| Q(report__icontains=word))
+                else: 
+                    queryset10 = queryset9.all() 
+                
+                # 部門決裁の絞り込み
+                if internalDiscussion == "1":
+                    queryset11 = queryset10.filter(internalDiscussion__exact=True)
+                else:
+                    queryset11 = queryset10.all()
+
+                item_list_queryset = queryset11
             
-            # 進捗・完了日の絞り込み
-            if progress == "0":   #全進捗
-                queryset5 = queryset4.all()
-            elif progress == "4": #完了案件のみ
-                queryset5 = queryset4.filter(progress__exact=4
-                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
-            else:                 #新規/実施なし
-                queryset5 = queryset4.filter(progress__exact=progress)
-
-
-            # 日付の絞込
-            if (submissionDateFrom and submissionDateTo) :
-                queryset6 = queryset5.filter(
-                    submissionDate__range=(submissionDateFrom, submissionDateTo)
-                )
-            else:                 
-                queryset6 = queryset5.all()
-
-            # 担当者の絞込
-            if staffdb == "0":   #全社員
-                queryset7 = queryset6.all()
-            else: 
-                queryset7 = queryset6.filter(staffdb__exact=staffdb)
-            
-            # 実行担当者の絞込
-            if inchargeStaff:
-                queryset8 = queryset7.filter(inchargeStaff__icontains=inchargeStaff)
-            else: 
-                queryset8 = queryset7.all()    
-
-            # 実行担当部署の絞込
-            if inchargeDivision:
-                queryset9 = queryset8.filter(inchargeDivision__icontains=inchargeDivision)
-            else: 
-                queryset9 = queryset8.all()   
-
-             # キーワードの絞込
-            if word :
-                queryset10 = queryset9.filter(
-                    Q(title__icontains=word)| Q(description__icontains=word)|
-                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
-            else: 
-                queryset10 = queryset9.all() 
-            
-            # 部門決裁の絞り込み
-            if internalDiscussion == "1":
-                queryset11 = queryset10.filter(internalDiscussion__exact=True)
             else:
-                queryset11 = queryset10.all()
+                item_list_queryset = queryset0
 
-            item_list_queryset = queryset11
-          
         else:
             item_list_queryset = queryset0
-
 
         context['prev'] = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
         context['next'] = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
