@@ -269,8 +269,10 @@
   <div class="menu_wrapper_inner">
 
     <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">2 精査</p>
-    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="2 精査実施" name="button_selectSupplier">
-    <p class="menu_bt menu_bt_mg_left row-gray yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">精査中止</p>
+    <input type="submit" class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_done" value="検討実施" name="button_selectSupplier">
+    <input type="submit" class="menu_bt menu_bt_mg_left row-red yubi" id="selectSupplier_decline" value="差戻" name="button_selectSupplier_decline">
+    <input type="submit" class="menu_bt menu_bt_mg_left row-gray yubi" id="button_selectSupplier_outOfScope" value="対象外" name="button_selectSupplier_outOfScope">
+    <p class="menu_bt menu_bt_mg_left row-white yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">精査中止</p>
 
     <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
     <input type="submit" onclick="reportOrder();"  class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order" >
