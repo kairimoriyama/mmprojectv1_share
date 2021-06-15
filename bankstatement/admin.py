@@ -44,12 +44,13 @@ class StatementAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     class StatementResource(resources.ModelResource):
         class Meta:
             model = Statement
-            fields = ('id','no', 'recordDate',
-             'description1', 'description2',
-             'paymentAmount', 'deopsitAmount','accountBalance',
-             'bankAccount','journalCategory',
-             'bankAccount','progress','consistencyCheck',
-             )
+            fields = ('id','no', 'transactionDate',
+            'bankAccount','dateDescription',
+            'description1', 'description2',
+            'paymentAmount', 'deopsitAmount','accountBalance',
+            'journalCategory',
+            'bankAccount','progress','consistencyCheck',
+            )
     resource_class = StatementResource
 
 

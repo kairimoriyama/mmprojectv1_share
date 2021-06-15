@@ -55,15 +55,19 @@ class BankAccount(models.Model):
 class Statement(models.Model):
 
     no = models.IntegerField(blank=True,null=True)
-    recordDate  = models.DateField(default=timezone.now, blank=True)
+    transactionDate  = models.DateField(default=timezone.now, blank=True)
+
+    bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
+    dateDescription  = models.CharField(max_length=20,blank=True,null=True)
+    
     description1 = models.CharField(max_length=10,blank=True,null=True)
     description2 = models.CharField(max_length=30,blank=True,null=True)
     paymentAmount = models.IntegerField(default=0,blank=False,null=False)
     deopsitAmount = models.IntegerField(default=0,blank=False,null=False)
     accountBalance = models.IntegerField(default=0,blank=False,null=False)
-    bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
+    
     journalCategory = models.ForeignKey(JournalCategory,on_delete=models.PROTECT, related_name ='journalcategory',blank=True,null=True)
-    bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
+   
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='progress',blank=True,null=True)
     consistencyCheck = models.BooleanField(default=False)
     adminMemo = models.CharField(max_length=50,blank=True,null=True)
@@ -73,4 +77,4 @@ class Statement(models.Model):
         ordering = ('bankAccount','-id',)
 
     def __str__(self):
-        return str(self.recordDate)+ str(self.deopsitAmount)+str(self.paymentAmount)
+        return str(self.deopsitAmount)+str(self.paymentAmount)
