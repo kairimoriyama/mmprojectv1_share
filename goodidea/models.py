@@ -145,12 +145,12 @@ class Item(models.Model):
         if type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__exact=self.dueDate,itemNum__lt=self.itemNum
-            ).last():
+            ).order_by('itemNum').last():
 
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__exact=self.dueDate,itemNum__lt=self.itemNum
-            ).last()
+            ).order_by('itemNum').last()
 
         
         else:
@@ -158,7 +158,7 @@ class Item(models.Model):
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__lt=self.dueDate
-            ).order_by('dueDate','itemNum').first()
+            ).order_by('dueDate','itemNum').last()
             
 
     def get_next_idea_by_dueDate(self):
