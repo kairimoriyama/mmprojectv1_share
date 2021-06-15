@@ -87,6 +87,7 @@ class ItemListFilter(ListView):
         completionDateTo = self.request.GET.get('completionDateTo')
         ideaOrAction = self.request.GET.get('ideaOrAction')
         internalDiscussion = self.request.GET.get('internalDiscussion')
+        consideration = self.request.GET.get('consideration')
 
 
         #  値をセッションで保持
@@ -106,13 +107,15 @@ class ItemListFilter(ListView):
         self.request.session['completionDateTo'] = completionDateTo
         self.request.session['ideaOrAction'] = ideaOrAction
         self.request.session['internalDiscussion'] = internalDiscussion
+        self.request.session['consideration'] = consideration
 
         # 絞り込み前の初期値
         queryset0 = Item.objects_list.all_list().order_by('-itemNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
-            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or internalDiscussion:
+            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or \
+            internalDiscussion or consideration:
 
             # 協議案件/共有案件
             if ideaOrAction == "0":   #協議案件のみ
@@ -190,10 +193,18 @@ class ItemListFilter(ListView):
             else:
                 queryset11 = queryset10.all()
 
+
+            # 検討実施の絞り込み
+            if consideration == "1":
+                queryset12 = queryset11.filter(Q(discussionDate__isnull=True))
+            else:
+                queryset12 = queryset11.all()
+
+
             # セッションにて状態を保存
             self.request.session['item_list_type'] = 'filter'
             
-            queryset = queryset11.order_by('-itemNum')
+            queryset = queryset12.order_by('-itemNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
@@ -235,6 +246,7 @@ class ItemDetailFilter(DetailView):
         completionDateTo = self.request.session['completionDateTo']
         ideaOrAction = self.request.session['ideaOrAction']
         internalDiscussion = self.request.session['internalDiscussion']
+        consideration = self.request.session['consideration']
   
         # 絞込み前の初期値
         queryset0 = Item.objects_list.all_list()
@@ -244,7 +256,8 @@ class ItemDetailFilter(DetailView):
         if item_list_type == 'filter':
                 
             if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
-                (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or internalDiscussion:
+                (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or\
+                internalDiscussion or consideration:
 
                 # 協議案件/共有案件
                 if ideaOrAction == "0":   #協議案件のみ
@@ -322,7 +335,15 @@ class ItemDetailFilter(DetailView):
                 else:
                     queryset11 = queryset10.all()
 
-                item_list_queryset = queryset11
+
+                # 検討実施の絞り込み
+                if consideration == "1":
+                    queryset12 = queryset11.filter(Q(discussionDate__isnull=True))
+                else:
+                    queryset12 = queryset11.all()
+
+
+                item_list_queryset = queryset12
             
             else:
                 item_list_queryset = queryset0
