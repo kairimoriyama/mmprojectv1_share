@@ -72,7 +72,7 @@ function change_registeredSupplier(){
   };
 };
 
-document.getElementById("id_registeredSupplier").addEventListener('focusout', (e) => {
+document.getElementById("id_registeredSupplier").addEventListener('change', (e) => {
   change_registeredSupplier(e)
 });
 
@@ -81,7 +81,7 @@ function change_irregularSupplier(){
   select_supplier();
 };
 
-document.getElementById("id_irregularSupplier").addEventListener('focusout', (e) => {
+document.getElementById("id_irregularSupplier").addEventListener('change', (e) => {
   change_irregularSupplier(e)
 });
 
