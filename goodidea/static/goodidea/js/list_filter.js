@@ -150,6 +150,7 @@ function set_search_key(){
   let submissionDateTo = document.getElementById('submissionDateTo').value;
   let completionDateFrom = document.getElementById('completionDateFrom').value;
   let completionDateTo = document.getElementById('completionDateTo').value;
+  let consideration = document.getElementById('consideration').value;
 
   //ラジオボタンの値を確認
   let ideaOrAction = document.getElementsByName('ideaOrAction');
@@ -180,7 +181,8 @@ function set_search_key(){
     "key11": checkedValue,  //ラジオボタンの値
     "key12": purchase,  //チェックリストの状態
     "key13": system,  //チェックリストの状態
-    "key14": internalDiscussion  //チェックリストの状態
+    "key14": internalDiscussion,  //チェックリストの状態
+    "key15": consideration  //チェックリストの状態
 
   });
  
@@ -236,6 +238,14 @@ function get_search_key() {
       document.getElementById('internalDiscussion').checked = false;
     };
 
+    if (dataset["key15"] == true) {
+      document.getElementById('consideration').checked = true;
+    }else{
+      document.getElementById('consideration').checked = false;
+    };
+
+
+    // 完了日の表示・非表示切り替え
     if (dataset["key5"]==4) {
       document.getElementById("completionDateFilter").style.display ="block";
     }else{

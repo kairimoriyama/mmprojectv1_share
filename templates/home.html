@@ -60,6 +60,19 @@
             </a>
         </li>
 
+        {% if request.user.financial %}
+
+        <li>
+            <img class="icon-s" src="{% static 'favicon_mono.png' %}">
+            <a href="">
+                <h1>Account Check</h1>
+            </a>
+        </li>
+
+                
+        {% else %}
+        {% endif %}
+
 
         <!-- 
         <li>

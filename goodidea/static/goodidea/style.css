@@ -164,7 +164,7 @@ button{
     color: #222222;
     margin-bottom: 0.8rem;
     margin: 0;
-    width:10rem;
+    width:11rem;
     line-height: 3rem;
     text-align: center;
     font-size: 1.4rem;
@@ -352,6 +352,14 @@ button{
 .list_filter_items .category_system_filter{
     width: 8rem;
 }
+.list_filter_items .category_consideration_filter{
+    width: 8rem;
+}
+
+.list_filter_items .category_internalDiscussion_filter{
+    width: 12rem;
+}
+
 
 
 .ideaOrAction_filter dd input{

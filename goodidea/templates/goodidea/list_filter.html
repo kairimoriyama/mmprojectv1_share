@@ -2,8 +2,8 @@
 
 
 {% block header %}
-  <li><a class="menu_bt" href="{% url 'goodidea:create_idea' %}">協議案件作成</a></li>
-  <li><a class="menu_bt" href="{% url 'goodidea:create_action' %}">共有案件作成</a></li>
+  <li><a class="menu_bt" href="{% url 'goodidea:create_idea' %}">協議案件 作成</a></li>
+  <li><a class="menu_bt" href="{% url 'goodidea:create_action' %}">共有案件 作成</a></li>
   <li><a class="menu_bt" href="{% url 'goodidea:list_due' %}">期日管理</a></li>   
   
 {% endblock%}
@@ -69,8 +69,15 @@
         </dd>
       </dl>
 
+      <dl class="category_consideration_filter">
+        <dt>検討未了</dt>
+        <dd>
+          <input id="consideration" name="consideration" type="checkbox" value="1">
+        </dd>
+      </dl>
+
       <dl class="category_internalDiscussion_filter">
-        <dt>要部門決裁</dt>
+        <dt>部門決裁未了</dt>
         <dd>
           <input id="internalDiscussion" name="internalDiscussion" type="checkbox" value="1">
         </dd>

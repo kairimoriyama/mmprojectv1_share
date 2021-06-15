@@ -20,25 +20,6 @@
       <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
     </div>
 
-    <ul class="page_nav">
-      <li>
-        {% if page_obj.has_previous %}
-          <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key()">
-            ＜
-          </a>
-        {% else %}
-        {% endif %}
-      </li>
-    
-      <li>
-        {% if page_obj.has_next %}
-          <a class="menu_bt menu_bt_mg_left next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
-            ＞
-          </a>
-        {% else %}
-        {% endif %}
-      </li>
-    </ul>
   </div>
 
 
