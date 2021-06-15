@@ -158,8 +158,8 @@ class Item(models.Model):
             return type(self).objects.item_alive(
             ).item_due(
             ).filter(dueDate__lt=self.dueDate
-            ).order_by('dueDate','itemNum').last()
-
+            ).order_by('dueDate','itemNum').first()
+            
 
     def get_next_idea_by_dueDate(self):
         """期日が空欄ではない次のideaを取得"""
