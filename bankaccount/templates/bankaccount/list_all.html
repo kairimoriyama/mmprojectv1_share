@@ -1,0 +1,154 @@
+{% extends 'bankaccount/base.html' %}
+{% load humanize %}
+
+{% block header %}
+
+  <li><a href="">口座情報</a></li>
+  <li><a href="">仕訳区分</a></li>
+
+{% endblock%}
+
+
+{% block content %}
+<form id="form_list_all" method="post">{% csrf_token %}
+
+  
+<div class="menu_wrapper">
+  <div><h3>口座情報</h3></div>
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="" id="">自動突合</a>
+  </div>
+</div>
+
+
+
+<table class="item-table">
+
+	<tr>
+		<th class="sticky_col_th first_col">選択</th>
+		<th class="sticky_col_th second_col">No.</th>
+    <th>依頼日</th>
+    <th>進捗</th>
+    <th>発注番号</th>
+    <th>依頼者</th>
+    <th>所属</th>
+    <th>依頼内容</th>
+    <th>希望納期</th>
+    <th>納品予定</th>
+		<th>納品先</th>
+    <th>発注先</th>
+
+  </tr>
+  
+  {% for item in object_list %}
+
+  <!-- 進捗状況に応じた色の設定 -->
+    {% if item.adminCheck.no == 1 %}
+    <tr class="row-yellow">
+    {%  elif item.adminCheck.no == 2 %}
+      <tr class="row-white">
+    {%  elif item.adminCheck.no == 0 %}
+      <tr class="row-red">
+    {%  elif item.adminCheck.no == 4 %}
+      <tr class="row-blue">
+    {%  elif item.adminCheck.no == 5 %}
+      <tr class="row-green">
+    {%  elif item.adminCheck.no == 6 %}
+      <tr class="row-gray">
+    {% endif %}
+
+      <td class="sticky_col_td first_col">
+        <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ item.pk }}">
+      </td>
+
+      <td class="sticky_col_td second_col">
+        <a href="{% url 'procurement:detail_request' item.pk %}">
+          {{ item.requestNum }}
+        </a>
+      </td>
+
+      <td class="date_col">{{ item.submissionDate | date:"m/d"}}</td>
+      <td name="adminCheck_request">{{ item.adminCheck.name }}</td>
+
+      <td class="date_col" name="orderNumInRequest">
+        {% if item.orderInfo %}
+          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}">
+            {{ item.orderInfo.orderNum }}
+          </a>
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </td>
+
+      <td>{{ item.requestStaffdb.fullName }}</td>
+      <td>{{ item.requestStaffDivision.name }}</td>
+    
+      <td class="longText">{{ item.requestDetail }}</td>
+      <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
+      <td class="date_col">
+        {%  if item.orderInfo %}
+          {{ item.orderInfo.arrivalDate | date:"m/d" }}
+        {%  else %}
+          <p>-</p>
+        {% endif %}
+      </td>
+      <td>{{ item.deliveryAddress.name }}</td>
+
+      <td>
+        {%  if item.orderInfo %}
+          {%  if item.orderInfo.registeredSupplier %}
+            {{ item.orderInfo.registeredSupplier.name }}
+          {%  else %}
+            {{ item.orderInfo.irregularSupplier }}
+          {% endif %}
+        {% endif %}
+      </td>
+
+      <td>{{ item.quantity }}</td>
+      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
+
+      <td>{{ item.purpose.name }}</td>
+      <td class="date_col">
+        {% if item.standardItem == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
+
+      <td>{% if item.approval %}
+            {{ item.approval }}
+          {%  else %}
+          {% endif %}  
+      </td>
+      <td>{% if item.project %}
+            {{ item.project }}
+          {%  else %}
+          {% endif %}  
+      </td>
+
+      <td>
+        {%  if item.adminStaffdb %}
+          {{ item.adminStaffdb.fullName }}
+        {%  else %}
+        {% endif %}  
+      </td>
+
+      <td class="longText">
+        {%  if item.adminDescription %}
+          {{ item.adminDescription }}
+        {%  else %}
+        {% endif %} 
+      </td>
+          
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+
+
+
+{% endblock content%}
+
+
