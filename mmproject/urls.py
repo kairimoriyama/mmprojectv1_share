@@ -14,7 +14,7 @@ urlpatterns = [
     path('goodidea/', include('goodidea.urls')),
     path('receipt/', include('receipt.urls')),
     path('procurement/', include('procurement.urls')),
-    path('bankstatement/', include('bankstatement.urls')),
+    path('bankaccount/', include('bankaccount.urls')),
     path('staffdb/', include('staffdb.urls')),
 
     # 開発サーバーでメディアを配信できるようにする設定
