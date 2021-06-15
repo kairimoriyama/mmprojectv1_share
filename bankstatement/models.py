@@ -15,7 +15,7 @@ class Progress(models.Model):
         return self.name
 
 
-class FinancialCategory(models.Model):
+class JournalCategory(models.Model):
     no = models.IntegerField(blank=True,null=True)
     name = models.CharField(max_length=50)
     
@@ -40,9 +40,9 @@ class AccountType(models.Model):
 class BankAccount(models.Model):
     no = models.IntegerField(blank=False,null=False)
     branchName = models.CharField(max_length=50,blank=False,null=False)
-    accountNumber = models.IntegerField(blank=False,null=False)
+    accountNumber = models.IntegerField(blank=True,null=True)
     accountType = models.ForeignKey(AccountType,on_delete=models.PROTECT, related_name ='accounttype',blank=True,null=True)
-    accountMemo = models.CharField(max_length=50,blank=False,null=False)
+    accountMemo = models.CharField(max_length=50,blank=True,null=True)
 
     class Meta:
         verbose_name_plural="BankAccount"
@@ -54,10 +54,19 @@ class BankAccount(models.Model):
 
 class Statement(models.Model):
 
+    no = models.IntegerField(blank=True,null=True)
+    recordDate  = models.DateField(default=timezone.now, blank=True)
+    paymentAmount = models.IntegerField(default=0,blank=False,null=False)
+    deopsitAmount = models.IntegerField(default=0,blank=False,null=False)
+    bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
+    journalCategory = models.ForeignKey(JournalCategory,on_delete=models.PROTECT, related_name ='journalcategory',blank=True,null=True)
+    bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
+    progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='progress',blank=True,null=True)
+
 
     class Meta:
         verbose_name_plural="BankAccount"
-        ordering = ('branchName',)
+        ordering = ('bankAccount','-id',)
 
     def __str__(self):
         return self.name
