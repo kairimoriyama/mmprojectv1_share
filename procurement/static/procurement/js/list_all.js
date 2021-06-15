@@ -33,6 +33,8 @@ function menu_default(){
   $("#selectSupplier_wrapper").hide(0);
   document.getElementById("selectSupplier_start").style.display ="block";
   document.getElementById("selectSupplier_done").style.display ="none";
+  document.getElementById("selectSupplier_decline").style.display ="none";
+  document.getElementById("button_selectSupplier_outOfScope").style.display ="none";
   document.getElementById("selectSupplier_stop").style.display ="none";
   document.getElementById("selectSupplier_title").style.display ="none";
 
@@ -350,6 +352,8 @@ function selectSupplier_start(){
     document.getElementById("acceptance_start").style.display ="none";
     document.getElementById("selectSupplier_start").style.display ="none";
     document.getElementById("selectSupplier_done").style.display ="block";
+    document.getElementById("selectSupplier_decline").style.display ="block";
+    document.getElementById("button_selectSupplier_outOfScope").style.display ="block";
     document.getElementById("selectSupplier_stop").style.display ="block";
     document.getElementById("selectSupplier_title").style.display ="block";
     
@@ -368,6 +372,8 @@ function selectSupplier_stop(){
   document.getElementById("acceptance_start").style.display ="block";
   document.getElementById("selectSupplier_start").style.display ="block";
   document.getElementById("selectSupplier_done").style.display ="none";
+  document.getElementById("selectSupplier_decline").style.display ="none";
+  document.getElementById("button_selectSupplier_outOfScope").style.display ="none";
   document.getElementById("selectSupplier_stop").style.display ="none";
   document.getElementById("selectSupplier_title").style.display ="none";
 

@@ -98,8 +98,8 @@ class ListALL(ListView):
 
                 return self.get(request, *args, **kwargs)
 
-            # 発注準備ボタン
-            if 'button_selectSupplier' in request.POST:
+            # 発注準備ボタン／差戻ボタン／対象外ボタン
+            if ('button_selectSupplier' in request.POST) or ('button_selectSupplier_decline' in request.POST) or ('button_selectSupplier_outOfScope' in request.POST) :
 
                 print("正常")
 
@@ -122,7 +122,17 @@ class ListALL(ListView):
                         print(selectSupplier_request_pk)
                         orderRequestSelectSupplier = get_object_or_404(OrderRequest, pk=selectSupplier_request_pk)
                         adminStaffdbSelectSupplier = get_object_or_404(StaffDB, pk=adminStaffdb)
-                        adminCheckSelectSupplier = get_object_or_404(AdminCheck, pk=2)
+
+                        if ('button_selectSupplier' in request.POST) :
+                            adminCheckSelectSupplier = get_object_or_404(AdminCheck, no=2)
+
+                        elif ('button_selectSupplier_decline' in request.POST):
+                            adminCheckSelectSupplier = get_object_or_404(AdminCheck, no=0)
+
+                        elif ('button_selectSupplier_outOfScope' in request.POST) :
+                            adminCheckSelectSupplier = get_object_or_404(AdminCheck, no=6)
+                        else:
+                            pass
 
                         # リストで全件更新
                         orderRequestSelectSupplier.adminStaffdb = adminStaffdbSelectSupplier
