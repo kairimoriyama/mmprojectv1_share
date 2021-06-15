@@ -62,6 +62,9 @@ class CreateFormRequest(ModelForm):
         self.fields['quantity'].required = True
         self.fields['estimatedAmount'].required = True
         self.fields['costCenter1'].required = True
+        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
 
         # プレースホルダ
         self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
@@ -180,6 +183,9 @@ class UpdateFormRequest(ModelForm):
         self.fields['purpose'].required = True
         self.fields['requestDetail'].required = True
         self.fields['costCenter1'].required = True
+        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
 
         self.fields['quantity'].required = True
         self.fields['estimatedAmount'].required = True
