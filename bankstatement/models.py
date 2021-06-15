@@ -46,16 +46,18 @@ class BankAccount(models.Model):
 
     class Meta:
         verbose_name_plural="BankAccount"
-        ordering = ('branchName',)
+        ordering = ('no',)
 
     def __str__(self):
-        return self.name
+        return self.branchName + str(self.accountNumber)
 
 
 class Statement(models.Model):
 
     no = models.IntegerField(blank=True,null=True)
     recordDate  = models.DateField(default=timezone.now, blank=True)
+    description1 = models.CharField(max_length=10,blank=True,null=True)
+    description2 = models.CharField(max_length=30,blank=True,null=True)
     paymentAmount = models.IntegerField(default=0,blank=False,null=False)
     deopsitAmount = models.IntegerField(default=0,blank=False,null=False)
     accountBalance = models.IntegerField(default=0,blank=False,null=False)
@@ -64,11 +66,11 @@ class Statement(models.Model):
     bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='progress',blank=True,null=True)
     consistencyCheck = models.BooleanField(default=False)
-
+    adminMemo = models.CharField(max_length=50,blank=True,null=True)
 
     class Meta:
-        verbose_name_plural="BankAccount"
+        verbose_name_plural="Statement"
         ordering = ('bankAccount','-id',)
 
     def __str__(self):
-        return self.name
+        return str(self.recordDate)+ str(self.deopsitAmount)+str(self.paymentAmount)
