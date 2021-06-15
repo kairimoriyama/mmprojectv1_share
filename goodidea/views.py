@@ -196,7 +196,7 @@ class ItemListFilter(ListView):
 
             # 検討実施の絞り込み
             if consideration == "1":
-                queryset12 = queryset11.filter(Q(discussionDate__isnull=True))
+                queryset12 = queryset11.filter(discussionDate__isnull=True)
             else:
                 queryset12 = queryset11.all()
 
@@ -338,7 +338,7 @@ class ItemDetailFilter(DetailView):
 
                 # 検討実施の絞り込み
                 if consideration == "1":
-                    queryset12 = queryset11.filter(Q(discussionDate__isnull=True))
+                    queryset12 = queryset11.filter(discussionDate__isnull=True)
                 else:
                     queryset12 = queryset11.all()
 
