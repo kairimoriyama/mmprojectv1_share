@@ -10,7 +10,7 @@ INSTALLED_APPS = [
     'goodidea.apps.GoodideaConfig',
     'receipt.apps.ReceiptConfig',
     'procurement.apps.ProcurementConfig',
-    'bankstatement.apps.BankstatementConfig',
+    'bankaccount.apps.BankaccountConfig',
     'staffdb.apps.StaffdbConfig',
     'accounts.apps.AccountsConfig',
     'django_cleanup.apps.CleanupConfig',
