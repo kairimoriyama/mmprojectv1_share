@@ -58,10 +58,12 @@ class Statement(models.Model):
     recordDate  = models.DateField(default=timezone.now, blank=True)
     paymentAmount = models.IntegerField(default=0,blank=False,null=False)
     deopsitAmount = models.IntegerField(default=0,blank=False,null=False)
+    accountBalance = models.IntegerField(default=0,blank=False,null=False)
     bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
     journalCategory = models.ForeignKey(JournalCategory,on_delete=models.PROTECT, related_name ='journalcategory',blank=True,null=True)
     bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='progress',blank=True,null=True)
+    consistencyCheck = models.BooleanField(default=False)
 
 
     class Meta:
