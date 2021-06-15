@@ -51,6 +51,8 @@ class CreateFormRequest(ModelForm):
         self.fields['dueDate'].required = True
         self.fields['requestStaffdb'].required = True
         self.fields['requestStaffDivision'].required = True
+        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
+
 
         self.fields['deliveryAddress'].required = True
 
@@ -172,6 +174,7 @@ class UpdateFormRequest(ModelForm):
         self.fields['submissionDate'].widget.attrs['readonly'] = True
         self.fields['requestStaffdb'].required = True
         self.fields['requestStaffDivision'].required = True
+        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
         self.fields['dueDate'].required = True
         self.fields['deliveryAddress'].required = True
         self.fields['purpose'].required = True
