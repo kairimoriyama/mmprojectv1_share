@@ -150,7 +150,7 @@ function set_search_key(){
   let submissionDateTo = document.getElementById('submissionDateTo').value;
   let completionDateFrom = document.getElementById('completionDateFrom').value;
   let completionDateTo = document.getElementById('completionDateTo').value;
-  let consideration = document.getElementById('consideration').value;
+
 
   //ラジオボタンの値を確認
   let ideaOrAction = document.getElementsByName('ideaOrAction');
@@ -166,6 +166,7 @@ function set_search_key(){
   let purchase = document.getElementById('purchase').checked;
   let system = document.getElementById('system').checked;
   let internalDiscussion = document.getElementById('internalDiscussion').checked;
+  let consideration = document.getElementById('consideration').checked;
 
   let dataset = ({
     "key1": staffdb,
