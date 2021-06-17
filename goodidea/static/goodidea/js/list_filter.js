@@ -70,25 +70,25 @@ function clear_criteria(){
 };
 
 
-  //登録日From To の初期値
-  function submissionDateInit() {
-    
-    let p = JSON.parse(localStorage.getItem('search_key'));
+//登録日From To の初期値
+function submissionDateInit() {
+  
+  let p = JSON.parse(localStorage.getItem('search_key'));
 
-    if (p === null) {
+  if (p === null) {
 
-      let today = new Date();
-      today.setDate(today.getDate());
-      let yyyy1 = today.getFullYear()-1;
-      let yyyy2 = today.getFullYear();
-      let mm = ("0"+(today.getMonth()+1)).slice(-2);
-      let dd = ("0"+today.getDate()).slice(-2);
-      document.getElementById("submissionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
-      document.getElementById("submissionDateTo").value=yyyy2+'-'+mm+'-'+dd;
+    let today = new Date();
+    today.setDate(today.getDate());
+    let yyyy1 = today.getFullYear()-1;
+    let yyyy2 = today.getFullYear();
+    let mm = ("0"+(today.getMonth()+1)).slice(-2);
+    let dd = ("0"+today.getDate()).slice(-2);
+    document.getElementById("submissionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
+    document.getElementById("submissionDateTo").value=yyyy2+'-'+mm+'-'+dd;
 
-    }else{};
+  }else{};
 
-  };
+};
 
   window.onload = submissionDateInit();
 
