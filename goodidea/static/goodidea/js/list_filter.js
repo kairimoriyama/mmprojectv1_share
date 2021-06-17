@@ -192,9 +192,9 @@ function set_search_key(){
 };
 
 
-// function count_key_clear(){
-//   localStorage.removeItem('count_key'); //他のページへ遷移する場合にcount_key削除
-// };
+function count_key_clear(){
+  localStorage.removeItem('count_key'); //他のページへ遷移する場合にcount_key削除
+};
 
 
 function get_search_key() {
