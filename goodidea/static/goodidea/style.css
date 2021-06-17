@@ -175,7 +175,7 @@ button{
 }
 
 .menu_bt_l{
-    width:20rem;
+    width:12rem;
 }
 
 /* ページ移動ボタン */
@@ -321,7 +321,12 @@ button{
 /* list filter 検索条件*/
 
 .count_items{
-    
+    color: #222222;
+    margin-bottom: 0.8rem;
+    margin: 0;
+    width:5rem;
+    text-align: right;
+    font-size: 1.4rem;
 }
 
 .list_filter{
@@ -330,6 +335,7 @@ button{
 
 .filter_bt_wrapper{
     display: flex;
+    align-items: center;
 
 }
 
