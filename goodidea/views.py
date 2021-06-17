@@ -63,6 +63,9 @@ class ItemListFilter(ListView):
         # 移動先ページの場合分け
         context['list_type'] = 'list_filter'
 
+        # 件数表示
+        context['item_count'] = self.get_queryset().count()
+
 
         return context
 

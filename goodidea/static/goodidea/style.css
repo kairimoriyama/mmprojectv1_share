@@ -320,6 +320,10 @@ button{
 
 /* list filter 検索条件*/
 
+.count_items{
+    
+}
+
 .list_filter{
     margin: 1rem 0 2rem 0;
 }
