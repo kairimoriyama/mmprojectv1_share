@@ -15,7 +15,7 @@
     
   <div class="menu_wrapper">
     <div class="filter_bt_wrapper">
-      <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
+      <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key_peocurement(),submit();" class="menu_bt" value="検索実施">
       <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'procurement:list_request' %}" onclick="clear_criteria();">条件削除</a>
       <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
     </div>
@@ -172,7 +172,7 @@
     <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ item.pk }}">
   </td>
 
-  <td class="sticky_col_td second_col">
+  <td class="sticky_col_td second_col"  onclick="set_search_key_peocurement(), count_key_clear_peocurement();">
     <a href="{% url 'procurement:detail_request' item.pk %}">
       {{ item.requestNum }}
     </a>
