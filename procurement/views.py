@@ -274,7 +274,7 @@ class ListRequest(ListView):
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if staffdb or division or word or\
-            (submissionDateFrom and submissionDateTo) or \
+            submissionDateFrom or submissionDateTo or \
             (settlementDateFrom and settlementDateTo) or settlementCheck:
 
             # 支払未/済/両方
@@ -318,19 +318,24 @@ class ListRequest(ListView):
                 queryset5 = queryset4.all() 
 
 
-            # 日付の絞込
-            if (submissionDateFrom and submissionDateTo) :
-                queryset6 = queryset5.filter(
-                    submissionDate__range=(submissionDateFrom, submissionDateTo)
-                )
+            # 日付の絞込（自）
+            if submissionDateFrom :
+                queryset6_1 = queryset5.filter(submissionDate__gte=submissionDateFrom)
             else:                 
-                queryset6 = queryset5.all()
+                queryset6_1 = queryset5.all()
+
+            # 日付の絞込（至）
+            if submissionDateTo :
+                queryset6_2 = queryset6_1.filter( submissionDate__lte= submissionDateTo)
+            else:                 
+                queryset6_2 = queryset6_1.all()
+
 
 
             # セッションで選択されたデータを保持
             self.request.session['item_list_type_procurement'] = 'filter'
             
-            queryset = queryset6.order_by('adminCheck__no','-orderInfo__orderNum')
+            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:

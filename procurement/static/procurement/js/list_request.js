@@ -66,18 +66,14 @@ function clear_criteria(){
 
       let today = new Date();
       today.setDate(today.getDate());
-      let yyyy1 = today.getFullYear()-1;
-      let yyyy2 = today.getFullYear();
+      let yyyy = today.getFullYear();
       let mm = ("0"+(today.getMonth()+1)).slice(-2);
+      let mm2 = ("0"+(today.getMonth()+2)).slice(-2);
       let dd = ("0"+today.getDate()).slice(-2);
 
-      document.getElementById("submissionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
-      document.getElementById("submissionDateTo").value=yyyy2+'-'+mm+'-'+dd;
-
-      let mm2 = ("0"+(today.getMonth()+2)).slice(-2);
   
-      document.getElementById("settlementDateFrom").value=yyyy2+'-'+mm+'-'+dd;
-      document.getElementById("settlementDateTo").value=yyyy2+'-'+mm2+'-'+dd;
+      document.getElementById("settlementDateFrom").value=yyyy+'-'+mm+'-'+dd;
+      document.getElementById("settlementDateTo").value=yyyy+'-'+mm2+'-'+dd;
 
     }else{};
   };
@@ -86,7 +82,7 @@ function clear_criteria(){
 
 
 // 検索条件をローカルストレージへ保存（ボタン：検索、移動、詳細、戻る）
-function set_search_key(){
+function set_search_key_peocurement(){
 
   localStorage.setItem('count_key_peocurement', '1'); //カウント1を設定
   localStorage.removeItem('search_key_peocurement');
@@ -164,3 +160,8 @@ function get_search_key() {
 };
 
 window.onload = get_search_key(); //読み込み時に遷移前の検索条件を入力
+
+
+function count_key_clear_peocurement(){
+  localStorage.removeItem('count_key_peocurement'); //他のページへ遷移する場合にcount_key削除
+};
