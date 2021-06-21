@@ -117,7 +117,7 @@ class ItemListFilter(ListView):
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
-            (submissionDateFrom and submissionDateTo) or (completionDateFrom and completionDateTo) or \
+            submissionDateFrom or submissionDateTo or (completionDateFrom and completionDateTo) or \
             internalDiscussion or consideration:
 
             # 協議案件/共有案件
@@ -155,19 +155,27 @@ class ItemListFilter(ListView):
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
 
-            # 日付の絞込
-            if (submissionDateFrom and submissionDateTo) :
-                queryset6 = queryset5.filter(
-                    submissionDate__range=(submissionDateFrom, submissionDateTo)
-                )
+            # 日付の絞込（自）
+            if submissionDateFrom :
+                queryset6_1 = queryset5.filter(
+                    submissionDate__gte=submissionDateFrom)
             else:                 
-                queryset6 = queryset5.all()
+                queryset6_1 = queryset5.all()
+
+
+            # 日付の絞込（至）
+            if submissionDateTo :
+                queryset6_2 = queryset6_1.filter(
+                    submissionDate__lte=submissionDateTo)
+            else:                 
+                queryset6_2 = queryset6_1.all()
+
 
             # 担当者の絞込
             if staffdb == "0":   #全社員
-                queryset7 = queryset6.all()
+                queryset7 = queryset6_2.all()
             else: 
-                queryset7 = queryset6.filter(staffdb__exact=staffdb)
+                queryset7 = queryset6_2.filter(staffdb__exact=staffdb)
             
             # 実行担当者の絞込
             if inchargeStaff:
@@ -294,19 +302,27 @@ class ItemDetailFilter(DetailView):
                 queryset5 = queryset4.filter(progress__exact=progress)
 
 
-            # 日付の絞込
-            if (submissionDateFrom and submissionDateTo) :
-                queryset6 = queryset5.filter(
-                    submissionDate__range=(submissionDateFrom, submissionDateTo)
-                )
+            # 日付の絞込（自）
+            if submissionDateFrom :
+                queryset6_1 = queryset5.filter(
+                    submissionDate__gte=submissionDateFrom)
             else:                 
-                queryset6 = queryset5.all()
+                queryset6_1 = queryset5.all()
+
+
+            # 日付の絞込（至）
+            if submissionDateTo :
+                queryset6_2 = queryset6_1.filter(
+                    submissionDate__lte=submissionDateTo)
+            else:                 
+                queryset6_2 = queryset6_1.all()
+
 
             # 担当者の絞込
             if staffdb == "0":   #全社員
-                queryset7 = queryset6.all()
+                queryset7 = queryset6_2.all()
             else: 
-                queryset7 = queryset6.filter(staffdb__exact=staffdb)
+                queryset7 = queryset6_2.filter(staffdb__exact=staffdb)
             
             # 実行担当者の絞込
             if inchargeStaff:
