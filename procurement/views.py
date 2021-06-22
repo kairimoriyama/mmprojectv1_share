@@ -462,6 +462,42 @@ class UpdateOrder(UpdateView):
         return reverse('procurement:detail_order', kwargs={'pk': self.object.id})
 
 
+
+# 標準発注先の作成・閲覧・編集（現在作成中）
+
+class ListSupplier(ListView):
+    template_name = 'procurement/list_supplier.html'
+    model  = Supplier
+    fields = '__all__'
+
+
+
+class DetailSupplier(DetailView):
+    template_name = 'procurement/detail_supplier.html'
+    model  = Supplier
+    fields = '__all__'
+
+
+class CreateSupplier(CreateView):
+    template_name = 'procurement/create_supplier.html'
+    model  = Supplier
+
+    def get_success_url(self):
+        return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
+
+
+class UpdateSupplier(UpdateView):
+    template_name = 'procurement/update_supplier.html'
+    model  = Supplier
+
+    def get_success_url(self):
+        return reverse('procurement:detail_supplier', kwargs={'pk': self.object.id})
+
+
+
+
+
+# 依頼担当のselect 社員番号で絞込み
 def ajax_get_requestStaff(request):
     requestStaffNumber = request.GET.get('requestStaffNumber')
     print('requestStaffNumber:'+ str(requestStaffNumber))
@@ -483,6 +519,7 @@ def ajax_get_requestStaff(request):
     return JsonResponse({'staffList': staff_list})
 
 
+# 精査担当のselect 社員番号で絞込み
 def ajax_get_adminStaff(request):
     adminStaffNumber = request.GET.get('adminStaffNumber')
     print('adminStaffNumber:'+ str(adminStaffNumber))
@@ -504,6 +541,7 @@ def ajax_get_adminStaff(request):
     return JsonResponse({'staffList': staff_list})
 
 
+# 発注担当のselect 社員番号で絞込み
 def ajax_get_orderStaff(request):
     orderStaffNumber = request.GET.get('orderStaffNumber')
     print('orderStaffNumber:'+ str(orderStaffNumber))
@@ -525,7 +563,7 @@ def ajax_get_orderStaff(request):
     return JsonResponse({'staffList': staff_list})
 
 
-    
+# 検収担当のselect 社員番号で絞込み    
 def ajax_get_acceptanceStaff(request):
     acceptanceStaffNumber = request.GET.get('acceptanceStaffNumber')
     print('acceptanceStaffNumber:'+ str(acceptanceStaffNumber))
@@ -546,8 +584,10 @@ def ajax_get_acceptanceStaff(request):
     # JSON
     return JsonResponse({'staffList': staff_list})
 
+# 検索画面の依頼担当select 社員番号で絞込み
 
 # 先頭に空データ追加の追加あり
+
 def ajax_get_requestStaff_filter(request):
     staffNumber = request.GET.get('staffNumber')
     print(staffNumber)
