@@ -1,0 +1,104 @@
+{% extends 'procurement/base.html' %}
+{% load humanize %}
+
+{% block header %}
+
+  <li><a href="{% url 'procurement:list_all' %}">Topへ戻る</a></li>
+
+{% endblock%}
+
+
+{% block content %}
+
+
+<div class="menu_wrapper">
+
+  <div><h3>標準発注先一覧</h3></div>
+ 
+  <div class="menu_wrapper_inner">
+    <a class="menu_bt" href="{% url 'procurement:create_request' %}">標準発注先追加</a>
+    <ul class="page_nav">
+      <li>
+        {% if page_obj.has_previous %}
+          <a class="menu_bt next_bt" href="?page={{ page_obj.previous_page_number }}">＜</a>
+        {% else %}
+        {% endif %}
+      </li>
+
+      <li>
+        {% if page_obj.has_next %}
+          <a class="menu_bt menu_bt_mg_left next_bt" href="?page={{ page_obj.next_page_number }}">＞</a>
+        {% else %}
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<table class="item-table table_order">
+
+	<tr>
+		<th class="sticky_col_th">番号</th>
+    <th>発注日</th>
+    <th>進捗状況</th>
+    <th>発注者</th>
+    <th>発注先</th>
+  </tr>
+  
+  {% for item in object_list %}
+
+    <tr class="row-white">
+
+     <td class="sticky_col_td">
+          <a href="{% url 'procurement:detail_order' item.pk %}">
+            {{ item.orderNum }}
+          </a>
+      </td>
+     
+      <td class="date_col">{{ item.orderDate | date:"Y/m/d"}}</td>
+      <td>{{ item.progress.name }}</td>
+      <td>{{ item.orderStaffdb.fullName }}</td>
+
+      <td>
+      {% if item.registeredSupplier %}
+        {{ item.registeredSupplier.name }}
+      {% else %}
+        {{ item.irregularSupplier }}
+      {% endif %}
+      </td>
+
+      <td>{{ item.arrivalDate | date:"Y/m/d" }}</td>
+
+      <td class="number_col">{{ item.totalAmount|intcomma }}</td>
+
+      <td>{{ item.paymentMethod.name }}</td>
+      <td>{{ item.orderDescription }}</td>
+
+      <td>{{ item.acceptanceDate | date:"Y/m/d" }}</td>
+      <td>{{ item.acceptanceStaffdb.fullName }}</td>
+
+      <td class="longText">{{ item.acceptanceMemo }}</td>
+      <td class="date_col">
+        {% if item.settlementDate %}
+          {{ item.settlementDate | date:"Y/m/d"  }}
+        {% else %}-
+        {% endif %}
+      </td>
+
+      <td>
+        {% if item.settlement == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
+
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+{% endblock content%}
+
+
