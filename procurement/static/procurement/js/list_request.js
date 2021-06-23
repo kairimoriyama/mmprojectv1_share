@@ -23,7 +23,7 @@ function display_off(){
 //表示・非表示の初期値
 function display_criteria(){
 
-  if (parseInt(localStorage.getItem('display_key_peocurement'))==1) {
+  if (parseInt(localStorage.getItem('display_key_procurement'))==1) {
 
     display_on();
     
@@ -42,25 +42,25 @@ function filter_item_bt(){
 
     display_on();
 
-    localStorage.setItem('display_key_peocurement', '1'); //1を設定
+    localStorage.setItem('display_key_procurement', '1'); //1を設定
     
   }else{
 
     display_off();
 
-    localStorage.setItem('display_key_peocurement', '0'); //0を設定
+    localStorage.setItem('display_key_procurement', '0'); //0を設定
   }
 };
 
 function clear_criteria(){
-  localStorage.setItem('display_key_peocurement', '1'); //0を設定
+  localStorage.setItem('display_key_procurement', '1'); //0を設定
 };
 
 
   //依頼日From To の初期値
   function submissionDateInit() {
     
-    let p = JSON.parse(localStorage.getItem('search_key_peocurement'));
+    let p = JSON.parse(localStorage.getItem('search_key_procurement'));
 
     if (p === null) {
 
@@ -82,10 +82,10 @@ function clear_criteria(){
 
 
 // 検索条件をローカルストレージへ保存（ボタン：検索、移動、詳細、戻る）
-function set_search_key_peocurement(){
+function set_search_key_procurement(){
 
-  localStorage.setItem('count_key_peocurement', '1'); //カウント1を設定
-  localStorage.removeItem('search_key_peocurement');
+  localStorage.setItem('count_key_procurement', '1'); //カウント1を設定
+  localStorage.removeItem('search_key_procurement');
 
   let staffdb = document.getElementById('staffdb').value;
   let division = document.getElementById('division').value;
@@ -120,13 +120,13 @@ function set_search_key_peocurement(){
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
-  localStorage.setItem('search_key_peocurement', datasetJSON); 
+  localStorage.setItem('search_key_procurement', datasetJSON); 
 };
 
 
 function get_search_key() {
 
-  let dataset = JSON.parse(localStorage.getItem('search_key_peocurement'));
+  let dataset = JSON.parse(localStorage.getItem('search_key_procurement'));
 
   if (dataset === null) {
 
@@ -147,13 +147,13 @@ function get_search_key() {
 
 
     // 更新・他のページからの遷移の際に検索実施
-    if (parseInt(localStorage.getItem('count_key_peocurement'))==1) { //カウント1であればそのまま実行
+    if (parseInt(localStorage.getItem('count_key_procurement'))==1) { //カウント1であればそのまま実行
 
-      localStorage.removeItem('count_key_peocurement'); 
-      localStorage.removeItem('search_key_peocurement');
+      localStorage.removeItem('count_key_procurement'); 
+      localStorage.removeItem('search_key_procurement');
       
     }else{
-      localStorage.setItem('count_key_peocurement', '1'); //カウント1を設定
+      localStorage.setItem('count_key_procurement', '1'); //カウント1を設定
       document.getElementById('search_btn').click(); //検索条件による抽出実行
     };
   };
@@ -162,6 +162,6 @@ function get_search_key() {
 window.onload = get_search_key(); //読み込み時に遷移前の検索条件を入力
 
 
-function count_key_clear_peocurement(){
-  localStorage.removeItem('count_key_peocurement'); //他のページへ遷移する場合にcount_key削除
+function count_key_clear_procurement(){
+  localStorage.removeItem('count_key_procurement'); //他のページへ遷移する場合にcount_key削除
 };
