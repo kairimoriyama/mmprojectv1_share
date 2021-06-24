@@ -86,9 +86,9 @@ class Item(models.Model):
     title = models.TextField(max_length=2500, blank=False,null=False)
     description = models.TextField(max_length=2500, blank=False,null=False)
 
-    refURL1 = models.URLField(max_length=300, blank=True,null=True)
-    refURL2 = models.URLField(max_length=300, blank=True,null=True)
-    refURL3 = models.URLField(max_length=300, blank=True,null=True)
+    refURL1 = models.URLField(max_length=2000, blank=True,null=True)
+    refURL2 = models.URLField(max_length=2000, blank=True,null=True)
+    refURL3 = models.URLField(max_length=2000, blank=True,null=True)
 
     picture1 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
     picture2 = ResizedImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
