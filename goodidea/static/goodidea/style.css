@@ -164,10 +164,12 @@ button{
     color: #222222;
     margin-bottom: 0.8rem;
     margin: 0;
-    width:9rem;
+    width:8rem;
     line-height: 3rem;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    color:rgb(0, 51, 141);
+    font-weight: bold;
 }
 
 .menu_bt_mg_left{
@@ -175,11 +177,18 @@ button{
 }
 
 .menu_bt_l{
-    width:12rem;
+    width:10rem;
+    
 }
 
 .export_csv{
     display:none;
+}
+
+.create_post{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color:rgb(0, 51, 141);
 }
 
 
@@ -207,7 +216,7 @@ button{
 .item-table{
     display: block;
     max-height: 90rem;
-    margin: 1rem;
+    margin: 1rem 1.5rem;
     border-width: 0;
     padding: 0;
     overflow: scroll;
@@ -334,10 +343,12 @@ button{
 .count_items{
     color: #222222;
     margin-bottom: 0.8rem;
-    margin: 0;
-    width:5rem;
-    text-align: right;
+    margin: 0 0.4rem;
+    width:6rem;
+    text-align: center;
     font-size: 1.4rem;
+    font-weight: bold;
+    color:rgb(0, 51, 141);
 }
 
 .list_filter{
@@ -365,15 +376,15 @@ button{
 
 /* 協議案件・共有案件 */
 .list_filter_items .ideaOrAction_filter{
-    width: 29rem; 
+    width: 22rem; 
 }
 .list_filter_items .category_purchase_filter{
     width: 5rem;
 }
 .list_filter_items .category_system_filter{
-    width: 8rem;
+    width: 15rem;
 }
-.list_filter_items .category_consideration_filter{
+.list_filter_items .category_discussion_filter{
     width: 8rem;
 }
 
@@ -631,7 +642,7 @@ hr{
     display: grid;
     grid-template-rows: repeat(18, auto);
     grid-template-columns: 100%;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
 }
 
 @media screen and (min-width: 500px) {

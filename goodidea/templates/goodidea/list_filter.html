@@ -2,10 +2,10 @@
 
 
 {% block header %}
-    <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_idea' %}">協議案件 作成</a></li>
-    <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_action' %}">共有案件作成</a></li>
+    <li><p class="create_post">新規投稿 &#8658;</p></li>
+    <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_idea' %}">1. 提案</a></li>
+    <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_action' %}">2. 完了共有</a></li>
 
-    <li><a class="menu_bt" href="{% url 'goodidea:list_due' %}">期日管理</a></li>
     <li><button class="menu_bt export_csv" type="button" onclick="location.href='/goodidea/export'">CSV 出力</button></li>
   
 {% endblock%}
@@ -18,9 +18,9 @@
   <div class="menu_wrapper">
     <div class="filter_bt_wrapper">
       <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
-      <p class="count_items menu_bt_mg_left">{{ item_count }}件</p>
+      <p class="count_items">{{ item_count }}件</p>
       <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a>
-      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
+      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></p>
       
     </div>
 
@@ -50,11 +50,25 @@
 
       <form method="POST" aciton="">
 
+      <dl class="category_discussion_filter">
+        <dt>協議未実施</dt>
+        <dd>
+          <input id="consideration" name="consideration" type="checkbox" value="1">
+        </dd>
+      </dl>
+
+      <dl class="category_internalDiscussion_filter">
+        <dt>部門決裁未完了</dt>
+        <dd>
+          <input id="internalDiscussion" name="internalDiscussion" type="checkbox" value="1">
+        </dd>
+      </dl>
+
       <dl class="ideaOrAction_filter">
         <dt>案件区分</dt>
         <dd>
-          <input class="radio_left_end" type="radio" name="ideaOrAction" value="0">協議案件
-          <input type="radio" name="ideaOrAction" value="1">共有案件
+          <input class="radio_left_end" type="radio" name="ideaOrAction" value="0">提案
+          <input type="radio" name="ideaOrAction" value="1">完了共有
           <input type="radio" name="ideaOrAction" value="2" checked="checked">両方
         </dd>
       </dl>
@@ -73,19 +87,7 @@
         </dd>
       </dl>
 
-      <dl class="category_consideration_filter">
-        <dt>検討未了</dt>
-        <dd>
-          <input id="consideration" name="consideration" type="checkbox" value="1">
-        </dd>
-      </dl>
 
-      <dl class="category_internalDiscussion_filter">
-        <dt>部門決裁未了</dt>
-        <dd>
-          <input id="internalDiscussion" name="internalDiscussion" type="checkbox" value="1">
-        </dd>
-      </dl>
 
       <dl>
         <dt>社員番号 &#8658; 提案者</dt>
