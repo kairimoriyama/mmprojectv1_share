@@ -190,9 +190,9 @@ class OrderRequest(models.Model):
     quantity = models.CharField(max_length=100)
     estimatedAmount = models.IntegerField(blank=True,null=True)
 
-    refURL1 = models.URLField(max_length=300, blank=True,null=True)
-    refURL2 = models.URLField(max_length=300, blank=True,null=True)
-    refURL3 = models.URLField(max_length=300, blank=True,null=True)
+    refURL1 = models.URLField(max_length=2000, blank=True,null=True)
+    refURL2 = models.URLField(max_length=2000, blank=True,null=True)
+    refURL3 = models.URLField(max_length=2000, blank=True,null=True)
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)

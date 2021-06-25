@@ -178,6 +178,17 @@ button{
     width:12rem;
 }
 
+.export_csv{
+    display:none;
+}
+
+
+@media screen and (min-width: 500px) {
+    .export_csv{
+        display:block;
+    }
+}
+
 /* ページ移動ボタン */
 
 .page_nav{
