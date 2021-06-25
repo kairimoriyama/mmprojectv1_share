@@ -443,6 +443,43 @@ class CreateOrder(CreateView):
             return render(request, self.template_name, params ) 
 
 
+# 発注・依頼の一括作成
+
+class CreateOrderRequest(CreateView):
+    template_name = 'procurement/create_order_request.html'
+    form_class = CreateFormOrder
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(request.POST, request.FILES)
+
+        params = {
+            'form':form
+        }
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+
+            # orderNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearOrderNums = OrderInfo.objects.values('orderNum').filter(
+                orderDate__year=currentYear
+                )
+            lastOrderNum = currentYearOrderNums.aggregate(Max('orderNum'))
+            maxOrderNum = lastOrderNum['orderNum__max']
+
+            if (maxOrderNum == None) or (maxOrderNum < 1):
+                obj.orderNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.orderNum = maxOrderNum +1 
+        
+            obj.save()
+            return redirect('procurement:detail_order', pk= obj.id)
+
+        else:
+            return render(request, self.template_name, params ) 
+
 
 class UpdateRequest(UpdateView):
     template_name = 'procurement/update_request.html'

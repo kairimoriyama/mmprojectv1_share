@@ -358,6 +358,7 @@ function selectSupplier_start(){
     document.getElementById("selectSupplier_title").style.display ="block";
     
     document.getElementById("create_order").style.display ="none";
+    document.getElementById("create_order_request").style.display ="none";
     document.getElementById("report_order").style.display ="none";
 
     document.getElementById("selected_request_pk_selectSupplier").value = selected_request_pk;
@@ -378,6 +379,7 @@ function selectSupplier_stop(){
   document.getElementById("selectSupplier_title").style.display ="none";
 
   document.getElementById("create_order").style.display ="block";
+  document.getElementById("create_order_request").style.display ="block";
   document.getElementById("report_order").style.display ="block";
 };
 

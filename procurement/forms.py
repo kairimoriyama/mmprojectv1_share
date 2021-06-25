@@ -17,6 +17,30 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
+# # 発注・依頼の一括作成
+
+# class AddRequestForm(forms.DateInput):
+
+#     class Meta:
+#         model = OrderRequest
+#         fields = ('submissionDate',
+#             'requestStaffDivision', 'requestStaffdb',
+#             'dueDate', 'deliveryAddress', 
+#             'costCenter1', 'costCenter2', 'costCenter3',
+#             'purpose', 'standardItem', 'requestDetail', 
+#             'project','approval', 
+#             'quantity', 'estimatedAmount',
+#             'refURL1', 'refURL2', 'refURL3',
+#             'refFile1','refFile2','refFile3',
+#             )
+        
+
+# RequestFormset = forms.inlineformset_factory(
+#     parent_model = OrderInfo,
+#     model = OrderRequest,
+#     fields = AddRequestForm,
+#     extra=1
+#     )
 
 class CreateFormRequest(ModelForm):
 
