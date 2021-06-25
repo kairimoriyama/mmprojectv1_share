@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('create_request/', views.CreateRequest.as_view(), name='create_request'),
     path('create_order/', views.CreateOrder.as_view(), name='create_order'),
+    path('create_order_request/', views.CreateOrderRequest.as_view(), name='create_order_request'),
 
     path('update_request/<int:pk>', views.UpdateRequest.as_view(), name='update_request'),
     path('update_order/<int:pk>', views.UpdateOrder.as_view(), name='update_order'),
