@@ -13,11 +13,28 @@ from django.db.models import Max
 import datetime
 from django.utils import timezone 
 
+import unicodecsv as csv
+
 from .models import Item, Progress, Division, Category
 from .forms import  ItemCreateFromIdea, ItemCreateFromAction, ItemUpdateFrom
 from staffdb.models import StaffDB
 
 # Create your views here.
+
+
+def export_goodidea(request):
+    template_name = 'goodidea/export.html'
+    success_url = reverse_lazy('goodidea:list_filter')
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="goodidea.csv"; unicode="utf_8_sig"'
+
+    writer = csv.writer(response, delimiter=',', encoding='utf_8_sig')
+
+    writer.writerow(['案件番号','協議案件番号','完了共有案件番号','登録日','進捗','提案者','所属','分類','提案・実施内容','理由説明','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
+    for item in Item.objects.all():
+        writer.writerow([item.itemNum,item.ideaNum,item.actionNum,item.submissionDate,item.progress,item.staff,item.division,item.category,item.title,item.description,item.refURL1,item.refURL2,item.refURL3,item.picture1,item.picture2,item.picture3,item.refFile1,item.refFile2,item.refFile3,item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
+    return response
 
 
 
