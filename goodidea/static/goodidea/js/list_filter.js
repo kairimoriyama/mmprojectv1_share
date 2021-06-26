@@ -70,7 +70,7 @@ function clear_criteria(){
 };
 
 
-  //Progressの値に応じて completionDate の値を更新
+  //Progressの値に応じて completionDate の表示を更新
   function progressSelect() {
   
   let dataset = JSON.parse(localStorage.getItem('search_key'));
@@ -80,17 +80,7 @@ function clear_criteria(){
       let select = document.getElementById('progress').value;
 
       if (select=="4"){
-        (function updateCompletionDate() {
-          let today = new Date();
-          today.setDate(today.getDate());
-          let yyyy1 = today.getFullYear()-1;
-          let yyyy2 = today.getFullYear();
-          let mm = ("0"+(today.getMonth()+1)).slice(-2);
-          let dd = ("0"+today.getDate()).slice(-2);
-          document.getElementById("completionDateFrom").value=yyyy1+'-'+mm+'-'+dd;
-          document.getElementById("completionDateTo").value=yyyy2+'-'+mm+'-'+dd;
-        }());
-        
+   
         //completionDateFilter の表示
 
         (function completionDateOn(){

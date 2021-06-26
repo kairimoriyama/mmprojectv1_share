@@ -134,7 +134,7 @@ class ItemListFilter(ListView):
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if progress or purchase or system or staffdb or division or inchargeStaff or inchargeDivision or word or\
-            submissionDateFrom or submissionDateTo or (completionDateFrom and completionDateTo) or \
+            submissionDateFrom or submissionDateTo or completionDateFrom or completionDateTo or \
             internalDiscussion or consideration:
 
             # 協議案件/共有案件
@@ -166,11 +166,26 @@ class ItemListFilter(ListView):
             # 進捗・完了日の絞り込み
             if progress == "0":   #全進捗
                 queryset5 = queryset4.all()
+
             elif progress == "4": #完了案件のみ
-                queryset5 = queryset4.filter(progress__exact=4
-                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+
+                if (completionDateFrom and completionDateTo):
+                    queryset5 = queryset4.filter(completionDate__range=(completionDateFrom, completionDateTo))
+
+                # 完了日の絞込（自）
+                elif completionDateFrom and (not completionDateTo):
+                    queryset5 = queryset4.filter(completionDate__gte=completionDateFrom)
+
+                # 完了日の絞込（至）
+                elif (not completionDateFrom) and completionDateTo:
+                    queryset5 = queryset4.filter(completionDate__lte=completionDateTo)
+
+                elif (not completionDateFrom) and (not completionDateTo):
+                    queryset5 = queryset4.filter(progress__exact=4)
+
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
+
 
             # 日付の絞込（自）
             if submissionDateFrom :
@@ -312,9 +327,23 @@ class ItemDetailFilter(DetailView):
             # 進捗・完了日の絞り込み
             if progress == "0":   #全進捗
                 queryset5 = queryset4.all()
+
             elif progress == "4": #完了案件のみ
-                queryset5 = queryset4.filter(progress__exact=4
-                ).filter(completionDate__range=(completionDateFrom, completionDateTo))
+
+                if (completionDateFrom and completionDateTo):
+                    queryset5 = queryset4.filter(completionDate__range=(completionDateFrom, completionDateTo))
+
+                # 完了日の絞込（自）
+                elif completionDateFrom and (not completionDateTo):
+                    queryset5 = queryset4.filter(completionDate__gte=completionDateFrom)
+
+                # 完了日の絞込（至）
+                elif (not completionDateFrom) and completionDateTo:
+                    queryset5 = queryset4.filter(completionDate__lte=completionDateTo)
+
+                elif (not completionDateFrom) and (not completionDateTo):
+                    queryset5 = queryset4.filter(progress__exact=4)
+
             else:                 #新規/実施なし
                 queryset5 = queryset4.filter(progress__exact=progress)
 
