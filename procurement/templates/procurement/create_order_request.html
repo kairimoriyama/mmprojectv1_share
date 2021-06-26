@@ -126,7 +126,8 @@
 <hr>
 
 
-{{ form.formset.management_form }}
+{{ formset.management_form }}
+{% for formset_item in formset %}
 
 <div class="container_request_edit">
 
@@ -141,76 +142,76 @@
 
   <dl class="item_dl item2">
     <dt>依頼日</dt>
-    <dd>{{ formset.submissionDate }}</dd>
+    <dd>{{ formset_item.submissionDate }}</dd>
   </dl>
 
   <dl class="item_dl item3">
     <dt>希望納期</dt>
-    <dd>{{ formset.dueDate }}</dd>
+    <dd>{{ formset_item.dueDate }}</dd>
   </dl>
     
   <dl class="item_dl item4 staffNumber">
     <dt>依頼者</dt>
     <dd id="requestStaffNumber">
       <input name="requestStaffNumber" type="number">
-      {{ formset.requestStaffdb}}
+      {{ formset_item.requestStaffdb}}
     </dd>
   </dl>
 
   <dl class="item_dl item5">
     <dt>所属</dt>
-    <dd>{{ formset.requestStaffDivision}}</dd>
+    <dd>{{ formset_item.requestStaffDivision}}</dd>
   </dl>
 
 
   <dl class="item_dl item6">
     <dt>納品先</dt>
-    <dd>{{ formset.deliveryAddress}}</dd>
+    <dd>{{ formset_item.deliveryAddress}}</dd>
   </dl>
 
 
   <dl class="item_dl item7">
     <dt>区分</dt>
-    <dd>{{ formset.purpose}}</dd>
+    <dd>{{ formset_item.purpose}}</dd>
   </dl>
 
   <dl class="item_dl item8">
     <dt>標準品</dt>
-    <dd>{{ formset.standardItem}}</dd>
+    <dd>{{ formset_item.standardItem}}</dd>
   </dl>
 
   <dl class="item_dl item9">
     <dt class="height_l sentence_dt2">依頼内容</dt>
-    <dd class="height_l sentence_dd2">{{ formset.requestDetail}}</dd>
+    <dd class="height_l sentence_dd2">{{ formset_item.requestDetail}}</dd>
   </dl>
 
   <dl class="item_dl item10 multiple_items_URL">
     <dt class="height_l">URL</dt>
     <dd class="height_l">
-      <div>{{ formset.refURL1 }}</div>
-      <div>{{ formset.refURL2 }}</div>
-      <div>{{ formset.refURL3 }}</div>
+      <div>{{ formset_item.refURL1 }}</div>
+      <div>{{ formset_item.refURL2 }}</div>
+      <div>{{ formset_item.refURL3 }}</div>
     </dd>
   </dl>
 
   <dl class="item_dl item11">
     <dt>数量</dt>
-    <dd>{{ formset.quantity }}</dd>
+    <dd>{{ formset_item.quantity }}</dd>
   </dl>
 
   <dl class="item_dl item12">
     <dt>税込総額</dt>
-    <dd id="amount" class="request_amount must_color"><input type="tel">{{ formset.estimatedAmount }}</dd>
+    <dd id="amount" class="request_amount must_color"><input type="tel">{{ formset_item.estimatedAmount }}</dd>
   </dl>
 
   <dl class="item_dl item13">
     <dt>稟議番号</dt>
-    <dd>{{ formset.approval}}</dd>
+    <dd>{{ formset_item.approval}}</dd>
   </dl>
 
   <dl class="item_dl item14">
     <dt>プロジェクト</dt>
-    <dd>{{ formset.project}}</dd>
+    <dd>{{ formset_item.project}}</dd>
   </dl>
 
 
@@ -218,9 +219,9 @@
   <dl class="item_dl item15 multiple_items_select">
     <dt class="height_l">費用負担</dt>
     <dd class="height_l">
-      <div>{{ formset.costCenter1 }}</div>
-      <div>{{ formset.costCenter2 }}</div>
-      <div>{{ formset.costCenter3 }}</div>
+      <div>{{ formset_item.costCenter1 }}</div>
+      <div>{{ formset_item.costCenter2 }}</div>
+      <div>{{ formset_item.costCenter3 }}</div>
     </dd>
   </dl>
 
@@ -231,17 +232,17 @@
 
       <div class="attachment_update">
         <p>資料（1）</p>
-        <div>{{ formset.refFile1 }}</div>
+        <div>{{ formset_item.refFile1 }}</div>
       </div>
 
       <div class="attachment_update">
         <p>資料（2）</p>
-        <div>{{ formset.refFile2 }}</div>
+        <div>{{ formset_item.refFile2 }}</div>
       </div>
       
       <div class="attachment_update">
         <p>資料（3）</p>
-        <div>{{ formset.refFile3 }}</div>
+        <div>{{ formset_item.refFile3 }}</div>
       </div>
     </dd>
   </dl>
@@ -275,6 +276,7 @@
   </dl>
 
 </div>
+{% endfor %}
 
 </form>
 <hr>

@@ -9,12 +9,11 @@ from django.core import validators
 import unicodecsv as csv
 from django.contrib import messages
 
-
 import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormOrder, CreateFormOrderAndRequest, CreateFormRequestWithOrder
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormOrder, CreateFormOrderAndRequest, CreateFormRequestWithOrder, RequestFormset
 from staffdb.models import StaffDB, Division
 
 # Create your views here.
@@ -445,26 +444,130 @@ class CreateOrder(CreateView):
 
 # 発注・依頼の一括作成
 
-class CreateOrderRequest(CreateView):
+class FormsetMixin(object):
+    object = None
+
+    def get(self, request, *args, **kwargs):
+        if getattr(self, 'is_update_view', False):
+            self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset_class = self.get_formset_class()
+        formset = self.get_formset(formset_class)
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def post(self, request, *args, **kwargs):
+        if getattr(self, 'is_update_view', False):
+            self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset_class = self.get_formset_class()
+        formset = self.get_formset(formset_class)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def get_formset_class(self):
+        return self.formset_class
+
+    def get_formset(self, formset_class):
+        return formset_class(**self.get_formset_kwargs())
+
+    def get_formset_kwargs(self):
+        kwargs = {
+            'instance': self.object
+        }
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        return kwargs
+
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return redirect(self.object.get_absolute_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+
+
+class RequestMixin(object):
+    def form_valid(self, form, formset):
+
+        # formset.saveでインスタンスを取得できるように、既存データに変更が無くても更新対象となるようにする
+        for detail_form in formset.forms:
+            if detail_form.cleaned_data:
+                detail_form.has_changed = lambda: True
+
+        # インスタンスの取得
+        obj = form.save(commit=False)
+        formset.instance = obj
+        obj_formsets = formset.save(commit=False)
+
+        # orderNumの設定
+        currentYear= datetime.date.today().year
+        currentYearStr = str(currentYear)
+        currentYearOrderNums = OrderInfo.objects.values('orderNum').filter(
+            orderDate__year=currentYear
+            )
+        lastOrderNum = currentYearOrderNums.aggregate(Max('orderNum'))
+        maxOrderNum = lastOrderNum['orderNum__max']
+
+        if (maxOrderNum == None) or (maxOrderNum < 1):
+            obj.orderNum = int(currentYearStr[-2:] + "0001")
+        else:
+            obj.orderNum = maxOrderNum +1 
+
+        obj.save()
+
+
+        for obj_formset in obj_formsets:
+
+            # requestNumの設定
+            currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                submissionDate__year=currentYear)
+            lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+            maxRequestNum = lastRequestNum['requestNum__max']
+
+            if (maxRequestNum == None) or (maxRequestNum < 1):
+                obj_formset.requestNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj_formset.requestNum = maxRequestNum +1
+
+            obj_formset.save()
+
+
+        # 処理後は詳細ページを表示
+        return redirect('procurement:detail_order', pk= obj.id)
+        
+
+class CreateOrderRequest(RequestMixin, FormsetMixin, CreateView):
     template_name = 'procurement/create_order_request.html'
     form_class = CreateFormOrderAndRequest
+    formset_class = RequestFormset
 
+
+# 関数で検討中
+
+def add_OrderRequest(request):
+    form = CreateFormOrderAndRequest(request.POST or None)
+    context = {'form': form}
+    
     def get_context_data(self, **kwargs):
         context = super(CreateOrderRequest, self).get_context_data(**kwargs)
 
         context['formset'] = CreateFormRequestWithOrder()
         return context
 
-    def post(self, request, *args, **kwargs):
-
-        form = self.form_class(request.POST, request.FILES)
-
-        params = {
-            'form':form
-        }
-
-        if form.is_valid():
-            obj = form.save(commit=False)
+    if request.method == 'POST' and form.is_valid():
+        obj = form.save(commit=False)
+        formset = RequestFormset(request.POST, files=request.FILES, instance=obj)  
+        if formset.is_valid():
 
             # orderNumの設定
             currentYear= datetime.date.today().year
@@ -479,12 +582,39 @@ class CreateOrderRequest(CreateView):
                 obj.orderNum = int(currentYearStr[-2:] + "0001")
             else:
                 obj.orderNum = maxOrderNum +1 
-        
+
             obj.save()
+
+            for obj_formset in formset:
+
+                # requestNumの設定
+                currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                    submissionDate__year=currentYear)
+                lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+                maxRequestNum = lastRequestNum['requestNum__max']
+
+                print(maxRequestNum)
+
+                if (maxRequestNum == None) or (maxRequestNum < 1):
+                    obj_formset.requestNum = int(currentYearStr[-2:] + "0001")
+                else:
+                    obj_formset.requestNum = maxRequestNum +1
+                    print(obj_formset.requestNum)
+
+            formset.save()
+            
             return redirect('procurement:detail_order', pk= obj.id)
 
+        # エラーメッセージつきのformsetをテンプレートへ渡すため、contextに格納
         else:
-            return render(request, self.template_name, params ) 
+            context['formset'] = formset
+
+    # GETのとき
+    else:
+        # 空のformsetをテンプレートへ渡す
+        context['formset'] = RequestFormset()
+
+    return render(request, 'procurement/create_order_request.html', context)
 
 
 class UpdateRequest(UpdateView):
