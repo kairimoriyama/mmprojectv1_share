@@ -261,6 +261,15 @@ class CreateFormRequestWithOrder(ModelForm):
         # プレースホルダ
         self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
+    def clean(self):
+        cleaned_data = super(CreateFormRequestWithOrder, self).clean()
+
+        estimatedAmount = cleaned_data.get('estimatedAmount')
+        print('aa')
+        if estimatedAmount == 0 :
+            print('bb')
+            raise forms.ValidationError('金額を入力してください（概算でOK）')
+        
 
 
 RequestFormset = inlineformset_factory(
