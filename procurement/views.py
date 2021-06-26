@@ -14,7 +14,7 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormOrder
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormOrder, CreateFormOrderAndRequest, CreateFormRequestWithOrder
 from staffdb.models import StaffDB, Division
 
 # Create your views here.
@@ -447,7 +447,13 @@ class CreateOrder(CreateView):
 
 class CreateOrderRequest(CreateView):
     template_name = 'procurement/create_order_request.html'
-    form_class = CreateFormOrder
+    form_class = CreateFormOrderAndRequest
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateOrderRequest, self).get_context_data(**kwargs)
+
+        context['formset'] = CreateFormRequestWithOrder()
+        return context
 
     def post(self, request, *args, **kwargs):
 

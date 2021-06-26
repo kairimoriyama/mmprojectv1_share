@@ -58,7 +58,7 @@
 
 
 <div class="menu_wrapper">
-  <div><h3>依頼 （「たのめーる」以外入力）</h3></div>
+  <div><h3>依頼（たのめーる以外）</h3></div>
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">1 依頼作成</a>
 
@@ -265,7 +265,7 @@
 
 
 <div class="menu_wrapper">
-  <div><h3>発注 （原則：総務処理）</h3></div>
+  <div><h3>発注</h3></div>
   <div class="menu_wrapper_inner">
 
     <p class="menu_bt menu_bt_mg_left row-yellow yubi" id="selectSupplier_start" onclick="selectSupplier_start()">2 精査</p>
@@ -275,8 +275,8 @@
     <p class="menu_bt menu_bt_mg_left row-white yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">戻る</p>
 
     <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
-    <input type="submit" onclick="reportOrder();"  class="menu_bt menu_bt_mg_left yubi" value="3-2 発注報告" id="report_order" name="button_report_order" >
-    <a class="menu_bt menu_bt_mg_left" id="create_order_request" href="{% url 'procurement:create_order_request' %}">※一括作成</a>
+    <input type="submit" onclick="reportOrder();"  class="menu_bt menu_bt_mg_left yubi" value="3-2 突合" id="report_order" name="button_report_order" >
+    <a class="menu_bt menu_bt_mg_left" id="create_order_request" href="{% url 'procurement:create_order_request' %}">3 一括作成</a>
 
   </div>
 </div>

@@ -12,7 +12,9 @@
 
 
 
-<form class="container_create_order" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+<div class="container_create_order" >
 
   <div class="menu_wrapper_inner item0">
     <div class="submit_btn_wrapper">
@@ -119,12 +121,166 @@
   <dl class="item_dl item_dl_dummy_l height_m">
     <dt></dt> <dd></dd>
   </dl>
+
+</div>
+<hr>
+
+
+{{ form.formset.management_form }}
+
+<div class="container_request_edit">
+
+  <div class="menu_wrapper_inner item0">
+    <h3>------------------以下、依頼内容------------------</h3>
+  </div>
+
+  <dl class="item_dl item1">
+    <dt>依頼番号</dt>
+    <dd>-</dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>依頼日</dt>
+    <dd>{{ formset.submissionDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item3">
+    <dt>希望納期</dt>
+    <dd>{{ formset.dueDate }}</dd>
+  </dl>
+    
+  <dl class="item_dl item4 staffNumber">
+    <dt>依頼者</dt>
+    <dd id="requestStaffNumber">
+      <input name="requestStaffNumber" type="number">
+      {{ formset.requestStaffdb}}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>所属</dt>
+    <dd>{{ formset.requestStaffDivision}}</dd>
+  </dl>
+
+
+  <dl class="item_dl item6">
+    <dt>納品先</dt>
+    <dd>{{ formset.deliveryAddress}}</dd>
+  </dl>
+
+
+  <dl class="item_dl item7">
+    <dt>区分</dt>
+    <dd>{{ formset.purpose}}</dd>
+  </dl>
+
+  <dl class="item_dl item8">
+    <dt>標準品</dt>
+    <dd>{{ formset.standardItem}}</dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="height_l sentence_dt2">依頼内容</dt>
+    <dd class="height_l sentence_dd2">{{ formset.requestDetail}}</dd>
+  </dl>
+
+  <dl class="item_dl item10 multiple_items_URL">
+    <dt class="height_l">URL</dt>
+    <dd class="height_l">
+      <div>{{ formset.refURL1 }}</div>
+      <div>{{ formset.refURL2 }}</div>
+      <div>{{ formset.refURL3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item11">
+    <dt>数量</dt>
+    <dd>{{ formset.quantity }}</dd>
+  </dl>
+
+  <dl class="item_dl item12">
+    <dt>税込総額</dt>
+    <dd id="amount" class="request_amount must_color"><input type="tel">{{ formset.estimatedAmount }}</dd>
+  </dl>
+
+  <dl class="item_dl item13">
+    <dt>稟議番号</dt>
+    <dd>{{ formset.approval}}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>プロジェクト</dt>
+    <dd>{{ formset.project}}</dd>
+  </dl>
+
+
+
+  <dl class="item_dl item15 multiple_items_select">
+    <dt class="height_l">費用負担</dt>
+    <dd class="height_l">
+      <div>{{ formset.costCenter1 }}</div>
+      <div>{{ formset.costCenter2 }}</div>
+      <div>{{ formset.costCenter3 }}</div>
+    </dd>
+  </dl>
+
   
+  <dl class="item_dl item16">
+    <dt class="height_l">資料（稟議等）</dt>
+    <dd class="height_l multiple_items_update">
+
+      <div class="attachment_update">
+        <p>資料（1）</p>
+        <div>{{ formset.refFile1 }}</div>
+      </div>
+
+      <div class="attachment_update">
+        <p>資料（2）</p>
+        <div>{{ formset.refFile2 }}</div>
+      </div>
+      
+      <div class="attachment_update">
+        <p>資料（3）</p>
+        <div>{{ formset.refFile3 }}</div>
+      </div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item17">
+    <dt>精査者</dt>
+    <dd>-</dd>
+  </dl>
+
+  <dl class="item_dl item18">
+    <dt>進捗</dt>
+    <dd>-</dd>
+  </dl>
+
+  
+  <dl class="item_dl item19">
+    <dt class="height_l">精査メモ</dt>
+    <dd class="height_l">-</dd>
+  </dl>
+
+
+  <dl class="item_dl item20">
+    <dt>発注番号</dt>
+    <dd>-</dd>
+  </dl>
+
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+</div>
+
 </form>
 <hr>
 
 {% load static %}
-<script src="{% static 'procurement/js/create_order.js' %}"></script>
+<script src="{% static 'procurement/js/create_order_request.js' %}"></script>
 
 
 {% block extrajs %}
@@ -162,6 +318,9 @@ $.ajaxSetup({
 /*----------*/
 
 
+
+// 発注者
+
 let staffNumberElement = document.getElementById('orderStaffNumber').children[0];
 let staffdbElement = document.getElementById('orderStaffNumber').children[1];
 
@@ -169,7 +328,7 @@ console.log(staffNumberElement)
 console.log(staffNumberElement.value)
 console.log(staffdbElement)
 
-const inputStaffNumber = (select) => {
+const inputOrderStaffNumber = (select) => {
  
   for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
     staffdbElement.remove(i);
@@ -202,8 +361,51 @@ const inputStaffNumber = (select) => {
 
 staffdbElement.addEventListener('focus', () => {
   console.log("test");
-  inputStaffNumber();
+  inputOrderStaffNumber();
 });
+
+
+
+// 依頼者
+
+let requetStaffNumberElement = document.getElementById('requestStaffNumber').children[0];
+let requetStaffdbElement = document.getElementById('requestStaffNumber').children[1];
+
+const inputRequestStaffNumber = (select) => {
+ 
+  for (let i = requetStaffdbElement.childElementCount-1 ; i >= 0; i--) {  
+    requetStaffdbElement.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_requestStaff' %}",
+      type: 'GET',
+      data: {'requestStaffNumber': requetStaffNumberElement.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+    console.log(items_staffdb)
+    console.log(items_staffdb.length)
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      requetStaffdbElement.appendChild(option); 
+      };
+  });
+  console.log(requetStaffdbElement)  
+};
+
+
+requetStaffdbElement.addEventListener('focus', () => {
+  console.log("test2");
+  inputRequestStaffNumber();
+});
+
 
 </script>
 {% endblock extrajs %}
