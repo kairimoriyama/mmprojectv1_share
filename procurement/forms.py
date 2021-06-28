@@ -268,8 +268,7 @@ class CreateFormRequestWithOrder(ModelForm):
         print('aa')
         if estimatedAmount == 0 :
             print('bb')
-            raise forms.ValidationError('金額を入力してください（概算でOK）')
-        
+            raise forms.ValidationError('金額を入力してください')
 
 
 RequestFormset = inlineformset_factory(
