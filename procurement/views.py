@@ -221,7 +221,7 @@ class ListRequest(ListView):
     paginate_by = 22
 
     queryset = OrderRequest.objects.all(
-    ).order_by('adminCheck__no','-orderInfo__orderNum')
+    ).order_by('adminCheck__no','orderInfo__orderNum')
     
     def __init__(self, **kwargs):
         super(ListRequest, self).__init__(**kwargs)
@@ -551,7 +551,7 @@ class RequestMixin(object):
             print("obj_formset.save()")
         
         # 処理後は詳細ページを表示
-        return redirect('procurement:detail_order', pk= obj.id)
+        return redirect(obj.get_absolute_url())
         
 
 class CreateOrderAndRequest(RequestMixin, FormsetMixin, CreateView):
