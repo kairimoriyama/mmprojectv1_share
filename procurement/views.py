@@ -551,7 +551,7 @@ class RequestMixin(object):
             print("obj_formset.save()")
         
         # 処理後は詳細ページを表示
-        return redirect('procurement:detail_order', pk= obj.id)
+        return redirect(obj.get_absolute_url())
         
 
 class CreateOrderAndRequest(RequestMixin, FormsetMixin, CreateView):

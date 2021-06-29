@@ -154,6 +154,9 @@ class OrderInfo(models.Model):
     def __str__(self):
         return str(self.orderNum) + ' ' +  str(self.orderDate)
 
+    def get_absolute_url(self):
+       return reverse("procurement:detail_order", args=[self.id])
+
 
 
 class OrderRequest(models.Model):
