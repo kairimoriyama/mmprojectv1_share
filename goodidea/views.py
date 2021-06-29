@@ -31,9 +31,9 @@ def export_goodidea(request):
 
     writer = csv.writer(response, delimiter=',', encoding='utf_8_sig')
 
-    writer.writerow(['案件番号','提案番号','完了共有番号','登録日','進捗','提案者','所属','分類','提案・実施内容','根拠','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
+    writer.writerow(['案件番号','提案番号','完了共有番号','登録日','進捗','提案者','提案者','所属','分類','提案・実施内容','根拠','URL1','URL2','URL3','写真1','写真2','写真3','資料1','資料2','資料3','検討日','議事録','実施担当者','実施部門','方針・報告','完了日','期日','管理用','削除'])
     for item in Item.objects.all():
-        writer.writerow([item.itemNum,item.ideaNum,item.actionNum,item.submissionDate,item.progress,item.staff,item.division,item.category,item.title,item.description,item.refURL1,item.refURL2,item.refURL3,item.picture1,item.picture2,item.picture3,item.refFile1,item.refFile2,item.refFile3,item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
+        writer.writerow([item.itemNum,item.ideaNum,item.actionNum,item.submissionDate,item.progress,item.staffdb.fullName, item.staff,item.division,item.category,item.title,item.description,item.refURL1,item.refURL2,item.refURL3,item.picture1,item.picture2,item.picture3,item.refFile1,item.refFile2,item.refFile3,item.discussionDate,item.discussionNote,item.report,item.inchargeDivision,item.inchargeStaff,item.completionDate,item.dueDate,item.adminMemo,item.deletedItem])
     return response
 
 
