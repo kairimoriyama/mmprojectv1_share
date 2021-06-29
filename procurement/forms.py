@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
 from staffdb.models import StaffDB, Division
-from django.forms import ModelForm, inlineformset_factory
+from django.forms import ModelForm, inlineformset_factory, BaseInlineFormSet
 
 from django.core.exceptions import ValidationError
 
@@ -149,136 +149,16 @@ class CreateFormOrder(ModelForm):
         else:
             return cleaned_data
 
-
-class UpdateFormRequest(ModelForm):
-
-    class Meta:
-        model  = OrderRequest
-        fields = ('requestNum','submissionDate',
-            'requestStaffDivision', 'requestStaffdb', 
-            'dueDate', 'deliveryAddress', 
-            'adminCheck', 'adminStaffdb', 'orderInfo',
-            'costCenter1', 'costCenter2', 'costCenter3', 
-            'purpose','standardItem', 'requestDetail',
-            'project','approval',
-            'quantity', 'estimatedAmount',
-            'refURL1', 'refURL2', 'refURL3',
-            'refFile1', 'refFile2', 'refFile3',
-            'adminDescription','deletedItem',
-            )
-        widgets = {'submissionDate': DateInput(),'dueDate': DateInput()}
-
-
-    def __init__(self, *args, **kwargs):
-        super(UpdateFormRequest, self).__init__(*args, **kwargs)
-
-    # 初期値・入力規則
-        self.fields['requestNum'].widget.attrs['readonly'] = True
-        self.fields['submissionDate'].widget.attrs['readonly'] = True
-        self.fields['requestStaffdb'].required = True
-        self.fields['requestStaffDivision'].required = True
-        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
-        self.fields['dueDate'].required = True
-        self.fields['deliveryAddress'].required = True
-        self.fields['purpose'].required = True
-        self.fields['requestDetail'].required = True
-        self.fields['costCenter1'].required = True
-        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
-        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
-        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
-
-        self.fields['quantity'].required = True
-        self.fields['estimatedAmount'].required = True
-
-
-        # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
-
-
     def clean(self):
-        cleaned_data = super().clean()
-        estimatedAmount = cleaned_data.get('estimatedAmount')
-        print('A')
-        if estimatedAmount == 0 :
-            print('B')
-            raise forms.ValidationError('金額を入力してください（概算でOK）')
-
-
-
+            cleaned_data = super().clean()
+            estimatedAmount = cleaned_data.get('estimatedAmount')
+            print('A')
+            if estimatedAmount == 0 :
+                print('B')
+                raise ValidationError('金額を入力してください')
 
 
 # 発注・依頼の一括作成
-
-class CreateFormRequestWithOrder(ModelForm):
-
-    class Meta:
-        model = OrderRequest
-        fields = ('submissionDate',
-            'requestStaffDivision', 'requestStaffdb',
-            'dueDate', 'deliveryAddress', 
-            'costCenter1', 'costCenter2', 'costCenter3',
-            'purpose', 'standardItem', 'requestDetail', 
-            'project','approval', 
-            'quantity', 'estimatedAmount',
-            'refURL1', 'refURL2', 'refURL3',
-            'refFile1','refFile2','refFile3',
-            )
-
-        widgets = {'submissionDate': DateInput(),
-            'dueDate': DateInput()}
-
-
-    def __init__(self, *args, **kwargs):
-        super(CreateFormRequestWithOrder, self).__init__(*args, **kwargs)
-
-
-        # 初期値・入力規則
-        today = datetime.date.today()
-
-        self.fields['submissionDate'].initial = today
-        self.fields['submissionDate'].widget.attrs['readonly'] = True
-  
-
-        self.fields['dueDate'].initial = today + datetime.timedelta(days=5)
-        self.fields['dueDate'].required = True
-        self.fields['requestStaffdb'].required = True
-        self.fields['requestStaffDivision'].required = True
-        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
-
-
-        self.fields['deliveryAddress'].required = True
-
-        self.fields['purpose'].required = True
-        self.fields['requestDetail'].required = True
-
-        self.fields['quantity'].required = True
-        self.fields['estimatedAmount'].required = True
-        self.fields['costCenter1'].required = True
-        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
-        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
-        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
-
-        # プレースホルダ
-        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
-
-    def clean(self):
-        cleaned_data = super(CreateFormRequestWithOrder, self).clean()
-
-        estimatedAmount = cleaned_data.get('estimatedAmount')
-        print('aa')
-        if estimatedAmount == 0 :
-            print('bb')
-            raise forms.ValidationError('金額を入力してください')
-
-
-RequestFormset = inlineformset_factory(
-    parent_model = OrderInfo,
-    model = OrderRequest,
-    form = CreateFormRequestWithOrder,
-    extra=1
-)
-
-
 
 class CreateFormOrderAndRequest(ModelForm):
 
@@ -351,6 +231,122 @@ class CreateFormOrderAndRequest(ModelForm):
         else:
             return cleaned_data
 
+
+class CreateFormRequestWithOrder(ModelForm):
+
+    class Meta:
+        model = OrderRequest
+        fields = ('submissionDate',
+            'requestStaffDivision', 'requestStaffdb',
+            'dueDate', 'deliveryAddress', 
+            'costCenter1', 'costCenter2', 'costCenter3',
+            'purpose', 'standardItem', 'requestDetail', 
+            'project','approval', 
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1','refFile2','refFile3',
+            )
+
+        widgets = {'submissionDate': DateInput(),
+            'dueDate': DateInput()}
+
+
+    def __init__(self, *args, **kwargs):
+        super(CreateFormRequestWithOrder, self).__init__(*args, **kwargs)
+
+
+        # 初期値・入力規則
+        today = datetime.date.today()
+
+        self.fields['submissionDate'].initial = today
+        self.fields['submissionDate'].widget.attrs['readonly'] = True
+  
+
+        self.fields['dueDate'].initial = today + datetime.timedelta(days=5)
+        self.fields['dueDate'].required = True
+        self.fields['requestStaffdb'].required = True
+        self.fields['requestStaffDivision'].required = True
+        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
+
+
+        self.fields['deliveryAddress'].required = True
+
+        self.fields['purpose'].required = True
+        self.fields['requestDetail'].required = True
+
+        self.fields['quantity'].required = True
+        self.fields['estimatedAmount'].required = True
+        self.fields['costCenter1'].required = True
+        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
+
+        # プレースホルダ
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
+
+
+
+RequestFormset = inlineformset_factory(
+    parent_model = OrderInfo,
+    model = OrderRequest,
+    form = CreateFormRequestWithOrder,
+    extra=1,
+)
+
+
+
+class UpdateFormRequest(ModelForm):
+
+    class Meta:
+        model  = OrderRequest
+        fields = ('requestNum','submissionDate',
+            'requestStaffDivision', 'requestStaffdb', 
+            'dueDate', 'deliveryAddress', 
+            'adminCheck', 'adminStaffdb', 'orderInfo',
+            'costCenter1', 'costCenter2', 'costCenter3', 
+            'purpose','standardItem', 'requestDetail',
+            'project','approval',
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1', 'refFile2', 'refFile3',
+            'adminDescription','deletedItem',
+            )
+        widgets = {'submissionDate': DateInput(),'dueDate': DateInput()}
+
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateFormRequest, self).__init__(*args, **kwargs)
+
+    # 初期値・入力規則
+        self.fields['requestNum'].widget.attrs['readonly'] = True
+        self.fields['submissionDate'].widget.attrs['readonly'] = True
+        self.fields['requestStaffdb'].required = True
+        self.fields['requestStaffDivision'].required = True
+        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['dueDate'].required = True
+        self.fields['deliveryAddress'].required = True
+        self.fields['purpose'].required = True
+        self.fields['requestDetail'].required = True
+        self.fields['costCenter1'].required = True
+        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
+
+        self.fields['quantity'].required = True
+        self.fields['estimatedAmount'].required = True
+
+
+        # プレースホルダ
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        estimatedAmount = cleaned_data.get('estimatedAmount')
+        print('A')
+        if estimatedAmount == 0 :
+            print('B')
+            raise forms.ValidationError('金額を入力してください（概算でOK）')
 
 
 
