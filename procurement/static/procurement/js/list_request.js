@@ -57,28 +57,6 @@ function clear_criteria(){
 };
 
 
-  //依頼日From To の初期値
-  function submissionDateInit() {
-    
-    let p = JSON.parse(localStorage.getItem('search_key_procurement'));
-
-    if (p === null) {
-
-      let today = new Date();
-      today.setDate(today.getDate());
-      let yyyy = today.getFullYear();
-      let mm = ("0"+(today.getMonth()+1)).slice(-2);
-      let mm2 = ("0"+(today.getMonth()+2)).slice(-2);
-      let dd = ("0"+today.getDate()).slice(-2);
-
-  
-      document.getElementById("settlementDateFrom").value=yyyy+'-'+mm+'-'+dd;
-      document.getElementById("settlementDateTo").value=yyyy+'-'+mm2+'-'+dd;
-
-    }else{};
-  };
-
-  window.onload = submissionDateInit();
 
 
 // 検索条件をローカルストレージへ保存（ボタン：検索、移動、詳細、戻る）

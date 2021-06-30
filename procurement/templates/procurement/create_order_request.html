@@ -71,10 +71,10 @@
     <dt class="height_l">金額</dt>
     <dd class="height_l">
 
-      <div class="must_color" id="amount_t10"><p>税率10%</p><input type="tel">{{ form.amount1}}</div>
-      <div class="must_color" id="amount_t8"><p>税率8%</p><input type="tel">{{ form.amount2}}</div>
-      <div class="must_color" id="amount_t0"><p>非課税</p><input type="tel">{{ form.amount3}}</div>
-      <div id="amount_total" class="amount_total"><p>合計金額</p><input type="tel" readonly="readonly">{{ form.totalAmount}}</div>
+      <div class="must_color" id="amount_t10"><p>税率10%</p>{{ form.amount1}}</div>
+      <div class="must_color" id="amount_t8"><p>税率8%</p>{{ form.amount2}}</div>
+      <div class="must_color" id="amount_t0"><p>非課税</p>{{ form.amount3}}</div>
+      <div id="amount_total"><p>合計金額</p>{{ form.totalAmount}}</div>
     </dd>
   </dl>
 
@@ -201,7 +201,7 @@
 
   <dl class="item_dl item12">
     <dt>税込総額</dt>
-    <dd id="amount" class="request_amount must_color"><input type="tel">{{ formset_item.estimatedAmount }}</dd>
+    <dd id="amount">{{ formset_item.estimatedAmount }}</dd>
   </dl>
 
   <dl class="item_dl item13">

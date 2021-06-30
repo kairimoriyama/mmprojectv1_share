@@ -1172,7 +1172,7 @@ hr{
 
 
 
-.multiple_items_amount dd div input[type="tel"]{
+.multiple_items_amount dd div input[type="number"]{
     -webkit-appearance: none;
     -moz-appearance: none;
     
@@ -1186,9 +1186,6 @@ hr{
     text-align: right;
 }
 
-.multiple_items_amount dd div input[type="number"]{
-    display: none;
-}
 
 /* create_request amount */
 .request_amount input[type="tel"]{
@@ -1207,9 +1204,6 @@ hr{
     text-align: right;
 }
 
-.request_amount input[type="number"]{
-    display: none;
-}
 
 /* delete チェックボックス */
 

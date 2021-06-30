@@ -140,7 +140,7 @@ class CreateFormOrder(ModelForm):
         if (not irregularSupplier) and (not registeredSupplier):
             raise forms.ValidationError("発注先を入力して下さい")
 
-        elif totalAmount ==0 :
+        elif totalAmount == 0 :
             raise forms.ValidationError("金額を入力して下さい")
         
         elif (not registeredSupplier) and paymentMethod ==1 and ((settlementDate is None) or (settlementDate < today )) :
@@ -149,16 +149,10 @@ class CreateFormOrder(ModelForm):
         else:
             return cleaned_data
 
-    def clean(self):
-            cleaned_data = super().clean()
-            estimatedAmount = cleaned_data.get('estimatedAmount')
-            print('A')
-            if estimatedAmount == 0 :
-                print('B')
-                raise ValidationError('金額を入力してください')
 
 
 # 発注・依頼の一括作成
+
 
 class CreateFormOrderAndRequest(ModelForm):
 
@@ -284,14 +278,45 @@ class CreateFormRequestWithOrder(ModelForm):
         # プレースホルダ
         self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
+    def clean(self):
+            cleaned_data = super().clean()
+            estimatedAmount = cleaned_data.get('estimatedAmount')
+            print('A')
+            if estimatedAmount == 0 :
+                print('B')
+                raise ValidationError('金額を入力してください')
+
+
+
+"""
+
+"""
+
+class CreateFormSetRequestWithOrder(BaseInlineFormSet):
+
+    def clean(self):
+        super().clean()
+
+        for form in self.forms:
+            estimatedAmount = form.cleaned_data.get('estimatedAmount')
+            print(estimatedAmount)
+            if estimatedAmount == 0 :
+                print("金額を入力してください")
+                raise forms.ValidationError('金額を入力してください')
+            else :
+                pass
 
 
 RequestFormset = inlineformset_factory(
     parent_model = OrderInfo,
     model = OrderRequest,
     form = CreateFormRequestWithOrder,
-    extra=1,
+    formset = CreateFormSetRequestWithOrder,
+    extra=2,
+    min_num=0,
+    validate_min=True
 )
+
 
 
 

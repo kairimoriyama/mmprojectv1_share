@@ -221,7 +221,7 @@ class ListRequest(ListView):
     paginate_by = 22
 
     queryset = OrderRequest.objects.all(
-    ).order_by('adminCheck__no','orderInfo__orderNum')
+    ).order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
     
     def __init__(self, **kwargs):
         super(ListRequest, self).__init__(**kwargs)
@@ -269,27 +269,52 @@ class ListRequest(ListView):
         self.request.session['settlementCheck'] = settlementCheck
 
         # 絞り込み前の初期値
-        queryset0 = OrderRequest.objects.all().order_by('adminCheck__no','-orderInfo__orderNum')
+        queryset0 = OrderRequest.objects.all().order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if staffdb or division or word or\
             submissionDateFrom or submissionDateTo or \
-            (settlementDateFrom and settlementDateTo) or settlementCheck:
+            settlementDateFrom or settlementDateTo or settlementCheck:
 
             # 支払未/済/両方
             if settlementCheck == "0":   #未のみ
-                queryset1 = queryset0.filter( orderInfo__settlement= False
+                queryset1_1 = queryset0.filter( orderInfo__settlement= False
                 ).exclude(orderInfo__registeredSupplier__gte=0 )
 
-                queryset2 = queryset1.filter(
-                    orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
+
+                # 支払日（自）
+                if settlementDateFrom :
+                    queryset1_2 = queryset1_1.filter(orderInfo__settlementDate__gte=settlementDateFrom)
+                else:
+                    queryset1_2 = queryset1_1
+
+                # 支払日（至）
+                if settlementDateTo :
+                    queryset1_3 = queryset1_2.filter(orderInfo__settlementDate__gte=settlementDateTo)
+                else:
+                    queryset1_3 = queryset1_2
+                
+                queryset2 = queryset1_3
+                
 
             elif settlementCheck == "1": #済のみ
-                queryset1 = queryset0.filter( orderInfo__settlement= True
+                queryset1_1 = queryset0.filter( orderInfo__settlement= True
                 ).exclude(orderInfo__registeredSupplier__gte=0 )
 
-                queryset2 = queryset1.filter(
-                    orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
+
+                # 支払日（自）
+                if settlementDateFrom :
+                    queryset1_2 = queryset1_1.filter(orderInfo__settlementDate__gte=settlementDateFrom)
+                else:
+                    queryset1_2 = queryset1_1
+
+                # 支払日（至）
+                if settlementDateTo :
+                    queryset1_3 = queryset1_2.filter(orderInfo__settlementDate__gte=settlementDateTo)
+                else:
+                    queryset1_3 = queryset1_2
+                
+                queryset2 = queryset1_3
 
             else:
                 queryset1 = queryset0.all()
@@ -334,11 +359,11 @@ class ListRequest(ListView):
             # セッションで選択されたデータを保持
             self.request.session['item_list_type_procurement'] = 'filter'
             
-            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum')
+            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
-            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum')
+            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
         
         return queryset
 
@@ -530,25 +555,34 @@ class RequestMixin(object):
         obj.save()
         formset.instance = obj
 
-        for obj_formset in obj_formsets:
+        # 保存処理
+            
+        with transaction.atomic() :
 
-            # requestNumの設定
-            currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
-                submissionDate__year=currentYear)
-            lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
-            maxRequestNum = lastRequestNum['requestNum__max']
+            for obj_formset in obj_formsets:
 
-            if (maxRequestNum == None) or (maxRequestNum < 1):
-                obj_formset.requestNum = int(currentYearStr[-2:] + "0001")
-            else:
-                obj_formset.requestNum = maxRequestNum +1
+                # requestNumの設定
+                currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                    submissionDate__year=currentYear)
+                lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+                maxRequestNum = lastRequestNum['requestNum__max']
 
-            # 進捗更新 adminCheck
-            adminCheck = get_object_or_404(AdminCheck, no=4)
-            obj_formset.adminCheck = adminCheck 
-            obj_formset.save()
+                if (maxRequestNum == None) or (maxRequestNum < 1):
+                    obj_formset.requestNum = int(currentYearStr[-2:] + "0001")
+                else:
+                    obj_formset.requestNum = maxRequestNum +1
 
-            print("obj_formset.save()")
+                # 進捗更新 adminCheck
+                adminCheck = get_object_or_404(AdminCheck, no=4)
+                obj_formset.adminCheck = adminCheck 
+
+                # 発注者＝精査者
+                orderStaffdbId = obj.orderStaffdb.id
+                adminStaffdb = get_object_or_404(StaffDB, id=orderStaffdbId)
+                obj_formset.adminStaffdb = adminStaffdb 
+
+                obj_formset.save()
+
         
         # 処理後は詳細ページを表示
         return redirect(obj.get_absolute_url())
