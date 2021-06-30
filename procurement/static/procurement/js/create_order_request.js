@@ -70,14 +70,25 @@ document.getElementById("id_irregularSupplier").addEventListener('change', (e) =
 
 
 
-// 費用負担1 自動入力
-function input_costCenter1(){
+// 費用負担1 自動入力 1件目
+function input_costCenter1_1(){
 let division_pk = document.getElementById("id_orderRequest_orderInfo-0-requestStaffDivision").value;
 document.getElementById("id_orderRequest_orderInfo-0-costCenter1").value = division_pk;
 
 console.log(division_pk)
 };
 document.getElementById("id_orderRequest_orderInfo-0-requestStaffDivision").addEventListener('focusout', (e) => {
-input_costCenter1(e)
+  input_costCenter1_1(e)
 });
 
+// 費用負担1 自動入力 2件目
+function input_costCenter1_2(){
+  let division_pk = document.getElementById("id_orderRequest_orderInfo-0-requestStaffDivision").value;
+  document.getElementById("id_orderRequest_orderInfo-1-costCenter1").value = division_pk;
+  
+  console.log(division_pk)
+  };
+  document.getElementById("id_orderRequest_orderInfo-1-requestStaffDivision").addEventListener('focusout', (e) => {
+    input_costCenter1_2(e)
+  });
+  
