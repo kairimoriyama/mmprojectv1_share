@@ -221,7 +221,7 @@ class ListRequest(ListView):
     paginate_by = 22
 
     queryset = OrderRequest.objects.all(
-    ).order_by('adminCheck__no','orderInfo__orderNum')
+    ).order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
     
     def __init__(self, **kwargs):
         super(ListRequest, self).__init__(**kwargs)
@@ -269,7 +269,7 @@ class ListRequest(ListView):
         self.request.session['settlementCheck'] = settlementCheck
 
         # 絞り込み前の初期値
-        queryset0 = OrderRequest.objects.all().order_by('adminCheck__no','-orderInfo__orderNum')
+        queryset0 = OrderRequest.objects.all().order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if staffdb or division or word or\
@@ -334,11 +334,11 @@ class ListRequest(ListView):
             # セッションで選択されたデータを保持
             self.request.session['item_list_type_procurement'] = 'filter'
             
-            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum')
+            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
 
         # ページ遷移直後のNullでは絞込なし
         else:
-            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum')
+            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
         
         return queryset
 
