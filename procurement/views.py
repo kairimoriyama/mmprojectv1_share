@@ -575,9 +575,14 @@ class RequestMixin(object):
                 # 進捗更新 adminCheck
                 adminCheck = get_object_or_404(AdminCheck, no=4)
                 obj_formset.adminCheck = adminCheck 
+
+                # 発注者＝精査者
+                orderStaffdbId = obj.orderStaffdb.id
+                adminStaffdb = get_object_or_404(StaffDB, id=orderStaffdbId)
+                obj_formset.adminStaffdb = adminStaffdb 
+
                 obj_formset.save()
 
-                print(obj_formset)
         
         # 処理後は詳細ページを表示
         return redirect(obj.get_absolute_url())
