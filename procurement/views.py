@@ -274,22 +274,47 @@ class ListRequest(ListView):
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if staffdb or division or word or\
             submissionDateFrom or submissionDateTo or \
-            (settlementDateFrom and settlementDateTo) or settlementCheck:
+            settlementDateFrom or settlementDateTo or settlementCheck:
 
             # 支払未/済/両方
             if settlementCheck == "0":   #未のみ
-                queryset1 = queryset0.filter( orderInfo__settlement= False
+                queryset1_1 = queryset0.filter( orderInfo__settlement= False
                 ).exclude(orderInfo__registeredSupplier__gte=0 )
 
-                queryset2 = queryset1.filter(
-                    orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
+
+                # 支払日（自）
+                if settlementDateFrom :
+                    queryset1_2 = queryset1_1.filter(orderInfo__settlementDate__gte=settlementDateFrom)
+                else:
+                    queryset1_2 = queryset1_1
+
+                # 支払日（至）
+                if settlementDateTo :
+                    queryset1_3 = queryset1_2.filter(orderInfo__settlementDate__gte=settlementDateTo)
+                else:
+                    queryset1_3 = queryset1_2
+                
+                queryset2 = queryset1_3
+                
 
             elif settlementCheck == "1": #済のみ
-                queryset1 = queryset0.filter( orderInfo__settlement= True
+                queryset1_1 = queryset0.filter( orderInfo__settlement= True
                 ).exclude(orderInfo__registeredSupplier__gte=0 )
 
-                queryset2 = queryset1.filter(
-                    orderInfo__settlementDate__range=(settlementDateFrom, settlementDateTo))
+
+                # 支払日（自）
+                if settlementDateFrom :
+                    queryset1_2 = queryset1_1.filter(orderInfo__settlementDate__gte=settlementDateFrom)
+                else:
+                    queryset1_2 = queryset1_1
+
+                # 支払日（至）
+                if settlementDateTo :
+                    queryset1_3 = queryset1_2.filter(orderInfo__settlementDate__gte=settlementDateTo)
+                else:
+                    queryset1_3 = queryset1_2
+                
+                queryset2 = queryset1_3
 
             else:
                 queryset1 = queryset0.all()
