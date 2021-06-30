@@ -147,12 +147,12 @@
 
   <dl class="item_dl item3">
     <dt>希望納期</dt>
-    <dd>{{ formset_item.dueDate }}</dd>
+    <dd class="must_color">{{ formset_item.dueDate }}</dd>
   </dl>
     
   <dl class="item_dl item4 staffNumber">
     <dt>依頼者</dt>
-    <dd id="requestStaffNumber">
+    <dd id="requestStaffNumber"  class="must_color">
       <input name="requestStaffNumber" type="number">
       {{ formset_item.requestStaffdb}}
     </dd>
@@ -160,19 +160,19 @@
 
   <dl class="item_dl item5">
     <dt>所属</dt>
-    <dd>{{ formset_item.requestStaffDivision}}</dd>
+    <dd class="must_color">{{ formset_item.requestStaffDivision}}</dd>
   </dl>
 
 
   <dl class="item_dl item6">
     <dt>納品先</dt>
-    <dd>{{ formset_item.deliveryAddress}}</dd>
+    <dd class="must_color">{{ formset_item.deliveryAddress}}</dd>
   </dl>
 
 
   <dl class="item_dl item7">
     <dt>区分</dt>
-    <dd>{{ formset_item.purpose}}</dd>
+    <dd class="must_color">{{ formset_item.purpose}}</dd>
   </dl>
 
   <dl class="item_dl item8">
@@ -182,7 +182,7 @@
 
   <dl class="item_dl item9">
     <dt class="height_l sentence_dt2">依頼内容</dt>
-    <dd class="height_l sentence_dd2">{{ formset_item.requestDetail}}</dd>
+    <dd class="height_l sentence_dd2 must_color">{{ formset_item.requestDetail}}</dd>
   </dl>
 
   <dl class="item_dl item10 multiple_items_URL">
@@ -196,12 +196,12 @@
 
   <dl class="item_dl item11">
     <dt>数量</dt>
-    <dd>{{ formset_item.quantity }}</dd>
+    <dd class="must_color">{{ formset_item.quantity }}</dd>
   </dl>
 
   <dl class="item_dl item12">
     <dt>税込総額</dt>
-    <dd id="amount">{{ formset_item.estimatedAmount }}</dd>
+    <dd id="amount" class="must_color">{{ formset_item.estimatedAmount }}</dd>
   </dl>
 
   <dl class="item_dl item13">
@@ -218,7 +218,7 @@
 
   <dl class="item_dl item15 multiple_items_select">
     <dt class="height_l">費用負担</dt>
-    <dd class="height_l">
+    <dd class="height_l must_color">
       <div>{{ formset_item.costCenter1 }}</div>
       <div>{{ formset_item.costCenter2 }}</div>
       <div>{{ formset_item.costCenter3 }}</div>
