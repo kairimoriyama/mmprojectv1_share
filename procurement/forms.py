@@ -140,7 +140,7 @@ class CreateFormOrder(ModelForm):
         if (not irregularSupplier) and (not registeredSupplier):
             raise forms.ValidationError("発注先を入力して下さい")
 
-        elif totalAmount ==0 :
+        elif totalAmount == 0 :
             raise forms.ValidationError("金額を入力して下さい")
         
         elif (not registeredSupplier) and paymentMethod ==1 and ((settlementDate is None) or (settlementDate < today )) :
@@ -149,13 +149,6 @@ class CreateFormOrder(ModelForm):
         else:
             return cleaned_data
 
-    def clean(self):
-            cleaned_data = super().clean()
-            estimatedAmount = cleaned_data.get('estimatedAmount')
-            print('A')
-            if estimatedAmount == 0 :
-                print('B')
-                raise ValidationError('金額を入力してください（概算OK、不明であれば1円）')
 
 
 # 発注・依頼の一括作成
