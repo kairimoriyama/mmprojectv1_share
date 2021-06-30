@@ -312,7 +312,7 @@ RequestFormset = inlineformset_factory(
     model = OrderRequest,
     form = CreateFormRequestWithOrder,
     formset = CreateFormSetRequestWithOrder,
-    extra=1,
+    extra=2,
     min_num=0,
     validate_min=True
 )
