@@ -1204,9 +1204,6 @@ hr{
     text-align: right;
 }
 
-.request_amount input[type="number"]{
-    display: none;
-}
 
 /* delete チェックボックス */
 
