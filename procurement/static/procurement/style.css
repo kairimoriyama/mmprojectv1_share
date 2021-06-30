@@ -45,6 +45,7 @@ textarea:required{
 }
 
 .must_color input,
+.must_color textarea,
 .must_color select{
     background: rgb(255, 255, 227);
 }
@@ -103,6 +104,12 @@ h3{
     font-size: 1.8rem;
     font-weight: bold;
     line-height: 2rem;
+}
+
+
+h4{
+    color: rgb(0, 51, 141);
+    font-size: 1.6rem;
 }
 
 .alert{
