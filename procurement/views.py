@@ -530,25 +530,29 @@ class RequestMixin(object):
         obj.save()
         formset.instance = obj
 
-        for obj_formset in obj_formsets:
+        # 保存処理
+            
+        with transaction.atomic() :
 
-            # requestNumの設定
-            currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
-                submissionDate__year=currentYear)
-            lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
-            maxRequestNum = lastRequestNum['requestNum__max']
+            for obj_formset in obj_formsets:
 
-            if (maxRequestNum == None) or (maxRequestNum < 1):
-                obj_formset.requestNum = int(currentYearStr[-2:] + "0001")
-            else:
-                obj_formset.requestNum = maxRequestNum +1
+                # requestNumの設定
+                currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                    submissionDate__year=currentYear)
+                lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+                maxRequestNum = lastRequestNum['requestNum__max']
 
-            # 進捗更新 adminCheck
-            adminCheck = get_object_or_404(AdminCheck, no=4)
-            obj_formset.adminCheck = adminCheck 
-            obj_formset.save()
+                if (maxRequestNum == None) or (maxRequestNum < 1):
+                    obj_formset.requestNum = int(currentYearStr[-2:] + "0001")
+                else:
+                    obj_formset.requestNum = maxRequestNum +1
 
-            print("obj_formset.save()")
+                # 進捗更新 adminCheck
+                adminCheck = get_object_or_404(AdminCheck, no=4)
+                obj_formset.adminCheck = adminCheck 
+                obj_formset.save()
+
+                print(obj_formset)
         
         # 処理後は詳細ページを表示
         return redirect(obj.get_absolute_url())

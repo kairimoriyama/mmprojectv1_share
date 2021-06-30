@@ -155,10 +155,11 @@ class CreateFormOrder(ModelForm):
             print('A')
             if estimatedAmount == 0 :
                 print('B')
-                raise ValidationError('金額を入力してください')
+                raise ValidationError('金額を入力してください（概算OK、不明であれば1円）')
 
 
 # 発注・依頼の一括作成
+
 
 class CreateFormOrderAndRequest(ModelForm):
 
@@ -284,14 +285,45 @@ class CreateFormRequestWithOrder(ModelForm):
         # プレースホルダ
         self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
 
+    def clean(self):
+            cleaned_data = super().clean()
+            estimatedAmount = cleaned_data.get('estimatedAmount')
+            print('A')
+            if estimatedAmount == 0 :
+                print('B')
+                raise ValidationError('金額を入力してください')
+
+
+
+"""
+
+"""
+
+class CreateFormSetRequestWithOrder(BaseInlineFormSet):
+
+    def clean(self):
+        super().clean()
+
+        for form in self.forms:
+            estimatedAmount = form.cleaned_data.get('estimatedAmount')
+            print(estimatedAmount)
+            if estimatedAmount == 0 :
+                print("金額を入力してください")
+                raise forms.ValidationError('金額を入力してください')
+            else :
+                pass
 
 
 RequestFormset = inlineformset_factory(
     parent_model = OrderInfo,
     model = OrderRequest,
     form = CreateFormRequestWithOrder,
+    formset = CreateFormSetRequestWithOrder,
     extra=1,
+    min_num=0,
+    validate_min=True
 )
+
 
 
 
