@@ -55,7 +55,7 @@ class BankAccount(models.Model):
 class Statement(models.Model):
 
     no = models.IntegerField(blank=True,null=True)
-    transactionDate  = models.DateField(default=timezone.now, blank=True)
+    transactionDate  = models.DateField(default=timezone.now, blank=True,null=True)
 
     bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
     dateDescription  = models.CharField(max_length=20,blank=True,null=True)
@@ -74,7 +74,7 @@ class Statement(models.Model):
 
     class Meta:
         verbose_name_plural="Statement"
-        ordering = ('bankAccount','-id',)
+        ordering = ('-no',)
 
     def __str__(self):
-        return str(self.deopsitAmount)+str(self.paymentAmount)
+        return str(self.deopsitAmount)+'-'+str(self.paymentAmount)+'-'+str(self.accountBalance)
