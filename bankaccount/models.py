@@ -55,13 +55,14 @@ class BankAccount(models.Model):
 class Statement(models.Model):
 
     no = models.IntegerField(blank=True,null=True)
-    transactionDate  = models.DateField(default=timezone.now, blank=True,null=True)
+    transactionDate  = models.DateField(blank=True,null=True)
 
     bankAccount = models.ForeignKey(BankAccount,on_delete=models.PROTECT, related_name ='bankaccount',blank=True,null=True)
-    dateDescription  = models.CharField(max_length=20,blank=True,null=True)
+    dateDescription  = models.CharField(max_length=30,blank=True,null=True)
     
-    description1 = models.CharField(max_length=10,blank=True,null=True)
-    description2 = models.CharField(max_length=30,blank=True,null=True)
+    description1 = models.CharField(max_length=20,blank=True,null=True)
+    description2 = models.CharField(max_length=40,blank=True,null=True)
+
     paymentAmount = models.IntegerField(default=0,blank=False,null=False)
     deopsitAmount = models.IntegerField(default=0,blank=False,null=False)
     accountBalance = models.IntegerField(default=0,blank=False,null=False)
@@ -70,11 +71,11 @@ class Statement(models.Model):
    
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='progress',blank=True,null=True)
     consistencyCheck = models.BooleanField(default=False)
-    adminMemo = models.CharField(max_length=50,blank=True,null=True)
+    adminMemo = models.CharField(max_length=100,blank=True,null=True)
 
     class Meta:
         verbose_name_plural="Statement"
-        ordering = ('-no',)
+        ordering = ('id',)
 
     def __str__(self):
         return str(self.deopsitAmount)+'-'+str(self.paymentAmount)+'-'+str(self.accountBalance)
