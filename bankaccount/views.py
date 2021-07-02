@@ -23,8 +23,9 @@ def correspondence_amount(request):
 
     queryset =Statement.objects.all().order_by('id')
     q_num = Statement.objects.all().count()-1
-    q_num_true = Statement.objects.all().count().filter(consistencyCheck=True)-1
 
+    # 更新なしであれば終了
+    q_num_true = Statement.objects.all().filter(consistencyCheck=True).count()-1
     t = q_num - q_num_true
     if t == 0:
         pass
@@ -67,9 +68,13 @@ def correspondence_amount(request):
                 else :
                     record.consistencyCheck = False
 
+        # 更新後、不要なデータ削除
         error_record = Statement.objects.all().filter(consistencyCheck=False)
         error_record.delete() # 削除
 
     return render(request,'bankaccount/list_all.html')
 
 
+class DetailStatement(DetailView):
+    template_name = 'bankaccount/detail_statement.html'
+    model  = Statement
