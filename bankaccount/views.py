@@ -23,47 +23,52 @@ def correspondence_amount(request):
 
     queryset =Statement.objects.all().order_by('id')
     q_num = Statement.objects.all().count()-1
+    q_num_true = Statement.objects.all().count().filter(consistencyCheck=True)-1
 
+    t = q_num - q_num_true
+    if t == 0:
+        pass
 
-    for i in range(q_num):
+    else:
 
-        # チェック対象を定義
-        record = Statement.objects.all().order_by('id')[i+1]
+        for i in range(q_num):
 
-        # 比較対象を定義
-        accountBalance1 = Statement.objects.all().order_by('id')[i].accountBalance
+            # チェック対象を定義
+            record = Statement.objects.all().order_by('id')[i+1]
 
-        if record.consistencyCheck == True:
-            pass
+            # 比較対象を定義
+            accountBalance1 = Statement.objects.all().order_by('id')[i].accountBalance
 
-        else:
-            # 日付の更新
-            dateDescription1 = record.dateDescription
-            dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d')
-            record.transactionDate = dateDescription2
+            if record.consistencyCheck == True:
+                pass
 
-            # 金額整合性
-            paymentAmount = record.paymentAmount
-            deopsitAmount = record.deopsitAmount
-            accountBalance2 = record.accountBalance
+            else:
+                # 日付の更新
+                dateDescription1 = record.dateDescription
+                dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d')
+                record.transactionDate = dateDescription2
 
-            amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
-            if amount_check == 0:
+                # 金額整合性
+                paymentAmount = record.paymentAmount
+                deopsitAmount = record.deopsitAmount
+                accountBalance2 = record.accountBalance
 
-                if type(Statement.objects.all().order_by('id')[i].no) == int:
-                    record.no = Statement.objects.all().order_by('id')[i].no + 1
-                else:
-                    pass
+                amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
+                if amount_check == 0:
 
-                record.consistencyCheck = True
-                record.save() # 保存
+                    if type(Statement.objects.all().order_by('id')[i].no) == int:
+                        record.no = Statement.objects.all().order_by('id')[i].no + 1
+                    else:
+                        pass
 
-            else :
-                record.consistencyCheck = False
+                    record.consistencyCheck = True
+                    record.save() # 保存
 
-    error_record = Statement.objects.all().filter(consistencyCheck=False)
-    error_record.delete() # 削除
+                else :
+                    record.consistencyCheck = False
 
+        error_record = Statement.objects.all().filter(consistencyCheck=False)
+        error_record.delete() # 削除
 
     return render(request,'bankaccount/list_all.html')
 
