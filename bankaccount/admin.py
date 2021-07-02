@@ -48,8 +48,8 @@ class StatementAdmin(ImportExportModelAdmin, admin.ModelAdmin):
             'bankAccount','dateDescription',
             'description1', 'description2',
             'paymentAmount', 'deopsitAmount','accountBalance',
-            'journalCategory',
-            'bankAccount','progress','consistencyCheck',
+            'journalCategory','deopsitAmount','consistencyCheck',
+            'adminMemo'
             )
     resource_class = StatementResource
 

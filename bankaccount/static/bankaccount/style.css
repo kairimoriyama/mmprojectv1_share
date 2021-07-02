@@ -157,7 +157,7 @@ button{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 1rem 0rem;
+    margin: 0rem;
 }
 
 .submit_btn_wrapper{
@@ -243,15 +243,13 @@ button{
 
 .item-table{
     display: block;
-    max-height: 60rem;
-    margin: 0 1rem 0 1rem;
+    max-height: 100rem;
+    margin: 0 1.5rem;
     border-width: 0;
     padding: 0;
     overflow: scroll;
 }
-.table_request, .table_order{
-    max-height: 100rem;
-}
+
 .item-table::-webkit-scrollbar {
     width: 1.5rem;
     height: 1.5rem;

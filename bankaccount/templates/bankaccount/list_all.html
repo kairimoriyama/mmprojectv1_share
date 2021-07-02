@@ -14,10 +14,35 @@
 
   
 <div class="menu_wrapper">
-  <div><h3>口座情報</h3></div>
-  <div class="menu_wrapper_inner">
-    <a class="menu_bt" href="" id="">自動突合</a>
-  </div>
+
+    
+    <div class="menu_wrapper_inner">
+      <ul>
+        <li><button class="menu_bt" type="button" onclick="location.href='/bankaccount/correspondence_amount'">自動突合</button></li>
+      </ul>
+    </div>
+
+
+  <ul class="page_nav">
+    <li>
+      {% if page_obj.has_previous %}
+        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key()">
+          ＜
+        </a>
+      {% else %}
+      {% endif %}
+    </li>
+  
+    <li>
+      {% if page_obj.has_next %}
+        <a class="menu_bt menu_bt_mg_left next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
+          ＞
+        </a>
+      {% else %}
+      {% endif %}
+    </li>
+  </ul>
+
 </div>
 
 
@@ -27,16 +52,16 @@
 	<tr>
 		<th class="sticky_col_th first_col">選択</th>
 		<th class="sticky_col_th second_col">No.</th>
-    <th>依頼日</th>
-    <th>進捗</th>
-    <th>発注番号</th>
-    <th>依頼者</th>
-    <th>所属</th>
-    <th>依頼内容</th>
-    <th>希望納期</th>
-    <th>納品予定</th>
-		<th>納品先</th>
-    <th>発注先</th>
+    <th>日付</th>
+    <th>分類</th>
+    <th>記載1</th>
+    <th>記載2</th>
+    <th>支払額</th>
+    <th>受取額</th>
+    <th>残高</th>
+    <th>仕訳区分</th>
+		<th>進捗</th>
+    <th>メモ</th>
 
   </tr>
   
@@ -61,83 +86,32 @@
         <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ item.pk }}">
       </td>
 
-      <td class="sticky_col_td second_col">
-        <a href="{% url 'procurement:detail_request' item.pk %}">
-          {{ item.requestNum }}
-        </a>
-      </td>
-
-      <td class="date_col">{{ item.submissionDate | date:"m/d"}}</td>
-      <td name="adminCheck_request">{{ item.adminCheck.name }}</td>
-
-      <td class="date_col" name="orderNumInRequest">
-        {% if item.orderInfo %}
-          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}">
-            {{ item.orderInfo.orderNum }}
-          </a>
-        {% else %}
-          <p>-</p>
-        {% endif %}
-      </td>
-
-      <td>{{ item.requestStaffdb.fullName }}</td>
-      <td>{{ item.requestStaffDivision.name }}</td>
-    
-      <td class="longText">{{ item.requestDetail }}</td>
-      <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
-      <td class="date_col">
-        {%  if item.orderInfo %}
-          {{ item.orderInfo.arrivalDate | date:"m/d" }}
-        {%  else %}
-          <p>-</p>
-        {% endif %}
-      </td>
-      <td>{{ item.deliveryAddress.name }}</td>
+      <td class="sticky_col_td second_col"><a href="">{{ item.no }}</a></td>
+      <td class="date_col">{{ item.transactionDate | date:"Y-m-j"}}</td>
+      <td>{{ item.bankAccount }}</td>
+      <td>{{ item.description1 }}</td>
+      <td>{{ item.description2 }}</td>
+      <td>{{ item.paymentAmount|intcomma}}</td>
+      <td>{{ item.deopsitAmount|intcomma}}</td>
+      <td>{{ item.accountBalance|intcomma}}</td>
 
       <td>
-        {%  if item.orderInfo %}
-          {%  if item.orderInfo.registeredSupplier %}
-            {{ item.orderInfo.registeredSupplier.name }}
-          {%  else %}
-            {{ item.orderInfo.irregularSupplier }}
-          {% endif %}
-        {% endif %}
-      </td>
-
-      <td>{{ item.quantity }}</td>
-      <td class="number_col" name="selected_request_amount">{{ item.estimatedAmount|intcomma }}</td>
-
-      <td>{{ item.purpose.name }}</td>
-      <td class="date_col">
-        {% if item.standardItem == True %}
-          <p>&check;</p>
+        {% if item.journalCategory %}
+          {{ item.journalCategory }}
         {% else %}
         {% endif %}
       </td>
-
-      <td>{% if item.approval %}
-            {{ item.approval }}
-          {%  else %}
-          {% endif %}  
-      </td>
-      <td>{% if item.project %}
-            {{ item.project }}
-          {%  else %}
-          {% endif %}  
-      </td>
-
       <td>
-        {%  if item.adminStaffdb %}
-          {{ item.adminStaffdb.fullName }}
-        {%  else %}
-        {% endif %}  
+        {% if item.progress %}
+          {{ item.progress }}
+        {% else %}
+        {% endif %}
       </td>
-
-      <td class="longText">
-        {%  if item.adminDescription %}
-          {{ item.adminDescription }}
-        {%  else %}
-        {% endif %} 
+      <td>
+        {% if item.adminMemo %}
+          {{ item.adminMemo }}
+        {% else %}
+        {% endif %}
       </td>
           
   </tr>
