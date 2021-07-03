@@ -78,4 +78,4 @@ class Statement(models.Model):
         ordering = ('id',)
 
     def __str__(self):
-        return str(self.deopsitAmount)+'-'+str(self.paymentAmount)+'-'+str(self.accountBalance)
+        return str(self.deopsitAmount)+'-'+str(self.paymentAmount)+'-'+str(self.accountBalance) +'-'+str(self.description2)+'-'+str(self.consistencyCheck)

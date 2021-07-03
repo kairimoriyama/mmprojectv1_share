@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
-from .models import Statement
+from .models import Statement, BankAccount, JournalCategory
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import datetime
+import unicodecsv as csv
 
 
 # Create your views here.
@@ -17,62 +18,140 @@ class StatementList(ListView):
     queryset =Statement.objects.all().order_by('-no')
 
 
-def correspondence_amount(request):
-    template_name = 'bankaccount/list_all.html'
-    success_url = reverse_lazy('bankaccount:list_all')
+    def get_context_data(self, **kwargs):
+        context = super(StatementList, self).get_context_data(**kwargs)
 
-    queryset =Statement.objects.all().order_by('id')
-    q_num = Statement.objects.all().count()-1
+        # 口座情報
+        context['bankAccount_list'] = BankAccount.objects.all()
+        
+        # 会計区分
+        context['journalCategory_list'] = JournalCategory.objects.all()
 
-    # 更新なしであれば終了
-    q_num_true = Statement.objects.all().filter(consistencyCheck=True).count()-1
-    t = q_num - q_num_true
-    if t == 0:
-        pass
+        # 件数表示
+        context['item_count'] = self.get_queryset().count()
 
-    else:
+        return context
 
-        for i in range(q_num):
 
-            # チェック対象を定義
-            record = Statement.objects.all().order_by('id')[i+1]
+    def post(self, request, *args, **kwargs):
+    
+        if request.method == 'POST':
 
-            # 比較対象を定義
-            accountBalance1 = Statement.objects.all().order_by('id')[i].accountBalance
+            # データ取込ボタン
+            if 'bt_import' in request.POST:
+                print('bt_import')
 
-            if record.consistencyCheck == True:
-                pass
+                if 'csv' in request.FILES:
+                    
+                    data = io.TextIOWrapper(request.FILES['csv'].file, encoding='utf_8_sig')
+                    print(data)
+                    csv_content = csv.reader(data)
+                    print(csv_content)
+                    for i in csv_content:
+                        item, created = Statement.objects.create()
+                        item.bankAccount = i[0]
+                        item.dateDescription = i[1]
+                        item.description1 = i[2]
+                        item.description2 = i[3]
+                        item.paymentAmount = i[4]
+                        item.deopsitAmount = i[5]
+                        item.accountBalance = i[6]
+
+                        item.save()
+                    return redirect('bankaccount:list_all')
+                else:
+                    return redirect('bankaccount:list_all')
+
+            # データ整理ボタン
+            if 'bt_correspondence' in request.POST:
+                    
+                selected_bankAccount = self.request.POST.get('selected_bankAccount')
+                print(selected_bankAccount)
+
+                queryset =Statement.objects.all().order_by('id')
+
+                # 指定した口座についてレコードの件数
+                q_count = Statement.objects.all().filter(
+                    bankAccount__id=selected_bankAccount).count()-1
+                print(q_count)
+
+                # 更新の必要がなければ終了
+                q_count_true = Statement.objects.all().filter(
+                    bankAccount__id=selected_bankAccount,consistencyCheck=True).count()-1
+                t = q_count - q_count_true
+
+                if t == 0:
+                    print("クリーン済み")
+                    pass
+
+                else:
+
+                    # チェック対象を定義
+                    q_count_update = Statement.objects.all().filter(
+                        bankAccount__id=selected_bankAccount,consistencyCheck=False).count()
+                    print(q_count_update)
+                    
+                    record_first = Statement.objects.all().filter(
+                        bankAccount__id=selected_bankAccount,consistencyCheck=False).order_by('id').first()
+                    print(record_first.id)
+
+                    for i in range(q_count_update):
+
+                        # チェック対象を定義
+                        record = Statement.objects.all().get(id=int(record_first.id + i))
+
+                        # 比較対象を定義
+                        compare_record = Statement.objects.all().filter(id__lt=int(record_first.id + i)).order_by('id').last()
+                        accountBalance1 = compare_record.accountBalance
+
+                        if record.consistencyCheck == True:
+                            pass
+
+                        else:
+                            # 日付の更新
+                            dateDescription1 = record.dateDescription
+                            dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d')
+                            record.transactionDate = dateDescription2
+
+                            # 金額整合性
+                            paymentAmount = record.paymentAmount
+                            deopsitAmount = record.deopsitAmount
+                            accountBalance2 = record.accountBalance
+
+                            amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
+                            if amount_check == 0:
+                                record.consistencyCheck = True
+                                record.save() # 保存
+
+                            else :
+                                record.consistencyCheck = False
+                                record.delete() # 削除
+
+                    # 更新後データ
+                    q_count_clean = Statement.objects.all().filter(
+                        bankAccount__id=selected_bankAccount).count()-1 
+
+                    for j in range(q_count_clean):
+
+                        # 更新対象を定義
+                        record_clean = Statement.objects.all().filter(
+                            bankAccount__id=selected_bankAccount).order_by('id')[j+1]
+                        
+                        if record_clean.no:
+                            pass
+                        else:
+                            # 番号を更新
+                            record_clean.no = int(Statement.objects.all().filter(
+                                bankAccount__id=selected_bankAccount).order_by('id')[j].no) + 1
+                            record_clean.save() # 保存
+
+                return redirect('bankaccount:list_all')
 
             else:
-                # 日付の更新
-                dateDescription1 = record.dateDescription
-                dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d')
-                record.transactionDate = dateDescription2
+                return self.get(request, *args, **kwargs)
 
-                # 金額整合性
-                paymentAmount = record.paymentAmount
-                deopsitAmount = record.deopsitAmount
-                accountBalance2 = record.accountBalance
-
-                amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
-                if amount_check == 0:
-
-                    if type(Statement.objects.all().order_by('id')[i].no) == int:
-                        record.no = Statement.objects.all().order_by('id')[i].no + 1
-                    else:
-                        pass
-
-                    record.consistencyCheck = True
-                    record.save() # 保存
-
-                else :
-                    record.consistencyCheck = False
-
-        # 更新後、不要なデータ削除
-        error_record = Statement.objects.all().filter(consistencyCheck=False)
-        error_record.delete() # 削除
-
-    return render(request,'bankaccount/list_all.html')
+        else:
+            return self.get(request, *args, **kwargs)
 
 
 class DetailStatement(DetailView):
