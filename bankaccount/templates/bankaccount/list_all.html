@@ -17,8 +17,18 @@
 
     
     <div class="menu_wrapper_inner">
-      <ul>
+      <ul class="">
         <li><button class="menu_bt" type="button" onclick="location.href='/bankaccount/correspondence_amount'">自動突合</button></li>
+        
+        <li>
+          <select id="" name="" class="list_filter_select_s" type="number">
+            <option value=0>-</option>
+            {% for staffdb in staffdb_list %}
+              <option value="{{ staffdb.id }}">{{ staffdb.fullName }}</option>
+            {% endfor %}
+          </select>
+        </li>
+      
       </ul>
     </div>
 
@@ -53,7 +63,7 @@
 		<th class="sticky_col_th first_col">選択</th>
 		<th class="sticky_col_th second_col">No.</th>
     <th>日付</th>
-    <th>分類</th>
+    <th>口座区分</th>
     <th>記載1</th>
     <th>記載2</th>
     <th>支払額</th>

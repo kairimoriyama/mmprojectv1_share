@@ -17,14 +17,14 @@
 
 
 <!-- 検収メニュー -->
-<h3 class="acceptance_title" id="acceptance_title">検収処理<br>（商品・サービスについて精査が完了した場合に実行）</h3>
+<h3 class="acceptance_title" id="acceptance_title">検収（商品・サービスの受領・精査）</h3>
 
 <div class="acceptance_wrapper" id="acceptance_wrapper">
 
   <dl class="acceptance_item1">
     <dt>検収者</dt>
     <dd id="staffNumber_acceptance"  class="staffNumber">
-      <p>No：</p>
+      <p>社員番号：</p>
       <input name="acceptanceStaffNumber" type="number">
       <p>&#8658;</p>
       <select name="acceptanceStaffNumberdb">
@@ -65,7 +65,7 @@
   <div class="menu_wrapper_inner">
     <a class="menu_bt" href="{% url 'procurement:create_request' %}" id="create_request">1 依頼作成</a>
 
-    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">4 受領処理</p>
+    <p class="menu_bt menu_bt_mg_left row-blue yubi" id="acceptance_start" onclick="accepance_start()">4 検収</p>
     <input class="menu_bt menu_bt_mg_left row-green yubi" id="acceptance_done" type="submit" value="実行" name="button_acceptance">
     <a class="menu_bt menu_bt_mg_left row-gray yubi" id="acceptance_none" onclick="accepance_stop()">中止</a>
   </div>
@@ -216,7 +216,7 @@
   <dl>
     <dt>精査者</dt>
     <dd id="staffNumber_selectSupplier" class="staffNumber">
-      <p>No：</p>
+      <p>社員番号：</p>
       <input name="adminStaffNumber" type="number">
       <p>&#8658;</p>
       <select name="selectSupplierStaffNumberdb" class="list_filter_select_s">
