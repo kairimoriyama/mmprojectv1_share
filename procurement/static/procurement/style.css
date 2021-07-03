@@ -1332,7 +1332,7 @@ hr{
 @media screen and (min-width: 900px) {
     .acceptance_wrapper{
         grid-template-rows: repeat(3, auto);
-        grid-template-columns: 32% 25% 43%;
+        grid-template-columns: 42% 22% 36%;
         grid-template-areas:
         "area1 area2 area3"; 
     }

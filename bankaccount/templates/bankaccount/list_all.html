@@ -6,23 +6,6 @@
   <li><a href="">口座情報</a></li>
   <li><a href="">仕訳区分</a></li>
 
-{% endblock%}
-
-
-{% block content %}
-<form id="form_list_all" method="post">{% csrf_token %}
-
-  
-<div class="menu_wrapper">
-
-    
-    <div class="menu_wrapper_inner">
-      <ul>
-        <li><button class="menu_bt" type="button" onclick="location.href='/bankaccount/correspondence_amount'">自動突合</button></li>
-      </ul>
-    </div>
-
-
   <ul class="page_nav">
     <li>
       {% if page_obj.has_previous %}
@@ -35,7 +18,7 @@
   
     <li>
       {% if page_obj.has_next %}
-        <a class="menu_bt menu_bt_mg_left next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
+        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
           ＞
         </a>
       {% else %}
@@ -43,7 +26,57 @@
     </li>
   </ul>
 
-</div>
+{% endblock%}
+
+
+{% block content %}
+<form id="form_list_all" method="post" class="menu_wrapper">{% csrf_token %}
+
+  <dl class="margin_right">
+    <dt>
+      <input class="menu_bt yubi" type="submit" value="口座切替" name="">
+    </dt>
+
+    <dd class="margin_top">
+      <select name="selected_bankAccount" class="list_filter_select_l" type="number">
+          {% for bankAccount in bankAccount_list %}
+            <option value="{{ bankAccount.id }}">{{ bankAccount.branchName}} {{ bankAccount.accountNumber}} {{ bankAccount.accountMemo}}</option>
+          {% endfor %}
+      </select>
+    </dd>
+  </dl>
+
+  <dl class="margin_right">
+    <dt>
+      <button class="menu_bt" type="button" onclick="location.href=''">仕訳登録</button>
+    </dt>
+
+    <dd class="margin_top">
+      <select id="" name="" class="list_filter_select_l" type="number">
+        <option value=0>-</option>
+      {% for journalCategory in journalCategory_list %}
+          <option value="{{ journalCategory.id }}">{{ journalCategory.no}} {{ journalCategory.name}}</option>
+        {% endfor %}
+      </select>
+    </dd>
+  </dl>
+
+
+
+  <dl>
+    <dt class="menu_wrapper_inner">
+      <input class="menu_bt yubi" type="submit" value="データ取込" name="bt_import">
+      <p>&nbsp; &#8658; &nbsp;</p>
+      <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence">
+    </dt>
+
+    <dd class="margin_top">
+      <input type="file" name="csv" accept=".csv">
+    </dd>
+  </dl>
+
+
+</form>
 
 
 
@@ -53,7 +86,7 @@
 		<th class="sticky_col_th first_col">選択</th>
 		<th class="sticky_col_th second_col">No.</th>
     <th>日付</th>
-    <th>分類</th>
+    <th>口座区分</th>
     <th>記載1</th>
     <th>記載2</th>
     <th>支払額</th>
@@ -91,9 +124,9 @@
       <td>{{ item.bankAccount }}</td>
       <td>{{ item.description1 }}</td>
       <td>{{ item.description2 }}</td>
-      <td>{{ item.paymentAmount|intcomma}}</td>
-      <td>{{ item.deopsitAmount|intcomma}}</td>
-      <td>{{ item.accountBalance|intcomma}}</td>
+      <td class="number_col">{{ item.paymentAmount|intcomma}}</td>
+      <td class="number_col">{{ item.deopsitAmount|intcomma}}</td>
+      <td class="number_col">{{ item.accountBalance|intcomma}}</td>
 
       <td>
         {% if item.journalCategory %}
