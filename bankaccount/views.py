@@ -45,7 +45,6 @@ class StatementList(ListView):
             
         # 入力した検索条件の取得
         selected_bankAccount = self.request.POST.get('selected_bankAccount')
-        print(selected_bankAccount)
 
         #  値をセッションで保持        
         self.request.session['selected_bankAccount'] = selected_bankAccount

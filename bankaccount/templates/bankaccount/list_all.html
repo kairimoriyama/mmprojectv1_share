@@ -120,7 +120,12 @@
       <td class="date_col">{{ item.transactionDate | date:"Y-m-j"}}</td>
       <td>{{ item.bankAccount }}</td>
       <td>{{ item.description1 }}</td>
-      <td>{{ item.description2 }}</td>
+      <td>
+        {% if item.description2 %}
+          {{ item.description2 }}
+        {% else %}
+        {% endif %}
+      </td>
       <td class="number_col">{{ item.paymentAmount|intcomma}}</td>
       <td class="number_col">{{ item.deopsitAmount|intcomma}}</td>
       <td class="number_col">{{ item.accountBalance|intcomma}}</td>
