@@ -48,7 +48,7 @@
 
   <dl class="margin_right">
     <dt>
-      <button class="menu_bt" type="button" onclick="location.href=''">仕訳登録</button>
+      <button class="menu_bt" type="button" onclick="location.href=''"  onclick="set_search_key()">仕訳登録</button>
     </dt>
 
     <dd class="margin_top">
@@ -63,9 +63,9 @@
 
   <dl class="csv_import">
     <dt class="menu_wrapper_inner">
-      <button class="menu_bt yubi" type="submit" name="bt_import">データ取込</button>
+      <button class="menu_bt yubi" type="submit" name="bt_import"  onclick="set_search_key()">データ取込</button>
       <p>&nbsp; &#8658; &nbsp;</p>
-      <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence">
+      <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key()">
     </dt>
 
     <dd class="margin_top">
