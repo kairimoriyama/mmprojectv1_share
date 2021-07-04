@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from .models import Statement, BankAccount, JournalCategory
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 import datetime
-import unicodecsv as csv
+import csv
+import io
+from django.db.models import Max
 
 
 # Create your views here.
@@ -15,7 +17,7 @@ class StatementList(ListView):
     template_name = 'bankaccount/list_all.html'
     fields = '__all__'
     paginate_by = 21
-    queryset =Statement.objects.all().order_by('-no')
+    queryset =Statement.objects.all().order_by('-id')
 
 
     def get_context_data(self, **kwargs):
@@ -43,19 +45,31 @@ class StatementList(ListView):
 
                 if 'csv' in request.FILES:
                     
-                    data = io.TextIOWrapper(request.FILES['csv'].file, encoding='utf_8_sig')
+                    data = io.TextIOWrapper(request.FILES['csv'].file, encoding='shift-jis')
                     print(data)
                     csv_content = csv.reader(data)
-                    print(csv_content)
-                    for i in csv_content:
-                        item, created = Statement.objects.create()
-                        item.bankAccount = i[0]
-                        item.dateDescription = i[1]
-                        item.description1 = i[2]
-                        item.description2 = i[3]
-                        item.paymentAmount = i[4]
-                        item.deopsitAmount = i[5]
-                        item.accountBalance = i[6]
+                    print(type(csv_content))
+
+                    selected_bankAccount = self.request.POST.get('selected_bankAccount')
+                    print(selected_bankAccount)
+
+                    bankAccount_obj = get_object_or_404(BankAccount, pk=selected_bankAccount)
+                    
+                    for row in csv_content:
+                        
+                        max_id = Statement.objects.aggregate(Max('id'))
+                        new_id = int(max_id["id__max"]) +1
+
+                        item, created = Statement.objects.get_or_create(pk=new_id)
+
+                        item.bankAccount = bankAccount_obj
+
+                        item.dateDescription = row[0]
+                        item.description1 = row[1]
+                        item.description2 = row[2]
+                        item.paymentAmount = row[3]
+                        item.deopsitAmount = row[4]
+                        item.accountBalance = row[5]
 
                         item.save()
                     return redirect('bankaccount:list_all')

@@ -30,7 +30,7 @@
 
 
 {% block content %}
-<form id="form_list_all" method="post" class="menu_wrapper">{% csrf_token %}
+<form method="POST" class="menu_wrapper" enctype="multipart/form-data">{% csrf_token %}
 
   <dl class="margin_right">
     <dt>
@@ -39,9 +39,9 @@
 
     <dd class="margin_top">
       <select name="selected_bankAccount" class="list_filter_select_l" type="number">
-          {% for bankAccount in bankAccount_list %}
-            <option value="{{ bankAccount.id }}">{{ bankAccount.branchName}} {{ bankAccount.accountNumber}} {{ bankAccount.accountMemo}}</option>
-          {% endfor %}
+        {% for bankAccount in bankAccount_list %}
+          <option value="{{ bankAccount.id }}">{{ bankAccount.branchName}} {{ bankAccount.accountNumber}} {{ bankAccount.accountMemo}}</option>
+        {% endfor %}
       </select>
     </dd>
   </dl>
@@ -55,17 +55,15 @@
       <select id="" name="" class="list_filter_select_l" type="number">
         <option value=0>-</option>
       {% for journalCategory in journalCategory_list %}
-          <option value="{{ journalCategory.id }}">{{ journalCategory.no}} {{ journalCategory.name}}</option>
-        {% endfor %}
+        <option value="{{ journalCategory.id }}">{{ journalCategory.no}} {{ journalCategory.name}}</option>
+      {% endfor %}
       </select>
     </dd>
   </dl>
 
-
-
-  <dl>
+  <dl class="csv_import">
     <dt class="menu_wrapper_inner">
-      <input class="menu_bt yubi" type="submit" value="データ取込" name="bt_import">
+      <button class="menu_bt yubi" type="submit" name="bt_import">データ取込</button>
       <p>&nbsp; &#8658; &nbsp;</p>
       <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence">
     </dt>
@@ -74,7 +72,6 @@
       <input type="file" name="csv" accept=".csv">
     </dd>
   </dl>
-
 
 </form>
 
