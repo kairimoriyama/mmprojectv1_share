@@ -34,11 +34,11 @@
 
   <dl class="margin_right">
     <dt>
-      <input class="menu_bt yubi" type="submit" value="口座切替" name="">
+      <input type="button" class="menu_bt yubi" id="search_btn" onclick="set_search_key(),submit();" value="口座切替">
     </dt>
 
     <dd class="margin_top">
-      <select name="selected_bankAccount" class="list_filter_select_l" type="number">
+      <select id="selected_bankAccount" name="selected_bankAccount" class="list_filter_select_l" type="number">
         {% for bankAccount in bankAccount_list %}
           <option value="{{ bankAccount.id }}">{{ bankAccount.branchName}} {{ bankAccount.accountNumber}} {{ bankAccount.accountMemo}}</option>
         {% endfor %}
@@ -120,7 +120,12 @@
       <td class="date_col">{{ item.transactionDate | date:"Y-m-j"}}</td>
       <td>{{ item.bankAccount }}</td>
       <td>{{ item.description1 }}</td>
-      <td>{{ item.description2 }}</td>
+      <td>
+        {% if item.description2 %}
+          {{ item.description2 }}
+        {% else %}
+        {% endif %}
+      </td>
       <td class="number_col">{{ item.paymentAmount|intcomma}}</td>
       <td class="number_col">{{ item.deopsitAmount|intcomma}}</td>
       <td class="number_col">{{ item.accountBalance|intcomma}}</td>
@@ -151,6 +156,10 @@
 </table>
 
 
+
+{% load static %}
+<script src="{% static 'bankaccount/js/list_all.js' %}"></script>
+  
 
 
 {% endblock content%}

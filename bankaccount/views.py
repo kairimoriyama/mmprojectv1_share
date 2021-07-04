@@ -19,9 +19,15 @@ class StatementList(ListView):
     paginate_by = 21
     queryset =Statement.objects.all().order_by('-id')
 
+    def __init__(self, **kwargs):
+        super(StatementList, self).__init__(**kwargs)
+        self.form = None
 
     def get_context_data(self, **kwargs):
         context = super(StatementList, self).get_context_data(**kwargs)
+
+        # 検索結果を保持
+        context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
 
         # 口座情報
         context['bankAccount_list'] = BankAccount.objects.all()
@@ -33,6 +39,31 @@ class StatementList(ListView):
         context['item_count'] = self.get_queryset().count()
 
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+            
+        # 入力した検索条件の取得
+        selected_bankAccount = self.request.POST.get('selected_bankAccount')
+
+        #  値をセッションで保持        
+        self.request.session['selected_bankAccount'] = selected_bankAccount
+
+        # 絞り込み前の初期値
+        queryset0 = Statement.objects.all().order_by('-id')
+
+        # ページ遷移直後でなければ値がNullではないため絞込可能
+        if selected_bankAccount:
+            queryset1 = queryset0.filter(bankAccount__id=selected_bankAccount)
+            print(selected_bankAccount)
+
+            queryset = queryset1.order_by('-id')
+
+        # ページ遷移直後のNullでは絞込なし
+        else:
+            qeryset = queryset0.order_by('-id')
+        
+        return queryset
 
 
     def post(self, request, *args, **kwargs):
