@@ -57,11 +57,11 @@ textarea:required{
     background-color: #fff;
 }
 
-.excel_output{
+.csv_import{
     display: none;
 }
 @media screen and (min-width: 600px) {
-    .excel_output{
+    .csv_import{
         display: block;
     }
 }
@@ -142,7 +142,7 @@ button{
 }
 
 .margin_right{
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 
 
