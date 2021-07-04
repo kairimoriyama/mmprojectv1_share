@@ -166,7 +166,6 @@ button{
 .menu_wrapper{
     display: flex;
     align-items: center;
-    align-content: center;
     margin: 1rem 1.5rem 1rem 1.5rem;
 }
 .menu_wrapper_inner{
