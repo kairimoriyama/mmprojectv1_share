@@ -34,11 +34,11 @@
 
   <dl class="margin_right">
     <dt>
-      <input type="button" class="menu_bt yubi" name="" onclick="submit();" value="口座切替">
+      <input type="button" class="menu_bt yubi" id="search_btn" onclick="set_search_key(),submit();" value="口座切替">
     </dt>
 
     <dd class="margin_top">
-      <select name="selected_bankAccount" class="list_filter_select_l" type="number">
+      <select id="selected_bankAccount" name="selected_bankAccount" class="list_filter_select_l" type="number">
         {% for bankAccount in bankAccount_list %}
           <option value="{{ bankAccount.id }}">{{ bankAccount.branchName}} {{ bankAccount.accountNumber}} {{ bankAccount.accountMemo}}</option>
         {% endfor %}
@@ -156,6 +156,10 @@
 </table>
 
 
+
+{% load static %}
+<script src="{% static 'bankaccount/js/list_all.js' %}"></script>
+  
 
 
 {% endblock content%}
