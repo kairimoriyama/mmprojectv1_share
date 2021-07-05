@@ -115,7 +115,7 @@ class StatementList(PaginatedFilterViews, ListView):
                         item.save()
                     return redirect('bankaccount:list_all')
                 else:
-                    return redirect('bankaccount:list_all')
+                    return self.get(request, *args, **kwargs)
 
             # データ整理ボタン
             elif ('bt_correspondence' in request.POST) and bankAccount:
@@ -134,7 +134,7 @@ class StatementList(PaginatedFilterViews, ListView):
 
                 if t == 0:
                     print("クリーン済み")
-                    pass
+                    return self.get(request, *args, **kwargs)
 
                 else:
 
@@ -196,8 +196,7 @@ class StatementList(PaginatedFilterViews, ListView):
                             record_clean.no = int(Statement.objects.all().filter(
                                 bankAccount__id=bankAccount).order_by('id')[j].no) + 1
                             record_clean.save() # 保存
-
-
+                            
                 return redirect('bankaccount:list_all')
 
             else:
