@@ -5,7 +5,7 @@ function set_search_key(){
   localStorage.setItem('bankaccount_count_key', '1'); //カウント1を設定
   localStorage.removeItem('bankaccount_search_key');
 
-  let selected_bankAccount = document.getElementById('selected_bankAccount').value;
+  let selected_bankAccount = document.getElementById('id_bankAccount').value;
 
   let dataset = ({
     "key1": selected_bankAccount,
@@ -30,7 +30,7 @@ function get_search_key() {
   }else{
 
     // 検索条件をフォームに入力
-    document.getElementById('selected_bankAccount').value= dataset["key1"];
+    document.getElementById('id_bankAccount').value= dataset["key1"];
 
 
 
