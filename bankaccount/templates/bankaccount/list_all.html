@@ -9,7 +9,7 @@
   <ul class="page_nav">
     <li>
       {% if page_obj.has_previous %}
-        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key()">
+        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
           ＜
         </a>
       {% else %}
@@ -18,7 +18,7 @@
   
     <li>
       {% if page_obj.has_next %}
-        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
+        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key(), count_key_clear()">
           ＞
         </a>
       {% else %}
@@ -38,26 +38,17 @@
     </dt>
 
     <dd class="margin_top">
-      <select id="selected_bankAccount" name="selected_bankAccount" class="list_filter_select_l" type="number">
-        {% for bankAccount in bankAccount_list %}
-          <option value="{{ bankAccount.id }}">{{ bankAccount.branchName}} {{ bankAccount.accountNumber}} {{ bankAccount.accountMemo}}</option>
-        {% endfor %}
-      </select>
+      {{search_form.bankAccount}}
     </dd>
   </dl>
 
   <dl class="margin_right">
     <dt>
-      <button class="menu_bt" type="button" onclick="location.href=''"  onclick="set_search_key()">仕訳登録</button>
+      <button class="menu_bt" type="button" onclick="location.href=''"  onclick="set_search_key(), count_key_clear()">仕訳登録</button>
     </dt>
 
     <dd class="margin_top">
-      <select id="" name="" class="list_filter_select_l" type="number">
-        <option value=0>-</option>
-      {% for journalCategory in journalCategory_list %}
-        <option value="{{ journalCategory.id }}">{{ journalCategory.no}} {{ journalCategory.name}}</option>
-      {% endfor %}
-      </select>
+      {{search_form.journalCategory}}
     </dd>
   </dl>
 
@@ -65,7 +56,7 @@
     <dt class="menu_wrapper_inner">
       <button class="menu_bt yubi" type="submit" name="bt_import"  onclick="set_search_key()">データ取込</button>
       <p>&nbsp; &#8658; &nbsp;</p>
-      <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key()">
+      <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key(), count_key_clear()">
     </dt>
 
     <dd class="margin_top">
