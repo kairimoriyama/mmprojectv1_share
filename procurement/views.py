@@ -221,7 +221,7 @@ class ListRequest(ListView):
     paginate_by = 22
 
     queryset = OrderRequest.objects.all(
-    ).order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
+    ).order_by('adminCheck__no','-orderInfo__orderNum','requestNum').filter(deletedItem=False)
     
     def __init__(self, **kwargs):
         super(ListRequest, self).__init__(**kwargs)
