@@ -170,6 +170,78 @@ function get_search_key() {
 
   if (dataset === null) {
 
+    let params = (new URL(document.location)).searchParams;
+    if (params.get('staffdb') != null){
+      document.getElementById('staffdb').value = params.get('staffdb');
+    }
+    if (params.get('division')!= null){
+      document.getElementById('division').value = params.get('division');
+    }
+    if (params.get('inchargeStaff')!= null){
+      document.getElementById('inchargeStaff').value = params.get('inchargeStaff');
+    }
+    if (params.get('inchargeDivision')!= null){
+      document.getElementById('inchargeDivision').value = params.get('inchargeDivision');
+    }
+    if (params.get('progress')!= null){
+      document.getElementById('progress').value = params.get('progress');
+    }
+    if (params.get('word')!= null){
+      document.getElementById('word').value = params.get('word');
+    }
+    if (params.get('submissionDateFrom')!= null){
+      document.getElementById('submissionDateFrom').value = params.get('submissionDateFrom');
+    }
+    if (params.get('submissionDateTo')!= null){
+      document.getElementById('submissionDateTo').value = params.get('submissionDateTo');
+    }
+    if (params.get('completionDateFrom')!= null){
+      document.getElementById('completionDateFrom').value = params.get('completionDateFrom');
+    }
+    if (params.get('completionDateTo')!= null){
+      document.getElementById('completionDateTo').value = params.get('completionDateTo');
+    }
+    if (params.get('ideaOrAction')!= null && params.get('ideaOrAction')<2){
+      document.getElementsByName('ideaOrAction')[params.get('ideaOrAction')].checked = true;
+    }
+
+    if (params.get('purchase')!= null && params.get('purchase') == 1) {
+      document.getElementById('purchase').checked = true;
+    }else{
+      document.getElementById('purchase').checked = false;
+    };
+
+    if (params.get('purchase')!= null && params.get('purchase') == 1) {
+      document.getElementById('purchase').checked = true;
+    }else{
+      document.getElementById('purchase').checked = false;
+    };
+
+    if (params.get('system')!= null && params.get('system') == 1) {
+      document.getElementById('system').checked = true;
+    }else{
+      document.getElementById('system').checked = false;
+    };
+
+    if (params.get('internalDiscussion')!= null && params.get('internalDiscussion') == 1) {
+      document.getElementById('internalDiscussion').checked = true;
+    }else{
+      document.getElementById('internalDiscussion').checked = false;
+    };
+
+    if (params.get('consideration')!= null && params.get('consideration') == 1) {
+      document.getElementById('consideration').checked = true;
+    }else{
+      document.getElementById('consideration').checked = false;
+    };
+
+    // 完了日の表示・非表示切り替え
+    if (params.get('progress')!= null  && params.get('progress')==4) {
+      document.getElementById("completionDateFilter").style.display ="block";
+    }else{
+      document.getElementById("completionDateFilter").style.display ="none";
+    };
+
   }else{
 
     // 検索条件をフォームに入力
