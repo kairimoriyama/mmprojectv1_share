@@ -77,11 +77,12 @@ class StatementList(PaginatedFilterViews, ListView):
         bankAccount = self.request.POST.get('bankAccount', None)
         request.session['bankAccount'] = bankAccount
         print(bankAccount)
- 
-        if request.method == 'POST':
 
-            bankAccount = self.request.POST.get('bankAccount')
-            print(bankAccount)
+        journalCategory = self.request.POST.get('journalCategory', None)
+        request.session['journalCategory'] = journalCategory
+        print(journalCategory)
+
+        if request.method == 'POST':
 
             # データ取込ボタン
             if ('bt_import' in request.POST) and bankAccount :
@@ -113,8 +114,36 @@ class StatementList(PaginatedFilterViews, ListView):
                         item.accountBalance = row[5]
 
                         item.save()
-                    return redirect('bankaccount:list_all')
+                    return self.get(request, *args, **kwargs)
                 else:
+                    return self.get(request, *args, **kwargs)
+ 
+
+            # 仕訳区分の登録
+            elif ('bt_journalCategory' in request.POST):
+                print('bt_journalCategory')
+
+                if not journalCategory:
+                    print("区分なし")
+                    return self.get(request, *args, **kwargs)
+
+                else:
+                    
+                    # リスト型
+                    record_list = []
+                    # HTMLから取得したrecordを カンマ区切りでリスト型へ
+                    record_list = self.request.POST.get('selected_record_list').split(sep=',')
+
+                    # Foreignkey
+                    selected_journalCategory = get_object_or_404(JournalCategory, pk=journalCategory)
+                    print(selected_journalCategory)
+
+                    # recordを更新
+                    for record_id in record_list:
+                        record = get_object_or_404(Statement, pk=record_id)
+                        record.journalCategory = selected_journalCategory 
+                        record.save()
+
                     return self.get(request, *args, **kwargs)
 
             # データ整理ボタン
@@ -153,7 +182,7 @@ class StatementList(PaginatedFilterViews, ListView):
                         record = Statement.objects.all().get(id=int(record_first.id + i))
 
                         # 比較対象を定義
-                        compare_record = Statement.objects.all().filter(id__lt=int(record_first.id + i)).order_by('id').last()
+                        compare_record = Statement.objects.all().filter(bankAccount__id=bankAccount,id__lt=int(record_first.id + i)).order_by('id').last()
                         accountBalance1 = compare_record.accountBalance
 
                         if record.consistencyCheck == True:

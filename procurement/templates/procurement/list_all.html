@@ -123,7 +123,7 @@
       </td>
 
       <td class="sticky_col_td second_col">
-        <a href="{% url 'procurement:detail_request' item.pk %}">
+        <a href="{% url 'procurement:detail_request' item.pk %}" target="_blank">
           {{ item.requestNum }}
         </a>
       </td>
@@ -133,7 +133,7 @@
 
       <td class="date_col" name="orderNumInRequest">
         {% if item.orderInfo %}
-          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}">
+          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}" target="_blank">
             {{ item.orderInfo.orderNum }}
           </a>
         {% else %}
@@ -279,7 +279,7 @@
     <p class="menu_bt menu_bt_mg_left row-white yubi" id="selectSupplier_stop" onclick="selectSupplier_stop()">戻る</p>
 
     <a class="menu_bt menu_bt_mg_left" id="create_order" href="{% url 'procurement:create_order' %}">3-1 発注作成</a>
-    <input type="submit" onclick="reportOrder();"  class="menu_bt menu_bt_mg_left yubi" value="3-2 突合" id="report_order" name="button_report_order" >
+    <input type="submit" onclick="reportOrder();"  class="menu_bt menu_bt_mg_left row-blue yubi" value="3-2 突合" id="report_order" name="button_report_order" >
     <a class="menu_bt menu_bt_mg_left" id="create_order_request" href="{% url 'procurement:create_order_request' %}">3 一括作成</a>
 
   </div>

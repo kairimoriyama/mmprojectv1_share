@@ -44,7 +44,7 @@
 
   <dl class="margin_right">
     <dt>
-      <button class="menu_bt" type="button" onclick="location.href=''"  onclick="set_search_key(), count_key_clear()">仕訳登録</button>
+      <input class="menu_bt yubi" type="submit" value="仕訳登録" name="bt_journalCategory" onclick="selected_record(),set_search_key()">
     </dt>
 
     <dd class="margin_top">
@@ -64,6 +64,8 @@
     </dd>
   </dl>
 
+  <!-- record id 自動入力-->
+  <input type="hidden" name="selected_record_list" id="selected_record_list">
 </form>
 
 
@@ -89,22 +91,27 @@
   {% for item in object_list %}
 
   <!-- 進捗状況に応じた色の設定 -->
-    {% if item.adminCheck.no == 1 %}
+
+    {% if item.journalCategory.no == 0 %}
     <tr class="row-yellow">
-    {%  elif item.adminCheck.no == 2 %}
-      <tr class="row-white">
-    {%  elif item.adminCheck.no == 0 %}
-      <tr class="row-red">
-    {%  elif item.adminCheck.no == 4 %}
-      <tr class="row-blue">
-    {%  elif item.adminCheck.no == 5 %}
-      <tr class="row-green">
-    {%  elif item.adminCheck.no == 6 %}
-      <tr class="row-gray">
+    {% elif item.journalCategory.no == 1001 %}
+    <tr class="row-blue">
+    {% elif item.journalCategory.no == 1002 %}
+    <tr class="row-gray">
+    {% elif item.journalCategory.no == 2001 %}
+    <tr class="row-green">
+    {% elif item.journalCategory.no == 7000 %}
+    <tr class="row-gray">
+    {% elif item.journalCategory.no == 8000 %}
+    <tr class="row-gray">
+    {% elif item.journalCategory.no == 9000 %}
+    <tr class="row-gray">
+    {% elif item.journalCategory.no == 10000 %}
+    <tr class="row-red">
     {% endif %}
 
       <td class="sticky_col_td first_col">
-        <input onclick="clickRequest()" type="checkbox" name="selected_request" value="{{ item.pk }}">
+        <input type="checkbox" name="selected_record" value="{{ item.pk }}">
       </td>
 
       <td class="sticky_col_td second_col"><a href="">{{ item.no }}</a></td>
