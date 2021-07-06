@@ -49,8 +49,7 @@ class BankAccount(models.Model):
         ordering = ('no',)
 
     def __str__(self):
-        return self.branchName + str(self.accountNumber)
-
+        return str(self.no)+'-'+ self.branchName + str(self.accountNumber)
 
 class Statement(models.Model):
 
