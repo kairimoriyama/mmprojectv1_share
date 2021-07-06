@@ -48,3 +48,21 @@ function get_search_key() {
 };
 
 window.onload = get_search_key(); //読み込み時に遷移前の検索条件を入力
+
+
+// category 
+function selected_record(){
+
+  let selected_record = document.getElementsByName('selected_record');
+  let len_selected_record = selected_record.length;
+  let selected_record_id = []
+  
+
+  for (let k = 0; k < len_selected_record ; k++){
+    if (selected_record[k].checked){
+      selected_record_id.push(Number(selected_record[k].value));
+    }
+  }
+  document.getElementById("selected_record_list").value = selected_record_id;
+};
+
