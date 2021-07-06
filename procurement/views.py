@@ -359,11 +359,11 @@ class ListRequest(ListView):
             # セッションで選択されたデータを保持
             self.request.session['item_list_type_procurement'] = 'filter'
             
-            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
+            queryset = queryset6_2.order_by('adminCheck__no','-orderInfo__orderNum','requestNum').filter(deletedItem=False)
 
         # ページ遷移直後のNullでは絞込なし
         else:
-            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum','requestNum')
+            qeryset = queryset0.order_by('adminCheck__no','-orderInfo__orderNum','requestNum').filter(deletedItem=False)
         
         return queryset
 
