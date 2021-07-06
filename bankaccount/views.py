@@ -114,7 +114,7 @@ class StatementList(PaginatedFilterViews, ListView):
                         item.accountBalance = row[5]
 
                         item.save()
-                    return redirect('bankaccount:list_all')
+                    return self.get(request, *args, **kwargs)
                 else:
                     return self.get(request, *args, **kwargs)
  
@@ -182,7 +182,7 @@ class StatementList(PaginatedFilterViews, ListView):
                         record = Statement.objects.all().get(id=int(record_first.id + i))
 
                         # 比較対象を定義
-                        compare_record = Statement.objects.all().filter(id__lt=int(record_first.id + i)).order_by('id').last()
+                        compare_record = Statement.objects.all().filter(bankAccount__id=bankAccount,id__lt=int(record_first.id + i)).order_by('id').last()
                         accountBalance1 = compare_record.accountBalance
 
                         if record.consistencyCheck == True:
