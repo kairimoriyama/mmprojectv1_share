@@ -386,6 +386,16 @@ class DetailRequest(DetailView):
     model  = OrderRequest
     fields = '__all__'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        item = self.object
+
+        self.request.session['submissionDate_procurement'] = str(item.submissionDate)
+
+        return context
+
+
+        
 
 
 class DetailOrder(DetailView):
