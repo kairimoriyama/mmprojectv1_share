@@ -123,7 +123,7 @@
       </td>
 
       <td class="sticky_col_td second_col">
-        <a href="{% url 'procurement:detail_request' item.pk %}">
+        <a href="{% url 'procurement:detail_request' item.pk %}" target="_blank">
           {{ item.requestNum }}
         </a>
       </td>
@@ -133,7 +133,7 @@
 
       <td class="date_col" name="orderNumInRequest">
         {% if item.orderInfo %}
-          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}">
+          <a href="{% url 'procurement:detail_order'  item.orderInfo.pk %}" target="_blank">
             {{ item.orderInfo.orderNum }}
           </a>
         {% else %}
