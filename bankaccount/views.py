@@ -120,7 +120,7 @@ class StatementList(PaginatedFilterViews, ListView):
  
 
             # 仕訳区分の登録
-            elif ('bt_journalCategory' in request.POST):
+            elif (('bt_journalCategory' in request.POST) and self.request.POST.get('selected_record_list')):
                 print('bt_journalCategory')
 
                 # リスト型
@@ -129,8 +129,8 @@ class StatementList(PaginatedFilterViews, ListView):
                 record_list = self.request.POST.get('selected_record_list').split(sep=',')
                 print(len(record_list))
 
-                if (not journalCategory) or (len(record_list) < 1):
-                    print("区分なし 又は 選択なし")
+                if not journalCategory:
+                    print("区分なし")
                     return self.get(request, *args, **kwargs)
 
                 else:
