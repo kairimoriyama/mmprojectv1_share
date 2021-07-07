@@ -385,16 +385,6 @@ class DetailRequest(DetailView):
     template_name = 'procurement/detail_request.html'
     model  = OrderRequest
     fields = '__all__'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        item = self.object
-
-        self.request.session['submissionDate_procurement'] = str(item.submissionDate)
-
-        return context
-
-
         
 
 
@@ -614,6 +604,45 @@ class UpdateRequest(UpdateView):
     def get_success_url(self):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
 
+
+class UpdateRequestCopy(UpdateView):
+    template_name = 'procurement/update_request.html'
+    model  = OrderRequest
+    form_class = UpdateFormRequest
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(request.POST, request.FILES)
+
+        params = {
+            'form':form
+        }
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+
+            # idを再設定
+            obj.pk = None
+
+            # requestNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                submissionDate__year=currentYear)
+            lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+            maxRequestNum = lastRequestNum['requestNum__max']
+
+            if (maxRequestNum == None) or (maxRequestNum < 1):
+                obj.requestNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.requestNum = maxRequestNum +1
+
+            obj.save()
+            return redirect('procurement:detail_request', pk= obj.id)
+        
+        else:
+            return render(request, self.template_name, params ) 
 
 class UpdateOrder(UpdateView):
     template_name = 'procurement/update_order.html'

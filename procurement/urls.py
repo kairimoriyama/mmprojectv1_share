@@ -17,6 +17,7 @@ urlpatterns = [
     path('create_order_request/', views.CreateOrderAndRequest.as_view(), name='create_order_request'),
 
     path('update_request/<int:pk>', views.UpdateRequest.as_view(), name='update_request'),
+    path('update_request_copy/<int:pk>', views.UpdateRequestCopy.as_view(), name='update_request_copy'),
     path('update_order/<int:pk>', views.UpdateOrder.as_view(), name='update_order'),
 
     # ajax
