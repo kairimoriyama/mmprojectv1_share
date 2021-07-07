@@ -127,9 +127,9 @@ class StatementList(PaginatedFilterViews, ListView):
                 record_list = []
                 # HTMLから取得したrecordを カンマ区切りでリスト型へ
                 record_list = self.request.POST.get('selected_record_list').split(sep=',')
-                len(record_list)
+                print(len(record_list))
 
-                if (not journalCategory) or (len(record_list) > 0):
+                if (not journalCategory) or (len(record_list) < 1):
                     print("区分なし 又は 選択なし")
                     return self.get(request, *args, **kwargs)
 

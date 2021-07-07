@@ -22,8 +22,12 @@
    
     <header>
       <div>
-        <h1><a href="{% url 'home' %}">管理ツール</a></h1>
-        <h2 class="app_title">Good idea</h2>
+        <a href="{% url 'home' %}" class="apptitle_wrapper">
+            <img class="icon-s" src="{% static 'favicon_mono.png' %}">
+            <h1>管理ツール</h1>
+        </a>
+
+        <h2 class="sub_title">Good idea</h2>
       </div>
 
       <nav>
