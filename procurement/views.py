@@ -13,7 +13,7 @@ import datetime
 from django.utils import timezone
 
 from .models import AdminCheck, DeliveryAddress, ItemCategory, OrderRequest, OrderInfo, Purpose, PaymentMethod, Progress, Supplier, StandardItem
-from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormOrder, CreateFormOrderAndRequest, CreateFormRequestWithOrder, RequestFormset
+from .forms import  CreateFormRequest, CreateFormOrder, UpdateFormRequest, UpdateFormRequestCopy, UpdateFormOrder, CreateFormOrderAndRequest, CreateFormRequestWithOrder, RequestFormset
 from staffdb.models import StaffDB, Division
 
 # Create your views here.
@@ -606,9 +606,9 @@ class UpdateRequest(UpdateView):
 
 
 class UpdateRequestCopy(UpdateView):
-    template_name = 'procurement/update_request.html'
+    template_name = 'procurement/update_request_copy.html'
     model  = OrderRequest
-    form_class = UpdateFormRequest
+    form_class = UpdateFormRequestCopy
 
 
     def post(self, request, *args, **kwargs):

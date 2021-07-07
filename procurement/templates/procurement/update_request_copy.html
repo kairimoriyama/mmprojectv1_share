@@ -1,0 +1,309 @@
+{% extends 'procurement/base.html' %}
+
+{% block header %}
+  <li>
+    <a class="menu_bt" href="{% url 'procurement:detail_request' object.pk %}"><p>戻る</p></a>
+  </li>
+{% endblock header %}
+
+{% block content %}
+
+
+<form class="container_request_edit" action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="menu_wrapper_inner item0">
+    <div class="submit_btn_wrapper">
+      <input class="menu_bt" type="submit" value='新規作成'>
+      <h3 class="alert menu_bt_mg_left">{{ form.non_field_errors }}</h3>
+    </div>
+  </div>
+
+
+  <dl class="item_dl item1">
+    <dt>依頼番号</dt>
+    <dd class="itemNum free_color">{{ form.requestNum}}</dd>
+  </dl>
+
+  <dl class="item_dl item2">
+    <dt>依頼日</dt>
+    <dd>{{ form.submissionDate}}</dd>
+  </dl>
+    
+
+  <dl class="item_dl item3">
+    <dt>希望納期</dt>
+    <dd>{{ form.dueDate }}</dd>
+  </dl>
+
+  <dl class="item_dl item4 staffNumber">
+    <dt>依頼者</dt>
+    <dd id="requestStaffNumber">
+      <input name="requestStaffNumber" type="number">
+      {{ form.requestStaffdb }}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item5">
+    <dt>所属</dt>
+    <dd>{{ form.requestStaffDivision}}</dd>
+  </dl>
+
+  <dl class="item_dl item6">
+    <dt>納品先</dt>
+    <dd>{{ form.deliveryAddress}}</dd>
+  </dl>
+
+  <dl class="item_dl item7">
+    <dt>区分</dt>
+    <dd>{{ form.purpose}}</div>
+    </dd>
+  </dl>
+
+
+  <dl class="item_dl item8">
+    <dt>標準品</dt>
+    <dd>{{ form.standardItem}}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item9">
+    <dt class="height_l sentence_dt2">依頼内容</dt>
+    <dd class="height_l sentence_dd2">{{ form.requestDetail}}</dd>
+  </dl>
+
+  <dl class="item_dl item10 multiple_items_URL">
+    <dt class="height_l">URL</dt>
+    <dd class="height_l">
+      <div>{{ form.refURL1 }}</div>
+      <div>{{ form.refURL2 }}</div>
+      <div>{{ form.refURL3 }}</div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item11">
+    <dt>数量</dt>
+    <dd>{{ form.quantity }}</dd>
+  </dl>
+
+  <dl class="item_dl item12">
+    <dt>税込総額</dt>
+    <dd id="amount">{{ form.estimatedAmount }}</dd>
+  </dl>
+
+  <dl class="item_dl item13">
+    <dt>稟議番号</dt>
+    <dd>{{ form.approval}}</dd>
+  </dl>
+
+  <dl class="item_dl item14">
+    <dt>プロジェクト</dt>
+    <dd>{{ form.project}}</dd>
+  </dl>
+
+
+  <dl class="item_dl item15 multiple_items_select">
+    <dt class="height_l">費用負担</dt>
+    <dd class="height_l">
+      <div>{{ form.costCenter1 }}</div>
+      <div>{{ form.costCenter2 }}</div>
+      <div>{{ form.costCenter3 }}</div>
+    </dd>
+  </dl>
+
+
+  <dl class="item_dl item16">
+    <dt class="height_l">資料（稟議等）</dt>
+    <dd class="height_l multiple_items_update">
+
+      <div class="attachment_update">
+        <p>資料（1）</p>
+        <div>{{ form.refFile1 }}</div>
+      </div>
+
+      <div class="attachment_update">
+        <p>資料（2）</p>
+        <div>{{ form.refFile2 }}</div>
+      </div>
+      
+      <div class="attachment_update">
+        <p>資料（3）</p>
+        <div>{{ form.refFile3 }}</div>
+      </div>
+    </dd>
+  </dl>
+
+  <dl class="item_dl item17 staffNumber">
+    <dt>精査者</dt>
+    <dd id="adminStaffNumber">
+      <input name="adminStaffNumber" type="number">
+      {{ form.adminStaffdb }}
+    </dd>
+  </dl>
+
+  <dl class="item_dl item18">
+    <dt>進捗</dt>
+    <dd class="no_click">{{ form.adminCheck }}</dd>
+  </dl>
+
+  
+  <dl class="item_dl item19">
+    <dt class="height_l">精査メモ</dt>
+    <dd class="height_l alternative_color">{{ form.adminDescription }}</dd>
+  </dl>
+
+
+  <dl class="item_dl item20">
+    <dt>発注番号</dt>
+    <dd class="no_click">{{ form.orderInfo }}</dd>
+  </dl>
+  
+
+  <dl class="item_dl item_dl_dummy_s">
+    <dt></dt>
+    <dd></dd>
+  </dl>
+
+</form>
+<hr>
+
+{% load static %}
+<script src="{% static 'procurement/js/update_request.js' %}"></script>
+
+
+
+{% block extrajs %}
+<script>
+
+/*ajax起動用*/
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  }
+});
+/*----------*/
+
+
+/*-----依頼者-----*/
+
+let staffNumberElement = document.getElementById('requestStaffNumber').children[0];
+let staffdbElement = document.getElementById('requestStaffNumber').children[1];
+
+console.log(staffNumberElement)
+console.log(staffNumberElement.value)
+console.log(staffdbElement)
+
+const inputStaffNumber = (select) => {
+ 
+  for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
+    staffdbElement.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_requestStaff' %}",
+      type: 'GET',
+      data: {'requestStaffNumber': staffNumberElement.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+    console.log(items_staffdb)
+    console.log(items_staffdb.length)
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      staffdbElement.appendChild(option); 
+      };
+  });
+  console.log(staffdbElement)  
+};
+
+
+staffdbElement.addEventListener('focus', () => {
+  console.log("test");
+  inputStaffNumber();
+});
+
+
+/*-----精査者-----*/
+
+let staffNumberElement2 = document.getElementById('adminStaffNumber').children[0];
+let staffdbElement2 = document.getElementById('adminStaffNumber').children[1];
+
+console.log(staffNumberElement2)
+console.log(staffNumberElement2.value)
+console.log(staffdbElement2)
+
+const inputStaffNumber2 = (select) => {
+ 
+  for (let i = staffdbElement2.childElementCount-1 ; i >= 0; i--) {  
+    staffdbElement2.remove(i);
+  };
+
+  $.ajax({
+      url: "{% url 'procurement:ajax_get_adminStaff' %}",
+      type: 'GET',
+      data: {'adminStaffNumber': staffNumberElement2.value},
+  }).done(response => {
+
+    // 選択肢を作成
+    
+    let items_staffdb = response.staffList
+    console.log(items_staffdb)
+    console.log(items_staffdb.length)
+
+    for (let i = 0; i < items_staffdb.length; i++) {  
+      let option = document.createElement('option')
+      option.setAttribute('value', items_staffdb[i]['pk']);
+      option.innerHTML = items_staffdb[i]['fullName'];
+
+      staffdbElement2.appendChild(option); 
+      };
+  });
+  console.log(staffdbElement2)  
+};
+
+
+
+staffdbElement2.addEventListener('focus', () => {
+  console.log("test");
+  inputStaffNumber2();
+});
+
+
+</script>
+{% endblock extrajs %}
+
+
+
+
+
+{% endblock content%}
+
