@@ -605,6 +605,45 @@ class UpdateRequest(UpdateView):
         return reverse('procurement:detail_request', kwargs={'pk': self.object.id})
 
 
+class UpdateRequestCopy(UpdateView):
+    template_name = 'procurement/update_request.html'
+    model  = OrderRequest
+    form_class = UpdateFormRequest
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(request.POST, request.FILES)
+
+        params = {
+            'form':form
+        }
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+
+            # idを再設定
+            obj.pk = None
+
+            # requestNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearRequestNums = OrderRequest.objects.values('requestNum').filter(
+                submissionDate__year=currentYear)
+            lastRequestNum = currentYearRequestNums.aggregate(Max('requestNum'))
+            maxRequestNum = lastRequestNum['requestNum__max']
+
+            if (maxRequestNum == None) or (maxRequestNum < 1):
+                obj.requestNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.requestNum = maxRequestNum +1
+
+            obj.save()
+            return redirect('procurement:detail_request', pk= obj.id)
+        
+        else:
+            return render(request, self.template_name, params ) 
+
 class UpdateOrder(UpdateView):
     template_name = 'procurement/update_order.html'
     model  = OrderInfo

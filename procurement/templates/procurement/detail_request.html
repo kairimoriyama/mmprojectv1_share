@@ -19,7 +19,8 @@
 <div class="menu_wrapper">
 
   <div class="detail_nav">
-    <a class="menu_bt" href="{% url 'procurement:update_request' object.id %}">編集</a>
+    <a class="menu_bt" href="{% url 'procurement:update_request_copy' object.id %}">コピー</a>
+    <a class="menu_bt menu_bt_mg_left" href="{% url 'procurement:update_request' object.id %}">編集</a>
     {% if object.deletedItem == True %}
       <div><p  class="detail_deletedItem">削除済み</p></div>
     {% endif %}
