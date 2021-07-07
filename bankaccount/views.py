@@ -123,17 +123,18 @@ class StatementList(PaginatedFilterViews, ListView):
             elif ('bt_journalCategory' in request.POST):
                 print('bt_journalCategory')
 
-                if not journalCategory:
-                    print("区分なし")
+                # リスト型
+                record_list = []
+                # HTMLから取得したrecordを カンマ区切りでリスト型へ
+                record_list = self.request.POST.get('selected_record_list').split(sep=',')
+                len(record_list)
+
+                if (not journalCategory) or (len(record_list) > 0):
+                    print("区分なし 又は 選択なし")
                     return self.get(request, *args, **kwargs)
 
                 else:
                     
-                    # リスト型
-                    record_list = []
-                    # HTMLから取得したrecordを カンマ区切りでリスト型へ
-                    record_list = self.request.POST.get('selected_record_list').split(sep=',')
-
                     # Foreignkey
                     selected_journalCategory = get_object_or_404(JournalCategory, pk=journalCategory)
                     print(selected_journalCategory)
