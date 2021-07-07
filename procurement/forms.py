@@ -375,6 +375,74 @@ class UpdateFormRequest(ModelForm):
 
 
 
+class UpdateFormRequestCopy(ModelForm):
+
+    class Meta:
+        model  = OrderRequest
+        fields = ('submissionDate',
+            'requestStaffDivision', 'requestStaffdb',
+            'dueDate', 'deliveryAddress', 
+            'costCenter1', 'costCenter2', 'costCenter3',
+            'purpose', 'standardItem', 'requestDetail', 
+            'project','approval', 
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1','refFile2','refFile3',
+            )
+    class Meta:
+        model  = OrderRequest
+        fields = ('submissionDate',
+            'requestStaffDivision', 'requestStaffdb', 
+            'dueDate', 'deliveryAddress', 
+            'costCenter1', 'costCenter2', 'costCenter3', 
+            'purpose','standardItem', 'requestDetail',
+            'project','approval',
+            'quantity', 'estimatedAmount',
+            'refURL1', 'refURL2', 'refURL3',
+            'refFile1', 'refFile2', 'refFile3',
+            )
+        widgets = {'submissionDate': DateInput(),'dueDate': DateInput()}
+
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateFormRequestCopy, self).__init__(*args, **kwargs)
+
+    # 初期値・入力規則
+        self.fields['submissionDate'].required = True
+
+        self.fields['requestStaffdb'].required = True
+ 
+        self.fields['dueDate'].required = True
+        
+        self.fields['requestStaffDivision'].required = True
+        self.fields['requestStaffDivision'].queryset = Division.objects.filter(no__lt=9000)
+        
+        self.fields['deliveryAddress'].required = True
+        self.fields['purpose'].required = True
+        self.fields['requestDetail'].required = True
+        self.fields['costCenter1'].required = True
+        self.fields['costCenter1'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter2'].queryset = Division.objects.filter(no__lt=9000)
+        self.fields['costCenter3'].queryset = Division.objects.filter(no__lt=9000)
+
+        self.fields['quantity'].required = True
+        self.fields['estimatedAmount'].required = True
+
+
+        # プレースホルダ
+        self.fields['requestDetail'].widget.attrs['placeholder'] = '具体的な商品や要求される仕様（URLを貼っていれば簡潔な説明でOK）'
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        estimatedAmount = cleaned_data.get('estimatedAmount')
+        print('A')
+        if estimatedAmount == 0 :
+            print('B')
+            raise forms.ValidationError('金額を入力してください（概算でOK）')
+
+
+
 
 class UpdateFormOrder(ModelForm):
 
