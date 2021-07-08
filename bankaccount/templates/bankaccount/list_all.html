@@ -34,8 +34,9 @@
 <form method="POST" class="menu_wrapper" enctype="multipart/form-data">{% csrf_token %}
 
   <dl class="margin_right">
-    <dt>
+    <dt class="menu_wrapper_inner">
       <input type="button" class="menu_bt yubi" id="search_btn" onclick="set_search_key(),submit();" value="口座切替">
+      <h4 class="yubi margin_left">詳細</h4>
     </dt>
 
     <dd class="margin_top">
@@ -67,6 +68,62 @@
 
   <!-- record id 自動入力 type="hidden"-->
   <input type="hidden" name="selected_record_list" id="selected_record_list">
+</form>
+
+
+<form class="list_filter_items"  method="GET">
+
+  <dl class="payment_filter">
+    <dt>区分</dt>
+    <dd>
+      <input type="radio" name="payment" value="0"><p class="margin_left_s margin_right_s">支払</p>
+      <input type="radio" name="payment" value="1"><p class="margin_left_s margin_right_s">受取</p>
+      <input type="radio" name="payment" value="2" checked="checked"><p class="margin_left_s">両方</p>
+    </dd>
+  </dl>
+
+  <dl class="progress_filter">
+    <dt>進捗</dt>
+    <dd>
+      <input id="consistencyCheck" name="consistencyCheck" type="checkbox" value="1">
+    </dd>
+  </dl>
+
+  <dl>
+    <dt>記載1</dt>
+    <dd><input id="description1" name="description1" value="{{ request.GET.description1 }}" type="text"></dd>
+  </dl>
+
+  <dl>
+    <dt>記載2</dt>
+    <dd><input id="description2" name="description2" value="{{ request.GET.description2 }}" type="text"></dd>
+  </dl>
+
+  <dl>
+    <dt>メモ</dt>
+    <dd><input id="adminMemo" name="adminMemo" value="{{ request.GET.adminMemo }}" type="text"></dd>
+  </dl>
+
+
+  <dl class="list_filter_date">
+    <dt>期間</dt>
+    <dd>
+      <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
+      <p>-</p>
+      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.submissionDateTo }}" type="date">
+    </dd>
+  </dl>
+
+
+  <dl class="list_filter_date">
+    <dt>金額</dt>
+    <dd>
+      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <p>-</p>
+      <input id="amounTo" name="amounTo" value="{{ request.GET.amounTo }}" type="number">
+    </dd>
+  </dl>
+
 </form>
 
 

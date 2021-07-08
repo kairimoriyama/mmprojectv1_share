@@ -6,7 +6,7 @@ from staffdb.models import StaffDB, Division
 from django.forms import ModelForm, ModelChoiceField
 
 
-class SearchForm(forms.Form):
+class InputForm(forms.Form):
     bankAccount = forms.ModelChoiceField(
         label='銀行口座',
         required=False,
@@ -20,3 +20,16 @@ class SearchForm(forms.Form):
         widget=forms.Select,
     )
 
+class SearchForm(forms.Form):
+    bankAccount = forms.ModelChoiceField(
+        label='銀行口座',
+        required=False,
+        queryset=BankAccount.objects.order_by('no'),
+        widget=forms.Select,
+    )
+    journalCategory = forms.ModelChoiceField(
+        label='会計区分',
+        required=False,
+        queryset=JournalCategory.objects.order_by('no'),
+        widget=forms.Select,
+    )
