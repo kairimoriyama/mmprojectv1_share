@@ -346,7 +346,7 @@
       <td class="number_col" name="selected_order_amount">{{ item.totalAmount|intcomma }}</td>
 
       <td>{{ item.paymentMethod.name }}</td>
-      <td>{{ item.orderDescription }}</td>
+      <td class="longText">{{ item.orderDescription }}</td>
 
       <td class="date_col">
         {% if item.acceptanceDate %}
