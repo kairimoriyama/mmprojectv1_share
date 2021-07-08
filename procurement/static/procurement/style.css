@@ -114,7 +114,7 @@ h3{
     color: rgb(0, 51, 141);
     font-size: 1.8rem;
     font-weight: bold;
-    line-height: 2rem;
+    line-height: 3rem;
 }
 
 
@@ -149,6 +149,34 @@ button{
     text-decoration: none;
     border: none;
     background-color: #fff;
+}
+
+.margin_left{
+    margin-left: 1rem;
+}
+
+.margin_left_l{
+    margin-left: 1.5rem;
+}
+
+.margin_right{
+    margin-right: 2rem;
+}
+
+.margin_right_l{
+    margin-right: 3rem;
+}
+
+
+.margin_top{
+    margin-top: 0.5rem;
+}
+
+.margin_top_l{
+    margin-top: 1.5rem;
+}
+.margin_bottom_l{
+    margin-bottom: 1.5rem;
 }
 
 /* 編集無効 クリック不可 */
@@ -583,6 +611,7 @@ button{
     word-break: break-all;
     line-height: 1.8rem;
     overflow-y: scroll;
+    line-height: 2rem;
     align-items: flex-start;
 }
 
@@ -719,7 +748,7 @@ hr{
     display: grid;
     grid-template-rows: repeat(20, auto);
     grid-template-columns: 100%;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
 }
 .container_request_edit .item_dl_dummy_s{
     display: none;
@@ -871,7 +900,7 @@ hr{
     display: grid;
     grid-template-rows: repeat(16, auto);
     grid-template-columns: 100%;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
 }
 .container_create_order .item_dl_dummy_s,
 .container_create_order .item_dl_dummy_l{
