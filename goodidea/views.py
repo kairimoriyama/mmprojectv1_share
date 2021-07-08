@@ -213,7 +213,7 @@ class ItemListFilter(ListView):
             if word :
                 queryset10 = queryset9.filter(
                     Q(title__icontains=word)| Q(description__icontains=word)|
-                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
+                    Q(discussionNote__icontains=word)| Q(report__icontains=word)| Q(adminMemo__icontains=word))
             else: 
                 queryset10 = queryset9.all() 
 
@@ -388,7 +388,7 @@ class ItemDetailFilter(DetailView):
             if word :
                 queryset10 = queryset9.filter(
                     Q(title__icontains=word)| Q(description__icontains=word)|
-                    Q(discussionNote__icontains=word)| Q(report__icontains=word))
+                    Q(discussionNote__icontains=word)| Q(report__icontains=word)| Q(adminMemo__icontains=word))
             else: 
                 queryset10 = queryset9.all() 
             
