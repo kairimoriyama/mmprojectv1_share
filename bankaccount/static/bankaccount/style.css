@@ -169,8 +169,25 @@ button{
 .margin_top_l{
     margin-top: 1.5rem;
 }
+.margin_top_ll{
+    margin-top: 2rem;
+}
+
 .margin_bottom_l{
     margin-bottom: 1.5rem;
+}
+
+.margin_left_right{
+    margin-right:1.5rem;
+    margin-left:1.5rem;
+}
+
+.width_10rem{
+    width:10rem;
+}
+
+.text_align_center{
+    text-align:center;
 }
 
 /* 編集無効 クリック不可 */
@@ -219,7 +236,6 @@ select{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 1rem 1.5rem 0 1.5rem;
 }
 .menu_wrapper_inner{
     display: flex;
@@ -249,7 +265,7 @@ select{
     color: #222222;
     margin-bottom: 0.8rem;
     margin: 0;
-    width:10rem;
+ 
     line-height: 3rem;
     text-align: center;
     font-size: 1.4rem;
