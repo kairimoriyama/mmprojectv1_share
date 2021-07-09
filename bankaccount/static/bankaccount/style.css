@@ -98,11 +98,15 @@ h3{
     line-height: 2rem;
 }
 
-p{
+h4{
+    color: rgb(0, 51, 141);
     font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 2rem;
 }
 
-select{
+
+p{
     font-size: 1.4rem;
 }
 
@@ -138,6 +142,10 @@ button{
     margin-left: 1rem;
 }
 
+.margin_left_s{
+    margin-left: 0.3rem;
+}
+
 .margin_left_l{
     margin-left: 1.5rem;
 }
@@ -146,6 +154,9 @@ button{
     margin-right: 2rem;
 }
 
+.margin_right_s{
+    margin-right: 1.2rem;
+}
 
 .margin_top{
     margin-top: 0.5rem;
@@ -166,6 +177,36 @@ button{
 /* ポインター 指 */
 .yubi {
     cursor : pointer;
+}
+
+input[type="date"],input[type="text"],input[type="number"]{
+    
+    display: block;
+    width: 22rem;
+    height: 3.2rem;
+    border: solid 0.1rem #bfbfbf;
+    padding: 0rem 0.5rem;
+    font-size: 1.4rem;
+    margin-right: 0;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+     margin: 0;
+}
+input[type="number"]{
+    text-align: right;
+}
+
+
+select{
+    display: block;
+    width: 17rem;
+    height: 3.2rem;
+    font-size: 1.4rem;
+    padding: 0rem;
+    border: solid 0.1rem  #bfbfbf;
 }
 
 
@@ -240,15 +281,27 @@ button{
 }
 
 .row-yellow{
-    background-color: rgb(255, 255, 227);
+    background-color: rgb(248, 248, 6);
 }
 
-.row-blue{
-    background-color: rgb(192, 222, 236);
+.row-orange{
+    background-color: rgb(248, 220, 158);
+}
+
+.row-blue1{
+    background-color: rgb(212, 240, 252);
+}
+
+.row-blue2{
+    background-color: rgb(158, 187, 201);
+}
+
+.row-blue3{
+    background-color: rgb(109, 168, 196);
 }
 
 .row-green{
-    background-color: rgb(177, 219, 177);
+    background-color: rgb(177, 212, 177);
 }
 
 
@@ -389,7 +442,7 @@ button{
     display: flex;
     justify-content:start;
     flex-wrap: wrap;
-    margin: 0 1.5rem;
+    margin: 1rem 1.5rem;
 }
 
 .list_filter_items dl{
@@ -398,12 +451,24 @@ button{
     width: 22rem;
 }
 
-
-.payment_radio dd input{
-    margin-left: 2rem;
+.list_filter_items dl{
+    margin-top: 1rem;
+    margin-right: 2rem;
+    width: 22rem;
 }
-.payment_radio dd .radio_left_end{
-    margin-left: 0rem;
+
+.list_filter_items .payment_filter{
+    width: 19rem;
+    margin-right: 0;
+}
+
+input[type="radio"]{
+    margin: 0.4rem 0.1rem 0 0;
+}
+
+.list_filter_items .progress_filter{
+    width: 5rem;
+    margin-right: 0;
 }
 
 .list_filter_items .list_filter_date{

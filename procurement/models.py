@@ -135,7 +135,7 @@ class OrderInfo(models.Model):
     amount3 = models.IntegerField(blank=True,null=True)
     totalAmount = models.IntegerField(blank=True,null=True)
     paymentMethod = models.ForeignKey(PaymentMethod,on_delete=models.PROTECT, related_name ='orderInfo_paymentMethod',blank=True,null=True)    
-    orderDescription = models.TextField(max_length=50,blank=True,null=True)
+    orderDescription = models.TextField(max_length=250,blank=True,null=True)
 
     acceptanceDate = models.DateField(blank=True,null=True)
     acceptanceStaffdb =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,

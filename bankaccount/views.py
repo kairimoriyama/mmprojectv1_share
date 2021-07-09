@@ -8,7 +8,7 @@ import datetime
 import csv
 import io
 from django.db.models import Max
-from .forms import  SearchForm
+from .forms import  SearchForm,InputForm
 
 # Create your views here.
 
@@ -40,7 +40,7 @@ class StatementList(PaginatedFilterViews, ListView):
         context = super(StatementList, self).get_context_data(**kwargs)
 
         # 検索フォーム
-        context['search_form'] = SearchForm()
+        context['search_form'] = InputForm()
 
         return context
 
@@ -49,7 +49,7 @@ class StatementList(PaginatedFilterViews, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        form = self.form = SearchForm(self.request.GET or None)
+        form = self.form = InputForm(self.request.GET or None)
 
         bankAccount = self.request.GET.get('bankAccount')
         self.request.session['bankAccount'] = bankAccount

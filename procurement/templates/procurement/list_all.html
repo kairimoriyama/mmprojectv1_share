@@ -145,7 +145,13 @@
       <td>{{ item.requestStaffDivision.name }}</td>
     
       <td class="longText">{{ item.requestDetail }}</td>
-      <td class="date_col">{{ item.dueDate | date:"m/d"}}</td>
+      <td class="date_col">
+        {%  if item.orderInfo %}
+          <p>-</p>
+        {%  else %}
+          {{ item.dueDate | date:"m/d" }}
+        {% endif %}
+      </td>
       <td class="date_col">
         {%  if item.orderInfo %}
           {{ item.orderInfo.arrivalDate | date:"m/d" }}
@@ -346,7 +352,7 @@
       <td class="number_col" name="selected_order_amount">{{ item.totalAmount|intcomma }}</td>
 
       <td>{{ item.paymentMethod.name }}</td>
-      <td>{{ item.orderDescription }}</td>
+      <td class="longText">{{ item.orderDescription }}</td>
 
       <td class="date_col">
         {% if item.acceptanceDate %}
