@@ -159,7 +159,7 @@ button{
 }
 
 .margin_top{
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 
 .margin_top_l{
@@ -215,7 +215,7 @@ select{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 1rem 1.5rem 1rem 1.5rem;
+    margin: 1rem 1.5rem 0 1.5rem;
 }
 .menu_wrapper_inner{
     display: flex;
@@ -442,19 +442,14 @@ select{
     display: flex;
     justify-content:start;
     flex-wrap: wrap;
-    margin: 1rem 1.5rem;
+    margin: 0 1.5rem 1rem 1.5rem;
 }
 
 .list_filter_items dl{
     margin-top: 1rem;
     margin-right: 2rem;
     width: 22rem;
-}
-
-.list_filter_items dl{
-    margin-top: 1rem;
-    margin-right: 2rem;
-    width: 22rem;
+    height: 6.5rem;
 }
 
 .list_filter_items .payment_filter{
