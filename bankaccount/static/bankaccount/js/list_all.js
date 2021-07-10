@@ -1,49 +1,49 @@
-const filter_items = document.getElementById("detail_form");
-const filter_bt_on = document.getElementById("filter_bt_on");
-const filter_bt_off = document.getElementById("filter_bt_off");
+// const filter_items = document.getElementById("detail_form");
+// const filter_bt_on = document.getElementById("filter_bt_on");
+// const filter_bt_off = document.getElementById("filter_bt_off");
 
-function display_off(){
+// function display_off(){
   
-  filter_items.style.display ="none";
-  filter_bt_on.style.display ="flex";
-  filter_bt_off.style.display ="none";
+//   filter_items.style.display ="none";
+//   filter_bt_on.style.display ="flex";
+//   filter_bt_off.style.display ="none";
 
-  document.getElementsByName('arOrAp')[2].checked = true;
-  document.getElementById('progress').checked = false;
-  document.getElementById('description1').value= null;
-  document.getElementById('description2').value= null;
-  document.getElementById('adminMemo').value= null;
-  document.getElementById('transactionDateFrom').value= null;
-  document.getElementById('transactionDateTo').value= null;
-  document.getElementById('accountAmountFrom').value= null;
-  document.getElementById('accountAmountTo').value= null;
+//   document.getElementsByName('arOrAp')[2].checked = true;
+//   document.getElementById('progress').checked = false;
+//   document.getElementById('description1').value= null;
+//   document.getElementById('description2').value= null;
+//   document.getElementById('adminMemo').value= null;
+//   document.getElementById('transactionDateFrom').value= null;
+//   document.getElementById('transactionDateTo').value= null;
+//   document.getElementById('accountAmountFrom').value= null;
+//   document.getElementById('accountAmountTo').value= null;
 
-};
-window.onload = display_off();
+// };
+// // window.onload = display_off();
 
-function display_on(){
+// function display_on(){
   
-  filter_items.style.display ="flex";
-  filter_bt_on.style.display ="none";
-  filter_bt_off.style.display ="flex";
+//   filter_items.style.display ="flex";
+//   filter_bt_on.style.display ="none";
+//   filter_bt_off.style.display ="flex";
 
-};
+// };
 
-function detail_change(){
+// function detail_change(){
 
-  if(filter_items.style.display=="none"){
+//   if(filter_items.style.display=="none"){
 
-    display_on();
+//     display_on();
 
-    localStorage.setItem('bankaccount_display', '1'); //1を設定
+//     localStorage.setItem('bankaccount_display', '1'); //1を設定
     
-  }else{
+//   }else{
 
-    display_off();
+//     display_off();
 
-    localStorage.setItem('bankaccount_display', '0'); //0を設定
-  }
-};
+//     localStorage.setItem('bankaccount_display', '0'); //0を設定
+//   }
+// };
 
 
 // 検索条件をローカルストレージへ保存（ボタン：検索、移動、詳細、戻る）
@@ -93,20 +93,20 @@ function set_search_key(){
   localStorage.setItem('bankaccount_search_key', datasetJSON); 
 
 
-  let dataset_display = JSON.parse(localStorage.getItem('bankaccount_display'));
+//   let dataset_display = JSON.parse(localStorage.getItem('bankaccount_display'));
 
-  if (dataset_display == "1") {
+//   if (dataset_display == "1") {
 
-    display_on();
+//     display_on();
 
-    localStorage.setItem('bankaccount_display', '1'); //1を設定
+//     localStorage.setItem('bankaccount_display', '1'); //1を設定
     
-  }else{
+//   }else{
 
-    display_off();
+//     display_off();
 
-    localStorage.setItem('bankaccount_display', '0'); //0を設定
-  };
+//     localStorage.setItem('bankaccount_display', '0'); //0を設定
+//   };
 
 };
 
