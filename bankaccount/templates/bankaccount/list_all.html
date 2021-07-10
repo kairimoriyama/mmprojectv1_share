@@ -39,6 +39,7 @@
 
 {% block content %}
 
+
 <form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
 
 <div class="menu_wrapper">
@@ -46,6 +47,7 @@
     <dt class="menu_wrapper_inner">
       <input type="button" class="menu_bt yubi" id="search_btn" onclick="set_search_key(),submit();" value="検索">
       <h4 class="yubi margin_left" onclick="detail_change();"><span id="filter_bt_on">詳細表示</span><span id="filter_bt_off">詳細削除</span></h4>
+
     </dt>
 
     <dd class="margin_top">
@@ -55,7 +57,7 @@
 
   <dl class="margin_right">
     <dt>
-      <input class="menu_bt yubi" type="submit" value="仕訳登録" name="bt_journalCategory" onclick="set_search_key()">
+      <input class="menu_bt width_10rem yubi" type="submit" value="仕訳登録" name="bt_journalCategory" onclick="set_search_key()">
     </dt>
 
     <dd class="margin_top">
@@ -65,9 +67,9 @@
 
   <dl class="hidden_s_screen margin_top_l margin_bottom_l">
     <dt class="menu_wrapper_inner">
-      <button class="menu_bt yubi" type="submit" name="bt_import"  onclick="set_search_key()">データ取込</button>
+      <button class="menu_bt width_10rem yubi" type="submit" name="bt_import"  onclick="set_search_key()">データ取込</button>
       <p>&nbsp; &#8658; &nbsp;</p>
-      <input class="menu_bt yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key(), count_key_clear()">
+      <input class="menu_bt width_10rem yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key(), count_key_clear()">
     </dt>
 
     <dd class="margin_top">
@@ -79,8 +81,15 @@
   <input type="hidden" name="selected_record_list" id="selected_record_list">
 </div>
 
+<div class="menu_wrapper margin_left_right margin_top_ll">
+  <h4 class="count_items">{{ item_count }}件</h4>
+  <h4 class="width_10rem text_align_center yubi" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a></h4>
+  <h4 class="width_10rem text_align_center yubi" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></h4>
+</div>
+
 
 <div class="list_filter_items" id="detail_form">
+
 
   <dl class="payment_filter">
     <dt>区分</dt>
@@ -135,6 +144,12 @@
 </div>
 
 </form>
+
+<!-- 
+<form   method="GET">
+
+
+</form> -->
 
 
 

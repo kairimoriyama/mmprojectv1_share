@@ -150,6 +150,10 @@ button{
     margin-left: 1.5rem;
 }
 
+.margin_left_ll{
+    margin-left: 3rem;
+}
+
 .margin_right{
     margin-right: 2rem;
 }
@@ -159,14 +163,31 @@ button{
 }
 
 .margin_top{
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 
 .margin_top_l{
     margin-top: 1.5rem;
 }
+.margin_top_ll{
+    margin-top: 2rem;
+}
+
 .margin_bottom_l{
     margin-bottom: 1.5rem;
+}
+
+.margin_left_right{
+    margin-right:1.5rem;
+    margin-left:1.5rem;
+}
+
+.width_10rem{
+    width:10rem;
+}
+
+.text_align_center{
+    text-align:center;
 }
 
 /* 編集無効 クリック不可 */
@@ -215,7 +236,6 @@ select{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 1rem 1.5rem 1rem 1.5rem;
 }
 .menu_wrapper_inner{
     display: flex;
@@ -245,7 +265,7 @@ select{
     color: #222222;
     margin-bottom: 0.8rem;
     margin: 0;
-    width:10rem;
+ 
     line-height: 3rem;
     text-align: center;
     font-size: 1.4rem;
@@ -442,19 +462,14 @@ select{
     display: flex;
     justify-content:start;
     flex-wrap: wrap;
-    margin: 1rem 1.5rem;
+    margin: 0 1.5rem 1rem 1.5rem;
 }
 
 .list_filter_items dl{
     margin-top: 1rem;
     margin-right: 2rem;
     width: 22rem;
-}
-
-.list_filter_items dl{
-    margin-top: 1rem;
-    margin-right: 2rem;
-    width: 22rem;
+    height: 6.5rem;
 }
 
 .list_filter_items .payment_filter{
