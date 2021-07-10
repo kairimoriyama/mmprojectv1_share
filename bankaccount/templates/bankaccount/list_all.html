@@ -7,23 +7,31 @@
   <li><a href="" class="margin_left_l">仕訳区分</a></li>
 
   <ul class="page_nav margin_left_l">
+
+    {% if page_obj.has_previous %}
     <li>
-      {% if page_obj.has_previous %}
-        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
-          ＜
-        </a>
-      {% else %}
-      {% endif %}
+      <a class="menu_bt next_bt" href="?page=1">&laquo;</a>
     </li>
-  
     <li class="margin_left">
-      {% if page_obj.has_next %}
-        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key(), count_key_clear()">
-          ＞
-        </a>
-      {% else %}
-      {% endif %}
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
+        <
+      </a>
     </li>
+    {% else %}
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key(), count_key_clear()">
+        >
+      </a>
+    </li>
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+    </ul>
+    {% else %}
+    {% endif %}
+
   </ul>
 
 {% endblock%}
