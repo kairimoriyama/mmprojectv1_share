@@ -16,15 +16,15 @@ from .forms import  SearchForm,InputForm
 class PaginatedFilterViews(View):
     def get_context_data(self, **kwargs):
         context = super(PaginatedFilterViews, self).get_context_data(**kwargs)
-        if self.request.GET:
-            querystring = self.request.GET.copy()
-            if self.request.GET.get('page'):
+        if self.request.POST:
+            querystring = self.request.POST.copy()
+            if self.request.POST.get('page'):
                 del querystring['page']
             context['querystring'] = querystring.urlencode()
         return context
 
 
-class StatementList(PaginatedFilterViews, ListView):
+class StatementList(ListView):
     template_name = 'bankaccount/list_all.html'
     fields = '__all__'
     paginate_by = 21
