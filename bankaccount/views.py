@@ -12,19 +12,19 @@ from .forms import  SearchForm,InputForm
 
 # Create your views here.
 
-
+# ページ移動について条件設定するために利用する可能性
 class PaginatedFilterViews(View):
     def get_context_data(self, **kwargs):
         context = super(PaginatedFilterViews, self).get_context_data(**kwargs)
-        if self.request.GET:
-            querystring = self.request.GET.copy()
-            if self.request.GET.get('page'):
+        if self.request.POST:
+            querystring = self.request.POST.copy()
+            if self.request.POST.get('page'):
                 del querystring['page']
             context['querystring'] = querystring.urlencode()
         return context
 
 
-class StatementList(PaginatedFilterViews, ListView):
+class StatementList(ListView):
     template_name = 'bankaccount/list_all.html'
     fields = '__all__'
     paginate_by = 21
@@ -34,8 +34,6 @@ class StatementList(PaginatedFilterViews, ListView):
         super(StatementList, self).__init__(**kwargs)
         self.form = None
 
-
-
     def get_context_data(self, **kwargs):
         context = super(StatementList, self).get_context_data(**kwargs)
 
@@ -44,31 +42,134 @@ class StatementList(PaginatedFilterViews, ListView):
 
         return context
 
-
-
     def get_queryset(self):
         queryset = super().get_queryset()
 
         form = self.form = InputForm(self.request.GET or None)
 
-        bankAccount = self.request.GET.get('bankAccount')
+        bankAccount = self.request.POST.get('bankAccount')
+        journalCategory = self.request.POST.get('journalCategory')
+        arOrAp = self.request.POST.get('arOrAp')
+        progress = self.request.POST.get('progress')
+        description1 = self.request.POST.get('description1')
+        description2 = self.request.POST.get('description2')
+        adminMemo = self.request.POST.get('adminMemo')
+        transactionDateFrom = self.request.POST.get('transactionDateFrom')
+        transactionDateTo = self.request.POST.get('transactionDateTo')
+        accountAmountFrom = self.request.POST.get('accountAmountFrom')
+        accountAmountTo = self.request.POST.get('accountAmountTo')
+
         self.request.session['bankAccount'] = bankAccount
-        print(bankAccount)
+        self.request.session['journalCategory'] = journalCategory
+        self.request.session['arOrAp'] = arOrAp
+        self.request.session['progress'] = progress
+        self.request.session['description1'] = description1
+        self.request.session['description2'] = description2
+        self.request.session['adminMemo'] = adminMemo
+        self.request.session['transactionDateFrom'] = transactionDateFrom
+        self.request.session['transactionDateTo'] = transactionDateTo
+        self.request.session['accountAmountFrom'] = accountAmountFrom
+        self.request.session['accountAmountTo'] = accountAmountTo
 
         # 絞り込み前の初期値
         queryset0 = Statement.objects.all().order_by('-id')
 
-        bankAccount = self.request.POST.get('bankAccount')
-        if bankAccount:
-            queryset1 = queryset0.filter(bankAccount__id=bankAccount)
+        # ページ遷移直後でなければ値がNullではないため絞込可能
+        if bankAccount or journalCategory or arOrAp or description1 or description2 or adminMemo or\
+            transactionDateFrom or transactionDateTo or \
+            accountAmountFrom or accountAmountTo:
 
-            queryset = queryset1.order_by('-id')
+            if bankAccount:
+                queryset1 = queryset0.filter(bankAccount__id=bankAccount)
+            else:
+                queryset1 = queryset0.all()
+
+            if journalCategory:
+                queryset2 = queryset1.filter(journalCategory__id=journalCategory)
+            else:
+                queryset2 = queryset1.all()
+
+            print(arOrAp)
+
+            if arOrAp == "0":
+                queryset3_1 = queryset2.filter(deopsitAmount=0)
+
+                # 金額の絞り込み（自・至）
+                if accountAmountFrom and accountAmountTo:
+                    queryset3_2 = queryset3_1.filter(paymentAmount__range=(accountAmountFrom, accountAmountTo))
+
+                # 金額の絞り込み（自）
+                elif accountAmountFrom and (not accountAmountTo):
+                    queryset3_2 = queryset3_1.filter(paymentAmount__gte=accountAmountFrom)
+
+                # 金額の絞り込み（自）
+                elif (not accountAmountFrom) and accountAmountTo:
+                    queryset3_2 = queryset3_1.filter(paymentAmount__lte=accountAmountTo)
+
+                elif (not accountAmountFrom) and (not accountAmountTo):
+                    queryset3_2 = queryset3_1.all()
+
+            elif arOrAp == "1":
+                queryset3_1 = queryset2.filter(paymentAmount=0)
+
+                # 金額の絞り込み（自・至）
+                if accountAmountFrom and accountAmountTo:
+                    queryset3_2 = queryset3_1.filter(deopsitAmount__range=(accountAmountFrom, accountAmountTo))
+
+                # 金額の絞り込み（自）
+                elif accountAmountFrom and (not accountAmountTo):
+                    queryset3_2 = queryset3_1.filter(deopsitAmount__gte=accountAmountFrom)
+
+                # 金額の絞り込み（自）
+                elif (not accountAmountFrom) and accountAmountTo:
+                    queryset3_2 = queryset3_1.filter(deopsitAmount__lte=accountAmountTo)
+
+                elif (not accountAmountFrom) and (not accountAmountTo):
+                    queryset3_2 = queryset3_1.all()
+
+            elif arOrAp == "2":
+                queryset3_2 = queryset2.all()
+
+            # description1
+            if description1:
+                queryset4 = queryset3_2.filter(description1__icontains=description1)
+            else: 
+                queryset4 = queryset3_2.all()
+
+            # description2
+            if description2:
+                queryset5 = queryset4.filter(description2__icontains=description2)
+            else: 
+                queryset5 = queryset4.all()    
+
+            # adminMemo
+            if adminMemo:
+                queryset6 = queryset5.filter(adminMemo__icontains=adminMemo)
+            else: 
+                queryset6 = queryset5.all()    
+
+            # 日付の絞込（自）
+            if transactionDateFrom :
+                queryset7 = queryset6.filter(
+                    transactionDate__gte=transactionDateFrom)
+            else:                 
+                queryset7 = queryset6.all()
+
+
+            # 日付の絞込（至）
+            if transactionDateTo :
+                queryset8 = queryset7.filter(
+                    transactionDate__lte=transactionDateTo)
+            else:                 
+                queryset8 = queryset7.all()
+
+            queryset = queryset8
 
         # ページ遷移直後のNullでは絞込なし
         else:
-            qeryset = queryset0.order_by('-id')
+            qeryset = queryset0
         
-        return queryset.select_related('bankAccount')
+        return queryset.order_by('-id')
 
 
 
@@ -114,7 +215,8 @@ class StatementList(PaginatedFilterViews, ListView):
                         item.accountBalance = row[5]
 
                         item.save()
-                    return self.get(request, *args, **kwargs)
+                        
+                    return redirect('bankaccount:list_all')
                 else:
                     return self.get(request, *args, **kwargs)
  
