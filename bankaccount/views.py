@@ -58,7 +58,6 @@ class StatementList(PaginatedFilterViews, ListView):
         # 絞り込み前の初期値
         queryset0 = Statement.objects.all().order_by('-id')
 
-        bankAccount = self.request.POST.get('bankAccount')
         if bankAccount:
             queryset1 = queryset0.filter(bankAccount__id=bankAccount)
 
