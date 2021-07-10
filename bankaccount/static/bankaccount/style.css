@@ -223,8 +223,8 @@ input[type="number"]{
 
 select{
     display: block;
-    width: 17rem;
     height: 3.2rem;
+    width: 22rem;
     font-size: 1.4rem;
     padding: 0rem;
     border: solid 0.1rem  #bfbfbf;
@@ -234,7 +234,6 @@ select{
 
 .menu_wrapper{
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
 }
 .menu_wrapper_inner{
@@ -325,14 +324,13 @@ select{
 }
 
 
-
-
 /* list */
 
 .item-table{
     display: block;
     max-height: 100rem;
-    margin: 0 1.5rem;
+    margin: 1.5rem;
+    margin-bottom: 0;
     border-width: 0;
     padding: 0;
     overflow: scroll;
@@ -462,7 +460,6 @@ select{
     display: flex;
     justify-content:start;
     flex-wrap: wrap;
-    margin: 0 1.5rem 1rem 1.5rem;
 }
 
 .list_filter_items dl{
