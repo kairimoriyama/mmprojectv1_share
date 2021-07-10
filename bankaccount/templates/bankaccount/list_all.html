@@ -10,7 +10,7 @@
 
     {% if page_obj.has_previous %}
     <li>
-      <a class="menu_bt next_bt" href="?page=1">&laquo;</a>
+      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key(), count_key_clear()">&laquo;</a>
     </li>
     <li class="margin_left">
       <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
@@ -27,7 +27,7 @@
       </a>
     </li>
     <li class="margin_left">
-      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key(), count_key_clear()">&raquo;</a>
     </ul>
     {% else %}
     {% endif %}
