@@ -247,7 +247,7 @@ class StatementList(ListView):
                         record.journalCategory = selected_journalCategory 
                         record.save()
 
-                    return self.get(request, *args, **kwargs)
+                    return self.get(request, *args, **kwargs)      
 
             # データ整理ボタン
             elif ('bt_correspondence' in request.POST) and bankAccount:
