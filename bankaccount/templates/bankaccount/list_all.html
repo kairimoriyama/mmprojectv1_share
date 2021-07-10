@@ -119,7 +119,7 @@
     <dd>
       <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
       <p>-</p>
-      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.submissionDateTo }}" type="date">
+      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.transactionDateTo }}" type="date">
     </dd>
   </dl>
 
@@ -127,9 +127,9 @@
   <dl class="list_filter_date">
     <dt>金額</dt>
     <dd>
-      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <input id="accountAmountFrom" name="accountAmountFrom" value="{{ request.GET.accountAmountFrom }}" type="number">
       <p>-</p>
-      <input id="amounTo" name="amounTo" value="{{ request.GET.amounTo }}" type="number">
+      <input id="accountAmountTo" name="accountAmountTo" value="{{ request.GET.accountAmountTo }}" type="number">
     </dd>
   </dl>
 </div>
