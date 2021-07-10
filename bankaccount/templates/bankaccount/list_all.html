@@ -7,23 +7,31 @@
   <li><a href="" class="margin_left_l">仕訳区分</a></li>
 
   <ul class="page_nav margin_left_l">
+
+    {% if page_obj.has_previous %}
     <li>
-      {% if page_obj.has_previous %}
-        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
-          ＜
-        </a>
-      {% else %}
-      {% endif %}
+      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key(), count_key_clear()">&laquo;</a>
     </li>
-  
     <li class="margin_left">
-      {% if page_obj.has_next %}
-        <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key(), count_key_clear()">
-          ＞
-        </a>
-      {% else %}
-      {% endif %}
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
+        <
+      </a>
     </li>
+    {% else %}
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key(), count_key_clear()">
+        >
+      </a>
+    </li>
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key(), count_key_clear()">&raquo;</a>
+    </ul>
+    {% else %}
+    {% endif %}
+
   </ul>
 
 {% endblock%}
@@ -31,13 +39,15 @@
 
 {% block content %}
 
-<form method="POST" enctype="multipart/form-data">{% csrf_token %}
 
-<div class="menu_wrapper margin_top margin_left_right">
+<form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
+
+<div class="menu_wrapper">
   <dl class="margin_right">
     <dt class="menu_wrapper_inner">
-      <input type="button" class="menu_bt width_10rem yubi" id="search_btn" onclick="set_search_key(),submit();" value="口座切替">
-      <h4 class="yubi margin_left">詳細検索</h4>
+      <input type="button" class="menu_bt yubi" id="search_btn" onclick="set_search_key(),submit();" value="検索">
+      <h4 class="yubi margin_left" onclick="detail_change();"><span id="filter_bt_on">詳細表示</span><span id="filter_bt_off">詳細削除</span></h4>
+
     </dt>
 
     <dd class="margin_top">
@@ -77,21 +87,23 @@
   <h4 class="width_10rem text_align_center yubi" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></h4>
 </div>
 
-<div class="list_filter_items">
+
+<div class="list_filter_items" id="detail_form">
+
 
   <dl class="payment_filter">
     <dt>区分</dt>
     <dd>
-      <input type="radio" name="payment" value="0"><p class="margin_left_s margin_right_s">支払</p>
-      <input type="radio" name="payment" value="1"><p class="margin_left_s margin_right_s">受取</p>
-      <input type="radio" name="payment" value="2" checked="checked"><p class="margin_left_s">両方</p>
+      <input type="radio" name="arOrAp" value="0"><p class="margin_left_s margin_right_s">支払</p>
+      <input type="radio" name="arOrAp" value="1"><p class="margin_left_s margin_right_s">受取</p>
+      <input type="radio" name="arOrAp" value="2" checked="checked"><p class="margin_left_s">両方</p>
     </dd>
   </dl>
 
   <dl class="progress_filter">
-    <dt>進捗</dt>
+    <dt>未対応</dt>
     <dd>
-      <input id="consistencyCheck" name="consistencyCheck" type="checkbox" value="1">
+      <input id="progress" name="progress" type="checkbox" value="1">
     </dd>
   </dl>
 
@@ -116,7 +128,7 @@
     <dd>
       <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
       <p>-</p>
-      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.submissionDateTo }}" type="date">
+      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.transactionDateTo }}" type="date">
     </dd>
   </dl>
 
@@ -124,9 +136,9 @@
   <dl class="list_filter_date">
     <dt>金額</dt>
     <dd>
-      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <input id="accountAmountFrom" name="accountAmountFrom" value="{{ request.GET.accountAmountFrom }}" type="number">
       <p>-</p>
-      <input id="amounTo" name="amounTo" value="{{ request.GET.amounTo }}" type="number">
+      <input id="accountAmountTo" name="accountAmountTo" value="{{ request.GET.accountAmountTo }}" type="number">
     </dd>
   </dl>
 </div>
