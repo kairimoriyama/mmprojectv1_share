@@ -34,8 +34,6 @@ class StatementList(PaginatedFilterViews, ListView):
         super(StatementList, self).__init__(**kwargs)
         self.form = None
 
-
-
     def get_context_data(self, **kwargs):
         context = super(StatementList, self).get_context_data(**kwargs)
 
@@ -44,14 +42,12 @@ class StatementList(PaginatedFilterViews, ListView):
 
         return context
 
-
-
     def get_queryset(self):
         queryset = super().get_queryset()
 
         form = self.form = InputForm(self.request.GET or None)
 
-        bankAccount = self.request.GET.get('bankAccount')
+        bankAccount = self.request.POST.get('bankAccount')
         self.request.session['bankAccount'] = bankAccount
         print(bankAccount)
 
