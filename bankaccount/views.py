@@ -215,7 +215,8 @@ class StatementList(ListView):
                         item.accountBalance = row[5]
 
                         item.save()
-                    return self.get(request, *args, **kwargs)
+                        
+                    return redirect('bankaccount:list_all')
                 else:
                     return self.get(request, *args, **kwargs)
  
