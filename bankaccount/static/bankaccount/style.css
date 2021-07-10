@@ -458,7 +458,7 @@ select{
 }
 
 .list_filter_items .payment_filter{
-    width: 19rem;
+    width: 18rem;
     margin-right: 0;
 }
 
@@ -467,7 +467,7 @@ input[type="radio"]{
 }
 
 .list_filter_items .progress_filter{
-    width: 5rem;
+    width: 6rem;
     margin-right: 0;
 }
 
