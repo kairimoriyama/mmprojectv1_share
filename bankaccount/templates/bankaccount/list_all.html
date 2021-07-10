@@ -39,12 +39,13 @@
 
 {% block content %}
 
-<form method="POST" class="menu_wrapper" href="" enctype="multipart/form-data">{% csrf_token %}
+<form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
 
+<div class="menu_wrapper">
   <dl class="margin_right">
     <dt class="menu_wrapper_inner">
       <input type="button" class="menu_bt yubi" id="search_btn" onclick="set_search_key(),submit();" value="口座切替">
-      <h4 class="yubi margin_left">詳細検索</h4>
+      <h4 class="yubi margin_left">詳細条件</h4>
     </dt>
 
     <dd class="margin_top">
@@ -76,17 +77,17 @@
 
   <!-- record id 自動入力 type="hidden"-->
   <input type="hidden" name="selected_record_list" id="selected_record_list">
-</form>
+</div>
 
 
-<form class="list_filter_items"  method="GET">
+<div class="list_filter_items">
 
   <dl class="payment_filter">
     <dt>区分</dt>
     <dd>
-      <input type="radio" name="payment" value="0"><p class="margin_left_s margin_right_s">支払</p>
-      <input type="radio" name="payment" value="1"><p class="margin_left_s margin_right_s">受取</p>
-      <input type="radio" name="payment" value="2" checked="checked"><p class="margin_left_s">両方</p>
+      <input type="radio" name="arOrAp" value="0"><p class="margin_left_s margin_right_s">支払</p>
+      <input type="radio" name="arOrAp" value="1"><p class="margin_left_s margin_right_s">受取</p>
+      <input type="radio" name="arOrAp" value="2" checked="checked"><p class="margin_left_s">両方</p>
     </dd>
   </dl>
 
@@ -131,6 +132,7 @@
       <input id="amounTo" name="amounTo" value="{{ request.GET.amounTo }}" type="number">
     </dd>
   </dl>
+</div>
 
 </form>
 
