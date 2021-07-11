@@ -245,6 +245,29 @@ button{
     color: rgb(0, 51, 141);
 }
 
+
+.menu_bt_2{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+    border: solid 0  #fff;
+
+    outline: none;
+    background: transparent;
+    text-decoration: none;
+    display: block;
+
+    margin-bottom: 0.8rem;
+    margin: 0;
+    width:5rem;
+    line-height: 3rem;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: rgb(0, 51, 141);
+}
+
 .menu_bt_mg_left{
     margin-left: 1rem;
 }
