@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 import datetime
+from datetime import timedelta, date
 import csv
 import io
 from django.db.models import Max
@@ -37,6 +38,9 @@ class StatementList(ListView):
     def get_context_data(self, **kwargs):
         context = super(StatementList, self).get_context_data(**kwargs)
 
+        # 検索結果を保持
+        context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
+
         # 検索フォーム
         context['search_form'] = InputForm()
 
@@ -47,17 +51,17 @@ class StatementList(ListView):
 
         form = self.form = InputForm(self.request.GET or None)
 
-        bankAccount = self.request.POST.get('bankAccount')
-        journalCategory = self.request.POST.get('journalCategory')
-        arOrAp = self.request.POST.get('arOrAp')
-        progress = self.request.POST.get('progress')
-        description1 = self.request.POST.get('description1')
-        description2 = self.request.POST.get('description2')
-        adminMemo = self.request.POST.get('adminMemo')
-        transactionDateFrom = self.request.POST.get('transactionDateFrom')
-        transactionDateTo = self.request.POST.get('transactionDateTo')
-        accountAmountFrom = self.request.POST.get('accountAmountFrom')
-        accountAmountTo = self.request.POST.get('accountAmountTo')
+        bankAccount = self.request.GET.get('bankAccount')
+        journalCategory = self.request.GET.get('selected_journalCategory')
+        arOrAp = self.request.GET.get('arOrAp')
+        progress = self.request.GET.get('progress')
+        description1 = self.request.GET.get('description1')
+        description2 = self.request.GET.get('description2')
+        adminMemo = self.request.GET.get('adminMemo')
+        transactionDateFrom = self.request.GET.get('transactionDateFrom')
+        transactionDateTo = self.request.GET.get('transactionDateTo')
+        accountAmountFrom = self.request.GET.get('accountAmountFrom')
+        accountAmountTo = self.request.GET.get('accountAmountTo')
 
         self.request.session['bankAccount'] = bankAccount
         self.request.session['journalCategory'] = journalCategory
@@ -175,7 +179,7 @@ class StatementList(ListView):
 
     def post(self, request, *args, **kwargs):
 
-        bankAccount = self.request.POST.get('bankAccount', None)
+        bankAccount = self.request.POST.get('selected_bankAccount', None)
         request.session['bankAccount'] = bankAccount
         print(bankAccount)
 
@@ -197,6 +201,7 @@ class StatementList(ListView):
                     print(type(csv_content))
                    
                     bankAccount_obj = get_object_or_404(BankAccount, pk=bankAccount)
+                    journalCategory_obj = get_object_or_404(JournalCategory, id=1)
                     
                     for row in csv_content:
                         
@@ -206,6 +211,7 @@ class StatementList(ListView):
                         item, created = Statement.objects.get_or_create(pk=new_id)
 
                         item.bankAccount = bankAccount_obj
+                        item.journalCategory = journalCategory_obj
 
                         item.dateDescription = row[0]
                         item.description1 = row[1]
@@ -287,23 +293,28 @@ class StatementList(ListView):
                         # 比較対象を定義
                         compare_record = Statement.objects.all().filter(bankAccount__id=bankAccount,id__lt=int(record_first.id + i)).order_by('id').last()
                         accountBalance1 = compare_record.accountBalance
-
+                        transactionDate1 =compare_record.transactionDate
+                        
                         if record.consistencyCheck == True:
                             pass
 
                         else:
                             # 日付の更新
                             dateDescription1 = record.dateDescription
-                            dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d')
+                            dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d').date()
                             record.transactionDate = dateDescription2
 
                             # 金額整合性
                             paymentAmount = record.paymentAmount
                             deopsitAmount = record.deopsitAmount
                             accountBalance2 = record.accountBalance
-
                             amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
-                            if amount_check == 0:
+                            
+                            # 日付整合性
+                            transactionDate2 = record.transactionDate
+
+                            if amount_check == 0 and (transactionDate1 <= transactionDate2):
+
                                 record.consistencyCheck = True
                                 record.save() # 保存
 

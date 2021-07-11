@@ -186,6 +186,12 @@ button{
     width:10rem;
 }
 
+.flex_align_center{
+    display:flex;
+    align-items: center;
+    align-content: center;
+}
+
 .text_align_center{
     text-align:center;
 }
@@ -300,7 +306,7 @@ select{
 }
 
 .row-yellow{
-    background-color: rgb(248, 248, 6);
+    background-color: rgb(255, 255, 101);
 }
 
 .row-orange{
@@ -321,6 +327,10 @@ select{
 
 .row-green{
     background-color: rgb(177, 212, 177);
+}
+
+.row-purple{
+    background-color: rgb(239, 186, 250);
 }
 
 
@@ -470,16 +480,19 @@ select{
 }
 
 .list_filter_items .payment_filter{
-    width: 18rem;
+    width: 19rem;
     margin-right: 0;
 }
 
 input[type="radio"]{
-    margin: 0.4rem 0.1rem 0 0;
+    margin: 0 0.1rem 0 0;
+}
+input[type="checkbox"]{
+    margin: 0.6rem 0;
 }
 
 .list_filter_items .progress_filter{
-    width: 6rem;
+    width: 5rem;
     margin-right: 0;
 }
 
@@ -502,4 +515,6 @@ input[type="radio"]{
     margin: 0.6rem 0;
     display: flex;
     line-height: 3rem;
+    align-items: center;
+    align-content: center;
 }
