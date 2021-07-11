@@ -28,7 +28,7 @@
       <li>
         {% if page_obj.has_previous %}
           <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key()">
-            ＜
+            &lt;
           </a>
         {% else %}
         {% endif %}
@@ -37,7 +37,7 @@
       <li>
         {% if page_obj.has_next %}
           <a class="menu_bt menu_bt_mg_left next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key()">
-            ＞
+            &gt;
           </a>
         {% else %}
         {% endif %}

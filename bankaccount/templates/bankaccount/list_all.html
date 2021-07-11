@@ -10,10 +10,10 @@
 
     {% if page_obj.has_previous %}
     <li>
-      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key(), count_key_clear()">&laquo;</a>
+      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key();">&laquo;</a>
     </li>
     <li class="margin_left">
-      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key(), count_key_clear()">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
         &lt;
       </a>
     </li>
@@ -22,12 +22,12 @@
 
     {% if page_obj.has_next %}
     <li class="margin_left">
-      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key(), count_key_clear()">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key();">
         &gt;
       </a>
     </li>
     <li class="margin_left">
-      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key(), count_key_clear()">&raquo;</a>
+      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
     </ul>
     {% else %}
     {% endif %}
@@ -69,7 +69,7 @@
     <dt class="menu_wrapper_inner">
       <button class="menu_bt width_m yubi" type="submit" name="bt_import"  onclick="set_search_key()">データ取込</button>
       <p>&nbsp; &#8658; &nbsp;</p>
-      <input class="menu_bt width_m yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key(), count_key_clear()">
+      <input class="menu_bt width_m yubi margin_left" type="submit" value="整合性確認" name="bt_correspondence" onclick="set_search_key()">
     </dt>
 
     <dd class="margin_top">
