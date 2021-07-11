@@ -143,8 +143,16 @@ button{
 }
 
 
+.margin_right_l{
+    margin-right: 1.2rem;
+}
+
 .mg_right{
     margin-right: 0.7rem;
+}
+
+.mg_left{
+    margin-left: 0.7rem;
 }
 
 
@@ -417,12 +425,11 @@ button{
 }
 
 
-
-.ideaOrAction_filter dd input{
-    margin-left: 2rem;
+.radio_mg{
+    margin: 0 0.2rem 0 0;
 }
-.ideaOrAction_filter dd .radio_left_end{
-    margin-left: 0rem;
+.radio_mg_left{
+    margin: 0 0.2rem 0 1.2rem;
 }
 
 .list_filter_items .list_filter_date{
@@ -444,6 +451,9 @@ button{
     margin: 0.6rem 0;
     display: flex;
     line-height: 3rem;
+    align-items: center;
+    align-content: center;
+    
 }
 
 
