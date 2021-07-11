@@ -37,6 +37,9 @@ class StatementList(ListView):
     def get_context_data(self, **kwargs):
         context = super(StatementList, self).get_context_data(**kwargs)
 
+        # 検索結果を保持
+        context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
+
         # 検索フォーム
         context['search_form'] = InputForm()
 
@@ -47,17 +50,17 @@ class StatementList(ListView):
 
         form = self.form = InputForm(self.request.GET or None)
 
-        bankAccount = self.request.POST.get('bankAccount')
-        journalCategory = self.request.POST.get('journalCategory')
-        arOrAp = self.request.POST.get('arOrAp')
-        progress = self.request.POST.get('progress')
-        description1 = self.request.POST.get('description1')
-        description2 = self.request.POST.get('description2')
-        adminMemo = self.request.POST.get('adminMemo')
-        transactionDateFrom = self.request.POST.get('transactionDateFrom')
-        transactionDateTo = self.request.POST.get('transactionDateTo')
-        accountAmountFrom = self.request.POST.get('accountAmountFrom')
-        accountAmountTo = self.request.POST.get('accountAmountTo')
+        bankAccount = self.request.GET.get('bankAccount')
+        journalCategory = self.request.GET.get('selected_journalCategory')
+        arOrAp = self.request.GET.get('arOrAp')
+        progress = self.request.GET.get('progress')
+        description1 = self.request.GET.get('description1')
+        description2 = self.request.GET.get('description2')
+        adminMemo = self.request.GET.get('adminMemo')
+        transactionDateFrom = self.request.GET.get('transactionDateFrom')
+        transactionDateTo = self.request.GET.get('transactionDateTo')
+        accountAmountFrom = self.request.GET.get('accountAmountFrom')
+        accountAmountTo = self.request.GET.get('accountAmountTo')
 
         self.request.session['bankAccount'] = bankAccount
         self.request.session['journalCategory'] = journalCategory
@@ -175,7 +178,7 @@ class StatementList(ListView):
 
     def post(self, request, *args, **kwargs):
 
-        bankAccount = self.request.POST.get('bankAccount', None)
+        bankAccount = self.request.POST.get('selected_bankAccount', None)
         request.session['bankAccount'] = bankAccount
         print(bankAccount)
 

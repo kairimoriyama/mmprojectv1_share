@@ -40,19 +40,17 @@
 {% block content %}
 
 
-<form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
-
-<div class="menu_wrapper margin_left_right margin_top">
+<form method="POST" href="" enctype="multipart/form-data" class="menu_wrapper margin_left_right margin_top">{% csrf_token %}
 
   <dl class="margin_right">
     <dt class="menu_wrapper_inner">
-      <input type="button" class="menu_bt width_m yubi" id="search_btn" onclick="set_search_key(),submit();" value="検索">
+      <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
     </dt>
 
-    <dd class="margin_top">
+    <dd class="margin_top_l">
       <div class="menu_wrapper_inner">
-        <input type="radio" name="bankaccountDisplay" value="0"><p class="margin_left_s margin_right_s">表示</p>
-        <input type="radio" name="bankaccountDisplay" value="1"><p class="margin_left_s margin_right_s">非表示</p>
+        <h4 class="text_align_center yubi margin_right" id="display_button_color" onclick="display_switch_bt();"><span id="filter_bt_on">表示</span><span id="filter_bt_off">非表示</span></h4>
+        <h4 class="text_align_center yubi" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a></h4>
       </div>
     </dd>
   </dl>
@@ -79,18 +77,16 @@
     </dd>
   </dl>
 
+  <!-- bankAccount id 自動入力 type="hidden" -->
+  <input type="hidden" name="selected_bankAccount" id="selected_bankAccount">
+
   <!-- record id 自動入力 type="hidden"-->
   <input type="hidden" name="selected_record_list" id="selected_record_list">
-</div>
 
-<!-- <div class="menu_wrapper margin_left_right margin_top_ll">
-  <h4 class="count_items">{{ item_count }}件</h4>
-  <h4 class="width_m text_align_center yubi" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a></h4>
-  <h4 class="width_m text_align_center yubi" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></h4>
-</div> -->
+</form>
 
 
-<div class="list_filter_items margin_left_right margin_top_l" id="detail_form">
+<form method="GET" href="" class="list_filter_items margin_left_right margin_top_l" id="detail_form">
   
   <dl>
     <dt>銀行口座</dt>
@@ -147,7 +143,9 @@
       <input id="accountAmountTo" name="accountAmountTo" value="{{ request.GET.accountAmountTo }}" type="number">
     </dd>
   </dl>
-</div>
+
+  <!-- journalCategory id 自動入力 type="hidden" -->
+  <input type="hidden" name="selected_journalCategory" id="selected_journalCategory" value="{{ request.GET.selected_journalCategory }}">
 
 </form>
 
