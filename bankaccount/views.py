@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 import datetime
+from datetime import timedelta, date
 import csv
 import io
 from django.db.models import Max
@@ -292,23 +293,28 @@ class StatementList(ListView):
                         # 比較対象を定義
                         compare_record = Statement.objects.all().filter(bankAccount__id=bankAccount,id__lt=int(record_first.id + i)).order_by('id').last()
                         accountBalance1 = compare_record.accountBalance
-
+                        transactionDate1 =compare_record.transactionDate
+                        
                         if record.consistencyCheck == True:
                             pass
 
                         else:
                             # 日付の更新
                             dateDescription1 = record.dateDescription
-                            dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d')
+                            dateDescription2 = datetime.datetime.strptime(dateDescription1, '%Y.%m.%d').date()
                             record.transactionDate = dateDescription2
 
                             # 金額整合性
                             paymentAmount = record.paymentAmount
                             deopsitAmount = record.deopsitAmount
                             accountBalance2 = record.accountBalance
-
                             amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
-                            if amount_check == 0:
+                            
+                            # 日付整合性
+                            transactionDate2 = record.transactionDate
+
+                            if amount_check == 0 and (transactionDate1 <= transactionDate2):
+
                                 record.consistencyCheck = True
                                 record.save() # 保存
 
