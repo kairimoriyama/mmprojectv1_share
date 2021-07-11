@@ -300,7 +300,7 @@ select{
 }
 
 .row-yellow{
-    background-color: rgb(248, 248, 6);
+    background-color: rgb(255, 255, 101);
 }
 
 .row-orange{
@@ -321,6 +321,10 @@ select{
 
 .row-green{
     background-color: rgb(177, 212, 177);
+}
+
+.row-purple{
+    background-color: rgb(239, 186, 250);
 }
 
 

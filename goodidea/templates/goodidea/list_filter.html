@@ -19,7 +19,7 @@
     <div class="filter_bt_wrapper">
       <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
       <p class="count_items">{{ item_count }}件</p>
-      <a class="menu_bt menu_bt_mg_left yubi row-gray" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a>
+      <a class="tex_decoration_none mg_right yubi" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();"><h4>条件削除</h4></a>
       <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></p>
       
     </div>

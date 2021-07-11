@@ -200,6 +200,7 @@ class StatementList(ListView):
                     print(type(csv_content))
                    
                     bankAccount_obj = get_object_or_404(BankAccount, pk=bankAccount)
+                    journalCategory_obj = get_object_or_404(JournalCategory, id=1)
                     
                     for row in csv_content:
                         
@@ -209,6 +210,7 @@ class StatementList(ListView):
                         item, created = Statement.objects.get_or_create(pk=new_id)
 
                         item.bankAccount = bankAccount_obj
+                        item.journalCategory = journalCategory_obj
 
                         item.dateDescription = row[0]
                         item.description1 = row[1]
