@@ -11,6 +11,7 @@ INSTALLED_APPS = [
     'receipt.apps.ReceiptConfig',
     'procurement.apps.ProcurementConfig',
     'bankaccount.apps.BankaccountConfig',
+    'stylistdivision.apps.StylistdivisionConfig',
     'staffdb.apps.StaffdbConfig',
     'accounts.apps.AccountsConfig',
     'django_cleanup.apps.CleanupConfig',
