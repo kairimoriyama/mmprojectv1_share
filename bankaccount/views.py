@@ -13,17 +13,6 @@ from .forms import  SearchForm,InputForm
 
 # Create your views here.
 
-# ページ移動について条件設定するために利用する可能性
-class PaginatedFilterViews(View):
-    def get_context_data(self, **kwargs):
-        context = super(PaginatedFilterViews, self).get_context_data(**kwargs)
-        if self.request.POST:
-            querystring = self.request.POST.copy()
-            if self.request.POST.get('page'):
-                del querystring['page']
-            context['querystring'] = querystring.urlencode()
-        return context
-
 
 class StatementList(ListView):
     template_name = 'bankaccount/list_all.html'

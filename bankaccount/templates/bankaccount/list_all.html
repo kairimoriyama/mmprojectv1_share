@@ -45,6 +45,7 @@
   <dl class="margin_right">
     <dt class="menu_wrapper_inner">
       <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
+      <h4 class="margin_left">{{ item_count |intcomma}} 件</h4>
     </dt>
 
     <dd class="margin_top_l">
@@ -63,6 +64,14 @@
     <dd class="margin_top">
       {{search_form.journalCategory}}
     </dd>
+  </dl>
+
+  
+  <dl class="margin_right">
+    <dt>
+      <p>件数</p>
+    </dt>
+    <dd class="margin_top"></dd>
   </dl>
 
   <dl class="hidden_s_screen">
