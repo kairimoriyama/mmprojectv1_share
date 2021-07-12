@@ -310,35 +310,42 @@ class StatementList(ListView):
                             accountBalance2 = record.accountBalance
                             amount_check = accountBalance1 - paymentAmount + deopsitAmount -accountBalance2
                             
-                            # 日付整合性
+                           # 日付整合性
                             transactionDate2 = record.transactionDate
 
                             if amount_check == 0 and (transactionDate1 <= transactionDate2):
 
+                                # 整合性True
                                 record.consistencyCheck = True
-                                record.save() # 保存
+                                
+                                if record.no:
+                                    pass
+                                else:
+                                        
+                                    # 口座情報 id bankAccount
+                                    bankAccount_code = str(bankAccount).ljust(2, '0')
+
+                                    # 年月日コード transactionDate
+                                    record_transactionDate = record.transactionDate
+                                    transactionY_code = record_transactionDate.strftime('%Y')[-2:]
+                                    transactionM_code = record_transactionDate.strftime('%m').zfill(2)
+                                    transactionD_code = record_transactionDate.strftime('%d').zfill(2)
+
+                                    transactionDate_code = transactionY_code + transactionM_code + transactionD_code
+
+                                    # 同一年月日のレコード数
+                                    recordCount = Statement.objects.all().filter(
+                                        bankAccount__id=bankAccount,transactionDate=record_transactionDate).count()
+                                    recordCount_code = str(recordCount + 1).zfill(3)
+
+                                    # 番号を更新
+                                    record.no = int(bankAccount_code + transactionDate_code + recordCount_code)
+
+                                    record.save() # 保存
 
                             else :
                                 record.consistencyCheck = False
                                 record.delete() # 削除
-
-                    # 更新後データ
-                    q_count_clean = Statement.objects.all().filter(
-                        bankAccount__id=bankAccount).count()-1 
-
-                    for j in range(q_count_clean):
-
-                        # 更新対象を定義
-                        record_clean = Statement.objects.all().filter(
-                            bankAccount__id=bankAccount).order_by('id')[j+1]
-                        
-                        if record_clean.no:
-                            pass
-                        else:
-                            # 番号を更新
-                            record_clean.no = int(Statement.objects.all().filter(
-                                bankAccount__id=bankAccount).order_by('id')[j].no) + 1
-                            record_clean.save() # 保存
                             
                 return redirect('bankaccount:list_all')
 
