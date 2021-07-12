@@ -44,12 +44,13 @@ class StatementList(ListView):
         # 検索フォーム
         context['search_form'] = InputForm()
 
+        # 件数表示
+        context['item_count'] = self.get_queryset().count()
+
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
-        form = self.form = InputForm(self.request.GET or None)
 
         bankAccount = self.request.GET.get('bankAccount')
         journalCategory = self.request.GET.get('selected_journalCategory')
