@@ -24,14 +24,16 @@ class ListProject(ListView):
     template_name = 'stylistdivision/list_project.html'
     model  = Project
     fields = '__all__'
-    queryset = Project.objects.all().order_by('no')
+    paginate_by = 21
+    queryset = Project.objects.all().order_by('projectNum')
 
 
 class ListSettlement(ListView):
     template_name = 'stylistdivision/list_settlement.html'
     model  = Settlement
+    paginate_by = 21
     fields = '__all__'
-    queryset = Settlement.objects.all().order_by('-id')
+    queryset = Settlement.objects.all().order_by('no')
 
     def __init__(self, **kwargs):
         super(ListSettlement, self).__init__(**kwargs)
@@ -51,12 +53,12 @@ class ListSettlement(ListView):
 
         return context
 
-''''
+
     def get_queryset(self):
         queryset = super().get_queryset()
 
         arCheck = self.request.GET.get('arCheck')
-        description1 = self.request.GET.get('description1')
+        description2 = self.request.GET.get('description2')
         memo = self.request.GET.get('memo')
         transactionDateFrom = self.request.GET.get('transactionDateFrom')
         transactionDateTo = self.request.GET.get('transactionDateTo')
@@ -64,7 +66,7 @@ class ListSettlement(ListView):
         amountTo = self.request.GET.get('amountTo')
 
         self.request.session['arCheck'] = arCheck
-        self.request.session['description1'] = description1
+        self.request.session['description2'] = description2
         self.request.session['memo'] = memo
         self.request.session['transactionDateFrom'] = transactionDateFrom
         self.request.session['transactionDateTo'] = transactionDateTo
@@ -75,7 +77,7 @@ class ListSettlement(ListView):
         queryset0 = Settlement.objects.all().order_by('no')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
-        if arCheck or description1 or memo or\
+        if arCheck or description2 or memo or\
             transactionDateFrom or transactionDateTo or \
             amountFrom or amountTo:
 
@@ -84,69 +86,57 @@ class ListSettlement(ListView):
             else:
                 queryset1 = queryset0.all()
 
-            if description1:
-                queryset2 = queryset1.filter(statement__description1__icontains=description1)
+            if description2:
+                queryset2 = queryset1.filter(statement__description2__icontains=description2)
             else:
                 queryset2 = queryset1.all()
 
-
-            # 金額の絞り込み（自・至）
-            if accountAmountFrom and accountAmountTo:
-                queryset3_2 = queryset3_1.filter(deopsitAmount__range=(accountAmountFrom, accountAmountTo))
-
-            # 金額の絞り込み（自）
-            elif accountAmountFrom and (not accountAmountTo):
-                queryset3_2 = queryset3_1.filter(deopsitAmount__gte=accountAmountFrom)
-
-            # 金額の絞り込み（自）
-            if (not accountAmountFrom) and accountAmountTo:
-                queryset3_2 = queryset3_1.filter(deopsitAmount__lte=accountAmountTo)
-
-            elif (not accountAmountFrom) and (not accountAmountTo):
-                queryset3_2 = queryset3_1.all()
-
-
-            # description1
-            if description1:
-                queryset4 = queryset3_2.filter(description1__icontains=description1)
+            if memo:
+                queryset3 = queryset2.filter(
+                    Q(memo__icontains=memo) | Q(statement__adminMemo__icontains=memo)
+                    )
             else: 
-                queryset4 = queryset3_2.all()
-
-            # description2
-            if description2:
-                queryset5 = queryset4.filter(description2__icontains=description2)
-            else: 
-                queryset5 = queryset4.all()    
-
-            # adminMemo
-            if adminMemo:
-                queryset6 = queryset5.filter(adminMemo__icontains=adminMemo)
-            else: 
-                queryset6 = queryset5.all()    
+                queryset3 = queryset2.all()
 
             # 日付の絞込（自）
             if transactionDateFrom :
-                queryset7 = queryset6.filter(
-                    transactionDate__gte=transactionDateFrom)
+                queryset4 = queryset3.filter(
+                    statement__transactionDate__gte=transactionDateFrom)
             else:                 
-                queryset7 = queryset6.all()
+                queryset4 = queryset3.all()
 
 
             # 日付の絞込（至）
             if transactionDateTo :
-                queryset8 = queryset7.filter(
-                    transactionDate__lte=transactionDateTo)
+                queryset5 = queryset4.filter(
+                    statement__transactionDate__lte=transactionDateTo)
             else:                 
-                queryset8 = queryset7.all()
+                queryset5 = queryset4.all()
 
-            queryset = queryset8
+
+            # 金額の絞り込み（自・至）
+            if amountFrom and amountTo:
+                queryset6 = queryset5.filter(statement__deopsitAmount__range=(amountFrom, amountTo))
+
+            # 金額の絞り込み（自）
+            elif amountFrom and (not amountTo):
+                queryset6 = queryset5.filter(statement__deopsitAmount__gte=amountFrom)
+
+            # 金額の絞り込み（至）
+            elif (not amountFrom) and amountTo:
+                queryset6 = queryset5.filter(statement__deopsitAmount__lte=amountTo)
+
+            elif (not amountFrom) and (not amountTo):
+                queryset6 = queryset5.all()
+
+            queryset = queryset6
 
         # ページ遷移直後のNullでは絞込なし
         else:
             qeryset = queryset0
         
-        return queryset.order_by('-id')
-'''
+        return queryset.order_by('no')
+
 
     def post(self, request, *args, **kwargs):
 
@@ -204,3 +194,4 @@ class ListSettlement(ListView):
 
             else:
                 return self.get(request, *args, **kwargs)
+
