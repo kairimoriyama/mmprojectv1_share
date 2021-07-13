@@ -35,6 +35,11 @@ INSTALLED_APPS = [
 # デバッグモードを有効にするかどうか(本番運用では必ずFalseにする)
 DEBUG = False
 
+
+# The maximum number of parameters that may be received via GET or POS
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
+
+
 # 許可するホスト名のリスト
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 

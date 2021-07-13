@@ -3,6 +3,9 @@ from .settings_common import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# The maximum number of parameters that may be received via GET or POS
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
+
 
 # Application definition
 

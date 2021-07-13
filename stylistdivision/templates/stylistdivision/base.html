@@ -1,0 +1,46 @@
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylistdivision/style.css' %}">
+    <script type="text/javascript"  src="{% static 'jquery-3.6.0.min.js' %}"></script>
+
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+
+    <title>スタイリストDiv.</title>
+
+  </head>
+
+  
+  <body>
+
+    <header>
+      <div>
+        <a href="{% url 'home' %}" class="apptitle_wrapper">
+            <img class="icon-s" src="{% static 'favicon_mono.png' %}">
+            <h1>管理ツール</h1>
+        </a>
+
+        <h2 class="sub_title">スタイリスト事業部</h2>
+      </div>
+
+
+      <nav>
+        <ul>
+        {% block header %}
+
+        {% endblock header%}
+        </ul>
+      </nav>
+    
+    </header>
+
+    {% block content %}    
+    {% endblock content%}
+
+  </body>
+</html>
