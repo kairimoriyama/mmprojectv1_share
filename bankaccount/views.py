@@ -9,7 +9,7 @@ from datetime import timedelta, date
 import csv
 import io
 from django.db.models import Max
-from .forms import  SearchForm,InputForm
+from .forms import  InputForm
 
 # Create your views here.
 

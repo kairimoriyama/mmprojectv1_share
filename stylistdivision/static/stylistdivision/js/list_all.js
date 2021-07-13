@@ -65,39 +65,22 @@ function set_search_key(){
   localStorage.removeItem('stylistdivision_search_key');
 
 
-  //ラジオボタンの値を確認
-  let arOrAp = document.getElementsByName('arOrAp');
-  let len = arOrAp.length;
-  let checkedValue = '';
-
-  for (let i = 0; i < len ; i++){
-    if (arOrAp[i].checked){
-      checkedValue = arOrAp[i].value;
-    }
-  }
-
-  let progress = document.getElementById('progress').checked;
+  let arCheck = document.getElementById('id_arCheck').value;
   let description1 = document.getElementById('description1').value;
-  let description2 = document.getElementById('description2').value;
-  let adminMemo = document.getElementById('adminMemo').value;
+  let memo = document.getElementById('memo').value;
   let transactionDateFrom = document.getElementById('transactionDateFrom').value;
   let transactionDateTo = document.getElementById('transactionDateTo').value;
-  let amountFrom = document.getElementById('accountAmountFrom').value;
-  let amounTo = document.getElementById('accountAmountTo').value;
+  let amountFrom = document.getElementById('amountFrom').value;
+  let amountTo = document.getElementById('amountTo').value;
 
   let dataset = ({
-    "key0": selected_bankAccount,
-    "key1": bankAccount,
-    "key2": journalCategory,
-    "key3": checkedValue,
-    "key4": progress,
-    "key5": description1,
-    "key6": description2,
-    "key7": adminMemo,
-    "key8": transactionDateFrom,
-    "key9": transactionDateTo,
-    "key10": amountFrom,
-    "key11": amounTo,
+    "key1": arCheck,
+    "key2": description1,
+    "key3": memo,
+    "key4": transactionDateFrom,
+    "key5": transactionDateTo,
+    "key6": amountFrom,
+    "key7": amountTo,
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
@@ -120,28 +103,14 @@ function get_search_key() {
   }else{
 
     // 検索条件をフォームに入力
-    document.getElementsByName('selected_bankAccount').value = dataset["key0"];
 
-    document.getElementById('id_bankAccount').value= dataset["key1"];
-    document.getElementById('id_journalCategory').value= dataset["key2"];
-
-    let i = Number(dataset["key3"]);
-    console.log(i)
-    document.getElementsByName('arOrAp')[i].checked = true;
-
-    if (dataset["key4"] == true) {
-      document.getElementById('progress').checked = true;
-    }else{
-      document.getElementById('progress').checked = false;
-    };
-
-    document.getElementById('description1').value= dataset["key5"];
-    document.getElementById('description2').value= dataset["key6"];
-    document.getElementById('adminMemo').value= dataset["key7"];
-    document.getElementById('transactionDateFrom').value= dataset["key8"];
-    document.getElementById('transactionDateTo').value= dataset["key9"];
-    document.getElementById('accountAmountFrom').value= dataset["key10"];
-    document.getElementById('accountAmountTo').value= dataset["key11"];
+    document.getElementById('id_arCheck').value= dataset["key1"];
+    document.getElementById('description1').value= dataset["key2"];
+    document.getElementById('memo').value= dataset["key3"];
+    document.getElementById('transactionDateFrom').value= dataset["key4"];
+    document.getElementById('transactionDateTo').value= dataset["key5"];
+    document.getElementById('amountFrom').value= dataset["key6"];
+    document.getElementById('amountTo').value= dataset["key7"];
 
     // 更新・他のページからの遷移の際に検索実施
     if (parseInt(localStorage.getItem('stylistdivision_count_key'))==1) { //カウント1であればそのまま実行
@@ -156,12 +125,6 @@ function get_search_key() {
       // document.getElementById('search_btn').click(); 
     };
 
-    // selected_bankAccountの情報を更新
-    selected_bankAccount();
-
-    // selected_journalCategoryの情報を更新
-    selected_journalCategory()
-
   };
 };
 
@@ -172,19 +135,12 @@ window.onload = get_search_key(); //読み込み時に遷移前の検索条件�
 
 function clear_criteria(){
 
-  document.getElementById('selected_bankAccount').value= null;
-  document.getElementById('selected_journalCategory').value= null;
-
-  document.getElementById('id_bankAccount').value= null;
-  document.getElementById('id_journalCategory').value= null;
-  document.getElementsByName('arOrAp')[2].checked = true;
-  document.getElementById('progress').checked = false;
+  document.getElementById('id_arCheck').value= null;
   document.getElementById('description1').value= null;
-  document.getElementById('description2').value= null;
-  document.getElementById('adminMemo').value= null;
+  document.getElementById('memo').value= null;
   document.getElementById('transactionDateFrom').value= null;
   document.getElementById('transactionDateTo').value= null;
-  document.getElementById('accountAmountFrom').value= null;
-  document.getElementById('accountAmountTo').value= null;
+  document.getElementById('amountFrom').value= null;
+  document.getElementById('amountTo').value= null;
 
 };

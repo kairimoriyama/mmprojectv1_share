@@ -74,12 +74,10 @@
 
 <form method="GET" href="" class="list_filter_items margin_left_right margin_top_l" id="detail_form">
 
-  <dl class="payment_filter">
-    <dt>区分</dt>
+  <dl>
+    <dt>進捗</dt>
     <dd>
-      <input type="radio" name="arOrAp" value="0"><p class="margin_left_s margin_right_s">未</p>
-      <input type="radio" name="arOrAp" value="1"><p class="margin_left_s margin_right_s">済</p>
-      <input type="radio" name="arOrAp" value="2" checked="checked"><p class="margin_left_s">両方</p>
+      {{search_form.arCheck}}
     </dd>
   </dl>
 

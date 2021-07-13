@@ -120,7 +120,7 @@ function set_search_key(){
   let transactionDateFrom = document.getElementById('transactionDateFrom').value;
   let transactionDateTo = document.getElementById('transactionDateTo').value;
   let amountFrom = document.getElementById('accountAmountFrom').value;
-  let amounTo = document.getElementById('accountAmountTo').value;
+  let amountTo = document.getElementById('accountAmountTo').value;
 
   let dataset = ({
     "key0": selected_bankAccount,
@@ -134,7 +134,7 @@ function set_search_key(){
     "key8": transactionDateFrom,
     "key9": transactionDateTo,
     "key10": amountFrom,
-    "key11": amounTo,
+    "key11": amountTo,
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
