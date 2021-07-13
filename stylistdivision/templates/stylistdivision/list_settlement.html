@@ -10,7 +10,7 @@
 
     {% if page_obj.has_previous %}
     <li>
-      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key();">&laquo;</a>
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page=1" onclick="set_search_key();">&laquo;</a>
     </li>
     <li class="margin_left">
       <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
@@ -27,7 +27,7 @@
       </a>
     </li>
     <li class="margin_left">
-      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
     </ul>
     {% else %}
     {% endif %}
@@ -84,7 +84,7 @@
   </dl>
 
   <dl>
-    <dt>記載</dt>
+    <dt>振込情報</dt>
     <dd><input id="description1" name="description1" value="{{ request.GET.description1 }}" type="text"></dd>
   </dl>
 
@@ -95,7 +95,7 @@
 
 
   <dl class="list_filter_date">
-    <dt>期間</dt>
+    <dt>入金時期</dt>
     <dd>
       <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
       <p>-</p>
@@ -105,7 +105,7 @@
 
 
   <dl class="list_filter_date">
-    <dt>金額</dt>
+    <dt>入金額</dt>
     <dd>
       <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
       <p>-</p>
@@ -153,11 +153,11 @@
       <td>{{ item.arCheck }}</td>
       <td>
         {% if item.statement.description2 %}
-          {{ item.description2 }}
+          {{ item.statement.description2 }}
         {% else %}
         {% endif %}
       </td>
-      <td class="number_col">{{ item.amountOnstatement|intcomma}}</td>
+      <td class="number_col">{{ item.statement.deopsitAmount|intcomma}}</td>
       <td class="number_col">{{ item.transferFee|intcomma}}</td>
       <td class="number_col">{{ item.otherAmount|intcomma}}</td>
       <td class="number_col">{{ item.totalAmount|intcomma}}</td>

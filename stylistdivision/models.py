@@ -84,9 +84,8 @@ class Settlement(models.Model):
         related_name ='statement',blank=True,null=True)
     arCheck = models.ForeignKey(ARCheck,on_delete=models.PROTECT, related_name ='arCheck',default=1)    
 
-    amountOnstatement = models.IntegerField(blank=True,null=True)
-    transferFee = models.IntegerField(blank=True,null=True)
-    otherAmount = models.IntegerField(blank=True,null=True)
+    transferFee = models.IntegerField(blank=True,null=True,default=0)
+    otherAmount = models.IntegerField(blank=True,null=True,default=0)
     totalAmount = models.IntegerField(blank=True,null=True)
     memo = models.TextField(max_length=250,blank=True,null=True)
 

@@ -57,7 +57,8 @@ class ListSettlement(ListView):
             if ('bt_updateStatement' in request.POST):
                 print('bt_updateStatement')
 
-                q_false =Statement.objects.all().filter(bankAccount__id=3,divisionCheck=False).order_by('-id')
+                #2001はスタイリスト事業部債権
+                q_false = Statement.objects.all().filter(bankAccount__id=3,journalCategory__no=2001,divisionCheck=False).order_by('-id')
                 q_count_false = q_false.count()
 
                 if q_count_false == 0:
@@ -66,14 +67,11 @@ class ListSettlement(ListView):
 
                 else:
             
-                    record_first = Statement.objects.all().filter(
-                        bankAccount__id=3,divisionCheck=False).order_by('id').first()
-                    print(record_first.id)
-
                     for i in range(q_count_false):
 
-                        # 参照対象を定義
-                        record = Statement.objects.all().get(id=int(record_first.id + i))
+                        # 参照対象を定義 #2001はスタイリスト事業部債権
+                        record = Statement.objects.all().filter(
+                            bankAccount__id=3,journalCategory__no=2001,divisionCheck=False).order_by('id').first() 
 
                         # 年月日コード transactionDate
                         record_transactionDate = record.transactionDate
@@ -83,19 +81,24 @@ class ListSettlement(ListView):
 
                         transactionDate_code = transactionY_code + transactionM_code + transactionD_code
 
-                        # 同一年月日のレコード数
+                        # 同一年月日のレコード数 #2001はスタイリスト事業部債権
                         recordCount = Statement.objects.all().filter(
-                            bankAccount__id=3,divisionCheck=True,transactionDate=record_transactionDate).count()
+                            bankAccount__id=3,journalCategory__no=2001,divisionCheck=True,transactionDate=record_transactionDate).count()
                         recordCount_code = str(recordCount + 1).zfill(2)
 
                         # 番号を更新
-                        new_item = Settlement(no=int(transactionDate_code + recordCount_code))
-                        new_item.statement = record
+                        new_item = Settlement.objects.create(no=int(transactionDate_code + recordCount_code), statement=record )
+
+                        # 番号を更新
+                        new_item.transferFee = 0
+                        new_item.otherAmount = 0
+                        new_item.totalAmount = record.deopsitAmount
+
+                        new_item.save() # 保存
 
                         # divisionCheck True
-                        record.divisionCheck = True
-                            
-                        new_item.save() # 保存
+                        record.divisionCheck = True  
+                        
                         record.save() # 保存
 
                 return redirect('bankaccount:list_all')
