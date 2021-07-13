@@ -10,7 +10,7 @@
 
     {% if page_obj.has_previous %}
     <li>
-      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key();">&laquo;</a>
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page=1" onclick="set_search_key();">&laquo;</a>
     </li>
     <li class="margin_left">
       <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
@@ -27,7 +27,7 @@
       </a>
     </li>
     <li class="margin_left">
-      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
     </ul>
     {% else %}
     {% endif %}
@@ -51,7 +51,7 @@
     <dd class="margin_top_l">
       <div class="menu_wrapper_inner">
         <h4 class="text_align_center yubi margin_right" id="display_button_color" onclick="display_switch_bt();"><span id="filter_bt_on">表示</span><span id="filter_bt_off">非表示</span></h4>
-        <h4 class="text_align_center yubi" href="{% url 'goodidea:list_filter' %}" onclick="clear_criteria();">条件削除</a></h4>
+        <h4 class="text_align_center yubi" href="" onclick="clear_criteria();">条件削除</a></h4>
       </div>
     </dd>
   </dl>
@@ -66,13 +66,7 @@
     </dd>
   </dl>
 
-  
-  <dl class="margin_right">
-    <dt>
-      <p>件数</p>
-    </dt>
-    <dd class="margin_top"></dd>
-  </dl>
+
 
   <dl class="hidden_s_screen">
     <dt class="menu_wrapper_inner">
@@ -112,7 +106,7 @@
   </dl>
 
   <dl class="progress_filter">
-    <dt>未了</dt>
+    <dt>確認</dt>
     <dd class="text_align_center" >
       <input id="progress" name="progress" type="checkbox" value="1">
     </dd>
@@ -175,6 +169,7 @@
     <th>残高</th>
     <th>仕訳区分</th>
 		<th>進捗</th>
+		<th>確認</th>
     <th>メモ</th>
 
   </tr>
@@ -230,6 +225,12 @@
       <td>
         {% if item.progress %}
           {{ item.progress }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td>
+        {% if item.divisionCheck == True %}
+          <p>&check;</p>
         {% else %}
         {% endif %}
       </td>

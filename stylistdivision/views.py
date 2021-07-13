@@ -14,7 +14,7 @@ from django.utils import timezone
 
 from staffdb.models import StaffDB, Division
 from bankaccount.models import Statement
-from .models import AdminCheck, ProjectProgress, ProjectCategory, ClientCategory, Client, Settlement, Project
+from .models import ARCheck, ProjectProgress, ProjectCategory, ClientCategory, Client, Settlement, Project
 
 # Create your views here.
 
@@ -30,5 +30,75 @@ class ListSettlement(ListView):
     template_name = 'stylistdivision/list_settlement.html'
     model  = Settlement
     fields = '__all__'
-    queryset = Settlement.objects.all()
+    queryset = Settlement.objects.all().order_by('-id')
 
+    def __init__(self, **kwargs):
+        super(ListSettlement, self).__init__(**kwargs)
+        self.form = None
+
+    def get_context_data(self, **kwargs):
+        context = super(ListSettlement, self).get_context_data(**kwargs)
+
+        # 検索結果を保持
+        context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
+
+        # 件数表示
+        context['item_count'] = self.get_queryset().count()
+
+        return context
+
+
+
+    def post(self, request, *args, **kwargs):
+
+        if request.method == 'POST':
+
+            # データ取込ボタン
+            if ('bt_updateStatement' in request.POST):
+                print('bt_updateStatement')
+
+                q_false =Statement.objects.all().filter(bankAccount__id=3,divisionCheck=False).order_by('-id')
+                q_count_false = q_false.count()
+
+                if q_count_false == 0:
+                    print("チェック済み")
+                    return self.get(request, *args, **kwargs)
+
+                else:
+            
+                    record_first = Statement.objects.all().filter(
+                        bankAccount__id=3,divisionCheck=False).order_by('id').first()
+                    print(record_first.id)
+
+                    for i in range(q_count_false):
+
+                        # 参照対象を定義
+                        record = Statement.objects.all().get(id=int(record_first.id + i))
+
+                        # 年月日コード transactionDate
+                        record_transactionDate = record.transactionDate
+                        transactionY_code = record_transactionDate.strftime('%Y')[-2:]
+                        transactionM_code = record_transactionDate.strftime('%m').zfill(2)
+                        transactionD_code = record_transactionDate.strftime('%d').zfill(2)
+
+                        transactionDate_code = transactionY_code + transactionM_code + transactionD_code
+
+                        # 同一年月日のレコード数
+                        recordCount = Statement.objects.all().filter(
+                            bankAccount__id=3,divisionCheck=True,transactionDate=record_transactionDate).count()
+                        recordCount_code = str(recordCount + 1).zfill(2)
+
+                        # 番号を更新
+                        new_item = Settlement(no=int(transactionDate_code + recordCount_code))
+                        new_item.statement = record
+
+                        # divisionCheck True
+                        record.divisionCheck = True
+                            
+                        new_item.save() # 保存
+                        record.save() # 保存
+
+                return redirect('bankaccount:list_all')
+
+            else:
+                return self.get(request, *args, **kwargs)

@@ -8,12 +8,12 @@ from bankaccount.models import Statement
 
 
 
-class AdminCheck(models.Model):
+class ARCheck(models.Model):
     no = models.IntegerField(blank=False,null=False)
     name = models.CharField(max_length=50,blank=False,null=False)
 
     class Meta:
-        verbose_name_plural="AdminCheck"
+        verbose_name_plural="ARCheck"
         ordering = ('no',)
 
     def __str__(self):
@@ -82,12 +82,13 @@ class Settlement(models.Model):
     no =  models.IntegerField(blank=False,null=False)
     statement =  models.ForeignKey(Statement,on_delete=models.PROTECT,
         related_name ='statement',blank=True,null=True)
-    adminCheck = models.ForeignKey(AdminCheck,on_delete=models.PROTECT, related_name ='adminCheck',default=1)    
+    arCheck = models.ForeignKey(ARCheck,on_delete=models.PROTECT, related_name ='arCheck',default=1)    
 
-    amount1 = models.IntegerField(blank=True,null=True)
-    amount2 = models.IntegerField(blank=True,null=True)
+    amountOnstatement = models.IntegerField(blank=True,null=True)
+    transferFee = models.IntegerField(blank=True,null=True)
+    otherAmount = models.IntegerField(blank=True,null=True)
     totalAmount = models.IntegerField(blank=True,null=True)
-    description = models.TextField(max_length=250,blank=True,null=True)
+    memo = models.TextField(max_length=250,blank=True,null=True)
 
     refFile = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     deletedItem = models.BooleanField(default=False)

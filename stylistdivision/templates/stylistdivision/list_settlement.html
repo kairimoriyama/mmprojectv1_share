@@ -1,0 +1,192 @@
+{% extends 'stylistdivision/base.html' %}
+{% load humanize %}
+
+{% block header %}
+
+  <li><a href=""></a></li>
+  <li><a href="" class="margin_left_l"></a></li>
+
+  <ul class="page_nav margin_left_l">
+
+    {% if page_obj.has_previous %}
+    <li>
+      <a class="menu_bt next_bt" href="?page=1" onclick="set_search_key();">&laquo;</a>
+    </li>
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
+        &lt;
+      </a>
+    </li>
+    {% else %}
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key();">
+        &gt;
+      </a>
+    </li>
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
+    </ul>
+    {% else %}
+    {% endif %}
+
+  </ul>
+
+{% endblock%}
+
+
+{% block content %}
+
+
+<form method="POST" href="" enctype="multipart/form-data" class="menu_wrapper margin_left_right margin_top">{% csrf_token %}
+
+  <dl class="margin_right">
+    <dt class="menu_wrapper_inner">
+      <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
+      <h4 class="margin_left">{{ item_count |intcomma}} 件</h4>
+    </dt>
+
+    <dd class="margin_top_l">
+      <div class="menu_wrapper_inner">
+        <h4 class="text_align_center yubi margin_right" id="display_button_color" onclick="display_switch_bt();"><span id="filter_bt_on">表示</span><span id="filter_bt_off">非表示</span></h4>
+        <h4 class="text_align_center yubi" href="" onclick="clear_criteria();">条件削除</a></h4>
+      </div>
+    </dd>
+  </dl>
+
+  <dl class="margin_right">
+    <dt>
+      <input class="menu_bt width_m yubi" type="submit" value="データ更新" name="bt_updateStatement" onclick="set_search_key()">
+    </dt>
+
+    <dd class="margin_top_l">
+    </dd>
+  </dl>
+
+
+  <!-- record id 自動入力 type="hidden"-->
+  <input type="hidden" name="selected_record_list" id="selected_record_list">
+
+</form>
+
+
+<form method="GET" href="" class="list_filter_items margin_left_right margin_top_l" id="detail_form">
+
+  <dl class="payment_filter">
+    <dt>区分</dt>
+    <dd>
+      <input type="radio" name="arOrAp" value="0"><p class="margin_left_s margin_right_s">未</p>
+      <input type="radio" name="arOrAp" value="1"><p class="margin_left_s margin_right_s">済</p>
+      <input type="radio" name="arOrAp" value="2" checked="checked"><p class="margin_left_s">両方</p>
+    </dd>
+  </dl>
+
+  <dl>
+    <dt>記載</dt>
+    <dd><input id="description1" name="description1" value="{{ request.GET.description1 }}" type="text"></dd>
+  </dl>
+
+  <dl>
+    <dt>メモ</dt>
+    <dd><input id="memo" name="memo" value="{{ request.GET.memo }}" type="text"></dd>
+  </dl>
+
+
+  <dl class="list_filter_date">
+    <dt>期間</dt>
+    <dd>
+      <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
+      <p>-</p>
+      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.transactionDateTo }}" type="date">
+    </dd>
+  </dl>
+
+
+  <dl class="list_filter_date">
+    <dt>金額</dt>
+    <dd>
+      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <p>-</p>
+      <input id="amountTo" name="amountTo" value="{{ request.GET.amountTo }}" type="number">
+    </dd>
+  </dl>
+
+</form>
+
+
+
+
+<table class="item-table">
+
+	<tr>
+		<th class="sticky_col_th first_col">選択</th>
+		<th class="sticky_col_th second_col">No.</th>
+    <th>日付</th>
+    <th>進捗</th>
+    <th>記載</th>
+    <th>入金</th>
+    <th>振込手数料</th>
+    <th>その他金額</th>
+    <th>合計金額</th>
+		<th>債権処理メモ</th>
+    <th>振込情報メモ</th>
+  </tr>
+  
+  {% for item in object_list %}
+
+  <!-- 進捗状況に応じた色の設定 -->
+
+    {% if item.arCheck.no == 0 %}
+    <tr class="row-yellow">
+    {% elif item.arCheck.no == 1 %}
+    <tr class="row-blue">
+    {% endif %}
+
+      <td class="sticky_col_td first_col text_align_center">
+        <input type="checkbox" name="selected_record" value="{{ item.pk }}" onclick="selected_record()">
+      </td>
+
+      <td class="sticky_col_td second_col"><a href="">{{ item.no }}</a></td>
+      <td class="date_col">{{ item.statement.transactionDate | date:"Y-m-j"}}</td>
+      <td>{{ item.arCheck }}</td>
+      <td>
+        {% if item.statement.description2 %}
+          {{ item.description2 }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td class="number_col">{{ item.amountOnstatement|intcomma}}</td>
+      <td class="number_col">{{ item.transferFee|intcomma}}</td>
+      <td class="number_col">{{ item.otherAmount|intcomma}}</td>
+      <td class="number_col">{{ item.totalAmount|intcomma}}</td>
+
+      <td>
+        {% if item.memo %}
+          {{ item.memo }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td>
+        {% if item.refFile %}
+          <p>URL</p>
+        {% else %}
+        {% endif %}
+      </td>          
+  </tr>
+
+  {% endfor %}
+  
+</table>
+
+
+
+{% load static %}
+<script src="{% static 'stylistdivision/js/list_all.js' %}"></script>
+  
+
+
+{% endblock content%}
+
+

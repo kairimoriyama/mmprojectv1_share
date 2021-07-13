@@ -71,6 +71,7 @@ class Statement(models.Model):
     progress = models.ForeignKey(Progress,on_delete=models.PROTECT, related_name ='progress',blank=True,null=True)
     consistencyCheck = models.BooleanField(default=False)
     adminMemo = models.CharField(max_length=100,blank=True,null=True)
+    divisionCheck = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural="Statement"
