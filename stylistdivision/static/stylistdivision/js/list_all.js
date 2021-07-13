@@ -66,7 +66,7 @@ function set_search_key(){
 
 
   let arCheck = document.getElementById('id_arCheck').value;
-  let description1 = document.getElementById('description1').value;
+  let description2 = document.getElementById('description2').value;
   let memo = document.getElementById('memo').value;
   let transactionDateFrom = document.getElementById('transactionDateFrom').value;
   let transactionDateTo = document.getElementById('transactionDateTo').value;
@@ -75,7 +75,7 @@ function set_search_key(){
 
   let dataset = ({
     "key1": arCheck,
-    "key2": description1,
+    "key2": description2,
     "key3": memo,
     "key4": transactionDateFrom,
     "key5": transactionDateTo,
@@ -105,7 +105,7 @@ function get_search_key() {
     // 検索条件をフォームに入力
 
     document.getElementById('id_arCheck').value= dataset["key1"];
-    document.getElementById('description1').value= dataset["key2"];
+    document.getElementById('description2').value= dataset["key2"];
     document.getElementById('memo').value= dataset["key3"];
     document.getElementById('transactionDateFrom').value= dataset["key4"];
     document.getElementById('transactionDateTo').value= dataset["key5"];
@@ -136,7 +136,7 @@ window.onload = get_search_key(); //読み込み時に遷移前の検索条件�
 function clear_criteria(){
 
   document.getElementById('id_arCheck').value= null;
-  document.getElementById('description1').value= null;
+  document.getElementById('description2').value= null;
   document.getElementById('memo').value= null;
   document.getElementById('transactionDateFrom').value= null;
   document.getElementById('transactionDateTo').value= null;
