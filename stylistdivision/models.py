@@ -104,16 +104,20 @@ class Project(models.Model):
     projectNum =  models.IntegerField(blank=False,null=False)
     projectProgress = models.ForeignKey(ProjectProgress,on_delete=models.PROTECT, related_name ='project_projectProgress',default=1)    
     createdDate = models.DateField(default=timezone.now, blank=True,null=True)
-    quotationDate = models.DateField(default=timezone.now, blank=True,null=True)
-    InvoiceDate = models.DateField(default=timezone.now, blank=True,null=True)
+    quotationDate = models.DateField(blank=True,null=True)
+    invoiceDate = models.DateField(blank=True,null=True)
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
 
     mSatffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='project_mStaffDivision') 
     mSatff =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='project_mSatff',blank=True,null=True)
 
-    staff =  models.ManyToManyField(StaffDB, related_name='project_staff',blank=True)
-    academyStaff =  models.ManyToManyField(StaffDB, related_name='project_academyStaff',blank=True)
+    staff1 =  models.ForeignKey(StaffDB,on_delete=models.PROTECT, related_name='project_staff1',blank=True,null=True)
+    staff2 =  models.ForeignKey(StaffDB,on_delete=models.PROTECT, related_name='project_staff2',blank=True,null=True)
+    staff3 =  models.ForeignKey(StaffDB,on_delete=models.PROTECT, related_name='project_staff3',blank=True,null=True)
+    academyStaff1 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff1',blank=True,null=True)
+    academyStaff2 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff2',blank=True,null=True)
+    academyStaff3 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff3',blank=True,null=True)
 
     salesAmount1 = models.IntegerField(blank=True,null=True)
     salesAmount2 = models.IntegerField(blank=True,null=True)
@@ -142,7 +146,6 @@ class Project(models.Model):
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
-    adminDescription = models.TextField(max_length=300,blank=True,null=True)
     deletedItem = models.BooleanField(default=False)
 
     class Meta:

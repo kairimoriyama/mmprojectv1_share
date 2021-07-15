@@ -138,6 +138,10 @@ button{
     background-color: #fff;
 }
 
+.padding_zero{
+    padding: 0;
+}
+
 .margin_left{
     margin-left: 1rem;
 }
