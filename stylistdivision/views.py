@@ -28,6 +28,29 @@ class ListProject(ListView):
     queryset = Project.objects.all().order_by('projectNum')
 
 
+    def __init__(self, **kwargs):
+        super(ListProject, self).__init__(**kwargs)
+        self.form = None
+
+
+    def get_context_data(self, **kwargs):
+        context = super(ListProject, self).get_context_data(**kwargs)
+
+        # 検索結果を保持
+        context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
+
+
+        # 件数表示
+        context['item_count'] = self.get_queryset().count()
+
+        return context
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+       
+        return queryset
+
 class ListSettlement(ListView):
     template_name = 'stylistdivision/list_settlement.html'
     model  = Settlement
