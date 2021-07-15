@@ -1,346 +1,176 @@
-{% extends 'bankaccount/base.html' %}
-
+{% extends 'stylistdivision/base.html' %}
+{% load humanize %}
 
 {% block header %}
-    <li><a class="menu_bt menu_bt_l" href="">取引追加</a></li>
-    <li><button class="menu_bt export_csv row-gray" type="button" onclick="">CSV 出力</button></li>
-  
-{% endblock%}
 
-{% block content %}
+  <li><a href=""></a></li>
+  <li><a href="" class="margin_left_l"></a></li>
 
+  <ul class="page_nav margin_left_l">
 
-<form onsubmit="return false;" action="{% url 'bankaccount:list_project' %}" method="GET" class="list_filter">
-
-<div class="menu_wrapper">
-<div class="filter_bt_wrapper">
-    <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key(),submit();" class="menu_bt" value="検索実施">
-    <p class="count_items">{{ item_count }}件</p>
-    <a class="tex_decoration_none mg_right yubi" href="{% url 'bankaccount:list_filter' %}" onclick="clear_criteria();"><h4>条件削除</h4></a>
-    <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">非表示</span><span id="filter_bt_off">表示</span></p>
-    
-</div>
-
-<ul class="page_nav">
     {% if page_obj.has_previous %}
     <li>
-    <a class="menu_bt next_bt" href="?{{ query_string }}&page=1" onclick="set_search_key();">&laquo;</a>
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page=1" onclick="set_search_key();">&laquo;</a>
     </li>
-    <li class="mg_left">
-    <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
         &lt;
-    </a>
+      </a>
     </li>
     {% else %}
     {% endif %}
 
     {% if page_obj.has_next %}
-    <li class="mg_left">
-    <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key();">
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key();">
         &gt;
-    </a>
+      </a>
     </li>
-    <li class="mg_left">
-    <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
+    <li class="margin_left">
+      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
     </ul>
     {% else %}
     {% endif %}
 
-</ul>
-</div>
+  </ul>
+
+{% endblock%}
 
 
-<div id="filter_items" class="list_filter_items">
+{% block content %}
 
-    <dl class="category_discussion_filter">
-    <dt>協議未実施</dt>
-    <dd>
-        <input id="consideration" name="consideration" type="checkbox" value="1">
-    </dd>
-    </dl>
+<form method="GET" href="" class="menu_wrapper margin_left_right margin_top_l" >
 
-    <dl class="category_internalDiscussion_filter">
-    <dt>部門決裁未完了</dt>
-    <dd>
-        <input id="internalDiscussion" name="internalDiscussion" type="checkbox" value="1">
-    </dd>
-    </dl>
+  <div class="menu_wrapper_inner margin_left">
 
-    <dl class="ideaOrAction_filter">
-    <dt>案件区分</dt>
-    <dd>
-        <input class="radio_mg" type="radio" name="ideaOrAction" value="0">提案
-        <input class="radio_mg_left" type="radio" name="ideaOrAction" value="1">完了共有
-        <input class="radio_mg_left" type="radio" name="ideaOrAction" value="2" checked="checked">両方
-    </dd>
-    </dl>
+    <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
+    <h4 class="margin_left">{{ item_count |intcomma}} 件</h4>
 
-    <dl class="category_purchase_filter">
-    <dt>購入</dt>
-    <dd>
-        <input id="purchase" name="purchase" type="checkbox" value="1">
-    </dd>
-    </dl>
+    <h4 class="text_align_center yubi margin_left" id="display_button_color" onclick="display_switch_bt();"><span id="filter_bt_on">表示</span><span id="filter_bt_off">非表示</span></h4>
+    <a class="text_align_center yubi margin_left no_text_decoration" href="" onclick="clear_criteria();"><h4>条件削除</a></h4>
 
-    <dl class="category_system_filter">
-    <dt>システム</dt>
-    <dd>
-        <input id="system" name="system" type="checkbox" value="1">
-    </dd>
-    </dl>
+  </div>
+
+  <!-- record id 自動入力 type="hidden"-->
+  <input type="hidden" name="selected_record_list" id="selected_record_list">
 
 
+  <div class="list_filter_items" id="detail_form">
 
-    <dl>
-    <dt>社員番号 &#8658; 提案者</dt>
-    <dd id="staffNumber">
-        <input name="staffNumber" type="number">
-        <select id="staffdb" name="staffdb" class="list_filter_select_s" type="number">
-        <option value=0>-</option>
-        {% for staffdb in staffdb_list %}
-            <option value="{{ staffdb.id }}">{{ staffdb.fullName }}</option>
-        {% endfor %}
-        </select>
-    </dd>
-    </dl>
-
-    <dl>
-    <dt>所属</dt>
-    <dd>
-        <select id="division" name="division" class="list_filter_select" type="number">
-        <option value=0>全部門</option>
-        {% for division in divisionSelect_list %}
-        <option value="{{ division.id }}">{{ division.name }}</option>
-        {% endfor %}
-    </select>
-    </dd>
-    </dl>
-
-    <dl>
-    <dt>実施担当者</dt>
-    <dd><input id="inchargeStaff"  name="inchargeStaff" value="{{ request.GET.inchargeStaff }}" type="text"></dd>
-    </dl>
-
-    <dl>
-    <dt>実施部門/PJ</dt>
-    <dd><input id="inchargeDivision" name="inchargeDivision" value="{{ request.GET.inchargeDivision }}" type="text"></dd>
-    </dl>
-
-    <dl>
+  <dl>
     <dt>進捗</dt>
     <dd>
-        <select id="progress" onchange="progressSelect()" name="progress"  class="list_filter_select" type="number">
-            <option value=0>全進捗</option>
-        {% for progress in progressSelect_list %}
-            <option value="{{ progress.id }}">{{ progress.name }}</option>
-        {% endfor %}
-        </select>
+      {{search_form.arCheck}}
     </dd>
-    </dl>
+  </dl>
 
-    <dl>
-    <dt>キーワード</dt>
-    <dd><input id="word" name="word" value="{{ request.GET.word }}" type="text"></dd>
-    </dl>
+  <dl>
+    <dt>振込情報</dt>
+    <dd><input id="description2" name="description2" value="{{ request.GET.description2 }}" type="text"></dd>
+  </dl>
 
-    <dl class="list_filter_date">
-    <dt>登録日</dt>
+  <dl>
+    <dt>メモ</dt>
+    <dd><input id="memo" name="memo" value="{{ request.GET.memo }}" type="text"></dd>
+  </dl>
+
+
+  <dl class="list_filter_date">
+    <dt>入金時期</dt>
     <dd>
-        <input id="submissionDateFrom" name="submissionDateFrom" value="{{ request.GET.submissionDateFrom }}" type="date">
-        <p>-</p>
-        <input id="submissionDateTo" name="submissionDateTo" value="{{ request.GET.submissionDateTo }}" type="date">
+      <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
+      <p>-</p>
+      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.transactionDateTo }}" type="date">
     </dd>
-    </dl>
+  </dl>
 
-    <dl class="list_filter_date" id="completionDateFilter">
-    <dt>完了日</dt>
+
+  <dl class="list_filter_date">
+    <dt>入金額</dt>
     <dd>
-        <input id="completionDateFrom" name="completionDateFrom" value="{{ request.GET.completionDateFrom }}" type="date">
-        <p>-</p>
-        <input id="completionDateTo" name="completionDateTo" value="{{ request.GET.completionDateTo }}" type="date"></dd>
+      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <p>-</p>
+      <input id="amountTo" name="amountTo" value="{{ request.GET.amountTo }}" type="number">
     </dd>
-    </dl>
-</div>
+  </dl>
+
+  </div>
+
 </form>
 
 
 
 
-  <table class="item-table">
+<div class="margin_left_right margin_top"><h3>プロジェクト一覧</h3></div>
+<table class="item-table">
 
 	<tr>
-		<th class="sticky_col_th">No</th>
-		<th>登録日</th>
-    <th>期日</th>
+		<th class="sticky_col_th first_col">選択</th>
+		<th class="sticky_col_th second_col">No.</th>
+    <th>日付</th>
     <th>進捗</th>
-    <th>提案者</th>
-    <th>所属</th>
-		<th>分類</th>
-		<th>提案・実施内容</th>
-		<th>根拠</th>
-
-    <th>協議日</th>
-    <th>議事録</th>
-
-    <th>実施担当者</th>
-    <th>実施部門/PJ</th>
-
-    <th>報告</th>
-    <th>完了日</th>
-  
-    <th>購入</th>
-    <th>システム</th>
- 
-    <th>管理用</th>
-    
+    <th>記載</th>
+    <th>入金</th>
+    <th>振込手数料</th>
+    <th>その他金額</th>
+    <th>合計金額</th>
+		<th>債権処理メモ</th>
+    <th>振込情報メモ</th>
   </tr>
   
   {% for item in object_list %}
 
-    <!-- 進捗状況に応じた色の設定 -->
-    {% if item.progress.no == 1 %}
-      <tr class="row-white">
-    {%  elif item.progress.no == 2 %}
-      <tr class="row-yellow">
-    {%  elif item.progress.no == 3 %}
-      <tr class="row-gray">
-    {%  elif item.progress.no == 4 %}
-      <tr class="row-blue">
-    {%  elif item.progress.no == 5 %}
-      <tr>
+  <!-- 進捗状況に応じた色の設定 -->
+
+    {% if item.arCheck.no == 0 %}
+    <tr class="row-yellow">
+    {% elif item.arCheck.no == 1 %}
+    <tr class="row-blue">
     {% endif %}
 
+      <td class="sticky_col_td first_col text_align_center">
+        <input type="checkbox" name="selected_record" value="{{ item.pk }}" onclick="selected_record()">
+      </td>
 
-    <!-- 場合分け list_filter -->
+      <td class="sticky_col_td second_col"><a href="">{{ item.no }}</a></td>
+      <td class="date_col">{{ item.statement.transactionDate | date:"Y-m-j"}}</td>
+      <td>{{ item.arCheck }}</td>
+      <td>
+        {% if item.statement.description2 %}
+          {{ item.statement.description2 }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td class="number_col">{{ item.statement.deopsitAmount|intcomma}}</td>
+      <td class="number_col">{{ item.transferFee|intcomma}}</td>
+      <td class="number_col">{{ item.otherAmount|intcomma}}</td>
+      <td class="number_col">{{ item.totalAmount|intcomma}}</td>
 
-      {% if list_type == 'list_filter' %}
-
-        <td class="sticky_col_td"  onclick="set_search_key(), count_key_clear()" >
-          {% if item.ideaNum > 0 %}
-            <a href="{% url 'goodidea:detail_filter' item.pk %}">
-              {{ item.ideaNum }}
-            </a>
-          {% else %}
-            <a href="{% url 'goodidea:detail_filter' item.pk %}">
-              {{ item.actionNum }}-共
-            </a>
-          {% endif %}
-        </td>
-      
-    <!-- 場合分け list_due -->
-
-       {% elif list_type == 'list_due'  %}
-        <td class="sticky_col_td">
-          <a href="{% url 'goodidea:detail_due' item.pk %}">
-            {{ item.ideaNum }}
-          </a>
-        </td>
-        
-      {% else %}
-      {% endif %}
-
-      
-      <td class="date_col">{{ item.submissionDate | date:"Y/m/d"}}</td>
-
-
-        
-      {% if list_type == 'list_action' %}
-      {% else %}
-
-        <td  class="date_col">
-          {% if item.dueDate != None %}
-            {{ item.dueDate | date:"Y/m/d"}}
-          {% else %}
-            <p>-</p>
-          {% endif %}
-        </td>
-
-      {% endif %}
-        
-      <td>{{ item.progress.name }}</td>
-      <td>{{ item.staffdb.fullName}}</td>
-      <td>{{ item.division.name }}</td>
-      <td>{{ item.category.name }}</td>
-      
-      <td class="longText">{{ item.title }}</td>
-      <td class="longText">{{ item.description }}</td>
-
-
-
-    <td  class="date_col">
-      {% if item.discussionDate != None %}
-        {{ item.discussionDate | date:"Y/m/d"}}
-      {% else %}
-        <p>-</p>
-      {% endif %}
-    </td>
-
-    <td class="longText">
-      {% if item.discussionNote %}
-        <p>{{ item.discussionNote }}</p>
-      {% else %}
-      {% endif %}
-    </td>
-
-    <td>
-      {% if item.inchargeStaff %}
-        <p>{{ item.inchargeStaff }}</p>
-      {% else %}
-      {% endif %}
-    </td>
-    <td>
-      {% if item.inchargeDivision %}
-        <p>{{ item.inchargeDivision }}</p>
-      {% else %}
-      {% endif %}
-    </td>  
-
-    <td class="longText">
-      {% if item.report %}
-        <p>{{ item.report }}</p>
-      {% else %}
-      {% endif %}
-    </td>
-    
-    <td class="date_col">
-      {% if item.completionDate != None %}
-        {{ item.completionDate | date:"Y/m/d"}}
-      {% else %}
-      {% endif %}
-    </td>
-
-
-    <td class="purchase_col">
-      {% if item.purchase == True %}
-        <p>&check;</p>
-      {% else %}
-      {% endif %}
-    </td>
-
-    <td class="system_col">
-      {% if item.system == True %}
-        <p>&check;</p>
-      {% else %}
-      {% endif %}
-    </td>
-
-
-    <td>
-      {% if item.adminMemo %}
-        <p>{{ item.adminMemo }}</p>
-      {% else %}
-      {% endif %}
-    </td>
-  
+      <td>
+        {% if item.memo %}
+          {{ item.memo }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td>
+        {% if item.refFile %}
+          <p>URL</p>
+        {% else %}
+        {% endif %}
+      </td>          
   </tr>
 
   {% endfor %}
   
 </table>
-    
 
-  {% load static %}
-  <script src="{% static 'bankaccount/js/list_project.js' %}"></script>
+
+
+{% load static %}
+<script src="{% static 'stylistdivision/js/list_settlement.js' %}"></script>
   
 
+
 {% endblock content%}
+
+

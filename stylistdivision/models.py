@@ -104,8 +104,8 @@ class Project(models.Model):
     projectNum =  models.IntegerField(blank=False,null=False)
     projectProgress = models.ForeignKey(ProjectProgress,on_delete=models.PROTECT, related_name ='project_projectProgress',default=1)    
     createdDate = models.DateField(default=timezone.now, blank=True,null=True)
-    quotationDate = models.DateField(default=timezone.now, blank=True,null=True)
-    InvoiceDate = models.DateField(default=timezone.now, blank=True,null=True)
+    quotationDate = models.DateField(blank=True,null=True)
+    InvoiceDate = models.DateField(blank=True,null=True)
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
 
     mSatffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='project_mStaffDivision') 
@@ -142,7 +142,9 @@ class Project(models.Model):
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
 
-    adminDescription = models.TextField(max_length=300,blank=True,null=True)
+    InvoiceDate = models.IntegerField(blank=True,null=True)
+
+    settlementDate = models.DateField(blank=True,null=True)
     deletedItem = models.BooleanField(default=False)
 
     class Meta:

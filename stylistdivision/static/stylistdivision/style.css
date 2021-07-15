@@ -129,6 +129,12 @@ header a{
     font-size: 1.8rem;
 }
 
+.no_text_decoration{
+    text-decoration: none;
+    color: rgb(0, 51, 141);
+    font-size: 1.4rem;
+}
+
 button{
     -webkit-appearance: none;
     -moz-appearance: none;
