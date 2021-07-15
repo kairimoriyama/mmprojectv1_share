@@ -3,10 +3,9 @@
 
 {% block header %}
 
-  <li><a href=""></a></li>
-  <li><a href="" class="margin_left_l"></a></li>
+<li><a href="{% url 'stylistdivision:list_project' %}" class="margin_right">プロジェクト</a></li>
 
-  <ul class="page_nav margin_left_l">
+  <ul class="page_nav">
 
     {% if page_obj.has_previous %}
     <li>
@@ -115,7 +114,7 @@
 
 
 
-
+<div class="margin_left_right margin_top"><h3>プロジェクト一覧</h3></div>
 <table class="item-table">
 
 	<tr>

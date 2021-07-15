@@ -4,7 +4,7 @@ from django.db import transaction
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect, get_object_or_404, render
-from django.db.models import Q, Max
+from django.db.models import Q, Max, Sum
 from django.core import validators
 import unicodecsv as csv
 from django.contrib import messages
@@ -15,7 +15,7 @@ from django.utils import timezone
 from staffdb.models import StaffDB, Division
 from bankaccount.models import Statement
 from .models import ARCheck, ProjectProgress, ProjectCategory, ClientCategory, Client, Settlement, Project
-from .forms import  SelectForm
+from .forms import  SettlementFilterForm, ProjectFilterForm
 
 # Create your views here.
 
@@ -38,10 +38,15 @@ class ListProject(ListView):
 
         # 検索結果を保持
         context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
-
+        
+        # 検索フォーム
+        context['search_form'] = ProjectFilterForm()
 
         # 件数表示
-        context['item_count'] = self.get_queryset().count()
+        context['items_count'] = self.get_queryset().count()
+    
+        # 金額表示
+        context['items_amount'] = self.get_queryset().aggregate(salesTotal=Sum("salesTotal"))
 
         return context
 
@@ -50,6 +55,8 @@ class ListProject(ListView):
         queryset = super().get_queryset()
        
         return queryset
+
+
 
 class ListSettlement(ListView):
     template_name = 'stylistdivision/list_settlement.html'
@@ -69,7 +76,7 @@ class ListSettlement(ListView):
         context.update(dict(form=self.form, query_string=self.request.GET.urlencode()))
 
         # 検索フォーム
-        context['search_form'] = SelectForm()
+        context['search_form'] = SettlementFilterForm()
 
         # 件数表示
         context['item_count'] = self.get_queryset().count()
