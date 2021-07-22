@@ -72,7 +72,7 @@ class Supplier(models.Model):
     name = models.CharField(max_length=50,blank=False,null=False)
     tel = models.CharField(max_length=20, blank=True,null=True)
     email = models.EmailField(max_length=50, blank=True,null=True)
-    webpageURL = models.URLField(max_length=300, blank=True,null=True)
+    webpageURL = models.URLField(max_length=1000, blank=True,null=True)
     commonId = models.CharField(max_length=20, blank=True,null=True)
     commonPass = models.CharField(max_length=20, blank=True,null=True)
     description = models.TextField(max_length=200, blank=True,null=True)
@@ -105,8 +105,8 @@ class StandardItem(models.Model):
     price = models.IntegerField(blank=True,null=True)
     picture1 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
     picture2 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
-    refURL1 = models.URLField(max_length=300, blank=True,null=True)
-    refURL2 = models.URLField(max_length=300, blank=True,null=True)
+    refURL1 = models.URLField(max_length=1000, blank=True,null=True)
+    refURL2 = models.URLField(max_length=1000, blank=True,null=True)
     supplier = models.ForeignKey(Supplier,on_delete=models.PROTECT, related_name ='standardItem_supplier',blank=True,null=True)
 
     class Meta:
@@ -193,9 +193,9 @@ class OrderRequest(models.Model):
     quantity = models.CharField(max_length=100)
     estimatedAmount = models.IntegerField(blank=True,null=True)
 
-    refURL1 = models.URLField(max_length=2000, blank=True,null=True)
-    refURL2 = models.URLField(max_length=2000, blank=True,null=True)
-    refURL3 = models.URLField(max_length=2000, blank=True,null=True)
+    refURL1 = models.URLField(max_length=1000, blank=True,null=True)
+    refURL2 = models.URLField(max_length=1000, blank=True,null=True)
+    refURL3 = models.URLField(max_length=1000, blank=True,null=True)
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
