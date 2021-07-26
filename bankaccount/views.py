@@ -191,7 +191,7 @@ class StatementList(ListView):
                     print(type(csv_content))
                    
                     bankAccount_obj = get_object_or_404(BankAccount, pk=bankAccount)
-                    journalCategory_obj = get_object_or_404(JournalCategory, id=1)
+                    journalCategory_obj = get_object_or_404(JournalCategory, id=1) # 仕分け区分「要確認」
                     
                     for row in csv_content:
                         

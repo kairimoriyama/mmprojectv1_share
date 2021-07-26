@@ -1,9 +1,16 @@
 from django import forms
 from django.db import models
 
-from .models import ARCheck, ProjectProgress, Client, ProjectCategory
+from .models import ARCheck, ProjectProgress, Client, ProjectCategory, Project
 from django.forms import ModelForm, ModelChoiceField
 
+import datetime
+from django.utils import timezone
+
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class SettlementFilterForm(forms.Form):
     arCheck = forms.ModelChoiceField(
@@ -38,4 +45,61 @@ class ProjectFilterForm(forms.Form):
     )
 
 
+class CreateProjectForm(ModelForm):
+
+    class Meta:
+        model  = Project
+        fields = ('client',
+        'mSatffDivision','mSatff',
+        'staff1', 'staff2','staff3',
+        'academyStaff1','academyStaff2','academyStaff3',
+        'projectcategory','projectName','description',
+        'location',
+        'refURL1','refURL2','refURL3',
+        'refFile1','refFile2','refFile3')
+        widgets = {'submissionDate': DateInput()}
+
+    def __init__(self, *args, **kwargs):
+        super(CreateProjectForm, self).__init__(*args, **kwargs)
+
+        # 初期値・入力規則
+        self.fields['client'].required = True
+        self.fields['mSatffDivision'].required = True
+        self.fields['projectcategory'].required = True
+        self.fields['projectName'].required = True
+
+
+        # プレースホルダ
+        self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'
+        self.fields['description'].widget.attrs['placeholder'] = '案件概要、先方担当者との交渉状況、進捗メモ等'
+
+
+
+class UpdateProjectForm(ModelForm):
+
+    class Meta:
+        model  = Project
+        fields = ('client',
+        'mSatffDivision','mSatff',
+        'staff1', 'staff2','staff3',
+        'academyStaff1','academyStaff2','academyStaff3',
+        'projectcategory','projectName','description',
+        'location',
+        'refURL1','refURL2','refURL3',
+        'refFile1','refFile2','refFile3')
+        widgets = {'submissionDate': DateInput()}
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateProjectForm, self).__init__(*args, **kwargs)
+
+        # 初期値・入力規則
+        self.fields['client'].required = True
+        self.fields['mSatffDivision'].required = True
+        self.fields['projectcategory'].required = True
+        self.fields['projectName'].required = True
+
+
+        # プレースホルダ
+        self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'
+        self.fields['description'].widget.attrs['placeholder'] = '案件概要、先方担当者との交渉状況、進捗メモ等'
 
