@@ -3,35 +3,39 @@
 
 {% block header %}
 
-  <li><a href="{% url 'stylistdivision:list_settlement' %}">債権回収</a></li>
+<li><a class="" href="{% url 'stylistdivision:create_project' %}">新規案件</a></li>
 
-  <ul class="page_nav margin_left">
+<li><a class="margin_left_l" href="{% url 'stylistdivision:list_client' %}">顧客一覧</a></li>
 
-    {% if page_obj.has_previous %}
-    <li>
-      <a class="menu_bt next_bt" href="?{{ query_string }}&page=1" onclick="set_search_key();">&laquo;</a>
-    </li>
-    <li class="margin_left">
-      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
-        &lt;
-      </a>
-    </li>
-    {% else %}
-    {% endif %}
+<li class="margin_left_l"><a href="{% url 'stylistdivision:list_settlement' %}">債権回収</a></li>
 
-    {% if page_obj.has_next %}
-    <li class="margin_left">
-      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key();">
-        &gt;
-      </a>
-    </li>
-    <li class="margin_left">
-      <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
-    </ul>
-    {% else %}
-    {% endif %}
+<ul class="page_nav margin_left">
 
+  {% if page_obj.has_previous %}
+  <li>
+    <a class="menu_bt next_bt" href="?{{ query_string }}&page=1" onclick="set_search_key();">&laquo;</a>
+  </li>
+  <li class="margin_left">
+    <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.previous_page_number }}" onclick="set_search_key();">
+      &lt;
+    </a>
+  </li>
+  {% else %}
+  {% endif %}
+
+  {% if page_obj.has_next %}
+  <li class="margin_left">
+    <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.next_page_number }}" onclick="set_search_key();">
+      &gt;
+    </a>
+  </li>
+  <li class="margin_left">
+    <a class="menu_bt next_bt" href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}" onclick="set_search_key();">&raquo;</a>
   </ul>
+  {% else %}
+  {% endif %}
+
+</ul>
 
 {% endblock%}
 

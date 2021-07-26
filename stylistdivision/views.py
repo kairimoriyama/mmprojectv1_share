@@ -15,7 +15,7 @@ from django.utils import timezone
 from staffdb.models import StaffDB, Division
 from bankaccount.models import Statement
 from .models import ARCheck, ProjectProgress, ProjectCategory, ClientCategory, Client, Settlement, Project
-from .forms import  SettlementFilterForm, ProjectFilterForm
+from .forms import  SettlementFilterForm, ProjectFilterForm, CreateProjectForm, UpdateProjectForm
 
 # Create your views here.
 
@@ -55,6 +55,95 @@ class ListProject(ListView):
         queryset = super().get_queryset()
        
         return queryset
+
+
+
+
+class DetailProject(DetailView):
+    template_name = 'stylistdivision/detail_project.html'
+    model  = Project
+
+
+
+class CreateProject(CreateView):
+    template_name = 'stylistdivision/create_project.html'
+    form_class = CreateProjectForm
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(request.POST, request.FILES)
+
+        params = {
+            'form':form
+        }
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+    
+            # requestNumの設定
+            currentYear= datetime.date.today().year
+            currentYearStr = str(currentYear)
+            currentYearProjectNums = Project.objects.values('projectNum').filter(
+                createdDate__year=currentYear)
+            lastProjectNum = currentYearProjectNums.aggregate(Max('projectNum'))
+            maxProjectNum = lastProjectNum['projectNum__max']
+
+            if (maxProjectNum == None) or (maxProjectNum < 1):
+                obj.projectNum = int(currentYearStr[-2:] + "0001")
+            else:
+                obj.projectNum = maxProjectNum +1
+
+            obj.save()
+            return redirect('stylistdivision:detail_project', pk= obj.id)
+        
+        else:
+            return render(request, self.template_name, params ) 
+
+
+
+class UpdateProject(UpdateView):
+    template_name = 'stylistdivision/update_project.html'
+    model  = Project
+    form_class = UpdateProjectForm
+    
+    def get_success_url(self):
+        return reverse('stylistdivision:detail_project', kwargs={'pk': self.object.id})
+
+
+
+
+
+
+class ListClient(ListView):
+    template_name = 'stylistdivision/list_client.html'
+    model  = Client
+    fields = '__all__'
+    queryset = Client.objects.all().order_by('kanaName')
+
+
+class DetailClient(DetailView):
+    template_name = 'stylistdivision/detail_client.html'
+    model  = Client
+    fields = '__all__'
+
+class CreateClient(CreateView):
+    template_name = 'stylistdivision/create_client.html'
+    model  = Client
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('stylistdivision:detail_client', kwargs={'pk': self.object.id})
+
+
+class UpdateClient(UpdateView):
+    template_name = 'stylistdivision/update_client.html'
+    model  = Client
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('stylistdivision:detail_client', kwargs={'pk': self.object.id})
+
+
 
 
 
@@ -176,8 +265,8 @@ class ListSettlement(ListView):
             if ('bt_updateStatement' in request.POST):
                 print('bt_updateStatement')
 
-                #2001はスタイリスト事業部債権
-                q_false = Statement.objects.all().filter(bankAccount__id=3,journalCategory__no=2001,divisionCheck=False).order_by('-id')
+                #1102はスタイリスト事業部振込
+                q_false = Statement.objects.all().filter(journalCategory__no=1102,divisionCheck=False).order_by('-id')
                 q_count_false = q_false.count()
 
                 if q_count_false == 0:
@@ -188,9 +277,9 @@ class ListSettlement(ListView):
             
                     for i in range(q_count_false):
 
-                        # 参照対象を定義 #2001はスタイリスト事業部債権
+                        # 参照対象を定義 #1102はスタイリスト事業部振込
                         record = Statement.objects.all().filter(
-                            bankAccount__id=3,journalCategory__no=2001,divisionCheck=False).order_by('id').first() 
+                            journalCategory__no=1102,divisionCheck=False).order_by('id').first() 
 
                         # 年月日コード transactionDate
                         record_transactionDate = record.transactionDate
@@ -200,9 +289,9 @@ class ListSettlement(ListView):
 
                         transactionDate_code = transactionY_code + transactionM_code + transactionD_code
 
-                        # 同一年月日のレコード数 #2001はスタイリスト事業部債権
+                        # 同一年月日のレコード数 #1102はスタイリスト事業部振込
                         recordCount = Statement.objects.all().filter(
-                            bankAccount__id=3,journalCategory__no=2001,divisionCheck=True,transactionDate=record_transactionDate).count()
+                            journalCategory__no=1102,divisionCheck=True,transactionDate=record_transactionDate).count()
                         recordCount_code = str(recordCount + 1).zfill(2)
 
                         # 番号を更新

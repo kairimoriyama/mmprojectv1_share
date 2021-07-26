@@ -177,23 +177,28 @@
   <!-- 進捗状況に応じた色の設定 -->
 
     {% if item.journalCategory.no == 0 %}
-    <tr class="row-yellow">
-    {% elif item.journalCategory.no == 1001 %}
-    <tr class="row-orange">
-    {% elif item.journalCategory.no == 1002 %}
-    <tr class="row-white">
-    {% elif item.journalCategory.no == 2001 %}
-    <tr class="row-green">
-    {% elif item.journalCategory.no == 3001 %}
-    <tr class="row-purple">
-    {% elif item.journalCategory.no == 7000 %}
-    <tr class="row-blue2">
-    {% elif item.journalCategory.no == 8000 %}
-    <tr class="row-blue3">
-    {% elif item.journalCategory.no == 9000 %}
-    <tr class="row-gray">
-    {% elif item.journalCategory.no == 10000 %}
-    <tr class="row-red">
+      <tr class="row-yellow">
+    {% elif item.journalCategory.no == 1101 %}  <!-- メディア入金 -->
+      <tr class="row-orange">
+    {% elif item.journalCategory.no == 1102 %}   <!-- スタイリスト入金 -->
+      <tr class="row-green">
+    {% elif item.journalCategory.no == 1103 %}   <!-- プラス入金 -->
+      <tr class="row-purple">
+    {% elif item.journalCategory.no == 1103 %}   <!-- 流通入金 -->
+      <tr class="row-purple">
+    {% elif item.journalCategory.no == 1103 %}   <!-- EC流通入金 -->
+      <tr class="row-purple">
+
+    {% elif item.journalCategory.no > 1800 and item.journalCategory.no < 2000 %}   <!-- 口座振替・その他 -->
+      <tr class="row-gray">
+  
+
+    {% elif item.journalCategory.no > 2010 and item.journalCategory.no < 2020 %}   <!-- 経費 -->
+      <tr class="row-blue2">
+
+    {% elif item.journalCategory.no > 2020 and item.journalCategory.no < 2030 %}   <!-- 仕入 -->
+      <tr class="row-blue3">
+
     {% endif %}
 
       <td class="sticky_col_td first_col text_align_center">
