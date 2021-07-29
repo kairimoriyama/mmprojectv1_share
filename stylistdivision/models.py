@@ -105,9 +105,9 @@ class Project(models.Model):
     projectProgress = models.ForeignKey(ProjectProgress,on_delete=models.PROTECT, related_name ='project_projectProgress',default=1)    
     createdDate = models.DateField(default=timezone.now, blank=True,null=True)
     quotationDate = models.DateField(blank=True,null=True)
-    quotationNum =  models.IntegerField(blank=False,null=False)
+    quotationNum =  models.IntegerField(blank=True,null=True)
     invoiceDate = models.DateField(blank=True,null=True)
-    invoiceNum =  models.IntegerField(blank=False,null=False)
+    invoiceNum =  models.IntegerField(blank=True,null=True)
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
 
     mSatffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='project_mStaffDivision') 
