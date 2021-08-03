@@ -219,10 +219,8 @@
 
   <dl class="item_dl item19">
     <dt class="height_m sentence_dt1">管理<br>メモ</dt>
-    <dd class="height_m sentence_dd1 sentence_dd_scroll">
-      {% if not object.adminDescription %}
-      {% else %}
-        {{ object.adminDescription }}
+    <dd class="height_m sentence_dd1 sentence_dd_scroll">{% if not object.adminDescription %}
+      {% else %}{{ object.adminDescription }}
       {% endif %}
     </dd>
   </dl>

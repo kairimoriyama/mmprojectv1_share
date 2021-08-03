@@ -94,7 +94,7 @@
     <dd>{{search_form.bankAccount}}</dd>
   </dl>
 
-  <dl class="payment_filter">
+  <dl>
     <dt>区分</dt>
     <dd>
       <input type="radio" name="arOrAp" value="0"><p class="margin_left_s margin_right_s">支払</p>
@@ -103,10 +103,12 @@
     </dd>
   </dl>
 
-  <dl class="progress_filter">
-    <dt>確認</dt>
-    <dd class="text_align_center" >
-      <input id="progress" name="progress" type="checkbox" value="1">
+  <dl>
+    <dt>事業部受信</dt>
+    <dd>
+      <input type="radio" name="divisionCheck" value="0"><p class="margin_left_s margin_right_s">済</p>
+      <input type="radio" name="divisionCheck" value="1"><p class="margin_left_s margin_right_s">未</p>
+      <input type="radio" name="divisionCheck" value="2" checked="checked"><p class="margin_left_s">両方</p>
     </dd>
   </dl>
 
@@ -166,8 +168,8 @@
     <th>受取額</th>
     <th>残高</th>
     <th>仕訳区分</th>
+		<th>受信</th>
 		<th>進捗</th>
-		<th>確認</th>
     <th>メモ</th>
 
   </tr>
@@ -225,18 +227,21 @@
         {% else %}
         {% endif %}
       </td>
+
+      <td class="text_align_center">
+        {% if item.divisionCheck == True %}
+          <p>&check;</p>
+        {% else %}
+        {% endif %}
+      </td>
+      
       <td>
         {% if item.progress %}
           {{ item.progress }}
         {% else %}
         {% endif %}
       </td>
-      <td>
-        {% if item.divisionCheck == True %}
-          <p>&check;</p>
-        {% else %}
-        {% endif %}
-      </td>
+
       <td>
         {% if item.adminMemo %}
           {{ item.adminMemo }}
