@@ -67,8 +67,8 @@ class Client(models.Model):
     address2 = models.CharField(max_length=50,blank=False,null=False)
     clientCategory = models.ForeignKey(ClientCategory,on_delete=models.PROTECT, related_name ='clientCategory',blank=True,null=True)
     description = models.TextField(max_length=1000, blank=True,null=True)
-    refURL1 = models.URLField(max_length=300, blank=True,null=True)
-    refURL2 = models.URLField(max_length=300, blank=True,null=True)
+    refURL1 = models.URLField(max_length=1800, blank=True,null=True)
+    refURL2 = models.URLField(max_length=1800, blank=True,null=True)
 
     class Meta:
         verbose_name_plural="Client"
@@ -140,9 +140,9 @@ class Project(models.Model):
 
     location =models.CharField(max_length=200,blank=True,null=True)
 
-    refURL1 = models.URLField(max_length=2000, blank=True,null=True)
-    refURL2 = models.URLField(max_length=2000, blank=True,null=True)
-    refURL3 = models.URLField(max_length=2000, blank=True,null=True)
+    refURL1 = models.URLField(max_length=1800, blank=True,null=True)
+    refURL2 = models.URLField(max_length=1800, blank=True,null=True)
+    refURL3 = models.URLField(max_length=1800, blank=True,null=True)
 
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
