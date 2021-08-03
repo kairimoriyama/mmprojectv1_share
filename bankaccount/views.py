@@ -44,7 +44,7 @@ class StatementList(ListView):
         bankAccount = self.request.GET.get('bankAccount')
         journalCategory = self.request.GET.get('selected_journalCategory')
         arOrAp = self.request.GET.get('arOrAp')
-        progress = self.request.GET.get('progress')
+        divisionCheck = self.request.GET.get('divisionCheck')
         description1 = self.request.GET.get('description1')
         description2 = self.request.GET.get('description2')
         adminMemo = self.request.GET.get('adminMemo')
@@ -56,7 +56,7 @@ class StatementList(ListView):
         self.request.session['bankAccount'] = bankAccount
         self.request.session['journalCategory'] = journalCategory
         self.request.session['arOrAp'] = arOrAp
-        self.request.session['progress'] = progress
+        self.request.session['divisionCheck'] = divisionCheck
         self.request.session['description1'] = description1
         self.request.session['description2'] = description2
         self.request.session['adminMemo'] = adminMemo

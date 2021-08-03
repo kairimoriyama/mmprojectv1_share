@@ -114,13 +114,13 @@ function set_search_key(){
   }
 
   //ラジオボタンの値を確認
-  let progress = document.getElementsByName('progress');
-  let len_progress = progress.length;
-  let checkedValue_progress = '';
+  let divisionCheck = document.getElementsByName('divisionCheck');
+  let len_divisionCheck = divisionCheck.length;
+  let checkedValue_divisionCheck = '';
 
-  for (let i = 0; i < len_progress ; i++){
-    if (progress[i].checked){
-      checkedValue_progress = progress[i].value;
+  for (let i = 0; i < len_divisionCheck ; i++){
+    if (divisionCheck[i].checked){
+      checkedValue_divisionCheck = divisionCheck[i].value;
     }
   }
 
@@ -137,7 +137,7 @@ function set_search_key(){
     "key1": bankAccount,
     "key2": journalCategory,
     "key3": checkedValue_arOrAp,
-    "key4": checkedValue_progress,
+    "key4": checkedValue_divisionCheck,
     "key5": description1,
     "key6": description2,
     "key7": adminMemo,
@@ -177,7 +177,7 @@ function get_search_key() {
     document.getElementsByName('arOrAp')[i].checked = true;
 
     let j = Number(dataset["key4"]);
-    document.getElementsByName('progress')[j].checked = true;
+    document.getElementsByName('divisionCheck')[j].checked = true;
 
 
     document.getElementById('description1').value= dataset["key5"];
@@ -223,7 +223,7 @@ function clear_criteria(){
   document.getElementById('id_bankAccount').value= null;
   document.getElementById('id_journalCategory').value= null;
   document.getElementsByName('arOrAp')[2].checked = true;
-  document.getElementsByName('progress')[2].checked = true;
+  document.getElementsByName('divisionCheck')[2].checked = true;
   document.getElementById('description1').value= null;
   document.getElementById('description2').value= null;
   document.getElementById('adminMemo').value= null;
