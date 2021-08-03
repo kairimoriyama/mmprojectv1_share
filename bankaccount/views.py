@@ -17,7 +17,7 @@ from .forms import  InputForm
 class StatementList(ListView):
     template_name = 'bankaccount/list_all.html'
     fields = '__all__'
-    paginate_by = 21
+    paginate_by = 19
     queryset =Statement.objects.all().order_by('-id')
 
     def __init__(self, **kwargs):
