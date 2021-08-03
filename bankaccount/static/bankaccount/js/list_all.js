@@ -104,16 +104,26 @@ function set_search_key(){
 
   //ラジオボタンの値を確認
   let arOrAp = document.getElementsByName('arOrAp');
-  let len = arOrAp.length;
-  let checkedValue = '';
+  let len_arOrAp = arOrAp.length;
+  let checkedValue_arOrAp = '';
 
-  for (let i = 0; i < len ; i++){
+  for (let i = 0; i < len_arOrAp ; i++){
     if (arOrAp[i].checked){
-      checkedValue = arOrAp[i].value;
+      checkedValue_arOrAp = arOrAp[i].value;
     }
   }
 
-  let progress = document.getElementById('progress').checked;
+  //ラジオボタンの値を確認
+  let progress = document.getElementsByName('progress');
+  let len_progress = progress.length;
+  let checkedValue_progress = '';
+
+  for (let i = 0; i < len_progress ; i++){
+    if (progress[i].checked){
+      checkedValue_progress = progress[i].value;
+    }
+  }
+
   let description1 = document.getElementById('description1').value;
   let description2 = document.getElementById('description2').value;
   let adminMemo = document.getElementById('adminMemo').value;
@@ -126,8 +136,8 @@ function set_search_key(){
     "key0": selected_bankAccount,
     "key1": bankAccount,
     "key2": journalCategory,
-    "key3": checkedValue,
-    "key4": progress,
+    "key3": checkedValue_arOrAp,
+    "key4": checkedValue_progress,
     "key5": description1,
     "key6": description2,
     "key7": adminMemo,
@@ -166,11 +176,9 @@ function get_search_key() {
     console.log(i)
     document.getElementsByName('arOrAp')[i].checked = true;
 
-    if (dataset["key4"] == true) {
-      document.getElementById('progress').checked = true;
-    }else{
-      document.getElementById('progress').checked = false;
-    };
+    let j = Number(dataset["key4"]);
+    document.getElementsByName('progress')[j].checked = true;
+
 
     document.getElementById('description1').value= dataset["key5"];
     document.getElementById('description2').value= dataset["key6"];
@@ -215,7 +223,7 @@ function clear_criteria(){
   document.getElementById('id_bankAccount').value= null;
   document.getElementById('id_journalCategory').value= null;
   document.getElementsByName('arOrAp')[2].checked = true;
-  document.getElementById('progress').checked = false;
+  document.getElementsByName('progress')[2].checked = true;
   document.getElementById('description1').value= null;
   document.getElementById('description2').value= null;
   document.getElementById('adminMemo').value= null;

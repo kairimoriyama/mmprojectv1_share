@@ -94,7 +94,7 @@
     <dd>{{search_form.bankAccount}}</dd>
   </dl>
 
-  <dl class="payment_filter">
+  <dl>
     <dt>区分</dt>
     <dd>
       <input type="radio" name="arOrAp" value="0"><p class="margin_left_s margin_right_s">支払</p>
@@ -103,10 +103,12 @@
     </dd>
   </dl>
 
-  <dl class="progress_filter">
-    <dt>確認</dt>
-    <dd class="text_align_center" >
-      <input id="progress" name="progress" type="checkbox" value="1">
+  <dl>
+    <dt>事業部確認</dt>
+    <dd>
+      <input type="radio" name="progress" value="0"><p class="margin_left_s margin_right_s">済</p>
+      <input type="radio" name="progress" value="1"><p class="margin_left_s margin_right_s">未</p>
+      <input type="radio" name="progress" value="2" checked="checked"><p class="margin_left_s">両方</p>
     </dd>
   </dl>
 
