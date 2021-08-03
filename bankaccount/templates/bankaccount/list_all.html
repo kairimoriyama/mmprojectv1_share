@@ -227,18 +227,21 @@
         {% else %}
         {% endif %}
       </td>
-      <td>
-        {% if item.progress %}
-          {{ item.progress }}
-        {% else %}
-        {% endif %}
-      </td>
+
       <td>
         {% if item.divisionCheck == True %}
           <p>&check;</p>
         {% else %}
         {% endif %}
       </td>
+      
+      <td>
+        {% if item.progress %}
+          {{ item.progress }}
+        {% else %}
+        {% endif %}
+      </td>
+
       <td>
         {% if item.adminMemo %}
           {{ item.adminMemo }}
