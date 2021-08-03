@@ -85,10 +85,8 @@
 
   <dl class="item_dl item9">
     <dt class="height_l sentence_dt2">発注者<br>備考</dt>
-    <dd class="height_l sentence_dd2 sentence_dd_scroll">
-      {% if object.orderDescription %}
-      {{ object.orderDescription}}
-      {% endif %}
+    <dd class="height_l sentence_dd2 sentence_dd_scroll">{% if object.orderDescription %}{{ object.orderDescription}}
+    {% endif %}
     </dd>
   </dl>
 
@@ -112,9 +110,7 @@
 
   <dl class="item_dl item12">
     <dt class="height_l sentence_dt2">検収メモ</dt>
-    <dd class="height_l sentence_dd2">
-      {% if object.acceptanceMemo %}
-      {{ object.acceptanceMemo }}
+    <dd class="height_l sentence_dd2 sentence_dd_scroll">{% if object.acceptanceMemo %}{{ object.acceptanceMemo }}
       {% endif %}
     </dd>
   </dl>
