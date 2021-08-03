@@ -124,40 +124,51 @@ class StatementList(ListView):
             elif arOrAp == "2":
                 queryset3_2 = queryset2.all()
 
+
+            if divisionCheck == "0":
+                queryset4 = queryset3_2.filter(divisionCheck=True)
+
+            elif divisionCheck == "1":
+                queryset4 = queryset3_2.filter(divisionCheck=False)
+
+            elif divisionCheck == "2":
+                queryset4 = queryset3_2
+
+
             # description1
             if description1:
-                queryset4 = queryset3_2.filter(description1__icontains=description1)
+                queryset5 = queryset4.filter(description1__icontains=description1)
             else: 
-                queryset4 = queryset3_2.all()
+                queryset5 = queryset4.all()
 
             # description2
             if description2:
-                queryset5 = queryset4.filter(description2__icontains=description2)
-            else: 
-                queryset5 = queryset4.all()    
-
-            # adminMemo
-            if adminMemo:
-                queryset6 = queryset5.filter(adminMemo__icontains=adminMemo)
+                queryset6 = queryset5.filter(description2__icontains=description2)
             else: 
                 queryset6 = queryset5.all()    
 
+            # adminMemo
+            if adminMemo:
+                queryset7 = queryset6.filter(adminMemo__icontains=adminMemo)
+            else: 
+                queryset7 = queryset6.all()    
+
             # 日付の絞込（自）
             if transactionDateFrom :
-                queryset7 = queryset6.filter(
+                queryset8 = queryset7.filter(
                     transactionDate__gte=transactionDateFrom)
             else:                 
-                queryset7 = queryset6.all()
+                queryset8 = queryset7.all()
 
 
             # 日付の絞込（至）
             if transactionDateTo :
-                queryset8 = queryset7.filter(
+                queryset9 = queryset8.filter(
                     transactionDate__lte=transactionDateTo)
             else:                 
-                queryset8 = queryset7.all()
+                queryset9 = queryset8.all()
 
-            queryset = queryset8
+            queryset = queryset9
 
         # ページ遷移直後のNullでは絞込なし
         else:
