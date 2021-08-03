@@ -240,8 +240,13 @@ class StatementList(ListView):
                     # recordを更新
                     for record_id in record_list:
                         record = get_object_or_404(Statement, pk=record_id)
-                        record.journalCategory = selected_journalCategory 
-                        record.save()
+
+                        if not record.no:
+                            print("発番なし")
+                            pass
+                        else:
+                            record.journalCategory = selected_journalCategory 
+                            record.save()
 
                     return self.get(request, *args, **kwargs)      
 
