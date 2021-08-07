@@ -295,10 +295,9 @@ class ItemDetailFilter(DetailView):
   
         # 絞込み前の初期値
         queryset0 = Item.objects_list.all_list()
-        item_list_queryset = queryset0
-
-
-        if item_list_type == 'filter':
+            
+        if queryset0:
+            print(queryset0)
 
             # 協議案件/共有案件
             if ideaOrAction == "0":   #協議案件のみ
@@ -321,13 +320,20 @@ class ItemDetailFilter(DetailView):
                 queryset3 = queryset2.all()
 
             # 所属の絞り込み
-            if division == "0": #全部門
+            if not division : 
+                queryset4 = queryset3.all()
+
+            elif division == "0": #全部門
                 queryset4 = queryset3.all()
             else:               #全部門以外
                 queryset4 = queryset3.filter( division__exact=division)
             
             # 進捗・完了日の絞り込み
-            if progress == "0":   #全進捗
+
+            if not progress:
+                queryset5 = queryset4.all()
+
+            elif progress == "0":   #全進捗
                 queryset5 = queryset4.all()
 
             elif progress == "4": #完了案件のみ
@@ -367,7 +373,11 @@ class ItemDetailFilter(DetailView):
 
 
             # 担当者の絞込
-            if staffdb == "0":   #全社員
+
+            if not staffdb: 
+                queryset7 = queryset6_2.all()
+
+            elif staffdb == "0":   #全社員
                 queryset7 = queryset6_2.all()
             else: 
                 queryset7 = queryset6_2.filter(staffdb__exact=staffdb)
@@ -405,15 +415,15 @@ class ItemDetailFilter(DetailView):
             else:
                 queryset12 = queryset11.all()
 
-
             item_list_queryset = queryset12
 
+            context['prev'] = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
+            context['next'] = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
 
         else:
-            item_list_queryset = queryset0
-
-        context['prev'] = item_list_queryset.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
-        context['next'] = item_list_queryset.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
+            print("B")
+            context['prev'] = Item.objects.filter(itemNum__gt=item.itemNum).order_by('itemNum').first()
+            context['next'] = Item.objects.filter(itemNum__lt=item.itemNum).order_by('itemNum').last()
 
         return context
 
