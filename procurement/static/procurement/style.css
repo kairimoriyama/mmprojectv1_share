@@ -160,6 +160,10 @@ button{
     background-color: #fff;
 }
 
+.margin_left_s{
+    margin-left: 0.5rem;
+}
+
 .margin_left{
     margin-left: 1rem;
 }
@@ -235,7 +239,6 @@ button{
     display: block;
 
     color: #222222;
-    margin-bottom: 0.8rem;
     margin: 0;
     width:10rem;
     line-height: 3rem;
@@ -258,8 +261,6 @@ button{
     text-decoration: none;
     display: block;
 
-    margin-bottom: 0.8rem;
-    margin: 0;
     width:5rem;
     line-height: 3rem;
     text-align: center;
