@@ -62,25 +62,6 @@ function filter_item_bt(){
 function clear_criteria(){
   localStorage.setItem('goodidea_displayKey', '1'); //1を設定
 
-  // document.getElementById('display_button').checked = false; // 表示モードに設定
-
-  // let display_button = document.getElementById('display_button').checked;
-  
-  // let dataset = JSON.parse(localStorage.getItem('search_key'));
-
-  // if (dataset === null) {
-    
-  // dataset = ({
-  //   "goodidea_displayButton": display_button //チェックの状態
-  // });
-
-  // }else{
-  //   dataset["goodidea_displayButton"] = false;
-  // };
-
-  // let datasetJSON = JSON.stringify(dataset); // JSONに変換
-  // localStorage.setItem('search_key', datasetJSON); 
-
 };
 
 
@@ -120,8 +101,6 @@ function set_search_key(){
 
   localStorage.setItem('count_key', '1'); //カウント1を設定
   localStorage.removeItem('search_key');
-
-  let display_button = document.getElementById('display_button').checked;
 
   let staffdb = document.getElementById('staffdb').value;
   let division = document.getElementById('division').value;
@@ -167,8 +146,6 @@ function set_search_key(){
     "key13": system,  //チェックの状態
     "key14": internalDiscussion,  //チェックの状態
     "key15": consideration,  //チェックの状態
-
-    "goodidea_displayButton": display_button //チェックの状態
 
   });
  
@@ -252,13 +229,6 @@ function get_search_key() {
     }else{
       document.getElementById('consideration').checked = false;
     };
-
-
-    // if (params.get('goodidea_displayButton')!= null && params.get('goodidea_displayButton') == 1) {
-    //   document.getElementById('display_button').checked = false;
-    // }else{
-    //   document.getElementById('display_button').checked = true;
-    // };
 
 
     // 完了日の表示・非表示切り替え
