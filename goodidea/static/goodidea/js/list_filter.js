@@ -1,13 +1,10 @@
 const filter_items = document.getElementById("filter_items");
-const filter_bt_on = document.getElementById("filter_bt_on");
-const filter_bt_off = document.getElementById("filter_bt_off");
+
 
 function display_on(){
   
   filter_items.style.display ="flex";
-  filter_bt_on.style.display ="block";
-  filter_bt_off.style.display ="none";
-  document.getElementById("display_button_color").style.background = "rgb(255, 255, 227)";
+  document.getElementById('display_button').checked = false;
 
   let dataset = JSON.parse(localStorage.getItem('search_key'));
 
@@ -25,10 +22,8 @@ function display_on(){
 
 function display_off(){
   
-  filter_items.style.display ="none";
-    filter_bt_on.style.display ="none";
-    filter_bt_off.style.display ="block";
-    document.getElementById("display_button_color").style.background = "rgb(192, 222, 236)";
+    filter_items.style.display ="none";
+    document.getElementById('display_button').checked = true;
     document.getElementById("completionDateFilter").style.display ="none";
 
 };
@@ -36,14 +31,15 @@ function display_off(){
 //表示・非表示の初期値
 function display_criteria(){
 
-  if (parseInt(localStorage.getItem('display_key'))==1) {
+  if (parseInt(localStorage.getItem('goodidea_displayKey'))==1) {
 
     display_on();
+    document.getElementById('display_button').checked = false;
     
   }else{
 
     display_off();
-
+    document.getElementById('display_button').checked = true;
   };
 };
 
@@ -55,18 +51,38 @@ function filter_item_bt(){
 
     display_on();
 
-    localStorage.setItem('display_key', '1'); //1を設定
+    localStorage.setItem('goodidea_displayKey', '1'); //1を設定
     
   }else{
 
     display_off();
 
-    localStorage.setItem('display_key', '0'); //0を設定
+    localStorage.setItem('goodidea_displayKey', '0'); //0を設定
   }
 };
 
 function clear_criteria(){
-  localStorage.setItem('display_key', '1'); //0を設定
+  localStorage.setItem('goodidea_displayKey', '1'); //0を設定
+
+  document.getElementById('display_button').checked = false; // 表示モードに設定
+
+  let display_button = document.getElementById('display_button').checked;
+  
+  let dataset = JSON.parse(localStorage.getItem('search_key'));
+
+  if (dataset === null) {
+    
+  dataset = ({
+    "goodidea_displayButton": display_button //チェックの状態
+  });
+
+  }else{
+    dataset["goodidea_displayButton"] = false;
+  };
+
+  let datasetJSON = JSON.stringify(dataset); // JSONに変換
+  localStorage.setItem('search_key', datasetJSON); 
+
 };
 
 
@@ -106,6 +122,8 @@ function set_search_key(){
 
   localStorage.setItem('count_key', '1'); //カウント1を設定
   localStorage.removeItem('search_key');
+
+  let display_button = document.getElementById('display_button').checked;
 
   let staffdb = document.getElementById('staffdb').value;
   let division = document.getElementById('division').value;
@@ -147,10 +165,12 @@ function set_search_key(){
     "key9": completionDateFrom,
     "key10": completionDateTo,
     "key11": checkedValue,  //ラジオボタンの値
-    "key12": purchase,  //チェックリストの状態
-    "key13": system,  //チェックリストの状態
-    "key14": internalDiscussion,  //チェックリストの状態
-    "key15": consideration  //チェックリストの状態
+    "key12": purchase,  //チェックの状態
+    "key13": system,  //チェックの状態
+    "key14": internalDiscussion,  //チェックの状態
+    "key15": consideration,  //チェックの状態
+
+    "goodidea_displayButton": display_button //チェックの状態
 
   });
  
@@ -235,6 +255,14 @@ function get_search_key() {
       document.getElementById('consideration').checked = false;
     };
 
+
+    if (params.get('goodidea_displayButton')!= null && params.get('goodidea_displayButton') == 1) {
+      document.getElementById('display_button').checked = false;
+    }else{
+      document.getElementById('display_button').checked = true;
+    };
+
+
     // 完了日の表示・非表示切り替え
     if (params.get('progress')!= null  && params.get('progress')==4) {
       document.getElementById("completionDateFilter").style.display ="block";
@@ -244,21 +272,52 @@ function get_search_key() {
 
   }else{
 
+
+    if (dataset["goodidea_displayButton"] == true) {
+      document.getElementById('display_button').checked = true;
+    }else{
+      document.getElementById('display_button').checked = false;
+    };
+
     // 検索条件をフォームに入力
+    if (dataset["key1"] != null){
     document.getElementById('staffdb').value= dataset["key1"];
-    document.getElementById('division').value = dataset["key2"];
-    document.getElementById('inchargeStaff').value= dataset["key3"];
-    document.getElementById('inchargeDivision').value= dataset["key4"];
-    document.getElementById('progress').value= dataset["key5"];
-    document.getElementById('word').value= dataset["key6"];
-    document.getElementById('submissionDateFrom').value= dataset["key7"];
-    document.getElementById('submissionDateTo').value= dataset["key8"];
-    document.getElementById('completionDateFrom').value= dataset["key9"];
-    document.getElementById('completionDateTo').value= dataset["key10"];
+    };
+    if (dataset["key2"] != null){
+    document.getElementById('division').value= dataset["key2"];
+    };
+    if (dataset["key3"] != null){
+      document.getElementById('inchargeStaff').value= dataset["key3"];
+    };
+    if (dataset["key4"] != null){
+      document.getElementById('inchargeDivision').value= dataset["key4"];
+    };
+    if (dataset["key5"] != null){
+      document.getElementById('progress').value= dataset["key5"];
+    };
+    if (dataset["key6"] != null){
+      document.getElementById('word').value= dataset["key6"];
+    };
+
+    if (dataset["key7"] != null){
+      document.getElementById('submissionDateFrom').value= dataset["key7"];
+    };
+    if (dataset["key8"] != null){
+      document.getElementById('submissionDateTo').value= dataset["key8"];
+    };
+    if (dataset["key9"] != null){
+      document.getElementById('completionDateFrom').value= dataset["key9"];
+    };
+    if (dataset["key10"] != null){
+      document.getElementById('completionDateTo').value= dataset["key10"];
+    };
+
 
     //ラジオボタンの値設定
+    if (dataset["key11"] != null){
     let i = Number(dataset["key11"]);
     document.getElementsByName('ideaOrAction')[i].checked = true;
+    };
 
     if (dataset["key12"] == true) {
       document.getElementById('purchase').checked = true;
