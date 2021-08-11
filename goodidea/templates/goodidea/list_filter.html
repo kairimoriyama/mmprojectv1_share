@@ -2,11 +2,17 @@
 
 
 {% block header %}
-    <li><p class="create_post">新規投稿 &#8658;</p></li>
-    <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_idea' %}">1. 提案</a></li>
-    <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_action' %}">2. 完了共有</a></li>
+  <li><p class="create_post">新規投稿 &#8658;</p></li>
+  <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_idea' %}">1. 提案</a></li>
+  <li><a class="menu_bt menu_bt_l" href="{% url 'goodidea:create_action' %}">2. 完了共有</a></li>
+<!-- 
+  <li><button class="menu_bt export_csv row-gray" type="button" onclick="location.href='/goodidea/export'">CSV 出力</button></li> -->
 
-    <li><button class="menu_bt export_csv row-gray" type="button" onclick="location.href='/goodidea/export'">CSV 出力</button></li>
+  <li>
+    <form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
+      <input class="menu_bt export_csv row-gray" type="submit"  name="output_csv" value="CSV 出力">
+    </form>
+  </li>
   
 {% endblock%}
 
