@@ -41,28 +41,21 @@
 
 <form method="POST" href="" enctype="multipart/form-data" class="menu_wrapper margin_left_right margin_top">{% csrf_token %}
 
-  <dl class="margin_right">
-    <dt class="menu_wrapper_inner">
-      <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
-      <h4 class="margin_left">{{ item_count |intcomma}} 件</h4>
-    </dt>
+  <div class="menu_wrapper_inner">
+    <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
+    <h4 class="margin_left">{{ item_count |intcomma}} 件</h4>
 
-    <dd class="margin_top_l">
-      <div class="menu_wrapper_inner">
-        <h4 class="text_align_center yubi margin_right" id="display_button_color" onclick="display_switch_bt();"><span id="filter_bt_on">表示</span><span id="filter_bt_off">非表示</span></h4>
-        <h4 class="text_align_center yubi" href="" onclick="clear_criteria();">条件削除</a></h4>
-      </div>
-    </dd>
-  </dl>
+    <h4><a class="text_align_center no_text_decoration margin_left yubi" href="{% url 'stylistdivision:list_settlement' %}" onclick="clear_criteria();">条件削除</a></h4>
 
-  <dl class="margin_right">
-    <dt>
+    <div class="app_checkbox margin_left">
+      <input onclick="display_switch_bt();" id="display_button" type="checkbox"><label for="display_button"></label>
+    </div>
+
+    <div class="margin_left">
       <input class="menu_bt width_m yubi" type="submit" value="データ更新" name="bt_updateStatement" onclick="set_search_key()">
-    </dt>
+    </div>
 
-    <dd class="margin_top_l">
-    </dd>
-  </dl>
+  </div>
 
 
   <!-- record id 自動入力 type="hidden"-->

@@ -1,20 +1,18 @@
 const detail_form = document.getElementById("detail_form");
-const filter_bt_on = document.getElementById("filter_bt_on");
-const filter_bt_off = document.getElementById("filter_bt_off");
 
 function display_off(){
 
   detail_form.style.display ="none";
-  filter_bt_on.style.display ="flex";
-  filter_bt_off.style.display ="none";
+  document.getElementById('display_button').checked = true;
+
 };
 
 
 function display_on(){
   
   detail_form.style.display ="flex";
-  filter_bt_on.style.display ="none";
-  filter_bt_off.style.display ="flex";
+  document.getElementById('display_button').checked = false;
+
 };
 
 //表示・非表示の初期値

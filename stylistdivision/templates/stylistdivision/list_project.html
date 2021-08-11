@@ -52,7 +52,9 @@
 
     <button class="padding_zero yubi margin_left" href="" onclick="clear_criteria();"><h4>条件削除</h4></button>
 
-    <h4 class="text_align_center yubi margin_left" id="display_button_color" onclick="display_switch_bt();"><span id="filter_bt_on">表示</span><span id="filter_bt_off">非表示</span></h4>
+    <div class="app_checkbox margin_left">
+      <input onclick="display_switch_bt();" id="display_button" type="checkbox"><label for="display_button"></label>
+    </div>
 
   </div>
 
@@ -189,7 +191,7 @@
 
 
 {% load static %}
-<script src="{% static 'stylistdivision/js/list_settlement.js' %}"></script>
+<script src="{% static 'stylistdivision/js/list_project.js' %}"></script>
   
 
 
