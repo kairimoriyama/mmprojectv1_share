@@ -1,22 +1,17 @@
 const filter_items = document.getElementById("filter_items");
-const filter_bt_on = document.getElementById("filter_bt_on");
-const filter_bt_off = document.getElementById("filter_bt_off");
 
 function display_on(){
   
   filter_items.style.display ="flex";
-  filter_bt_on.style.display ="block";
-  filter_bt_off.style.display ="none";
-  document.getElementById("display_button_color").style.background = "rgb(255, 255, 227)";
+  document.getElementById('display_button').checked = false;
+
 
 };
 
 function display_off(){
   
   filter_items.style.display ="none";
-    filter_bt_on.style.display ="none";
-    filter_bt_off.style.display ="block";
-    document.getElementById("display_button_color").style.background = "rgb(192, 222, 236)";
+  document.getElementById('display_button').checked = true;
 
 };
 
@@ -53,7 +48,7 @@ function filter_item_bt(){
 };
 
 function clear_criteria(){
-  localStorage.setItem('display_key_procurement', '1'); //0を設定
+  localStorage.setItem('display_key_procurement', '1'); //1を設定
 };
 
 

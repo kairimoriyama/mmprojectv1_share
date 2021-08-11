@@ -1,20 +1,18 @@
 const detail_form = document.getElementById("detail_form");
-const filter_bt_on = document.getElementById("filter_bt_on");
-const filter_bt_off = document.getElementById("filter_bt_off");
 
 function display_off(){
 
   detail_form.style.display ="none";
-  filter_bt_on.style.display ="flex";
-  filter_bt_off.style.display ="none";
+  document.getElementById('display_button').checked = true;
+
 };
 
 
 function display_on(){
   
   detail_form.style.display ="flex";
-  filter_bt_on.style.display ="none";
-  filter_bt_off.style.display ="flex";
+  document.getElementById('display_button').checked = false;
+
 };
 
 //表示・非表示の初期値
@@ -134,6 +132,8 @@ window.onload = get_search_key(); //読み込み時に遷移前の検索条件�
 
 
 function clear_criteria(){
+
+  localStorage.setItem('stylistdivision_display_key', '1'); //1を設定
 
   document.getElementById('id_arCheck').value= null;
   document.getElementById('description2').value= null;
