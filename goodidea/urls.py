@@ -22,7 +22,7 @@ urlpatterns = [
     path('ajax_get_staff/', views.ajax_get_staff, name='ajax_get_staff'),
     path('ajax_get_staff_filter/', views.ajax_get_staff_filter, name='ajax_get_staff_filter'),
 
-    # CSV出力
-    path('export/', views.export_goodidea, name='export_goodidea'),
+    # # CSV出力
+    # path('export/', views.export_goodidea, name='export_goodidea'),
 
 ]
