@@ -34,12 +34,10 @@ function display_criteria(){
   if (parseInt(localStorage.getItem('goodidea_displayKey'))==1) {
 
     display_on();
-    document.getElementById('display_button').checked = false;
     
   }else{
 
     display_off();
-    document.getElementById('display_button').checked = true;
   };
 };
 
@@ -62,26 +60,7 @@ function filter_item_bt(){
 };
 
 function clear_criteria(){
-  localStorage.setItem('goodidea_displayKey', '1'); //0を設定
-
-  document.getElementById('display_button').checked = false; // 表示モードに設定
-
-  let display_button = document.getElementById('display_button').checked;
-  
-  let dataset = JSON.parse(localStorage.getItem('search_key'));
-
-  if (dataset === null) {
-    
-  dataset = ({
-    "goodidea_displayButton": display_button //チェックの状態
-  });
-
-  }else{
-    dataset["goodidea_displayButton"] = false;
-  };
-
-  let datasetJSON = JSON.stringify(dataset); // JSONに変換
-  localStorage.setItem('search_key', datasetJSON); 
+  localStorage.setItem('goodidea_displayKey', '1'); //1を設定
 
 };
 
@@ -256,13 +235,6 @@ function get_search_key() {
     };
 
 
-    if (params.get('goodidea_displayButton')!= null && params.get('goodidea_displayButton') == 1) {
-      document.getElementById('display_button').checked = false;
-    }else{
-      document.getElementById('display_button').checked = true;
-    };
-
-
     // 完了日の表示・非表示切り替え
     if (params.get('progress')!= null  && params.get('progress')==4) {
       document.getElementById("completionDateFilter").style.display ="block";
@@ -272,52 +244,22 @@ function get_search_key() {
 
   }else{
 
-
-    if (dataset["goodidea_displayButton"] == true) {
-      document.getElementById('display_button').checked = true;
-    }else{
-      document.getElementById('display_button').checked = false;
-    };
-
     // 検索条件をフォームに入力
-    if (dataset["key1"] != null){
+
     document.getElementById('staffdb').value= dataset["key1"];
-    };
-    if (dataset["key2"] != null){
     document.getElementById('division').value= dataset["key2"];
-    };
-    if (dataset["key3"] != null){
-      document.getElementById('inchargeStaff').value= dataset["key3"];
-    };
-    if (dataset["key4"] != null){
-      document.getElementById('inchargeDivision').value= dataset["key4"];
-    };
-    if (dataset["key5"] != null){
-      document.getElementById('progress').value= dataset["key5"];
-    };
-    if (dataset["key6"] != null){
-      document.getElementById('word').value= dataset["key6"];
-    };
-
-    if (dataset["key7"] != null){
-      document.getElementById('submissionDateFrom').value= dataset["key7"];
-    };
-    if (dataset["key8"] != null){
-      document.getElementById('submissionDateTo').value= dataset["key8"];
-    };
-    if (dataset["key9"] != null){
-      document.getElementById('completionDateFrom').value= dataset["key9"];
-    };
-    if (dataset["key10"] != null){
-      document.getElementById('completionDateTo').value= dataset["key10"];
-    };
-
+    document.getElementById('inchargeStaff').value= dataset["key3"];
+    document.getElementById('inchargeDivision').value= dataset["key4"];
+    document.getElementById('progress').value= dataset["key5"];
+    document.getElementById('word').value= dataset["key6"];
+    document.getElementById('submissionDateFrom').value= dataset["key7"];
+    document.getElementById('submissionDateTo').value= dataset["key8"];
+    document.getElementById('completionDateFrom').value= dataset["key9"];
+    document.getElementById('completionDateTo').value= dataset["key10"];
 
     //ラジオボタンの値設定
-    if (dataset["key11"] != null){
     let i = Number(dataset["key11"]);
     document.getElementsByName('ideaOrAction')[i].checked = true;
-    };
 
     if (dataset["key12"] == true) {
       document.getElementById('purchase').checked = true;

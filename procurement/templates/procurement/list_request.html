@@ -17,7 +17,10 @@
     <div class="filter_bt_wrapper">
       <input type="button" class="menu_bt menu_bt_l yubi row-yellow" id="search_btn" onclick="set_search_key_procurement(),submit();" class="menu_bt" value="検索実施">
       <a class="menu_bt_mg_left yubi tex_decoration_none" href="{% url 'procurement:list_request' %}" onclick="clear_criteria();"><h5>条件削除</h5></a>
-      <p class="menu_bt menu_bt_mg_left yubi row-yellow" id="display_button_color" onclick="filter_item_bt();"><span id="filter_bt_on">条件非表示</span><span id="filter_bt_off">条件表示</span></p>
+
+      <div class="app_checkbox margin_left">
+       <input onclick="filter_item_bt();" id="display_button" type="checkbox"><label for="display_button"></label>
+      </div>
     </div>
 
   </div>
