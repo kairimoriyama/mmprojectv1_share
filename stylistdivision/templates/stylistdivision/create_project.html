@@ -1,17 +1,403 @@
+
 {% extends 'stylistdivision/base.html' %}
-{% load humanize %}
+
+
+{% block head %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'stylistdivision/styles/project.css' %}">
+
+    {% load humanize %}
+
+{% endblock head%}
+
 
 {% block header %}
 
 <li><a class="" href="{% url 'stylistdivision:list_project' %}">戻る</a></li>
 
-{% endblock%}
+{% endblock header %}
 
 
 {% block content %}
 
 
+<div class="container_create_project" >
 
+    <div class="menu_wrapper_inner margin_top margin_bottom item0">
+        <div class="submit_btn_wrapper">
+        <h3 class="margin_right_l">案件情報</h3>
+        <input class="menu_bt width_m margin_right_l" type="submit" value='入力完了'>
+        <h3 class="alert">{{ form.non_field_errors }}</h3>
+        </div>
+    </div>
+
+    <dl class="item_dl item1">
+      <dt>案件番号</dt>
+      <dd>-</dd>
+    </dl>
+
+    <dl class="item_dl item2">
+        <dt>進捗</dt>
+        <dd>{{ form.projectProgress }}</dd>
+      </dl>
+  
+    <dl class="item_dl item3">
+      <dt>納品日・全期間</dt>
+      <dd>
+        <div class="flex_box width_l">{{ form.projectPeriodFrom }}<p>-</p>{{ form.projectPeriodTo }}</div>
+      </dd>
+    </dl>
+
+    <dl class="item_dl item4">
+        <dt>日時詳細</dt>
+        <dd>{{ form.projectPeriodDetail }}</dd>
+    </dl>
+
+    <dl class="item_dl item5">
+        <dt>場所</dt>
+        <dd>{{ form.location}}</dd>
+    </dl>
+    
+    <dl class="item_dl item6">
+      <dt>顧客</dt>
+      <dd>{{ form.client }}</dd>
+    </dl>
+      
+    <dl class="item_dl item7">
+      <dt>案件種別</dt>
+      <dd>{{ form.projectcategory }}</dd>
+    </dl>
+  
+    <dl class="item_dl item8">
+        <dt>案件名</dt>
+        <dd>{{ form.projectName}}</dd>
+    </dl>
+
+    <dl class="item_dl item9 staffNumber">
+      <dt>管理担当</dt>
+      <dd id="managementStaffNumber">
+        <input class="margin_right_s" name="managementStaffNumber" type="number">
+        {{ form.mSatff}}
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item10 multiple_items_starff staffNumber">
+        <dt class="height_m">スタイリスト</dt>
+        <dd class="height_m">
+
+          <div id="stylistStaffNumber1">
+            <p>1</p>
+            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber1" type="number">
+            {{ form.staff1}}
+          </div>
+
+          <div id="stylistStaffNumber2">
+            <p>2</p>
+            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber2" type="number">
+            {{ form.staff2}}
+          </div>
+
+          <div id="stylistStaffNumber3">
+            <p>3</p>
+            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber3" type="number">
+            {{ form.staff3}}
+          </div>
+
+        </dd>
+    </dl>
+
+    <dl class="item_dl item11 multiple_items_starff staffNumber">
+        <dt class="height_m">アシスタント</dt>
+        <dd class="height_m">
+
+          <div id="stylistStaffNumber1">
+            <p>1</p>
+            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber1" type="number">
+            {{ form.assistant1}}
+          </div>
+
+          <div id="stylistStaffNumber2">
+            <p>2</p>
+            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber2" type="number">
+            {{ form.assistant2}}
+          </div>
+
+          <div id="stylistStaffNumber3">
+            <p>3</p>
+            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber3" type="number">
+            {{ form.assistant3}}
+          </div>
+        </dd>
+    </dl>
+
+    <dl class="item_dl item12">
+        <dt class="height_l sentence_dt2">メモ</dt>
+        <dd class="height_l sentence_dd2">{{ form.description}}</dd>
+    </dl>
+    
+ 
+    <dl class="item_dl item13 multiple_items_amount">
+        <dt class="height_ll">税込金額</dt>
+        <dd class="height_ll flex_box_wrap">
+
+          <div class="flex_box">
+            <ul class="flex_box_wrap width_mm space_between">
+                <li class="flex_box"><p>報酬売上</p>{{ form.salesAmount1}}</li>
+                <li class="flex_box"><p>請求実費</p>{{ form.salesAmount2}}</li>
+                <li class="flex_box"><p>その他請求</p>{{ form.salesAmount3}}</li>
+            </ul>
+            <ul class="flex_box_wrap width_mm margin_left flex_end">
+                <li class="flex_box"><p>売上合計</p>{{ form.salesTotal}}</li>
+            </ul>
+          </div>
+
+          <div  class="flex_box margin_top">
+            <ul class="width_mm space_between">
+                <li class="flex_box"><p>外注費</p>{{ form.costAmount1}}</li>
+                <li class="flex_box"><p>社内リース</p>{{ form.costAmount2}}</li>
+                <li class="flex_box"><p>その他経費</p>{{ form.costAmount3}}</li>
+            </ul>
+
+            <ul class="flex_box_wrap width_mm margin_left flex_end">
+                <li class="flex_box"><p>費用合計</p>{{ form.costATotal}}</li>
+            </ul>
+          </div>
+
+        </dd>
+      </dl>
+
+    <dl class="item_dl item14 multiple_items">
+        <dt class="height_l">画像</dt>
+        <dd class="height_l multiple_items_update">
+            <div class="attachment_update">
+                <p>写真（1）</p>
+                <div>{{ form.picture1 }}</div>
+            </div>
+        
+            <div class="attachment_update">
+                <p>写真（2）</p>
+                <div>{{ form.picture2 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（3）</p>
+                <div>{{ form.picture3 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（4）</p>
+                <div>{{ form.picture4 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（5）</p>
+                <div>{{ form.picture5 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（6）</p>
+                <div>{{ form.picture6 }}</div>
+            </div>
+        </dd>
+    </dl>
+        
+    <dl class="item_dl item15 multiple_items">
+        <dt class="height_l">案件資料</dt>
+        <dd class="height_l multiple_items_update">
+
+            <div class="attachment_update">
+                <p>資料（1）</p>
+                <div>{{ form.refFile1 }}</div>
+            </div>
+        
+            <div class="attachment_update">
+                <p>資料（2）</p>
+                <div>{{ form.refFile2 }}</div>
+            </div>
+
+            <div class="attachment_update">
+                <p>資料（3）</p>
+                <div>{{ form.refFile3 }}</div>
+            </div>
+        </dd>
+    </dl>
+
+    <dl class="item_dl item16 multiple_items_URL">
+        <dt class="height_l">URL</dt>
+        <dd class="height_l">
+          <div>{{ form.refURL1 }}</div>
+          <div>{{ form.refURL2 }}</div>
+          <div>{{ form.refURL3 }}</div>
+        </dd>
+    </dl>
+    
+  
+    <dl class="item_dl item17">
+        <dt class="height_l">見積書</dt>
+        <dd class="height_l">
+        </dd>
+    </dl>
+
+    <dl class="item_dl item18">
+        <dt class="height_l">請求書</dt>
+        <dd class="height_l">
+        </dd>
+    </dl>
+
+    <dl class="item_dl item19">
+        <dt class="height_l">領収書</dt>
+        <dd class="height_l">
+        </dd>
+    </dl>
+  
+    <dl class="item_dl item20">
+        <dt>支払情報</dt>
+        <dd>-</dd>
+    </dl>
+  
+    <dl class="item_dl item_dl_dummy_s">
+      <dt></dt> <dd></dd>
+    </dl>
+  
+    <dl class="item_dl item_dl_dummy_l height_m">
+      <dt></dt> <dd></dd>
+    </dl>
+  
+  </div>
+  <hr>
+  
+  
+  {% load static %}
+  <script src="{% static 'procurement/js/create_order_request.js' %}"></script>
+  
+  
+  {% block extrajs %}
+  <script>
+  
+  /*ajax起動用*/
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+  
+  var csrftoken = getCookie('csrftoken');
+  
+  function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  
+  $.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+  });
+  /*----------*/
+  
+  
+  
+  // 管理者
+  
+  let staffNumberElement = document.getElementById('orderStaffNumber').children[0];
+  let staffdbElement = document.getElementById('orderStaffNumber').children[1];
+  
+  console.log(staffNumberElement)
+  console.log(staffNumberElement.value)
+  console.log(staffdbElement)
+  
+  const inputOrderStaffNumber = (select) => {
+   
+    for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
+      staffdbElement.remove(i);
+    };
+  
+    $.ajax({
+        url: "{% url 'procurement:ajax_get_orderStaff' %}",
+        type: 'GET',
+        data: {'orderStaffNumber': staffNumberElement.value},
+    }).done(response => {
+  
+      // 選択肢を作成
+      
+      let items_staffdb = response.staffList
+      console.log(items_staffdb)
+      console.log(items_staffdb.length)
+  
+      for (let i = 0; i < items_staffdb.length; i++) {  
+        let option = document.createElement('option')
+        option.setAttribute('value', items_staffdb[i]['pk']);
+        option.innerHTML = items_staffdb[i]['fullName'];
+  
+        staffdbElement.appendChild(option); 
+        };
+    });
+    console.log(staffdbElement)  
+  };
+  
+  
+  
+  staffdbElement.addEventListener('focus', () => {
+    console.log("test");
+    inputOrderStaffNumber();
+  });
+  
+  
+  
+  // スタイリスト
+  
+  let requetStaffNumberElement = document.getElementById('requestStaffNumber').children[0];
+  let requetStaffdbElement = document.getElementById('requestStaffNumber').children[1];
+  
+  const inputRequestStaffNumber = (select) => {
+   
+    for (let i = requetStaffdbElement.childElementCount-1 ; i >= 0; i--) {  
+      requetStaffdbElement.remove(i);
+    };
+  
+    $.ajax({
+        url: "{% url 'procurement:ajax_get_requestStaff' %}",
+        type: 'GET',
+        data: {'requestStaffNumber': requetStaffNumberElement.value},
+    }).done(response => {
+  
+      // 選択肢を作成
+      
+      let items_staffdb = response.staffList
+      console.log(items_staffdb)
+      console.log(items_staffdb.length)
+  
+      for (let i = 0; i < items_staffdb.length; i++) {  
+        let option = document.createElement('option')
+        option.setAttribute('value', items_staffdb[i]['pk']);
+        option.innerHTML = items_staffdb[i]['fullName'];
+  
+        requetStaffdbElement.appendChild(option); 
+        };
+    });
+    console.log(requetStaffdbElement)  
+  };
+  
+  
+  requetStaffdbElement.addEventListener('focus', () => {
+    console.log("test2");
+    inputRequestStaffNumber();
+  });
+  
+  
+  </script>
+  {% endblock extrajs %}
 
 {% endblock content%}
 

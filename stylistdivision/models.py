@@ -104,10 +104,19 @@ class Project(models.Model):
     projectNum =  models.IntegerField(blank=False,null=False)
     projectProgress = models.ForeignKey(ProjectProgress,on_delete=models.PROTECT, related_name ='project_projectProgress',default=1)    
     createdDate = models.DateField(default=timezone.now, blank=True,null=True)
+
     quotationDate = models.DateField(blank=True,null=True)
     quotationNum =  models.IntegerField(blank=True,null=True)
+    quotationFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    quotationFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    quotationFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
     invoiceDate = models.DateField(blank=True,null=True)
     invoiceNum =  models.IntegerField(blank=True,null=True)
+    invoiceFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    invoiceFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    invoiceFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
 
     mSatffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='project_mStaffDivision') 
@@ -117,9 +126,9 @@ class Project(models.Model):
     staff1 =  models.ForeignKey(StaffDB,on_delete=models.PROTECT, related_name='project_staff1',blank=True,null=True)
     staff2 =  models.ForeignKey(StaffDB,on_delete=models.PROTECT, related_name='project_staff2',blank=True,null=True)
     staff3 =  models.ForeignKey(StaffDB,on_delete=models.PROTECT, related_name='project_staff3',blank=True,null=True)
-    academyStaff1 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff1',blank=True,null=True)
-    academyStaff2 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff2',blank=True,null=True)
-    academyStaff3 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff3',blank=True,null=True)
+    assistant1 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff1',blank=True,null=True)
+    assistant2 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff2',blank=True,null=True)
+    assistant3 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff3',blank=True,null=True)
 
     salesAmount1 = models.IntegerField(blank=True,null=True)
     salesAmount2 = models.IntegerField(blank=True,null=True)
@@ -135,10 +144,18 @@ class Project(models.Model):
     projectName = models.CharField(max_length=200,blank=True,null=True)
     description = models.TextField(max_length=1000,blank=True,null=True)
 
-    projectDateFrom1 = models.DateTimeField(default=timezone.now, blank=True)
-    projectDateTo1 = models.DateTimeField(default=timezone.now, blank=True)
+    projectPeriodFrom = models.DateField(default=timezone.now, blank=True)
+    projectPeriodTo = models.DateField(default=timezone.now, blank=True)
+    projectPeriodDetail = models.CharField(max_length=200,blank=True,null=True)
 
     location =models.CharField(max_length=200,blank=True,null=True)
+
+    picture1 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture2 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture3 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture4 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture5 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
+    picture6 = models.ImageField(upload_to='images/%Y/%m/%d', blank=True,null=True)
 
     refURL1 = models.URLField(max_length=1800, blank=True,null=True)
     refURL2 = models.URLField(max_length=1800, blank=True,null=True)
@@ -147,6 +164,9 @@ class Project(models.Model):
     refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
     refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
+    settlement =  models.ForeignKey(Settlement,on_delete=models.PROTECT,
+        related_name ='settlement',blank=True,null=True)
 
     deletedItem = models.BooleanField(default=False)
 
