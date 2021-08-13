@@ -43,9 +43,9 @@
       </dl>
   
     <dl class="item_dl item3">
-      <dt>納品日・全期間</dt>
+      <dt>納品日・期間</dt>
       <dd>
-        <div class="flex_box width_l">{{ form.projectPeriodFrom }}<p>-</p>{{ form.projectPeriodTo }}</div>
+        <div class="flex_box width_l">{{ form.projectPeriodFrom }}<p>&nbsp;-&nbsp;</p>{{ form.projectPeriodTo }}</div>
       </dd>
     </dl>
 
@@ -226,9 +226,18 @@
     <dl class="item_dl item16 multiple_items_URL">
         <dt class="height_l">URL</dt>
         <dd class="height_l">
-          <div>{{ form.refURL1 }}</div>
-          <div>{{ form.refURL2 }}</div>
-          <div>{{ form.refURL3 }}</div>
+          <div class="flex_box">
+            <p class="margin_right_s">1</p>
+            {{ form.refURL1 }}
+         </div>
+         <div class="flex_box">
+            <p class="margin_right_s">2</p>
+            {{ form.refURL2 }}
+         </div>
+         <div class="flex_box">
+            <p class="margin_right_s">3</p>
+            {{ form.refURL3 }}
+         </div>
         </dd>
     </dl>
     
