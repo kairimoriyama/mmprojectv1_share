@@ -509,7 +509,7 @@ class UpdateFormOrder(ModelForm):
         elif totalAmount ==0 :
             raise forms.ValidationError("金額を入力して下さい")
         
-        elif (not registeredSupplier) and paymentMethod ==1 and ((settlementDate is None) or (settlementDate < today )) :
+        elif (not registeredSupplier) and paymentMethod ==1 and settlementDate is None :
             raise forms.ValidationError('支払予定日を入力してください（個別発注先・銀行振込の場合）')
         
         else:
