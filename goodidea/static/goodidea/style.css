@@ -37,7 +37,9 @@ body{
 input, textarea, select{
     font-family:'Meiryo', sans-serif;
 }
-
+input[type="file"]{
+    font-size: 1.4rem;
+}
 
 /* 必須入力の色設定 */
 input:required,

@@ -36,7 +36,9 @@ body{
 input, textarea, select{
     font-family:'Meiryo', sans-serif;
 }
-
+input[type="file"]{
+    font-size: 1.4rem;
+}
 
 .hidden_s_screen{
     display: none;
