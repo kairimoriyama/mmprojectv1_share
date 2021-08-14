@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'django_ses',
     'django.contrib.humanize',
     'django_resized',
+    'mathfilters',
+    'django_boost',
 ]
 
 

@@ -1,5 +1,7 @@
 {% extends 'stylistdivision/base.html' %}
 {% load humanize %}
+{% load mathfilters %}
+{% load boost %}
 
 {% block header %}
 
@@ -133,16 +135,23 @@
     <th>場所</th>
     <th>顧客</th>
     <th>担当</th>
+    <th>種別</th>
     <th>案件名</th>
     <th>管理者</th>
     <th>スタイリスト</th>
     <th>アシスタント</th>
     <th>メモ</th>
-		<th>売上</th>
-    <th>費用</th>
+		<th>報酬売上</th>
+		<th>実費精算</th>
+		<th>他売上</th>
+		<th>売上合計</th>
+    <th>外注費</th>
+    <th>社内リース</th>
+    <th>他費用</th>
+    <th>費用合計</th>
     <th>粗利</th>
     <th>粗利率</th>
-    <th>納品書</th>
+    <th>見積書</th>
     <th>請求書</th>
     <th>入金</th>
     <th>領収書</th>
@@ -163,34 +172,79 @@
       </td>
 
       <td class="sticky_col_td second_col"><a href="">{{ item.projectNum}}</a></td>
-      <td>{{ item.projectProgress }}</td>
-      <td>{{ item.client }}</td>
-      <td class="date_col">{{ item.statement.quotationDate | date:"Y-m-j"}}</td>
-      <td class="date_col">{{ item.statement.invoiceDate | date:"Y-m-j"}}</td>
-  
-      <td>
-        {% if item.statement.description2 %}
-          {{ item.statement.description2 }}
-        {% else %}
-        {% endif %}
-      </td>
-      <td class="number_col">{{ item.statement.deopsitAmount|intcomma}}</td>
-      <td class="number_col">{{ item.transferFee|intcomma}}</td>
-      <td class="number_col">{{ item.otherAmount|intcomma}}</td>
-      <td class="number_col">{{ item.totalAmount|intcomma}}</td>
 
       <td>
-        {% if item.memo %}
-          {{ item.memo }}
+        {% if item.projectPeriodFrom == item.projectPeriodTo %}
+          {{ item.projectPeriodFrom | date:"m/d" }}
+        {% else %}
+          {{ item.projectPeriodFrom | date:"m/d" }}<p>&nbsp;-&nbsp;</p>{{ item.projectPeriodTo | date:"m/d" }}
+        {% endif %}
+      </td>
+  
+      <td>
+        {% if item.projectPeriodDetail %}
+          {{ item.projectPeriodDetail }}
         {% else %}
         {% endif %}
       </td>
+
       <td>
-        {% if item.refFile %}
-          <p>URL</p>
+        {% if item.location %}
+          {{ item.location }}
         {% else %}
         {% endif %}
-      </td>          
+      </td>
+
+
+      <td>{{ item.client }}</td>
+      <td>
+        {% if item.clientDetail %}
+          {{ item.clientDetail }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td>{{ item.projectcategory }}</td>
+      <td>{{ item.projectName }}</td>
+
+      <td>{{ item.mSatff }}</td>
+
+      <td>{% if item.staff1 %}{{ item.staff1}}{% else %}{% endif %}
+          {% if item.staff2 %}<p>&nbsp;-&nbsp;</p>{{ item.staff2}}{% else %}{% endif %}
+          {% if item.staff2 %}<p>&nbsp;-&nbsp;</p>{{ item.staff3}}{% else %}{% endif %}
+      </td>
+
+      <td>{% if item.assistant3 %}{{ item.assistant1}}{% else %}{% endif %}
+        {% if item.staff2 %}<p>&nbsp;-&nbsp;</p>{{ item.assistant2}}{% else %}{% endif %}
+        {% if item.staff2 %}<p>&nbsp;-&nbsp;</p>{{ item.assistant3}}{% else %}{% endif %}
+      </td>
+
+      <td class="longText">
+        {% if item.description %}
+          {{ item.description }}
+        {% else %}
+        {% endif %}
+      </td>
+
+      <td class="number_col">{{ item.salesAmount1|intcomma}}</td>
+      <td class="number_col">{{ item.salesAmount2|intcomma}}</td>
+      <td class="number_col">{{ item.salesAmount3|intcomma}}</td>
+      <td class="number_col">{{ item.salesTotal|intcomma}}</td>
+      <td class="number_col">{{ item.costAmount1|intcomma}}</td>
+      <td class="number_col">{{ item.costAmount2|intcomma}}</td>
+      <td class="number_col">{{ item.costAmount3|intcomma}}</td>
+      <td class="number_col">{{ item.costATotal|intcomma}}</td>
+      <td class="number_col">{{ item.salesTotal|sub:item.costATotal| intcomma}} </td>
+      <td class="number_col">
+        {% if item.costATotal %}
+          {{ item.salesTotal|sub:item.costATotal|div:item.salesAmount1 | mul:100 |floatformat:-2}}%</td>
+        {% else %}
+        <p>-</p>
+        {% endif %}
+
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>  
   </tr>
 
   {% endfor %}

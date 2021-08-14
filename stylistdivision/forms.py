@@ -49,7 +49,7 @@ class CreateProjectForm(ModelForm):
 
     class Meta:
         model  = Project
-        fields = ('client',
+        fields = ('client','clientDetail',
             'mSatffDivision','mSatff',
             'staff1', 'staff2','staff3',
             'assistant1','assistant2','assistant3',

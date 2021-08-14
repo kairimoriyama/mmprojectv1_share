@@ -105,18 +105,6 @@ class Project(models.Model):
     projectProgress = models.ForeignKey(ProjectProgress,on_delete=models.PROTECT, related_name ='project_projectProgress',default=1)    
     createdDate = models.DateField(default=timezone.now, blank=True,null=True)
 
-    # quotationDate = models.DateField(blank=True,null=True)
-    # quotationNum =  models.IntegerField(blank=True,null=True)
-    # quotationFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # quotationFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # quotationFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-
-    # invoiceDate = models.DateField(blank=True,null=True)
-    # invoiceNum =  models.IntegerField(blank=True,null=True)
-    # invoiceFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # invoiceFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # invoiceFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
     clientDetail = models.CharField(max_length=200,blank=True,null=True)
 
