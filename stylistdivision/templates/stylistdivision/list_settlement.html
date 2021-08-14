@@ -3,7 +3,7 @@
 
 {% block header %}
 
-<li><a href="{% url 'stylistdivision:list_project' %}" class="margin_right">案件管理</a></li>
+<li><a href="{% url 'stylistdivision:list_project' %}">案件管理</a></li>
 
 <ul class="page_nav">
 
@@ -41,7 +41,7 @@
 
 <form method="POST" href="" enctype="multipart/form-data" class="menu_wrapper margin_left_right margin_top">{% csrf_token %}
 
-  <div class="menu_wrapper_inner">
+  <div class="menu_wrapper_inner margin_top margin_bottom">
     <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
     <h4 class="margin_left">{{ item_count |intcomma}} 件</h4>
 
@@ -107,7 +107,7 @@
 
 
 
-<div class="margin_left_right margin_top"><h3>プロジェクト一覧</h3></div>
+<div class="margin_left_right margin_top"><h3>入金一覧</h3></div>
 <table class="item-table">
 
 	<tr>

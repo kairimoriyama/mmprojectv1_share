@@ -50,14 +50,21 @@ class CreateProjectForm(ModelForm):
     class Meta:
         model  = Project
         fields = ('client',
-        'mSatffDivision','mSatff',
-        'staff1', 'staff2','staff3',
-        'academyStaff1','academyStaff2','academyStaff3',
-        'projectcategory','projectName','description',
-        'location',
-        'refURL1','refURL2','refURL3',
-        'refFile1','refFile2','refFile3')
-        widgets = {'submissionDate': DateInput()}
+            'mSatffDivision','mSatff',
+            'staff1', 'staff2','staff3',
+            'assistant1','assistant2','assistant3',
+            'projectcategory','projectName','description',
+            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail',
+            'location',
+            'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
+            'refURL1','refURL2','refURL3',
+            'refFile1','refFile2','refFile3',
+            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
+            'costAmount1','costAmount2','costAmount3','costATotal',
+        )
+        widgets = {'submissionDate': DateInput(),
+            'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
+        }
 
     def __init__(self, *args, **kwargs):
         super(CreateProjectForm, self).__init__(*args, **kwargs)
@@ -82,7 +89,7 @@ class UpdateProjectForm(ModelForm):
         fields = ('client',
         'mSatffDivision','mSatff',
         'staff1', 'staff2','staff3',
-        'academyStaff1','academyStaff2','academyStaff3',
+        'assistant1','assistant2','assistant3',
         'projectcategory','projectName','description',
         'location',
         'refURL1','refURL2','refURL3',

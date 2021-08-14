@@ -6,7 +6,13 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'stylistdivision/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylistdivision/styles/base_stylistdivision.css' %}">
+
+    {% block head %}
+
+
+    {% endblock head%}
+
     <script type="text/javascript"  src="{% static 'jquery-3.6.0.min.js' %}"></script>
 
     <link rel="icon" href="{% static 'favicon.ico' %}">

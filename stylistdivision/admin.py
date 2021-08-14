@@ -66,13 +66,14 @@ class ProjectAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         class Meta:
             model = Project
             fields = ('id','projectNum', 'projectProgress', 'createdDate',
-            'quotationDate','quotationNum', 'invoiceDate','invoiceNum',
-            'client', 'mSatffDivision', 'mSatff', 
-            'staff1', 'staff2','staff3','academyStaff1','academyStaff2', 'academyStaff3',
+            'client','clientDetail', 'mSatffDivision', 'mSatff', 
+            'staff1', 'staff2','staff3','assistant1','assistant2', 'assistant3',
             'salesAmount1', 'salesAmount2', 'salesAmount3', 'salesTotal', 
             'costAmount1', 'costAmount2', 'costAmount3', 'costATotal', 
-            'projectcategory', 'projectName', 'description', 'projectDateFrom1', 'projectDateTo1', 
-            'location', 'refURL1', 'refURL2', 'refURL3', 'refFile1', 'refFile2', 'refFile3',
+            'projectcategory', 'projectName', 'description',
+            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail', 'location',
+            'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
+            'refURL1', 'refURL2', 'refURL3', 'refFile1', 'refFile2', 'refFile3',
             'adminDescription', 'deletedItem',
             )
     resource_class = ProjectResource
