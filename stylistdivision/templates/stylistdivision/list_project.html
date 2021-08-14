@@ -128,15 +128,24 @@
 	<tr>
 		<th class="sticky_col_th first_col">選択</th>
 		<th class="sticky_col_th second_col">No.</th>
-    <th>日付</th>
-    <th>進捗</th>
-    <th>記載</th>
+    <th>納品日・期間</th>
+    <th>日時詳細</th>
+    <th>場所</th>
+    <th>顧客</th>
+    <th>担当</th>
+    <th>案件名</th>
+    <th>管理者</th>
+    <th>スタイリスト</th>
+    <th>アシスタント</th>
+    <th>メモ</th>
+		<th>売上</th>
+    <th>費用</th>
+    <th>粗利</th>
+    <th>粗利率</th>
+    <th>納品書</th>
+    <th>請求書</th>
     <th>入金</th>
-    <th>振込手数料</th>
-    <th>その他金額</th>
-    <th>合計金額</th>
-		<th>債権処理メモ</th>
-    <th>振込情報メモ</th>
+    <th>領収書</th>
   </tr>
   
   {% for item in object_list %}
@@ -150,7 +159,7 @@
     {% endif %}
 
       <td class="sticky_col_td first_col text_align_center">
-        <input type="checkbox" name="selected_record" value="{{ item.pk }}" onclick="selected_record()">
+        <input type="checkbox" name="selected_record" value="{{ item.pk }}" onclick="selected_record();">
       </td>
 
       <td class="sticky_col_td second_col"><a href="">{{ item.projectNum}}</a></td>
