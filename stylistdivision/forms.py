@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
 from .models import ARCheck, ProjectProgress, Client, ProjectCategory, Project
+from staffdb.models import StaffDB
 from django.forms import ModelForm, ModelChoiceField
 
 import datetime
@@ -84,7 +85,16 @@ class CreateProjectForm(ModelForm):
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
         self.fields['mSatff'].required = True
-
+        self.fields['mSatff'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['salesTotal'].widget.attrs['readonly'] = 'readonly'
+        self.fields['costTotal'].widget.attrs['readonly'] = 'readonly'
+        
         # プレースホルダ
         self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'
         self.fields['description'].widget.attrs['placeholder'] = '案件概要、先方担当者との交渉状況、進捗メモ等'
@@ -127,8 +137,15 @@ class UpdateProjectForm(ModelForm):
         self.fields['client'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
-        self.fields['mSatff'].required = True
-
+        self.fields['mSatff'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['salesTotal'].widget.attrs['readonly'] = 'readonly'
+        self.fields['costTotal'].widget.attrs['readonly'] = 'readonly'
 
         # プレースホルダ
         self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'

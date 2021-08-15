@@ -230,7 +230,7 @@
       <td class="number_col">{{ item.salesTotal_exctax|sub:item.costTotal_exctax| intcomma}} </td>
       <td class="number_col">
         {% if item.costTotal %}
-          {{ item.salesTotal_exctax|sub:item.costTotal_exctax|div:item.salesTotal_exctax | mul:100 |floatformat:-2}}%</td>
+          {{ item.salesTotal_exctax|sub:item.costTotal_exctax|div:item.salesTotal_exctax | mul:100 |floatformat:0}}%</td>
         {% else %}
         <p>-</p>
         {% endif %}
