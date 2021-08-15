@@ -46,7 +46,8 @@ class ListProject(ListView):
         context['items_count'] = self.get_queryset().count()
     
         # 金額表示
-        context['items_amount'] = self.get_queryset().aggregate(salesTotal=Sum("salesTotal"))
+        context['items_amount_sales'] = self.get_queryset().aggregate(salesTotal=Sum("salesTotal_exctax"))
+        context['items_amount_cost'] = self.get_queryset().aggregate(costTotal=Sum("costTotal_exctax"))
 
         return context
 
@@ -75,6 +76,20 @@ class CreateProject(CreateView):
 
         if form.is_valid():
             obj = form.save(commit=False)
+
+            obj.createdDate = datetime.date.today()
+
+            # 税抜合計の計算
+
+            salses = (obj.salesAmount1_inctax + obj.salesAmount2_inctax + obj.salesAmount2_inctax)/1.1 \
+                + obj.salesAmount2_notax + obj.salesAmount3_notax
+
+            obj.salesTotal_exctax = round(salses)
+
+            cost = (obj.costAmount1_inctax + obj.costAmount2_inctax + obj.costAmount3_inctax)/1.1 \
+                + obj.costAmount2_notax + obj.costAmount3_notax
+    
+            obj.costTotal_exctax = round(cost)
     
             # requestNumの設定
             currentYear= datetime.date.today().year
@@ -102,9 +117,24 @@ class UpdateProject(UpdateView):
     model  = Project
     form_class = UpdateProjectForm
     
-    def get_success_url(self):
-        return reverse('stylistdivision:detail_project', kwargs={'pk': self.object.id})
 
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+
+        sales = (post.salesAmount1_inctax + post.salesAmount2_inctax + post.salesAmount3_inctax)/1.1 \
+            + post.salesAmount2_notax + post.salesAmount3_notax
+
+        post.salesTotal_exctax = round(sales)
+
+        cost = (post.costAmount1_inctax + post.costAmount2_inctax + post.costAmount3_inctax)/1.1 \
+            + post.costAmount2_notax + post.costAmount3_notax
+
+        post.costTotal_exctax = round(cost)
+
+        post.save()
+        return redirect('stylistdivision:detail_project', pk=post.pk)
 
 
 

@@ -76,6 +76,10 @@ class CreateProjectForm(ModelForm):
         super(CreateProjectForm, self).__init__(*args, **kwargs)
 
         # 初期値・入力規則
+
+        self.fields['projectProgress'].required = True
+        self.fields['projectPeriodFrom'].required = True
+        self.fields['projectPeriodTo'].required = True
         self.fields['client'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
@@ -117,7 +121,9 @@ class UpdateProjectForm(ModelForm):
 
         # 初期値・入力規則
         self.fields['projectNum'].widget.attrs['readonly'] = 'readonly'
-
+        self.fields['projectProgress'].required = True
+        self.fields['projectPeriodFrom'].required = True
+        self.fields['projectPeriodTo'].required = True
         self.fields['client'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True

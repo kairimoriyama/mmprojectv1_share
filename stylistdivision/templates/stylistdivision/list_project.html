@@ -49,8 +49,6 @@
   <div class="menu_wrapper_inner  margin_top margin_bottom">
 
     <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
-    <h4 class="margin_left_l">{{ items_count |intcomma}} 件</h4>
-    <h4 class="margin_left">{{ items_amount.salesTotal |intcomma}} 円</h4>
 
     <button class="padding_zero yubi margin_left" href="" onclick="clear_criteria();"><h4>条件削除</h4></button>
 
@@ -58,6 +56,12 @@
       <input onclick="display_switch_bt();" id="display_button" type="checkbox"><label for="display_button"></label>
     </div>
 
+    <h4 class="margin_left_ll">{{ items_count |intcomma}}件</h4>
+    <h4 class="margin_left_ll">売上税抜&nbsp;{{ items_amount_sales.salesTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll">費用税抜&nbsp;{{ items_amount_cost.costTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll">粗利&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll">粗利率&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal|div:items_amount_sales.salesTotal | mul:100 |floatformat:0}}%</h4>
+    
   </div>
 
   <!-- record id 自動入力 type="hidden"-->
@@ -221,12 +225,12 @@
         {% endif %}
       </td>
 
-      <td class="number_col">{{ item.salesTotal|intcomma}}</td>
-      <td class="number_col">{{ item.costTotal|intcomma}}</td>
-      <td class="number_col">{{ item.salesTotal|sub:item.costTotal| intcomma}} </td>
+      <td class="number_col">{{ item.salesTotal_exctax|intcomma}}</td>
+      <td class="number_col">{{ item.costTotal_exctax|intcomma}}</td>
+      <td class="number_col">{{ item.salesTotal_exctax|sub:item.costTotal_exctax| intcomma}} </td>
       <td class="number_col">
         {% if item.costTotal %}
-          {{ item.salesTotal|sub:item.costTotal|div:item.salesTotal | mul:100 |floatformat:-2}}%</td>
+          {{ item.salesTotal_exctax|sub:item.costTotal_exctax|div:item.salesTotal_exctax | mul:100 |floatformat:-2}}%</td>
         {% else %}
         <p>-</p>
         {% endif %}
