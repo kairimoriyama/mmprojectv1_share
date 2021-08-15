@@ -130,6 +130,7 @@
 	<tr>
 		<th class="sticky_col_th first_col">選択</th>
 		<th class="sticky_col_th second_col">No.</th>
+    <th>進捗</th>
     <th>納品日・期間</th>
     <th>日時詳細</th>
     <th>場所</th>
@@ -141,14 +142,8 @@
     <th>スタイリスト</th>
     <th>アシスタント</th>
     <th>メモ</th>
-		<th>報酬</th>
-		<th>実費精算</th>
-		<th>他売上</th>
-		<th>売上合計</th>
-    <th>外注費</th>
-    <th>社内リース</th>
-    <th>他費用</th>
-    <th>費用合計</th>
+		<th>税抜売上</th>
+    <th>税抜費用</th>
     <th>粗利</th>
     <th>粗利率</th>
     <th>見積書</th>
@@ -172,6 +167,7 @@
       </td>
 
       <td class="sticky_col_td second_col"><a href="{% url 'stylistdivision:detail_project' item.pk %}">{{ item.projectNum}}</a></td>
+      <td>{{ item.projectProgress }}</td>
 
       <td class="center_col">
         {% if item.projectPeriodFrom == item.projectPeriodTo %}
@@ -208,14 +204,14 @@
 
       <td>{{ item.mSatff }}</td>
 
-      <td class="center_col">{% if item.staff1 %}{{ item.staff1}}{% else %}{% endif %}
-          {% if item.staff2 %}<p>&nbsp;-&nbsp;</p>{{ item.staff2}}{% else %}{% endif %}
-          {% if item.staff3 %}<p>&nbsp;-&nbsp;</p>{{ item.staff3}}{% else %}{% endif %}
+      <td class="longText">{% if item.staff1 %}{{ item.staff1}}{% else %}{% endif %}
+          {% if item.staff2 %}-&nbsp;{{ item.staff2}}{% else %}{% endif %}
+          {% if item.staff3 %}-&nbsp;{{ item.staff3}}{% else %}{% endif %}
       </td>
 
-      <td class="center_col">{% if item.assistant1 %}{{ item.assistant1}}{% else %}{% endif %}
-        {% if item.assistant2 %}<p>&nbsp;-&nbsp;</p>{{ item.assistant2}}{% else %}{% endif %}
-        {% if item.assistant3 %}<p>&nbsp;-&nbsp;</p>{{ item.assistant3}}{% else %}{% endif %}
+      <td class="longText">{% if item.assistant1 %}{{ item.assistant1}}{% else %}{% endif %}
+        {% if item.assistant2 %}-&nbsp;{{ item.assistant2}}{% else %}{% endif %}
+        {% if item.assistant3 %}-&nbsp;{{ item.assistant3}}{% else %}{% endif %}
       </td>
 
       <td class="longText">
@@ -225,18 +221,12 @@
         {% endif %}
       </td>
 
-      <td class="number_col">{{ item.salesAmount1|intcomma}}</td>
-      <td class="number_col">{{ item.salesAmount2|intcomma}}</td>
-      <td class="number_col">{{ item.salesAmount3|intcomma}}</td>
       <td class="number_col">{{ item.salesTotal|intcomma}}</td>
-      <td class="number_col">{{ item.costAmount1|intcomma}}</td>
-      <td class="number_col">{{ item.costAmount2|intcomma}}</td>
-      <td class="number_col">{{ item.costAmount3|intcomma}}</td>
-      <td class="number_col">{{ item.costATotal|intcomma}}</td>
-      <td class="number_col">{{ item.salesTotal|sub:item.costATotal| intcomma}} </td>
+      <td class="number_col">{{ item.costTotal|intcomma}}</td>
+      <td class="number_col">{{ item.salesTotal|sub:item.costTotal| intcomma}} </td>
       <td class="number_col">
-        {% if item.costATotal %}
-          {{ item.salesTotal|sub:item.costATotal|div:item.salesAmount1 | mul:100 |floatformat:-2}}%</td>
+        {% if item.costTotal %}
+          {{ item.salesTotal|sub:item.costTotal|div:item.salesTotal | mul:100 |floatformat:-2}}%</td>
         {% else %}
         <p>-</p>
         {% endif %}

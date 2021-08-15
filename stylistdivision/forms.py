@@ -1,6 +1,9 @@
 from django import forms
 from django.db import models
 
+from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect
+
 from .models import ARCheck, ProjectProgress, Client, ProjectCategory, Project
 from django.forms import ModelForm, ModelChoiceField
 
@@ -59,13 +62,13 @@ class CreateProjectForm(ModelForm):
             'staff1', 'staff2','staff3',
             'assistant1','assistant2','assistant3',
             'description',
-            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
-            'costAmount1','costAmount2','costAmount3','costATotal',
+            'salesAmount1_inctax','salesAmount2_inctax','salesAmount3_inctax','salesAmount2_notax','salesAmount3_notax','salesTotal',
+            'costAmount1_inctax','costAmount2_inctax','costAmount3_inctax','costAmount2_notax','costAmount3_notax','costTotal',
             'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
             'refURL1','refURL2','refURL3',
             'refFile1','refFile2','refFile3',
         )
-        widgets = {'submissionDate': DateInput(),
+        widgets = {
             'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
         }
 
@@ -76,7 +79,7 @@ class CreateProjectForm(ModelForm):
         self.fields['client'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
-
+        self.fields['mSatff'].required = True
 
         # プレースホルダ
         self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'
@@ -98,14 +101,14 @@ class UpdateProjectForm(ModelForm):
             'staff1', 'staff2','staff3',
             'assistant1','assistant2','assistant3',
             'description',
-            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
-            'costAmount1','costAmount2','costAmount3','costATotal',
+            'salesAmount1_inctax','salesAmount2_inctax','salesAmount3_inctax','salesAmount2_notax','salesAmount3_notax','salesTotal',
+            'costAmount1_inctax','costAmount2_inctax','costAmount3_inctax','costAmount2_notax','costAmount3_notax','costTotal',
             'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
             'refFile1','refFile2','refFile3',
             'refURL1','refURL2','refURL3',
 
         )
-        widgets = {'submissionDate': DateInput(),
+        widgets = {
             'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
         }
 
@@ -118,6 +121,7 @@ class UpdateProjectForm(ModelForm):
         self.fields['client'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
+        self.fields['mSatff'].required = True
 
 
         # プレースホルダ

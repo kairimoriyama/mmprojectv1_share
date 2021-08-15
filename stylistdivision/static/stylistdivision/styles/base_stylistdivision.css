@@ -215,13 +215,16 @@ button{
     text-align: right;
 }
 
+.width_ss{
+    width:3.5rem;
+}
 
 .width_s{
     width:7.5rem;
 }
 
-.width_8rem{
-    width:8rem;
+.width_ms{
+    width:8.5rem;
 }
 
 
@@ -229,13 +232,24 @@ button{
     width:10rem;
 }
 
+.width_12rem{
+    width:12rem;
+}
+
+.width_17rem{
+    width:17rem;
+}
+
+
 .width_mm{
     width:18rem;
 }
 
-
 .width_l{
     width:35rem;
+}
+.width_max{
+    width:100%;
 }
 
 .flex_align_center{
@@ -312,6 +326,12 @@ select{
     display: flex;
     align-content: space-around;
     flex-wrap: wrap;
+}
+
+.flex_box_justify_spacebetween{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .submit_btn_wrapper{
@@ -408,6 +428,7 @@ select{
     border-width: 0;
     padding: 0;
     overflow: scroll;
+    line-height: 1.4;
 }
 
 .item-table::-webkit-scrollbar {

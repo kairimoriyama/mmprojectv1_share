@@ -137,40 +137,63 @@
     </dl>
 
     <dl class="item_dl item13">
-        <dt class="height_l sentence_dt2">メモ</dt>
-        <dd class="height_l sentence_dd2">{{ form.description}}</dd>
+      <dt class="height_ll sentence_dt2">メモ</dt>
+      <dd class="height_ll sentence_dd2">{{ form.description}}</dd>
+  </dl>
+  
+
+  <dl class="item_dl item14 multiple_items_amount">
+      <dt class="height_xl">税込金額</dt>
+      <dd class="height_xl flex_box_wrap">
+
+        <div  class="flex_box width_max">
+          <ul class="width_mm">
+            <li><p class="width_mm text_align_right">課税対象</p></li>
+          </ul>
+          <ul class="width_ms margin_left_l">
+            <li><p class="width_ms text_align_right">課税対象外</p></li>
+          </ul>
+          <ul class="width_ms margin_left_l">
+            <li><p class="width_ms text_align_right">税込合計</p></li>
+          </ul>
+        </div>
+
+        <div class="flex_box width_max margin_top">
+          <ul class="flex_box_wrap width_mm height_9rem space_between">
+              <li class="width_mm flex_box_justify_spacebetween"><p>報酬</p>{{ form.salesAmount1_inctax}}</li>
+              <li class="width_mm flex_box_justify_spacebetween"><p>請求実費</p>{{ form.salesAmount2_inctax}}</li>
+              <li class="width_mm flex_box_justify_spacebetween"><p>その他請求</p>{{ form.salesAmount3_inctax}}</li>
+          </ul>
+          <ul class="flex_box_wrap width_ms height_9rem space_between margin_left_l">
+            <li class="width_ms lign_height_input"></li>
+            <li class="width_ms">{{ form.salesAmount2_notax}}</li>
+            <li class="width_ms">{{ form.salesAmount3_notax}}</li>
+          </ul>
+          <ul class="width_ms height_9rem margin_left_l flex_end">
+            <li>{{ form.salesTotal}}</li>
+          </ul>
+        </div>
+
+        <div  class="flex_box width_max margin_top">
+          <ul class="width_mm height_9rem space_between">
+            <li class="width_mm flex_box_justify_spacebetween"><p>外注費</p>{{ form.costAmount1_inctax}}</li>
+            <li class="width_mm flex_box_justify_spacebetween"><p>社内リース</p>{{ form.costAmount2_inctax}}</li>
+            <li class="width_mm flex_box_justify_spacebetween"><p>その他経費</p>{{ form.costAmount3_inctax}}</li>
+          </ul>
+
+          <ul class="flex_box_wrap width_ms height_9rem space_between margin_left_l">
+            <li class="width_ms lign_height_input"></li>
+            <li class="width_ms">{{ form.costAmount2_notax}}</li>
+            <li class="width_ms">{{ form.costAmount3_notax}}</li>
+          </ul>
+
+          <ul class="width_ms height_9rem margin_left_l flex_end">
+            <li>{{ form.costTotal}}</li>
+          </ul>
+        </div>
+
+      </dd>
     </dl>
-    
- 
-    <dl class="item_dl item14 multiple_items_amount">
-        <dt class="height_ll">税込金額</dt>
-        <dd class="height_ll flex_box_wrap">
-
-          <div class="flex_box">
-            <ul class="flex_box_wrap width_mm height_9rem space_between">
-                <li class="flex_box"><p class="width_8rem">報酬</p>{{ form.salesAmount1}}</li>
-                <li class="flex_box"><p class="width_8rem">請求実費</p>{{ form.salesAmount2}}</li>
-                <li class="flex_box"><p class="width_8rem">その他請求</p>{{ form.salesAmount3}}</li>
-            </ul>
-            <ul class="flex_box_wrap width_mm height_9rem margin_left flex_end">
-                <li class="flex_box"><p class="width_s">売上合計</p>{{ form.salesTotal}}</li>
-            </ul>
-          </div>
-
-          <div  class="flex_box margin_top">
-            <ul class="width_mm height_9rem space_between">
-                <li class="flex_box"><p class="width_8rem">外注費</p>{{ form.costAmount1}}</li>
-                <li class="flex_box"><p class="width_8rem">社内リース</p>{{ form.costAmount2}}</li>
-                <li class="flex_box"><p class="width_8rem">その他経費</p>{{ form.costAmount3}}</li>
-            </ul>
-
-            <ul class="flex_box_wrap width_mm height_9rem margin_left flex_end">
-                <li class="flex_box"><p class="width_s">費用合計</p>{{ form.costATotal}}</li>
-            </ul>
-          </div>
-
-        </dd>
-      </dl>
 
     <dl class="item_dl item15 multiple_items">
         <dt class="height_l">画像</dt>

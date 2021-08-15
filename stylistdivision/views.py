@@ -108,7 +108,6 @@ class UpdateProject(UpdateView):
 
 
 
-
 class ListClient(ListView):
     template_name = 'stylistdivision/list_client.html'
     model  = Client

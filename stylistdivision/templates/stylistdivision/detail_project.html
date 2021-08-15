@@ -124,60 +124,96 @@
     </dl>
 
     <dl class="item_dl item13">
-        <dt class="height_l">メモ</dt>
-        <dd class="height_l sentence_dd_scroll">{% if not object.description %}
+        <dt class="height_ll">メモ</dt>
+        <dd class="height_ll sentence_dd_scroll">{% if not object.description %}
           {% else %}{{ object.description }}
           {% endif %}
         </dd>
     </dl>
 
     <dl class="item_dl item14 multiple_items_amount">
-        <dt class="height_l">税込金額</dt>
-        <dd class="height_l flex_box_wrap">
+        <dt class="height_ll">税込金額</dt>
+        <dd class="height_ll flex_box_wrap">
 
-          <div class="flex_box">
+          <div  class="flex_box width_max">
+            <ul class="width_mm">
+              <li><p class="width_mm text_align_right">課税対象</p></li>
+            </ul>
+            <ul class="width_ms">
+              <li><p class="width_ms text_align_right">対象外</p></li>
+            </ul>
+            <ul class="width_ms margin_left_ll">
+              <li><p class="width_ms text_align_right">税込合計</p></li>
+            </ul>
+          </div>
+
+          <div class="flex_box width_max margin_top">
             <ul class="flex_box_wrap width_mm height_s flex_end">
-                <li class="flex_box">
-                    <p class="width_8rem">報酬</p>
-                    <p class="width_m text_align_right">{{ object.salesAmount1| intcomma}}</p>
+
+                <li class="width_mm flex_box_justify_spacebetween">
+                    <p>報酬</p>
+                    <p class="text_align_right">{{ object.salesAmount1_inctax| intcomma}}</p>
                 </li>
-                <li class="flex_box margin_top_s">
-                    <p class="width_8rem">請求実費</p>
-                    <p class="width_m text_align_right">{{ object.salesAmount2| intcomma}}</p>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>請求実費</p>
+                    <p class="text_align_right">{{ object.salesAmount2_inctax| intcomma}}</p>
                 </li>
-                <li class="flex_box margin_top_s">
-                    <p class="width_8rem">その他請求</p>
-                    <p class="width_m text_align_right">{{ object.salesAmount3| intcomma}}</p>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>その他請求</p>
+                    <p class="text_align_right">{{ object.salesAmount3_inctax| intcomma}}</p>
                 </li>
             </ul>
-            <ul class="flex_box_wrap width_mm height_s margin_left_ll flex_end">
-                <li class="flex_box">
-                    <p class="width_s">売上合計</p>
-                    <p class="width_m text_align_right">{{ object.salesTotal| intcomma}}</p>
+
+            <ul class="flex_box_wrap width_ms height_s flex_end">
+              <li>
+                  <p class="width_ms text_align_right">-</p>
+              </li>
+              <li class="margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.salesAmount2_notax| intcomma}}</p>
+              </li>
+              <li class="margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.salesAmount3_notax| intcomma}}</p>
+              </li>
+            </ul>
+
+            <ul class="flex_box_wrap width_ms height_s margin_left_ll flex_end">
+                <li>
+                    <p class="width_ms text_align_right">{{ object.salesTotal| intcomma}}</p>
                 </li>
             </ul>
           </div>
 
-          <div  class="flex_box margin_top">
+          <div  class="flex_box width_max margin_top">
             <ul class="width_mm height_s flex_end">
-                <li class="flex_box">
-                    <p class="width_8rem">外注費</p>
-                    <p class="width_m text_align_right">{{ object.costAmount1| intcomma}}</p>
+                <li class="width_mm flex_box_justify_spacebetween">
+                    <p>外注費</p>
+                    <p class="width_ms text_align_right">{{ object.costAmount1_inctax| intcomma}}</p>
                 </li>
-                <li class="flex_box margin_top_s">
-                    <p class="width_8rem">社内リース</p>
-                    <p class="width_m text_align_right">{{ object.costAmount2| intcomma }}</p>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>社内リース</p>
+                    <p class="width_ms text_align_right">{{ object.costAmount2_inctax| intcomma }}</p>
                 </li>
-                <li class="flex_box margin_top_s">
-                    <p class="width_8rem">その他経費</p>
-                    <p class="width_m text_align_right">{{ object.costAmount3| intcomma}}</p>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>その他経費</p>
+                    <p class="width_ms text_align_right">{{ object.costAmount3_inctax| intcomma}}</p>
                 </li>
             </ul>
 
-            <ul class="flex_box_wrap width_mm height_s margin_left_ll flex_end">
-                <li class="flex_box">
-                    <p class="width_s">費用合計</p>
-                    <p class="width_m text_align_right">{{ object.costATotal| intcomma}}</p>
+            <ul class="flex_box_wrap width_ms height_s flex_end">
+              <li class="flex_box">
+                  <p class="width_ms text_align_right">-</p>
+              </li>
+              <li class="flex_box margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.costAmount2_notax| intcomma}}</p>
+              </li>
+              <li class="flex_box margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.costAmount3_notax| intcomma}}</p>
+              </li>
+            </ul>
+
+            <ul class="flex_box_wrap width_ms height_s margin_left_ll flex_end">
+                <li>
+                    <p class="width_ms text_align_right">{{ object.costTotal| intcomma}}</p>
                 </li>
             </ul>
           </div>
@@ -232,8 +268,8 @@
 
   
       <dl class="item_dl item16 multiple_items">
-        <dt class="height_m">案件資料</dt>
-        <dd class="height_m flex_box_wrap">
+        <dt class="height_l">案件資料</dt>
+        <dd class="height_l flex_box_wrap">
           {% if not object.refFile1 %}
           {% else %}
           <div class="multiple_items_child">
