@@ -11,6 +11,13 @@
 
 <li class="margin_left_l"><a href="{% url 'stylistdivision:list_settlement' %}">債権回収</a></li>
 
+<li class="for_wide_screen">
+  <form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
+    <input class="menu_bt width_m export_csv margin_left_l" type="submit"  name="export_csv" value="CSV 出力">
+  </form>
+</li>
+
+
 <ul class="page_nav margin_left">
 
   {% if page_obj.has_previous %}
@@ -44,11 +51,11 @@
 
 {% block content %}
 
-<form method="GET" href="" class="menu_wrapper margin_left_right margin_top_l" >
+<form method="GET"  href="" class="menu_wrapper margin_left_right margin_top_l">
 
   <div class="menu_wrapper_inner  margin_top margin_bottom">
 
-    <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
+    <button class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
 
     <button class="padding_zero yubi margin_left" href="" onclick="clear_criteria();"><h4>条件削除</h4></button>
 
@@ -136,7 +143,7 @@
 
 
 
-<div class="margin_left_right margin_top"><h3>案件一覧</h3></div>
+<div class="margin_left_right margin_top"><h3>案件管理</h3></div>
 <table class="item-table">
 
 	<tr>
@@ -147,10 +154,10 @@
     <th>日時詳細</th>
     <th>場所</th>
     <th>顧客</th>
-    <th>担当</th>
+    <th>先方担当</th>
     <th>種別</th>
     <th>案件名</th>
-    <th>管理者</th>
+    <th>当社担当</th>
     <th>スタイリスト</th>
     <th>アシスタント</th>
     <th>メモ</th>

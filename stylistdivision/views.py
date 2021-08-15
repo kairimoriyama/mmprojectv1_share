@@ -86,7 +86,7 @@ class ListProject(ListView):
         self.request.session['salesAmountTo'] = salesAmountTo
 
         # 絞り込み前の初期値
-        queryset0 = Settlement.objects.all().order_by('no')
+        queryset0 = Project.objects.all().order_by('projectPeriodFrom')
 
         # ページ遷移直後でなければ値がNullではないため絞込可能
         if projectProgress or client or projectCategory or\
@@ -177,12 +177,42 @@ class ListProject(ListView):
 
             queryset = queryset7
 
+            print(queryset)
+
         # ページ遷移直後のNullでは絞込なし
         else:
             qeryset = queryset0
         
-        return queryset
+        return queryset.order_by('projectPeriodFrom')
 
+    def post(self, request):
+
+        if request.method == 'POST':
+            print("post")
+
+            if 'export_csv' in request.POST:
+                print("export_csv")
+
+                queryset = self.get_queryset()
+
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="stylist_project.csv"; unicode="utf_8_sig"'
+
+                writer = csv.writer(response, delimiter=',', encoding='utf_8_sig')
+
+                writer.writerow(['id','No.','進捗','納品日・期間（自）','納品日・期間（至）',
+                    '日時詳細','場所','顧客','先方担当','種別','案件名','当社担当',
+                    'スタイリスト1','スタイリスト2','スタイリスト3','アシスタント1','アシスタント2','アシスタント3',
+                    'メモ','税抜売上','税抜費用'])
+                for item in queryset.order_by('-projectNum'):
+                    writer.writerow([item.id,item.projectNum,item.projectProgress,item.projectPeriodFrom,item.projectPeriodTo,
+                    item.projectPeriodDetail, item.location,item.client,item.clientDetail,item.projectcategory,item.projectName,item.mSatff,
+                    item.staff1,item.staff2,item.staff3,item.assistant1,item.assistant2,item.assistant3,
+                    item.description,item.salesTotal_exctax,item.costTotal_exctax])
+                
+                return response
+        
+        return redirect('stylistdivision:list_project')
 
 
 
