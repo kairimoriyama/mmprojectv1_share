@@ -166,7 +166,7 @@ hr{
     display: grid;
     grid-template-rows: repeat(21, auto);
     grid-template-columns: 100%;
-    margin: 1rem 1rem 0 1rem;
+    margin: 0 1.5rem;
 }
 .container_detail .item_dl_dummy_s,
 .container_detail .item_dl_dummy_l{

@@ -21,9 +21,9 @@
 
 {% block content %}
 
-<div class="menu_wrapper margin_right margin_left">
+<div class="menu_wrapper margin_top_l margin_right_l margin_left_l margin_bottom">
 
-    <div class="detail_nav">
+    <div class="detail_nav ">
         <h3 class="margin_right">案件情報</h3>
         <a class="menu_bt width_m" href="{% url 'stylistdivision:update_project' object.id %}">編集</a>
         {% if object.deletedItem == True %}
