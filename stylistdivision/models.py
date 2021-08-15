@@ -108,7 +108,6 @@ class Project(models.Model):
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
     clientDetail = models.CharField(max_length=200,blank=True,null=True)
 
-    mSatffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='project_mStaffDivision') 
     mSatff =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='project_mSatff',blank=True,null=True)
 

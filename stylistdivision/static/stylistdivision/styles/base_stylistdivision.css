@@ -211,10 +211,19 @@ button{
 .text_align_left{
     text-align: left;
 }
+.text_align_right{
+    text-align: right;
+}
+
 
 .width_s{
     width:7.5rem;
 }
+
+.width_8rem{
+    width:8rem;
+}
+
 
 .width_m{
     width:10rem;
@@ -497,7 +506,7 @@ select{
     text-decoration: none;
 }
 
-.item-table .date_col{
+.item-table .center_col{
     text-align: center;
 }
 

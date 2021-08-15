@@ -73,10 +73,6 @@ class CreateProject(CreateView):
 
         form = self.form_class(request.POST, request.FILES)
 
-        params = {
-            'form':form
-        }
-
         if form.is_valid():
             obj = form.save(commit=False)
     
@@ -97,7 +93,7 @@ class CreateProject(CreateView):
             return redirect('stylistdivision:detail_project', pk= obj.id)
         
         else:
-            return render(request, self.template_name, params ) 
+            return render(request, self.template_name ) 
 
 
 
@@ -108,7 +104,6 @@ class UpdateProject(UpdateView):
     
     def get_success_url(self):
         return reverse('stylistdivision:detail_project', kwargs={'pk': self.object.id})
-
 
 
 

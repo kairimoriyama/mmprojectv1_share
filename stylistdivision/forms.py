@@ -49,18 +49,21 @@ class CreateProjectForm(ModelForm):
 
     class Meta:
         model  = Project
-        fields = ('client','clientDetail',
-            'mSatffDivision','mSatff',
+        fields = (
+            'projectProgress',
+            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail', 
+            'location',
+            'client','clientDetail',
+            'projectcategory','projectName',
+            'mSatff',
             'staff1', 'staff2','staff3',
             'assistant1','assistant2','assistant3',
-            'projectcategory','projectName','description',
-            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail',
-            'location',
+            'description',
+            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
+            'costAmount1','costAmount2','costAmount3','costATotal',
             'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
             'refURL1','refURL2','refURL3',
             'refFile1','refFile2','refFile3',
-            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
-            'costAmount1','costAmount2','costAmount3','costATotal',
         )
         widgets = {'submissionDate': DateInput(),
             'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
@@ -71,7 +74,6 @@ class CreateProjectForm(ModelForm):
 
         # 初期値・入力規則
         self.fields['client'].required = True
-        self.fields['mSatffDivision'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
 
@@ -86,22 +88,34 @@ class UpdateProjectForm(ModelForm):
 
     class Meta:
         model  = Project
-        fields = ('client',
-        'mSatffDivision','mSatff',
-        'staff1', 'staff2','staff3',
-        'assistant1','assistant2','assistant3',
-        'projectcategory','projectName','description',
-        'location',
-        'refURL1','refURL2','refURL3',
-        'refFile1','refFile2','refFile3')
-        widgets = {'submissionDate': DateInput()}
+        fields = (
+            'projectNum','projectProgress',
+            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail',
+            'location',
+            'client','clientDetail',
+            'projectcategory','projectName',
+            'mSatff',
+            'staff1', 'staff2','staff3',
+            'assistant1','assistant2','assistant3',
+            'description',
+            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
+            'costAmount1','costAmount2','costAmount3','costATotal',
+            'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
+            'refFile1','refFile2','refFile3',
+            'refURL1','refURL2','refURL3',
+
+        )
+        widgets = {'submissionDate': DateInput(),
+            'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
+        }
 
     def __init__(self, *args, **kwargs):
         super(UpdateProjectForm, self).__init__(*args, **kwargs)
 
         # 初期値・入力規則
+        self.fields['projectNum'].widget.attrs['readonly'] = 'readonly'
+
         self.fields['client'].required = True
-        self.fields['mSatffDivision'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
 
