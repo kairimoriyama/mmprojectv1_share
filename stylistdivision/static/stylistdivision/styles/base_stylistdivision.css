@@ -38,11 +38,11 @@ input, textarea, select{
 }
 
 
-.hidden_s_screen{
+.for_wide_screen{
     display: none;
 }
-@media screen and (min-width: 600px) {
-    .hidden_s_screen{
+@media screen and (min-width: 700px) {
+    .for_wide_screen{
         display: block;
     }
 }

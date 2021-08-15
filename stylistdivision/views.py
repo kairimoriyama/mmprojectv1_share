@@ -55,6 +55,132 @@ class ListProject(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
        
+        projectProgress = self.request.GET.get('projectProgress')
+        client = self.request.GET.get('client')
+        projectCategory = self.request.GET.get('projectCategory')
+        projectName = self.request.GET.get('projectName')
+        description = self.request.GET.get('description')
+
+        projectDateFrom = self.request.GET.get('projectDateFrom')
+        projectDateTo = self.request.GET.get('projectDateTo')
+
+        invoiceDateFrom = self.request.GET.get('invoiceDateFrom')
+        invoiceDateTo = self.request.GET.get('invoiceDateTo')
+
+        salesAmountFrom = self.request.GET.get('salesAmountFrom')
+        salesAmountTo = self.request.GET.get('salesAmountTo')
+
+        self.request.session['projectProgress'] = projectProgress
+        self.request.session['client'] = client
+        self.request.session['projectCategory'] = projectCategory
+        self.request.session['projectName'] = projectName
+        self.request.session['description'] = description
+
+        self.request.session['projectDateFrom'] = projectDateFrom
+        self.request.session['projectDateTo'] = projectDateTo
+
+        self.request.session['invoiceDateFrom'] = invoiceDateFrom
+        self.request.session['invoiceDateTo'] = invoiceDateTo
+        
+        self.request.session['salesAmountFrom'] = salesAmountFrom
+        self.request.session['salesAmountTo'] = salesAmountTo
+
+        # 絞り込み前の初期値
+        queryset0 = Settlement.objects.all().order_by('no')
+
+        # ページ遷移直後でなければ値がNullではないため絞込可能
+        if projectProgress or client or projectCategory or\
+            projectName or description or \
+            projectDateFrom or projectDateTo or\
+            invoiceDateFrom or invoiceDateTo or\
+            salesAmountFrom or salesAmountTo  :
+
+            if projectProgress:
+                queryset1 = queryset0.filter(projectProgress__id=projectProgress)
+            else:
+                queryset1 = queryset0.all()
+
+            if client:
+                queryset2 = queryset1.filter(client__id=client)
+            else:
+                queryset2 = queryset1.all()
+
+            if projectCategory:
+                queryset3 = queryset2.filter(projectcategory__id=projectCategory)
+            else:
+                queryset3 = queryset2.all()
+
+            if projectName:
+                queryset4 = queryset3.filter(projectName__contains=projectName)
+            else:
+                queryset4 = queryset3.all()
+
+            if description:
+                queryset5 = queryset4.filter(description__contains=description)
+            else:
+                queryset5 = queryset4.all()
+
+            # 日付の絞込
+            if projectDateFrom and projectDateTo :
+                queryset6 = queryset5.filter(
+                     (Q(projectPeriodFrom__gte=projectDateFrom), Q(projectPeriodFrom__lte=projectDateTo))|
+                     (Q(projectDateTo_gte=projectDateFrom), Q(projectDateTo__lte=projectDateTo))
+                     )
+
+            elif projectDateFrom and not projectDateTo :
+                queryset6 = queryset5.filter(
+                    projectPeriodFrom__gte=projectDateFrom)
+
+            elif not projectDateFrom and projectDateTo :
+                queryset6 = queryset5.filter(
+                     Q(projectPeriodFrom__lte=projectDateTo),
+                     Q(projectPeriodTo__lte=projectDateTo)
+                    )
+
+            else:                 
+                queryset6 = queryset5.all()
+
+
+            # if invoiceDateFrom and invoiceDateTo :
+            #     queryset6 = queryset5.filter(
+            #          Q(projectPeriodFrom__gte=projectDateFrom),
+            #          Q(projectPeriodTo__lte=projectDateTo)
+            #          )
+
+            # elif projectDateFrom and not projectDateTo :
+            #     queryset6 = queryset5.filter(
+            #         projectPeriodFrom__gte=projectDateFrom)
+
+            # elif not projectDateFrom and projectDateTo :
+            #     queryset6 = queryset5.filter(
+            #         projectPeriodFrom__lte=projectDateTo)
+
+            # else:                 
+            #     queryset6 = queryset5.all()
+
+
+
+            # 金額の絞り込み（自・至）
+            if salesAmountFrom and salesAmountTo:
+                queryset7 = queryset6.filter(salesTotal_exctax__range=(salesAmountFrom, salesAmountTo))
+
+            # 金額の絞り込み（自）
+            elif salesAmountFrom and (not salesAmountTo):
+                queryset7 = queryset6.filter(salesTotal_exctax__gte=salesAmountFrom)
+
+            # 金額の絞り込み（至）
+            elif (not salesAmountFrom) and salesAmountTo:
+                queryset7 = queryset6.filter(salesTotal_exctax__lte=salesAmountTo)
+
+            elif (not salesAmountFrom) and (not salesAmountTo):
+                queryset7 = queryset6.all()
+
+            queryset = queryset7
+
+        # ページ遷移直後のNullでは絞込なし
+        else:
+            qeryset = queryset0
+        
         return queryset
 
 

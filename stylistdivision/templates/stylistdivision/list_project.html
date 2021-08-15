@@ -56,11 +56,11 @@
       <input onclick="display_switch_bt();" id="display_button" type="checkbox"><label for="display_button"></label>
     </div>
 
-    <h4 class="margin_left_ll">{{ items_count |intcomma}}件</h4>
-    <h4 class="margin_left_ll">売上税抜&nbsp;{{ items_amount_sales.salesTotal |intcomma}} </h4>
-    <h4 class="margin_left_ll">費用税抜&nbsp;{{ items_amount_cost.costTotal |intcomma}} </h4>
-    <h4 class="margin_left_ll">粗利&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal |intcomma}} </h4>
-    <h4 class="margin_left_ll">粗利率&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal|div:items_amount_sales.salesTotal | mul:100 |floatformat:0}}%</h4>
+    <h4 class="margin_left_ll for_wide_screen">{{ items_count |intcomma}}件</h4>
+    <h4 class="margin_left_ll for_wide_screen">売上税抜&nbsp;{{ items_amount_sales.salesTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll for_wide_screen">費用税抜&nbsp;{{ items_amount_cost.costTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll for_wide_screen">粗利&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll for_wide_screen">粗利率&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal|div:items_amount_sales.salesTotal | mul:100 |floatformat:0}}%</h4>
     
   </div>
 
@@ -93,31 +93,39 @@
 
   <dl>
     <dt>案件名</dt>
-    <dd><input id="description2" name="description2" value="{{ request.GET.description2 }}" type="text"></dd>
+    <dd><input id="projectName" name="projectName" value="{{ request.GET.projectName }}" type="text"></dd>
   </dl>
 
   <dl>
     <dt>メモ</dt>
-    <dd><input id="memo" name="memo" value="{{ request.GET.memo }}" type="text"></dd>
+    <dd><input id="description" name="description" value="{{ request.GET.description }}" type="text"></dd>
   </dl>
 
 
   <dl class="list_filter_date">
-    <dt>請求時期</dt>
+    <dt>納品日・期間</dt>
     <dd>
-      <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
+      <input id="projectDateFrom" name="projectDateFrom" value="{{ request.GET.projectDateFrom }}" type="date">
       <p>-</p>
-      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.transactionDateTo }}" type="date">
+      <input id="projectDateTo" name="projectDateTo" value="{{ request.GET.projectDateTo }}" type="date">
     </dd>
   </dl>
 
+  <dl class="list_filter_date">
+    <dt>請求日</dt>
+    <dd>
+      <input id="invoiceDateFrom" name="invoiceDateFrom" value="{{ request.GET.invoiceDateFrom }}" type="date">
+      <p>-</p>
+      <input id="invoiceDateTo" name="invoiceDateTo" value="{{ request.GET.invoiceDateTo }}" type="date">
+    </dd>
+  </dl>
 
   <dl class="list_filter_date">
     <dt>売上高</dt>
     <dd>
-      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <input id="salesAmountFrom" name="salesAmountFrom" value="{{ request.GET.salesAmountFrom }}" type="number">
       <p>-</p>
-      <input id="amountTo" name="amountTo" value="{{ request.GET.amountTo }}" type="number">
+      <input id="salesAmountTo" name="salesAmountTo" value="{{ request.GET.salesAmountTo }}" type="number">
     </dd>
   </dl>
 
