@@ -215,6 +215,8 @@ window.onload = get_search_key(); //読み込み時に遷移前の検索条件�
 
 function clear_criteria(){
 
+  localStorage.setItem('bankaccount_display_key', '1'); //1を設定
+
   document.getElementById('selected_bankAccount').value= null;
   document.getElementById('selected_journalCategory').value= null;
 
