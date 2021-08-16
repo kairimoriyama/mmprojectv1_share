@@ -149,10 +149,18 @@ button{
     margin-right: 1.2rem;
 }
 
+.margin_right_s{
+    margin-right: 0.6rem;
+}
+
+
 .mg_right{
     margin-right: 0.7rem;
 }
 
+.margin_left{
+    margin-left: 1.2rem;
+}
 .mg_left{
     margin-left: 0.7rem;
 }
@@ -1098,9 +1106,6 @@ hr{
 .multiple_items_src img{
     height: 13rem;
     width:auto;
-}
-.multiple_items_img p{
-    margin-right: 0.5rem;
 }
 
 

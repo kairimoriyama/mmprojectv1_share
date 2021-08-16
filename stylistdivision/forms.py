@@ -1,7 +1,11 @@
 from django import forms
 from django.db import models
 
+from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect
+
 from .models import ARCheck, ProjectProgress, Client, ProjectCategory, Project
+from staffdb.models import StaffDB
 from django.forms import ModelForm, ModelChoiceField
 
 import datetime
@@ -49,20 +53,23 @@ class CreateProjectForm(ModelForm):
 
     class Meta:
         model  = Project
-        fields = ('client',
-            'mSatffDivision','mSatff',
+        fields = (
+            'projectProgress',
+            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail', 
+            'location',
+            'client','clientDetail',
+            'projectcategory','projectName',
+            'mSatff',
             'staff1', 'staff2','staff3',
             'assistant1','assistant2','assistant3',
-            'projectcategory','projectName','description',
-            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail',
-            'location',
+            'description',
+            'salesAmount1_inctax','salesAmount2_inctax','salesAmount3_inctax','salesAmount2_notax','salesAmount3_notax','salesTotal',
+            'costAmount1_inctax','costAmount2_inctax','costAmount3_inctax','costAmount2_notax','costAmount3_notax','costTotal',
             'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
             'refURL1','refURL2','refURL3',
             'refFile1','refFile2','refFile3',
-            'salesAmount1','salesAmount2','salesAmount3','salesTotal',
-            'costAmount1','costAmount2','costAmount3','costATotal',
         )
-        widgets = {'submissionDate': DateInput(),
+        widgets = {
             'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
         }
 
@@ -70,12 +77,24 @@ class CreateProjectForm(ModelForm):
         super(CreateProjectForm, self).__init__(*args, **kwargs)
 
         # 初期値・入力規則
+
+        self.fields['projectProgress'].required = True
+        self.fields['projectPeriodFrom'].required = True
+        self.fields['projectPeriodTo'].required = True
         self.fields['client'].required = True
-        self.fields['mSatffDivision'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
-
-
+        self.fields['mSatff'].required = True
+        self.fields['mSatff'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['salesTotal'].widget.attrs['readonly'] = 'readonly'
+        self.fields['costTotal'].widget.attrs['readonly'] = 'readonly'
+        
         # プレースホルダ
         self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'
         self.fields['description'].widget.attrs['placeholder'] = '案件概要、先方担当者との交渉状況、進捗メモ等'
@@ -86,25 +105,47 @@ class UpdateProjectForm(ModelForm):
 
     class Meta:
         model  = Project
-        fields = ('client',
-        'mSatffDivision','mSatff',
-        'staff1', 'staff2','staff3',
-        'assistant1','assistant2','assistant3',
-        'projectcategory','projectName','description',
-        'location',
-        'refURL1','refURL2','refURL3',
-        'refFile1','refFile2','refFile3')
-        widgets = {'submissionDate': DateInput()}
+        fields = (
+            'projectNum','projectProgress',
+            'projectPeriodFrom', 'projectPeriodTo', 'projectPeriodDetail',
+            'location',
+            'client','clientDetail',
+            'projectcategory','projectName',
+            'mSatff',
+            'staff1', 'staff2','staff3',
+            'assistant1','assistant2','assistant3',
+            'description',
+            'salesAmount1_inctax','salesAmount2_inctax','salesAmount3_inctax','salesAmount2_notax','salesAmount3_notax','salesTotal',
+            'costAmount1_inctax','costAmount2_inctax','costAmount3_inctax','costAmount2_notax','costAmount3_notax','costTotal',
+            'picture1', 'picture2', 'picture3', 'picture4', 'picture5', 'picture6',
+            'refFile1','refFile2','refFile3',
+            'refURL1','refURL2','refURL3',
+
+        )
+        widgets = {
+            'projectPeriodFrom': DateInput(),'projectPeriodTo': DateInput(),   
+        }
 
     def __init__(self, *args, **kwargs):
         super(UpdateProjectForm, self).__init__(*args, **kwargs)
 
         # 初期値・入力規則
+        self.fields['projectNum'].widget.attrs['readonly'] = 'readonly'
+        self.fields['projectProgress'].required = True
+        self.fields['projectPeriodFrom'].required = True
+        self.fields['projectPeriodTo'].required = True
         self.fields['client'].required = True
-        self.fields['mSatffDivision'].required = True
         self.fields['projectcategory'].required = True
         self.fields['projectName'].required = True
-
+        self.fields['mSatff'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['staff3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant1'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant2'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['assistant3'].queryset = StaffDB.objects.filter(staffDivision1__exact=10)
+        self.fields['salesTotal'].widget.attrs['readonly'] = 'readonly'
+        self.fields['costTotal'].widget.attrs['readonly'] = 'readonly'
 
         # プレースホルダ
         self.fields['projectName'].widget.attrs['placeholder'] = '未定の場合、暫定的なプロジェクトの名前でOK'

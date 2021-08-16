@@ -21,255 +21,346 @@
 
 {% block content %}
 
+<div class="menu_wrapper margin_top_l margin_right_l margin_left_l margin_bottom">
 
-<div class="container_create_project" >
-
-    <div class="menu_wrapper_inner margin_top margin_bottom item0">
-        <div class="submit_btn_wrapper">
-        <h3 class="margin_right_l">案件情報</h3>
-        <input class="menu_bt width_m margin_right_l" type="submit" value='入力完了'>
-        <h3 class="alert">{{ form.non_field_errors }}</h3>
-        </div>
+    <div class="detail_nav ">
+        <h3 class="margin_right">案件情報</h3>
+        <a class="menu_bt width_m" href="{% url 'stylistdivision:update_project' object.id %}">編集</a>
+        {% if object.deletedItem == True %}
+        <div><p  class="detail_deletedItem">削除済み</p></div>
+        {% endif %}
     </div>
-
+  
+</div>
+  
+  <div class="container_detail">
     <dl class="item_dl item1">
       <dt>案件番号</dt>
-      <dd>-</dd>
+      <dd class="itemNum">{{ object.projectNum}}</dd>
     </dl>
-
-    <dl class="item_dl item2">
-        <dt>進捗</dt>
-        <dd>{{ form.projectProgress }}</dd>
-      </dl>
   
-    <dl class="item_dl item3">
-      <dt>納品日・期間</dt>
-      <dd>
-        <div class="flex_box width_l">{{ form.projectPeriodFrom }}<p>&nbsp;-&nbsp;</p>{{ form.projectPeriodTo }}</div>
-      </dd>
+    <dl class="item_dl item2">
+      <dt>進捗</dt>
+      <dd>{{ object.projectProgress }}</dd>
     </dl>
-
+      
+    <dl class="item_dl ite3">
+        <dt>納品日・期間</dt>
+        <dd>
+        {% if object.projectPeriodTo %}
+            {{ object.projectPeriodFrom | date:"Y/m/d" }}<p>&nbsp;-&nbsp;</p>{{ object.projectPeriodTo | date:"Y/m/d" }}
+        {% else %}
+            {{object.projectPeriodFrom | date:"Y/m/d" }}
+        {% endif %}
+        </dd>
+    </dl>
+  
     <dl class="item_dl item4">
         <dt>日時詳細</dt>
-        <dd>{{ form.projectPeriodDetail }}</dd>
+        <dd>
+        {% if object.projectPeriodDetail %}
+          {{ object.projectPeriodDetail}}
+        {% else %}
+        {% endif %}
+        </dd>
     </dl>
 
     <dl class="item_dl item5">
         <dt>場所</dt>
-        <dd>{{ form.location}}</dd>
-    </dl>
-    
-    <dl class="item_dl item6">
-      <dt>顧客</dt>
-      <dd>{{ form.client }}</dd>
-    </dl>
-      
-    <dl class="item_dl item7">
-      <dt>案件種別</dt>
-      <dd>{{ form.projectcategory }}</dd>
-    </dl>
-  
-    <dl class="item_dl item8">
-        <dt>案件名</dt>
-        <dd>{{ form.projectName}}</dd>
-    </dl>
-
-    <dl class="item_dl item9 staffNumber">
-      <dt>管理担当</dt>
-      <dd id="managementStaffNumber">
-        <input class="margin_right_s" name="managementStaffNumber" type="number">
-        {{ form.mSatff}}
-      </dd>
-    </dl>
-  
-    <dl class="item_dl item10 multiple_items_starff staffNumber">
-        <dt class="height_m">スタイリスト</dt>
-        <dd class="height_m">
-
-          <div id="stylistStaffNumber1">
-            <p>1</p>
-            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber1" type="number">
-            {{ form.staff1}}
-          </div>
-
-          <div id="stylistStaffNumber2">
-            <p>2</p>
-            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber2" type="number">
-            {{ form.staff2}}
-          </div>
-
-          <div id="stylistStaffNumber3">
-            <p>3</p>
-            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber3" type="number">
-            {{ form.staff3}}
-          </div>
-
+        <dd>
+        {% if object.location %}
+          {{ object.location}}
+        {% else %}
+        {% endif %}
         </dd>
     </dl>
 
-    <dl class="item_dl item11 multiple_items_starff staffNumber">
-        <dt class="height_m">アシスタント</dt>
-        <dd class="height_m">
+    <dl class="item_dl item6">
+      <dt>顧客名</dt>
+      <dd>{{ object.client}}</dd>
+    </dl>
+  
+    <dl class="item_dl item7">
+      <dt>先方担当</dt>
+      <dd>
+        {% if object.clientDetail %}
+          {{ object.clientDetail}}
+        {% else %}
+        {% endif %}
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item8">
+      <dt>案件種別</dt>
+      <dd>{{ object.projectcategory}}</dd>
+    </dl>
 
-          <div id="stylistStaffNumber1">
-            <p>1</p>
-            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber1" type="number">
-            {{ form.assistant1}}
-          </div>
+    <dl class="item_dl item9">
+        <dt>案件名</dt>
+        <dd>{{ object.projectName}}</dd>
+    </dl>
 
-          <div id="stylistStaffNumber2">
-            <p>2</p>
-            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber2" type="number">
-            {{ form.assistant2}}
-          </div>
+    <dl class="item_dl item10">
+        <dt>当社担当</dt>
+        <dd>{{ object.mSatff}}</dd>
+    </dl>
 
-          <div id="stylistStaffNumber3">
-            <p>3</p>
-            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber3" type="number">
-            {{ form.assistant3}}
-          </div>
+    <dl class="item_dl item11">
+        <dt>スタイリスト</dt>
+        <dd>
+            {% if object.staff1 %}{{ object.staff1}}{% else %}{% endif %}
+            {% if object.staff2 %}<p>&nbsp;/&nbsp;</p>{{ object.staff2}}{% else %}{% endif %}
+            {% if object.staff3 %}<p>&nbsp;/&nbsp;</p>{{ object.staff3}}{% else %}{% endif %}
         </dd>
     </dl>
 
     <dl class="item_dl item12">
-        <dt class="height_l sentence_dt2">メモ</dt>
-        <dd class="height_l sentence_dd2">{{ form.description}}</dd>
+        <dt>アシスタント</dt>
+        <dd>
+            {% if object.assistant1 %}{{ object.staff1}}{% else %}{% endif %}
+            {% if object.assistant2 %}<p>&nbsp;/&nbsp;</p>{{ object.assistant2}}{% else %}{% endif %}
+            {% if object.assistant3 %}<p>&nbsp;/&nbsp;</p>{{ object.assistant3}}{% else %}{% endif %}
+        </dd>
     </dl>
-    
- 
-    <dl class="item_dl item13 multiple_items_amount">
+
+    <dl class="item_dl item13">
+        <dt class="height_ll">メモ</dt>
+        <dd class="height_ll sentence_dd_scroll">{% if not object.description %}
+          {% else %}{{ object.description }}
+          {% endif %}
+        </dd>
+    </dl>
+
+    <dl class="item_dl item14 multiple_items_amount">
         <dt class="height_ll">税込金額</dt>
         <dd class="height_ll flex_box_wrap">
 
-          <div class="flex_box">
-            <ul class="flex_box_wrap width_mm space_between">
-                <li class="flex_box"><p>報酬売上</p>{{ form.salesAmount1}}</li>
-                <li class="flex_box"><p>請求実費</p>{{ form.salesAmount2}}</li>
-                <li class="flex_box"><p>その他請求</p>{{ form.salesAmount3}}</li>
+          <div  class="flex_box width_max">
+            <ul class="width_mm">
+              <li><p class="width_mm text_align_right">課税対象</p></li>
             </ul>
-            <ul class="flex_box_wrap width_mm margin_left flex_end">
-                <li class="flex_box"><p>売上合計</p>{{ form.salesTotal}}</li>
+            <ul class="width_ms">
+              <li><p class="width_ms text_align_right">対象外</p></li>
+            </ul>
+            <ul class="width_ms margin_left_ll">
+              <li><p class="width_ms text_align_right">税込合計</p></li>
             </ul>
           </div>
 
-          <div  class="flex_box margin_top">
-            <ul class="width_mm space_between">
-                <li class="flex_box"><p>外注費</p>{{ form.costAmount1}}</li>
-                <li class="flex_box"><p>社内リース</p>{{ form.costAmount2}}</li>
-                <li class="flex_box"><p>その他経費</p>{{ form.costAmount3}}</li>
+          <div class="flex_box width_max margin_top">
+            <ul class="flex_box_wrap width_mm height_s flex_end">
+
+                <li class="width_mm flex_box_justify_spacebetween">
+                    <p>報酬</p>
+                    <p class="text_align_right">{{ object.salesAmount1_inctax| intcomma}}</p>
+                </li>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>請求実費</p>
+                    <p class="text_align_right">{{ object.salesAmount2_inctax| intcomma}}</p>
+                </li>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>その他請求</p>
+                    <p class="text_align_right">{{ object.salesAmount3_inctax| intcomma}}</p>
+                </li>
             </ul>
 
-            <ul class="flex_box_wrap width_mm margin_left flex_end">
-                <li class="flex_box"><p>費用合計</p>{{ form.costATotal}}</li>
+            <ul class="flex_box_wrap width_ms height_s flex_end">
+              <li>
+                  <p class="width_ms text_align_right">-</p>
+              </li>
+              <li class="margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.salesAmount2_notax| intcomma}}</p>
+              </li>
+              <li class="margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.salesAmount3_notax| intcomma}}</p>
+              </li>
+            </ul>
+
+            <ul class="flex_box_wrap width_ms height_s margin_left_ll flex_end">
+                <li>
+                    <p class="width_ms text_align_right">{{ object.salesTotal| intcomma}}</p>
+                </li>
+            </ul>
+          </div>
+
+          <div  class="flex_box width_max margin_top">
+            <ul class="width_mm height_s flex_end">
+                <li class="width_mm flex_box_justify_spacebetween">
+                    <p>外注費</p>
+                    <p class="width_ms text_align_right">{{ object.costAmount1_inctax| intcomma}}</p>
+                </li>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>社内リース</p>
+                    <p class="width_ms text_align_right">{{ object.costAmount2_inctax| intcomma }}</p>
+                </li>
+                <li class="width_mm flex_box_justify_spacebetween margin_top_s">
+                    <p>その他経費</p>
+                    <p class="width_ms text_align_right">{{ object.costAmount3_inctax| intcomma}}</p>
+                </li>
+            </ul>
+
+            <ul class="flex_box_wrap width_ms height_s flex_end">
+              <li class="flex_box">
+                  <p class="width_ms text_align_right">-</p>
+              </li>
+              <li class="flex_box margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.costAmount2_notax| intcomma}}</p>
+              </li>
+              <li class="flex_box margin_top_s">
+                  <p class="width_ms text_align_right">{{ object.costAmount3_notax| intcomma}}</p>
+              </li>
+            </ul>
+
+            <ul class="flex_box_wrap width_ms height_s margin_left_ll flex_end">
+                <li>
+                    <p class="width_ms text_align_right">{{ object.costTotal| intcomma}}</p>
+                </li>
             </ul>
           </div>
 
         </dd>
       </dl>
 
-    <dl class="item_dl item14 multiple_items">
-        <dt class="height_l">画像</dt>
-        <dd class="height_l multiple_items_update">
-            <div class="attachment_update">
-                <p>写真（1）</p>
-                <div>{{ form.picture1 }}</div>
-            </div>
-        
-            <div class="attachment_update">
-                <p>写真（2）</p>
-                <div>{{ form.picture2 }}</div>
-            </div>
-    
-            <div class="attachment_update">
-                <p>写真（3）</p>
-                <div>{{ form.picture3 }}</div>
-            </div>
-    
-            <div class="attachment_update">
-                <p>写真（4）</p>
-                <div>{{ form.picture4 }}</div>
-            </div>
-    
-            <div class="attachment_update">
-                <p>写真（5）</p>
-                <div>{{ form.picture5 }}</div>
-            </div>
-    
-            <div class="attachment_update">
-                <p>写真（6）</p>
-                <div>{{ form.picture6 }}</div>
-            </div>
-        </dd>
-    </dl>
-        
-    <dl class="item_dl item15 multiple_items">
-        <dt class="height_l">案件資料</dt>
-        <dd class="height_l multiple_items_update">
 
-            <div class="attachment_update">
-                <p>資料（1）</p>
-                <div>{{ form.refFile1 }}</div>
-            </div>
-        
-            <div class="attachment_update">
-                <p>資料（2）</p>
-                <div>{{ form.refFile2 }}</div>
-            </div>
 
-            <div class="attachment_update">
-                <p>資料（3）</p>
-                <div>{{ form.refFile3 }}</div>
-            </div>
-        </dd>
-    </dl>
-
-    <dl class="item_dl item16 multiple_items_URL">
-        <dt class="height_l">URL</dt>
+      <dl class="item_dl item15 multiple_items multiple_items_img">
+        <dt class="height_l">写真</dt>
         <dd class="height_l">
-          <div class="flex_box">
+    
+          {% if not object.picture1 %}
+          {% else %}
             <p class="margin_right_s">1</p>
-            {{ form.refURL1 }}
-         </div>
-         <div class="flex_box">
-            <p class="margin_right_s">2</p>
-            {{ form.refURL2 }}
-         </div>
-         <div class="flex_box">
-            <p class="margin_right_s">3</p>
-            {{ form.refURL3 }}
-         </div>
-        </dd>
-    </dl>
+            <div class="multiple_items_src" ><a href="/media/{{ object.picture1 }}" data-lightbox="img-group"><img src="/media/{{ object.picture1 }}"></a></div>
+          {% endif %}
     
-  
-    <dl class="item_dl item17">
-        <dt class="height_l">見積書</dt>
-        <dd class="height_l">
+          {% if not object.picture2 %}
+          {% else %}
+            <p class="margin_right_s margin_left_l">2</p>
+            <div class="multiple_items_src"><a href="/media/{{ object.picture2 }}" data-lightbox="img-group"><img src="/media/{{ object.picture2 }}"></a></div>
+          {% endif %}
+    
+          {% if not object.picture3 %}
+          {% else %}
+            <p class="margin_right_s margin_left_l">3</p>
+            <div class="multiple_items_src"><a href="/media/{{ object.picture3 }}" data-lightbox="img-group"><img src="/media/{{ object.picture3 }}"></a></div>
+          {% endif %}
+    
+          {% if not object.picture4 %}
+          {% else %}
+            <p class="margin_right_s margin_left_l">4</p>
+            <div class="multiple_items_src"><a href="/media/{{ object.picture4 }}" data-lightbox="img-group"><img src="/media/{{ object.picture4 }}"></a></div>
+          {% endif %}
+    
+          {% if not object.picture5 %}
+          {% else %}
+            <p class="margin_right_s margin_left_l">5</p>
+            <div class="multiple_items_src"><a href="/media/{{ object.picture5 }}" data-lightbox="img-group"><img src="/media/{{ object.picture5 }}"></a></div>
+          {% endif %}
+    
+          {% if not object.picture6 %}
+          {% else %}
+            <p class="margin_right_s margin_left_l">6</p>
+            <div class="multiple_items_src"><a href="/media/{{ object.picture6 }}" data-lightbox="img-group"><img src="/media/{{ object.picture6 }}"></a></div>
+          {% endif %}
+    
         </dd>
-    </dl>
+      </dl>
+
+  
+      <dl class="item_dl item16 multiple_items">
+        <dt class="height_l">案件資料</dt>
+        <dd class="height_l flex_box_wrap">
+          {% if not object.refFile1 %}
+          {% else %}
+          <div class="multiple_items_child">
+            <p>1：</p>
+            <a href="/media/{{ object.refFile1 }}" target="_blank">{{ object.refFile1 }}</a>
+          </div>
+          {% endif %}
+          
+    
+          {% if not object.refFile2 %}
+          {% else %}
+          <div class="multiple_items_child">
+            <p>2：</p>
+            <a href="/media/{{ object.refFile2 }}" target="_blank">{{ object.refFile2 }}</a>
+          </div>
+          {% endif %}
+    
+          {% if not object.refFile3 %}
+          {% else %}
+          <div class="multiple_items_child">
+            <p>3：</p>
+            <a href="/media/{{ object.refFile3 }}" target="_blank">{{ object.refFile3 }}</a>
+          </div>
+          {% endif %}
+        </dd>
+      </dl>
+
+
+      <dl class="item_dl item17 multiple_items_URL">
+        <dt class="height_m">URL</dt>
+        <dd class="height_m">
+    
+          {% if not object.refURL1 %}
+          {% else %}
+          <div class="multiple_items_child">
+            <p>URL1：</p>
+            <a href="{{ object.refURL1 }}" target="_blank">{{ object.refURL1 }}</a>
+          </div>
+          {% endif %}
+    
+          {% if not object.refURL2 %}
+          {% else %}
+          <div class="multiple_items_child">
+            <p>URL2：</p>
+            <a href="{{ object.refURL2 }}" target="_blank">{{ object.refURL2 }}</a>
+          </div>
+          {% endif %}
+    
+          {% if not object.refURL3 %}
+          {% else %}
+          <div class="multiple_items_child">
+            <p>URL3：</p>
+            <a href="{{ object.refURL3 }}" target="_blank">{{ object.refURL3 }}</a>
+          </div>
+          {% endif %}
+    
+        </dd>
+      </dl>
+
 
     <dl class="item_dl item18">
-        <dt class="height_l">請求書</dt>
-        <dd class="height_l">
+      <dt class="height_m">見積書</dt>
+      <dd class="height_m">
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item19">
+        <dt class="height_m">請求書</dt>
+        <dd class="height_m">
         </dd>
     </dl>
 
-    <dl class="item_dl item19">
-        <dt class="height_l">領収書</dt>
-        <dd class="height_l">
+    <dl class="item_dl item20">
+        <dt class="height_m">領収書</dt>
+        <dd class="height_m">
+        </dd>
+    </dl>
+
+    <dl class="item_dl item21">
+        <dt class="">支払情報</dt>
+        <dd class="">
         </dd>
     </dl>
   
-    <dl class="item_dl item20">
-        <dt>支払情報</dt>
-        <dd>-</dd>
-    </dl>
+    
   
     <dl class="item_dl item_dl_dummy_s">
       <dt></dt> <dd></dd>
     </dl>
   
-    <dl class="item_dl item_dl_dummy_l height_m">
+    <dl class="item_dl item_dl_dummy_l height_l">
       <dt></dt> <dd></dd>
     </dl>
   

@@ -46,7 +46,8 @@ class ListProject(ListView):
         context['items_count'] = self.get_queryset().count()
     
         # 金額表示
-        context['items_amount'] = self.get_queryset().aggregate(salesTotal=Sum("salesTotal"))
+        context['items_amount_sales'] = self.get_queryset().aggregate(salesTotal=Sum("salesTotal_exctax"))
+        context['items_amount_cost'] = self.get_queryset().aggregate(costTotal=Sum("costTotal_exctax"))
 
         return context
 
@@ -54,8 +55,164 @@ class ListProject(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
        
-        return queryset
+        projectProgress = self.request.GET.get('projectProgress')
+        client = self.request.GET.get('client')
+        projectCategory = self.request.GET.get('projectCategory')
+        projectName = self.request.GET.get('projectName')
+        description = self.request.GET.get('description')
 
+        projectDateFrom = self.request.GET.get('projectDateFrom')
+        projectDateTo = self.request.GET.get('projectDateTo')
+
+        invoiceDateFrom = self.request.GET.get('invoiceDateFrom')
+        invoiceDateTo = self.request.GET.get('invoiceDateTo')
+
+        salesAmountFrom = self.request.GET.get('salesAmountFrom')
+        salesAmountTo = self.request.GET.get('salesAmountTo')
+
+        self.request.session['projectProgress'] = projectProgress
+        self.request.session['client'] = client
+        self.request.session['projectCategory'] = projectCategory
+        self.request.session['projectName'] = projectName
+        self.request.session['description'] = description
+
+        self.request.session['projectDateFrom'] = projectDateFrom
+        self.request.session['projectDateTo'] = projectDateTo
+
+        self.request.session['invoiceDateFrom'] = invoiceDateFrom
+        self.request.session['invoiceDateTo'] = invoiceDateTo
+        
+        self.request.session['salesAmountFrom'] = salesAmountFrom
+        self.request.session['salesAmountTo'] = salesAmountTo
+
+        # 絞り込み前の初期値
+        queryset0 = Project.objects.all().order_by('projectPeriodFrom')
+
+        # ページ遷移直後でなければ値がNullではないため絞込可能
+        if projectProgress or client or projectCategory or\
+            projectName or description or \
+            projectDateFrom or projectDateTo or\
+            invoiceDateFrom or invoiceDateTo or\
+            salesAmountFrom or salesAmountTo  :
+
+            if projectProgress:
+                queryset1 = queryset0.filter(projectProgress__id=projectProgress)
+            else:
+                queryset1 = queryset0.all()
+
+            if client:
+                queryset2 = queryset1.filter(client__id=client)
+            else:
+                queryset2 = queryset1.all()
+
+            if projectCategory:
+                queryset3 = queryset2.filter(projectcategory__id=projectCategory)
+            else:
+                queryset3 = queryset2.all()
+
+            if projectName:
+                queryset4 = queryset3.filter(projectName__contains=projectName)
+            else:
+                queryset4 = queryset3.all()
+
+            if description:
+                queryset5 = queryset4.filter(description__contains=description)
+            else:
+                queryset5 = queryset4.all()
+
+            # 日付の絞込
+            if projectDateFrom and projectDateTo :
+                queryset6 = queryset5.filter(
+                     (Q(projectPeriodFrom__gte=projectDateFrom), Q(projectPeriodFrom__lte=projectDateTo))|
+                     (Q(projectDateTo_gte=projectDateFrom), Q(projectDateTo__lte=projectDateTo))
+                     )
+
+            elif projectDateFrom and not projectDateTo :
+                queryset6 = queryset5.filter(
+                    projectPeriodFrom__gte=projectDateFrom)
+
+            elif not projectDateFrom and projectDateTo :
+                queryset6 = queryset5.filter(
+                     Q(projectPeriodFrom__lte=projectDateTo),
+                     Q(projectPeriodTo__lte=projectDateTo)
+                    )
+
+            else:                 
+                queryset6 = queryset5.all()
+
+
+            # if invoiceDateFrom and invoiceDateTo :
+            #     queryset6 = queryset5.filter(
+            #          Q(projectPeriodFrom__gte=projectDateFrom),
+            #          Q(projectPeriodTo__lte=projectDateTo)
+            #          )
+
+            # elif projectDateFrom and not projectDateTo :
+            #     queryset6 = queryset5.filter(
+            #         projectPeriodFrom__gte=projectDateFrom)
+
+            # elif not projectDateFrom and projectDateTo :
+            #     queryset6 = queryset5.filter(
+            #         projectPeriodFrom__lte=projectDateTo)
+
+            # else:                 
+            #     queryset6 = queryset5.all()
+
+
+
+            # 金額の絞り込み（自・至）
+            if salesAmountFrom and salesAmountTo:
+                queryset7 = queryset6.filter(salesTotal_exctax__range=(salesAmountFrom, salesAmountTo))
+
+            # 金額の絞り込み（自）
+            elif salesAmountFrom and (not salesAmountTo):
+                queryset7 = queryset6.filter(salesTotal_exctax__gte=salesAmountFrom)
+
+            # 金額の絞り込み（至）
+            elif (not salesAmountFrom) and salesAmountTo:
+                queryset7 = queryset6.filter(salesTotal_exctax__lte=salesAmountTo)
+
+            elif (not salesAmountFrom) and (not salesAmountTo):
+                queryset7 = queryset6.all()
+
+            queryset = queryset7
+
+            print(queryset)
+
+        # ページ遷移直後のNullでは絞込なし
+        else:
+            qeryset = queryset0
+        
+        return queryset.order_by('projectPeriodFrom')
+
+    def post(self, request):
+
+        if request.method == 'POST':
+            print("post")
+
+            if 'export_csv' in request.POST:
+                print("export_csv")
+
+                queryset = self.get_queryset()
+
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="stylist_project.csv"; unicode="utf_8_sig"'
+
+                writer = csv.writer(response, delimiter=',', encoding='utf_8_sig')
+
+                writer.writerow(['id','No.','進捗','納品日・期間（自）','納品日・期間（至）',
+                    '日時詳細','場所','顧客','先方担当','種別','案件名','当社担当',
+                    'スタイリスト1','スタイリスト2','スタイリスト3','アシスタント1','アシスタント2','アシスタント3',
+                    'メモ','税抜売上','税抜費用'])
+                for item in queryset.order_by('-projectNum'):
+                    writer.writerow([item.id,item.projectNum,item.projectProgress,item.projectPeriodFrom,item.projectPeriodTo,
+                    item.projectPeriodDetail, item.location,item.client,item.clientDetail,item.projectcategory,item.projectName,item.mSatff,
+                    item.staff1,item.staff2,item.staff3,item.assistant1,item.assistant2,item.assistant3,
+                    item.description,item.salesTotal_exctax,item.costTotal_exctax])
+                
+                return response
+        
+        return redirect('stylistdivision:list_project')
 
 
 
@@ -73,12 +230,22 @@ class CreateProject(CreateView):
 
         form = self.form_class(request.POST, request.FILES)
 
-        params = {
-            'form':form
-        }
-
         if form.is_valid():
             obj = form.save(commit=False)
+
+            obj.createdDate = datetime.date.today()
+
+            # 税抜合計の計算
+
+            salses = (obj.salesAmount1_inctax + obj.salesAmount2_inctax + obj.salesAmount2_inctax)/1.1 \
+                + obj.salesAmount2_notax + obj.salesAmount3_notax
+
+            obj.salesTotal_exctax = round(salses)
+
+            cost = (obj.costAmount1_inctax + obj.costAmount2_inctax + obj.costAmount3_inctax)/1.1 \
+                + obj.costAmount2_notax + obj.costAmount3_notax
+    
+            obj.costTotal_exctax = round(cost)
     
             # requestNumの設定
             currentYear= datetime.date.today().year
@@ -97,7 +264,7 @@ class CreateProject(CreateView):
             return redirect('stylistdivision:detail_project', pk= obj.id)
         
         else:
-            return render(request, self.template_name, params ) 
+            return render(request, self.template_name ) 
 
 
 
@@ -106,11 +273,24 @@ class UpdateProject(UpdateView):
     model  = Project
     form_class = UpdateProjectForm
     
-    def get_success_url(self):
-        return reverse('stylistdivision:detail_project', kwargs={'pk': self.object.id})
 
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
 
+        sales = (post.salesAmount1_inctax + post.salesAmount2_inctax + post.salesAmount3_inctax)/1.1 \
+            + post.salesAmount2_notax + post.salesAmount3_notax
 
+        post.salesTotal_exctax = round(sales)
+
+        cost = (post.costAmount1_inctax + post.costAmount2_inctax + post.costAmount3_inctax)/1.1 \
+            + post.costAmount2_notax + post.costAmount3_notax
+
+        post.costTotal_exctax = round(cost)
+
+        post.save()
+        return redirect('stylistdivision:detail_project', pk=post.pk)
 
 
 

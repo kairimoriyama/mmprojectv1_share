@@ -18,7 +18,7 @@ function display_on(){
 //表示・非表示の初期値
 function display_criteria(){
 
-  if (parseInt(localStorage.getItem('stylistdivision_display_key'))==1) {
+  if (parseInt(localStorage.getItem('stylist_settlement_display_key'))==1) {
     display_on();    
   }else{
     display_off();
@@ -31,10 +31,10 @@ function display_switch_bt(){
 
   if(detail_form.style.display=="none"){
     display_on();
-    localStorage.setItem('stylistdivision_display_key', '1'); //1を設定
+    localStorage.setItem('stylist_settlement_display_key', '1'); //1を設定
   }else{
     display_off();
-    localStorage.setItem('stylistdivision_display_key', '0'); //0を設定
+    localStorage.setItem('stylist_settlement_display_key', '0'); //0を設定
   }
 };
 
@@ -60,7 +60,7 @@ function selected_record(){
 function set_search_key(){
 
   localStorage.setItem('stylistdivision_count_key', '1'); //カウント1を設定
-  localStorage.removeItem('stylistdivision_search_key');
+  localStorage.removeItem('stylist_settlement_search_key');
 
 
   let arCheck = document.getElementById('id_arCheck').value;
@@ -82,7 +82,7 @@ function set_search_key(){
   });
  
   let datasetJSON = JSON.stringify(dataset); // JSONに変換
-  localStorage.setItem('stylistdivision_search_key', datasetJSON); 
+  localStorage.setItem('stylist_settlement_search_key', datasetJSON); 
 
 };
 
@@ -94,7 +94,7 @@ function count_key_clear(){
 
 function get_search_key() {
 
-  let dataset = JSON.parse(localStorage.getItem('stylistdivision_search_key'));
+  let dataset = JSON.parse(localStorage.getItem('stylist_settlement_search_key'));
 
   if (dataset === null) {
 
@@ -114,7 +114,7 @@ function get_search_key() {
     if (parseInt(localStorage.getItem('stylistdivision_count_key'))==1) { //カウント1であればそのまま実行
 
       localStorage.removeItem('stylistdivision_count_key'); 
-      localStorage.removeItem('stylistdivision_search_key');
+      localStorage.removeItem('stylist_settlement_search_key');
       
     }else{
       localStorage.setItem('stylistdivision_count_key', '1'); //カウント1を設定
@@ -133,7 +133,7 @@ window.onload = get_search_key(); //読み込み時に遷移前の検索条件�
 
 function clear_criteria(){
 
-  localStorage.setItem('stylistdivision_display_key', '1'); //1を設定
+  localStorage.setItem('stylist_settlement_display_key', '1'); //1を設定
 
   document.getElementById('id_arCheck').value= null;
   document.getElementById('description2').value= null;

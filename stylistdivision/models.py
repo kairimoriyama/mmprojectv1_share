@@ -99,28 +99,14 @@ class Settlement(models.Model):
         return str(self.no) + ' ' + str(self.statement.deopsitAmount)+ str(self.statement.description2)
 
 
-
 class Project(models.Model):
     projectNum =  models.IntegerField(blank=False,null=False)
     projectProgress = models.ForeignKey(ProjectProgress,on_delete=models.PROTECT, related_name ='project_projectProgress',default=1)    
     createdDate = models.DateField(default=timezone.now, blank=True,null=True)
 
-    # quotationDate = models.DateField(blank=True,null=True)
-    # quotationNum =  models.IntegerField(blank=True,null=True)
-    # quotationFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # quotationFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # quotationFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-
-    # invoiceDate = models.DateField(blank=True,null=True)
-    # invoiceNum =  models.IntegerField(blank=True,null=True)
-    # invoiceFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # invoiceFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-    # invoiceFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
-
     client = models.ForeignKey(Client,on_delete=models.PROTECT, related_name ='project_client',blank=True,null=True) 
     clientDetail = models.CharField(max_length=200,blank=True,null=True)
 
-    mSatffDivision = models.ForeignKey(Division,on_delete=models.PROTECT, related_name ='project_mStaffDivision') 
     mSatff =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
         related_name ='project_mSatff',blank=True,null=True)
 
@@ -131,15 +117,21 @@ class Project(models.Model):
     assistant2 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff2',blank=True,null=True)
     assistant3 =  models.ForeignKey(StaffDB, on_delete=models.PROTECT, related_name='project_academyStaff3',blank=True,null=True)
 
-    salesAmount1 = models.IntegerField(default=0,blank=False,null=False)
-    salesAmount2 = models.IntegerField(default=0,blank=False,null=False)
-    salesAmount3 = models.IntegerField(default=0,blank=False,null=False)
+    salesAmount1_inctax = models.IntegerField(default=0,blank=False,null=False)
+    salesAmount2_inctax = models.IntegerField(default=0,blank=False,null=False)
+    salesAmount3_inctax = models.IntegerField(default=0,blank=False,null=False)
+    salesAmount2_notax = models.IntegerField(default=0,blank=False,null=False)
+    salesAmount3_notax = models.IntegerField(default=0,blank=False,null=False)
     salesTotal = models.IntegerField(default=0,blank=False,null=False)
+    salesTotal_exctax = models.IntegerField(default=0,blank=False,null=False)
 
-    costAmount1 = models.IntegerField(default=0,blank=False,null=False)
-    costAmount2 = models.IntegerField(default=0,blank=False,null=False)
-    costAmount3 = models.IntegerField(default=0,blank=False,null=False)
-    costATotal = models.IntegerField(default=0,blank=False,null=False)
+    costAmount1_inctax = models.IntegerField(default=0,blank=False,null=False)
+    costAmount2_inctax = models.IntegerField(default=0,blank=False,null=False)
+    costAmount3_inctax = models.IntegerField(default=0,blank=False,null=False)
+    costAmount2_notax = models.IntegerField(default=0,blank=False,null=False)
+    costAmount3_notax = models.IntegerField(default=0,blank=False,null=False)
+    costTotal = models.IntegerField(default=0,blank=False,null=False)
+    costTotal_exctax = models.IntegerField(default=0,blank=False,null=False)
 
     projectcategory = models.ForeignKey(ProjectCategory,on_delete=models.PROTECT, related_name ='project_projectCategory',default=1)    
     projectName = models.CharField(max_length=200,blank=True,null=True)
@@ -177,3 +169,123 @@ class Project(models.Model):
     def __str__(self):
         return   str(self.projectNum)+' '+str(self.client)
 
+class Estimate(models.Model):
+    no =  models.IntegerField(blank=False,null=False)
+    project =  models.ForeignKey(Project,on_delete=models.PROTECT,
+        related_name ='project_estimate',blank=True,null=True)
+    estimateDate = models.DateField(default=timezone.now, blank=True,null=True)
+    totalAmount = models.IntegerField(blank=True,null=True)
+    memo = models.TextField(max_length=250,blank=True,null=True)
+
+    pdfFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    pdfFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    pdfFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
+    refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
+    deletedItem = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural="Estimate"
+
+    def __str__(self):
+        return str(self.no) + ' ' + str(self.project.projectNum)+ ' ' + str(self.estimateDate)
+
+class Invoice(models.Model):
+    no =  models.IntegerField(blank=False,null=False)
+    project =  models.ForeignKey(Project,on_delete=models.PROTECT,
+        related_name ='project_invoice',blank=True,null=True)
+    invoiceDate = models.DateField(default=timezone.now, blank=True,null=True)
+    totalAmount = models.IntegerField(blank=True,null=True)
+    memo = models.TextField(max_length=250,blank=True,null=True)
+
+    pdfFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    pdfFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    pdfFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
+    refFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    refFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
+    deletedItem = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural="Invoice"
+
+    def __str__(self):
+        return str(self.no) + ' ' + str(self.project.projectNum)+ ' ' + str(self.invoiceDate)
+
+
+class Receipt(models.Model):
+    no =  models.IntegerField(blank=False,null=False)
+    project =  models.ForeignKey(Project,on_delete=models.PROTECT,
+        related_name ='project_receipt',blank=True,null=True)
+
+    receiptDate = models.DateField(default=timezone.now, blank=True,null=True)
+    totalAmount = models.IntegerField(blank=True,null=True)
+    receiptSubject = models.CharField(max_length=200,blank=True,null=True)
+    receiptNote = models.CharField(max_length=200,blank=True,null=True)
+
+    zipcode =  models.IntegerField(blank=True,null=True)
+    adress1 = models.CharField(max_length=200,blank=True,null=True)
+    adress2 = models.CharField(max_length=200,blank=True,null=True)
+
+    name1 = models.CharField(max_length=200,blank=True,null=True)
+    name2 = models.CharField(max_length=200,blank=True,null=True)
+
+    sentDate = models.DateField(default=timezone.now, blank=True,null=True)
+    memo = models.TextField(max_length=250,blank=True,null=True)
+    
+    pdfFile1 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    pdfFile2 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+    pdfFile3 = models.FileField(upload_to='files/%Y/%m/%d', blank=True,null=True)
+
+    deletedItem = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural="Receipt"
+
+    def __str__(self):
+        return str(self.no) + ' ' + str(self.project.projectNum)+ ' ' + str(self.sentDate)
+
+
+class CostCategory(models.Model):
+    no = models.IntegerField(blank=False,null=False)
+    name = models.CharField(max_length=50,blank=False,null=False)
+
+    class Meta:
+        verbose_name_plural="CostCategory"
+        ordering = ('no',)
+
+    def __str__(self):
+        return self.name
+
+
+class CostDetail(models.Model):
+    no =  models.IntegerField(blank=False,null=False)
+    project =  models.ForeignKey(Project,on_delete=models.PROTECT,
+        related_name ='project_cost',blank=True,null=True)
+
+    mSatff =  models.ForeignKey(StaffDB,on_delete=models.PROTECT,
+        related_name ='staff_cost',blank=True,null=True)
+
+    costDate = models.DateField(default=timezone.now, blank=True,null=True)
+
+    amountIncTac = models.IntegerField(blank=True,null=True)
+    amountTaxFree = models.IntegerField(blank=True,null=True)
+    totalAmount = models.IntegerField(blank=True,null=True)
+    
+    costCategory = models.ForeignKey(CostCategory,on_delete=models.PROTECT,
+        related_name ='costCategory',blank=True,null=True)
+
+    description = models.CharField(max_length=200,blank=True,null=True)
+
+    deletedItem = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural="CostDetail"
+
+    def __str__(self):
+        return str(self.no) + ' ' + str(self.project.projectNum)+ ' ' + str(self.mSatff)

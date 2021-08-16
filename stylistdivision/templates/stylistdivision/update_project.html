@@ -1,17 +1,312 @@
 {% extends 'stylistdivision/base.html' %}
-{% load humanize %}
+
+
+{% block head %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'stylistdivision/styles/project.css' %}">
+
+    {% load humanize %}
+
+{% endblock head%}
+
 
 {% block header %}
 
-<li><a class="" href="{% url 'stylistdivision:detail_project' %}">戻る</a></li>
+<li><a class="" href="{% url 'stylistdivision:detail_project' object.pk %}">戻る</a></li>
 
-{% endblock%}
+{% endblock header %}
 
 
 {% block content %}
 
 
+<form class="container_create_project" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
 
+    <div class="menu_wrapper_inner margin_top margin_bottom item0">
+        <div class="submit_btn_wrapper">
+        <h3 class="margin_right_l">案件情報</h3>
+        <input class="menu_bt width_m margin_right_l" type="submit" value='更新'>
+        <h3 class="alert">{{ form.non_field_errors }}</h3>
+        </div>
+    </div>
+
+    <dl class="item_dl item1">
+      <dt>案件番号</dt>
+      <dd class="text_align_left">{{ form.projectNum }}</dd>
+    </dl>
+
+    <dl class="item_dl item2">
+        <dt>進捗</dt>
+        <dd>{{ form.projectProgress }}</dd>
+      </dl>
+  
+    <dl class="item_dl item3">
+      <dt>納品日・期間</dt>
+      <dd>
+        <div class="flex_box width_l">{{ form.projectPeriodFrom }}<p>&nbsp;-&nbsp;</p>{{ form.projectPeriodTo }}</div>
+      </dd>
+    </dl>
+
+    <dl class="item_dl item4">
+        <dt>日時詳細</dt>
+        <dd>{{ form.projectPeriodDetail }}</dd>
+    </dl>
+
+    <dl class="item_dl item5">
+        <dt>場所</dt>
+        <dd>{{ form.location}}</dd>
+    </dl>
+    
+    <dl class="item_dl item6">
+      <dt>顧客名</dt>
+      <dd>{{ form.client }}</dd>
+    </dl>
+
+    <dl class="item_dl item7">
+        <dt>先方担当</dt>
+        <dd>{{ form.clientDetail }}</dd>
+    </dl>
+      
+    <dl class="item_dl item8">
+      <dt>案件種別</dt>
+      <dd>{{ form.projectcategory }}</dd>
+    </dl>
+  
+    <dl class="item_dl item9">
+        <dt>案件名</dt>
+        <dd>{{ form.projectName}}</dd>
+    </dl>
+
+    <dl class="item_dl item10 staffNumber">
+      <dt>当社担当</dt>
+      <dd id="managementStaffNumber">
+        <input class="margin_right_s" name="managementStaffNumber" type="number">
+        {{ form.mSatff}}
+      </dd>
+    </dl>
+  
+    <dl class="item_dl item11 multiple_items_starff staffNumber">
+        <dt class="height_m">スタイリスト</dt>
+        <dd class="height_m">
+
+          <div id="stylistStaffNumber1">
+            <p>1</p>
+            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber1" type="number">
+            {{ form.staff1}}
+          </div>
+
+          <div id="stylistStaffNumber2">
+            <p>2</p>
+            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber2" type="number">
+            {{ form.staff2}}
+          </div>
+
+          <div id="stylistStaffNumber3">
+            <p>3</p>
+            <input class="margin_left_s width_s margin_right_s" name="stylistStaffNumber3" type="number">
+            {{ form.staff3}}
+          </div>
+
+        </dd>
+    </dl>
+
+    <dl class="item_dl item12 multiple_items_starff staffNumber">
+        <dt class="height_m">アシスタント</dt>
+        <dd class="height_m">
+
+          <div id="stylistStaffNumber1">
+            <p>1</p>
+            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber1" type="number">
+            {{ form.assistant1}}
+          </div>
+
+          <div id="stylistStaffNumber2">
+            <p>2</p>
+            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber2" type="number">
+            {{ form.assistant2}}
+          </div>
+
+          <div id="stylistStaffNumber3">
+            <p>3</p>
+            <input class="margin_left_s width_s margin_right_s" name="academyStaffNumber3" type="number">
+            {{ form.assistant3}}
+          </div>
+        </dd>
+    </dl>
+
+    <dl class="item_dl item13">
+      <dt class="height_ll sentence_dt2">メモ</dt>
+      <dd class="height_ll sentence_dd2">{{ form.description}}</dd>
+  </dl>
+  
+
+  <dl class="item_dl item14 multiple_items_amount">
+      <dt class="height_xl">税込金額</dt>
+      <dd class="height_xl flex_box_wrap">
+
+        <div  class="flex_box width_max">
+          <ul class="width_mm">
+            <li><p class="width_mm text_align_right">課税対象</p></li>
+          </ul>
+          <ul class="width_ms margin_left_l">
+            <li><p class="width_ms text_align_right">課税対象外</p></li>
+          </ul>
+          <ul class="width_ms margin_left_l">
+            <li><p class="width_ms text_align_right">税込合計</p></li>
+          </ul>
+        </div>
+
+        <div class="flex_box width_max margin_top">
+          <ul class="flex_box_wrap width_mm height_9rem space_between">
+              <li class="width_mm flex_box_justify_spacebetween"><p>報酬</p>{{ form.salesAmount1_inctax}}</li>
+              <li class="width_mm flex_box_justify_spacebetween"><p>請求実費</p>{{ form.salesAmount2_inctax}}</li>
+              <li class="width_mm flex_box_justify_spacebetween"><p>その他請求</p>{{ form.salesAmount3_inctax}}</li>
+          </ul>
+          <ul class="flex_box_wrap width_ms height_9rem space_between margin_left_l">
+            <li class="width_ms lign_height_input"></li>
+            <li class="width_ms">{{ form.salesAmount2_notax}}</li>
+            <li class="width_ms">{{ form.salesAmount3_notax}}</li>
+          </ul>
+          <ul class="width_ms height_9rem margin_left_l flex_end">
+            <li>{{ form.salesTotal}}</li>
+          </ul>
+        </div>
+
+        <div  class="flex_box width_max margin_top">
+          <ul class="width_mm height_9rem space_between">
+            <li class="width_mm flex_box_justify_spacebetween"><p>外注費</p>{{ form.costAmount1_inctax}}</li>
+            <li class="width_mm flex_box_justify_spacebetween"><p>社内リース</p>{{ form.costAmount2_inctax}}</li>
+            <li class="width_mm flex_box_justify_spacebetween"><p>その他経費</p>{{ form.costAmount3_inctax}}</li>
+          </ul>
+
+          <ul class="flex_box_wrap width_ms height_9rem space_between margin_left_l">
+            <li class="width_ms lign_height_input"></li>
+            <li class="width_ms">{{ form.costAmount2_notax}}</li>
+            <li class="width_ms">{{ form.costAmount3_notax}}</li>
+          </ul>
+
+          <ul class="width_ms height_9rem margin_left_l flex_end">
+            <li>{{ form.costTotal}}</li>
+          </ul>
+        </div>
+
+      </dd>
+    </dl>
+
+    <dl class="item_dl item15 multiple_items">
+        <dt class="height_l">画像</dt>
+        <dd class="height_l multiple_items_update">
+            <div class="attachment_update">
+                <p>写真（1）</p>
+                <div>{{ form.picture1 }}</div>
+            </div>
+        
+            <div class="attachment_update">
+                <p>写真（2）</p>
+                <div>{{ form.picture2 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（3）</p>
+                <div>{{ form.picture3 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（4）</p>
+                <div>{{ form.picture4 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（5）</p>
+                <div>{{ form.picture5 }}</div>
+            </div>
+    
+            <div class="attachment_update">
+                <p>写真（6）</p>
+                <div>{{ form.picture6 }}</div>
+            </div>
+        </dd>
+    </dl>
+        
+    <dl class="item_dl item16 multiple_items">
+        <dt class="height_l">案件資料</dt>
+        <dd class="height_l multiple_items_update">
+
+            <div class="attachment_update">
+                <p>資料（1）</p>
+                <div>{{ form.refFile1 }}</div>
+            </div>
+        
+            <div class="attachment_update">
+                <p>資料（2）</p>
+                <div>{{ form.refFile2 }}</div>
+            </div>
+
+            <div class="attachment_update">
+                <p>資料（3）</p>
+                <div>{{ form.refFile3 }}</div>
+            </div>
+        </dd>
+    </dl>
+
+    <dl class="item_dl item17 multiple_items_URL">
+        <dt class="height_l">URL</dt>
+        <dd class="height_l">
+          <div class="flex_box">
+            <p class="margin_right_s">1</p>
+            {{ form.refURL1 }}
+         </div>
+         <div class="flex_box">
+            <p class="margin_right_s">2</p>
+            {{ form.refURL2 }}
+         </div>
+         <div class="flex_box">
+            <p class="margin_right_s">3</p>
+            {{ form.refURL3 }}
+         </div>
+        </dd>
+    </dl>
+    
+  
+    <dl class="item_dl item18">
+        <dt class="height_l">見積書</dt>
+        <dd class="height_l">
+        </dd>
+    </dl>
+
+    <dl class="item_dl item19">
+        <dt class="height_l">請求書</dt>
+        <dd class="height_l">
+        </dd>
+    </dl>
+
+    <dl class="item_dl item20">
+        <dt class="height_l">領収書</dt>
+        <dd class="height_l">
+        </dd>
+    </dl>
+  
+    <dl class="item_dl item21">
+        <dt>支払情報</dt>
+        <dd>-</dd>
+    </dl>
+  
+    <dl class="item_dl item_dl_dummy_s">
+      <dt></dt> <dd></dd>
+    </dl>
+  
+    <dl class="item_dl item_dl_dummy_l height_m">
+      <dt></dt> <dd></dd>
+    </dl>
+  
+  </form>
+  <hr>
+
+  {% load static %}
+  <script src="{% static 'stylistdivision/js/create_project.js' %}"></script>
+  
 
 {% endblock content%}
 

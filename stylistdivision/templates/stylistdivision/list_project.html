@@ -1,5 +1,7 @@
 {% extends 'stylistdivision/base.html' %}
 {% load humanize %}
+{% load mathfilters %}
+{% load boost %}
 
 {% block header %}
 
@@ -8,6 +10,13 @@
 <li><a class="margin_left_l" href="{% url 'stylistdivision:list_client' %}">顧客一覧</a></li>
 
 <li class="margin_left_l"><a href="{% url 'stylistdivision:list_settlement' %}">債権回収</a></li>
+
+<li class="for_wide_screen">
+  <form method="POST" href="" enctype="multipart/form-data">{% csrf_token %}
+    <input class="menu_bt width_m export_csv margin_left_l" type="submit"  name="export_csv" value="CSV 出力">
+  </form>
+</li>
+
 
 <ul class="page_nav margin_left">
 
@@ -42,13 +51,11 @@
 
 {% block content %}
 
-<form method="GET" href="" class="menu_wrapper margin_left_right margin_top_l" >
+<form method="GET"  href="" class="menu_wrapper margin_left_right margin_top_l">
 
   <div class="menu_wrapper_inner  margin_top margin_bottom">
 
-    <button form="detail_form" class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
-    <h4 class="margin_left_l">{{ items_count |intcomma}} 件</h4>
-    <h4 class="margin_left">{{ items_amount.salesTotal |intcomma}} 円</h4>
+    <button class="menu_bt width_m yubi"  type="submit" onclick="set_search_key();">検索</button>
 
     <button class="padding_zero yubi margin_left" href="" onclick="clear_criteria();"><h4>条件削除</h4></button>
 
@@ -56,6 +63,12 @@
       <input onclick="display_switch_bt();" id="display_button" type="checkbox"><label for="display_button"></label>
     </div>
 
+    <h4 class="margin_left_ll for_wide_screen">{{ items_count |intcomma}}件</h4>
+    <h4 class="margin_left_ll for_wide_screen">売上税抜&nbsp;{{ items_amount_sales.salesTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll for_wide_screen">費用税抜&nbsp;{{ items_amount_cost.costTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll for_wide_screen">粗利&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal |intcomma}} </h4>
+    <h4 class="margin_left_ll for_wide_screen">粗利率&nbsp;{{ items_amount_sales.salesTotal|sub:items_amount_cost.costTotal|div:items_amount_sales.salesTotal | mul:100 |floatformat:0}}%</h4>
+    
   </div>
 
   <!-- record id 自動入力 type="hidden"-->
@@ -87,31 +100,39 @@
 
   <dl>
     <dt>案件名</dt>
-    <dd><input id="description2" name="description2" value="{{ request.GET.description2 }}" type="text"></dd>
+    <dd><input id="projectName" name="projectName" value="{{ request.GET.projectName }}" type="text"></dd>
   </dl>
 
   <dl>
     <dt>メモ</dt>
-    <dd><input id="memo" name="memo" value="{{ request.GET.memo }}" type="text"></dd>
+    <dd><input id="description" name="description" value="{{ request.GET.description }}" type="text"></dd>
   </dl>
 
 
   <dl class="list_filter_date">
-    <dt>請求時期</dt>
+    <dt>納品日・期間</dt>
     <dd>
-      <input id="transactionDateFrom" name="transactionDateFrom" value="{{ request.GET.transactionDateFrom }}" type="date">
+      <input id="projectDateFrom" name="projectDateFrom" value="{{ request.GET.projectDateFrom }}" type="date">
       <p>-</p>
-      <input id="transactionDateTo" name="transactionDateTo" value="{{ request.GET.transactionDateTo }}" type="date">
+      <input id="projectDateTo" name="projectDateTo" value="{{ request.GET.projectDateTo }}" type="date">
     </dd>
   </dl>
 
+  <dl class="list_filter_date">
+    <dt>請求日</dt>
+    <dd>
+      <input id="invoiceDateFrom" name="invoiceDateFrom" value="{{ request.GET.invoiceDateFrom }}" type="date">
+      <p>-</p>
+      <input id="invoiceDateTo" name="invoiceDateTo" value="{{ request.GET.invoiceDateTo }}" type="date">
+    </dd>
+  </dl>
 
   <dl class="list_filter_date">
     <dt>売上高</dt>
     <dd>
-      <input id="amountFrom" name="amountFrom" value="{{ request.GET.amountFrom }}" type="number">
+      <input id="salesAmountFrom" name="salesAmountFrom" value="{{ request.GET.salesAmountFrom }}" type="number">
       <p>-</p>
-      <input id="amountTo" name="amountTo" value="{{ request.GET.amountTo }}" type="number">
+      <input id="salesAmountTo" name="salesAmountTo" value="{{ request.GET.salesAmountTo }}" type="number">
     </dd>
   </dl>
 
@@ -122,27 +143,29 @@
 
 
 
-<div class="margin_left_right margin_top"><h3>案件一覧</h3></div>
+<div class="margin_left_right margin_top"><h3>案件管理</h3></div>
 <table class="item-table">
 
 	<tr>
 		<th class="sticky_col_th first_col">選択</th>
 		<th class="sticky_col_th second_col">No.</th>
+    <th>進捗</th>
     <th>納品日・期間</th>
     <th>日時詳細</th>
     <th>場所</th>
     <th>顧客</th>
-    <th>担当</th>
+    <th>先方担当</th>
+    <th>種別</th>
     <th>案件名</th>
-    <th>管理者</th>
+    <th>当社担当</th>
     <th>スタイリスト</th>
     <th>アシスタント</th>
     <th>メモ</th>
-		<th>売上</th>
-    <th>費用</th>
+		<th>税抜売上</th>
+    <th>税抜費用</th>
     <th>粗利</th>
     <th>粗利率</th>
-    <th>納品書</th>
+    <th>見積書</th>
     <th>請求書</th>
     <th>入金</th>
     <th>領収書</th>
@@ -162,35 +185,75 @@
         <input type="checkbox" name="selected_record" value="{{ item.pk }}" onclick="selected_record();">
       </td>
 
-      <td class="sticky_col_td second_col"><a href="">{{ item.projectNum}}</a></td>
+      <td class="sticky_col_td second_col"><a href="{% url 'stylistdivision:detail_project' item.pk %}">{{ item.projectNum}}</a></td>
       <td>{{ item.projectProgress }}</td>
-      <td>{{ item.client }}</td>
-      <td class="date_col">{{ item.statement.quotationDate | date:"Y-m-j"}}</td>
-      <td class="date_col">{{ item.statement.invoiceDate | date:"Y-m-j"}}</td>
-  
-      <td>
-        {% if item.statement.description2 %}
-          {{ item.statement.description2 }}
-        {% else %}
-        {% endif %}
-      </td>
-      <td class="number_col">{{ item.statement.deopsitAmount|intcomma}}</td>
-      <td class="number_col">{{ item.transferFee|intcomma}}</td>
-      <td class="number_col">{{ item.otherAmount|intcomma}}</td>
-      <td class="number_col">{{ item.totalAmount|intcomma}}</td>
 
-      <td>
-        {% if item.memo %}
-          {{ item.memo }}
+      <td class="center_col">
+        {% if item.projectPeriodFrom == item.projectPeriodTo %}
+          {{ item.projectPeriodFrom | date:"Y/m/d" }}
+        {% else %}
+          {{ item.projectPeriodFrom | date:"Y/m/d" }}<p>&nbsp;-&nbsp;</p>{{ item.projectPeriodTo | date:"Y/m/d" }}
+        {% endif %}
+      </td>
+  
+      <td class="longText">
+        {% if item.projectPeriodDetail %}
+          {{ item.projectPeriodDetail }}
         {% else %}
         {% endif %}
       </td>
-      <td>
-        {% if item.refFile %}
-          <p>URL</p>
+
+      <td class="longText">
+        {% if item.location %}
+          {{ item.location }}
         {% else %}
         {% endif %}
-      </td>          
+      </td>
+
+
+      <td>{{ item.client }}</td>
+      <td class="longText">
+        {% if item.clientDetail %}
+          {{ item.clientDetail }}
+        {% else %}
+        {% endif %}
+      </td>
+      <td>{{ item.projectcategory }}</td>
+      <td>{{ item.projectName }}</td>
+
+      <td>{{ item.mSatff }}</td>
+
+      <td class="longText">{% if item.staff1 %}{{ item.staff1}}{% else %}{% endif %}
+          {% if item.staff2 %}-&nbsp;{{ item.staff2}}{% else %}{% endif %}
+          {% if item.staff3 %}-&nbsp;{{ item.staff3}}{% else %}{% endif %}
+      </td>
+
+      <td class="longText">{% if item.assistant1 %}{{ item.assistant1}}{% else %}{% endif %}
+        {% if item.assistant2 %}-&nbsp;{{ item.assistant2}}{% else %}{% endif %}
+        {% if item.assistant3 %}-&nbsp;{{ item.assistant3}}{% else %}{% endif %}
+      </td>
+
+      <td class="longText">
+        {% if item.description %}
+          {{ item.description }}
+        {% else %}
+        {% endif %}
+      </td>
+
+      <td class="number_col">{{ item.salesTotal_exctax|intcomma}}</td>
+      <td class="number_col">{{ item.costTotal_exctax|intcomma}}</td>
+      <td class="number_col">{{ item.salesTotal_exctax|sub:item.costTotal_exctax| intcomma}} </td>
+      <td class="number_col">
+        {% if item.costTotal %}
+          {{ item.salesTotal_exctax|sub:item.costTotal_exctax|div:item.salesTotal_exctax | mul:100 |floatformat:0}}%</td>
+        {% else %}
+        <p>-</p>
+        {% endif %}
+
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>  
   </tr>
 
   {% endfor %}

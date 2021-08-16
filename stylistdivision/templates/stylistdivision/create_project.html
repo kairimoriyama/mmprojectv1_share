@@ -1,4 +1,3 @@
-
 {% extends 'stylistdivision/base.html' %}
 
 
@@ -22,7 +21,7 @@
 {% block content %}
 
 
-<div class="container_create_project" >
+<form class="container_create_project" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
     <div class="menu_wrapper_inner margin_top margin_bottom item0">
         <div class="submit_btn_wrapper">
@@ -60,29 +59,34 @@
     </dl>
     
     <dl class="item_dl item6">
-      <dt>顧客</dt>
+      <dt>顧客名</dt>
       <dd>{{ form.client }}</dd>
     </dl>
-      
+
     <dl class="item_dl item7">
+        <dt>先方担当</dt>
+        <dd>{{ form.clientDetail }}</dd>
+    </dl>
+      
+    <dl class="item_dl item8">
       <dt>案件種別</dt>
       <dd>{{ form.projectcategory }}</dd>
     </dl>
   
-    <dl class="item_dl item8">
+    <dl class="item_dl item9">
         <dt>案件名</dt>
         <dd>{{ form.projectName}}</dd>
     </dl>
 
-    <dl class="item_dl item9 staffNumber">
-      <dt>管理担当</dt>
+    <dl class="item_dl item10 staffNumber">
+      <dt>当社担当</dt>
       <dd id="managementStaffNumber">
         <input class="margin_right_s" name="managementStaffNumber" type="number">
         {{ form.mSatff}}
       </dd>
     </dl>
   
-    <dl class="item_dl item10 multiple_items_starff staffNumber">
+    <dl class="item_dl item11 multiple_items_starff staffNumber">
         <dt class="height_m">スタイリスト</dt>
         <dd class="height_m">
 
@@ -107,7 +111,7 @@
         </dd>
     </dl>
 
-    <dl class="item_dl item11 multiple_items_starff staffNumber">
+    <dl class="item_dl item12 multiple_items_starff staffNumber">
         <dt class="height_m">アシスタント</dt>
         <dd class="height_m">
 
@@ -131,43 +135,66 @@
         </dd>
     </dl>
 
-    <dl class="item_dl item12">
-        <dt class="height_l sentence_dt2">メモ</dt>
-        <dd class="height_l sentence_dd2">{{ form.description}}</dd>
+    <dl class="item_dl item13">
+        <dt class="height_ll sentence_dt2">メモ</dt>
+        <dd class="height_ll sentence_dd2">{{ form.description}}</dd>
     </dl>
     
  
-    <dl class="item_dl item13 multiple_items_amount">
-        <dt class="height_ll">税込金額</dt>
-        <dd class="height_ll flex_box_wrap">
+    <dl class="item_dl item14 multiple_items_amount">
+        <dt class="height_xl">税込金額</dt>
+        <dd class="height_xl flex_box_wrap">
 
-          <div class="flex_box">
-            <ul class="flex_box_wrap width_mm space_between">
-                <li class="flex_box"><p>報酬売上</p>{{ form.salesAmount1}}</li>
-                <li class="flex_box"><p>請求実費</p>{{ form.salesAmount2}}</li>
-                <li class="flex_box"><p>その他請求</p>{{ form.salesAmount3}}</li>
+          <div  class="flex_box width_max">
+            <ul class="width_mm">
+              <li><p class="width_mm text_align_right">課税対象</p></li>
             </ul>
-            <ul class="flex_box_wrap width_mm margin_left flex_end">
-                <li class="flex_box"><p>売上合計</p>{{ form.salesTotal}}</li>
+            <ul class="width_ms margin_left_l">
+              <li><p class="width_ms text_align_right">課税対象外</p></li>
+            </ul>
+            <ul class="width_ms margin_left_l">
+              <li><p class="width_ms text_align_right">税込合計</p></li>
             </ul>
           </div>
 
-          <div  class="flex_box margin_top">
-            <ul class="width_mm space_between">
-                <li class="flex_box"><p>外注費</p>{{ form.costAmount1}}</li>
-                <li class="flex_box"><p>社内リース</p>{{ form.costAmount2}}</li>
-                <li class="flex_box"><p>その他経費</p>{{ form.costAmount3}}</li>
+          <div class="flex_box width_max margin_top">
+            <ul class="flex_box_wrap width_mm height_9rem space_between">
+                <li class="width_mm flex_box_justify_spacebetween"><p>報酬</p>{{ form.salesAmount1_inctax}}</li>
+                <li class="width_mm flex_box_justify_spacebetween"><p>請求実費</p>{{ form.salesAmount2_inctax}}</li>
+                <li class="width_mm flex_box_justify_spacebetween"><p>その他請求</p>{{ form.salesAmount3_inctax}}</li>
+            </ul>
+            <ul class="flex_box_wrap width_ms height_9rem space_between margin_left_l">
+              <li class="width_ms lign_height_input"></li>
+              <li class="width_ms">{{ form.salesAmount2_notax}}</li>
+              <li class="width_ms">{{ form.salesAmount3_notax}}</li>
+            </ul>
+            <ul class="width_ms height_9rem margin_left_l flex_end">
+              <li>{{ form.salesTotal}}</li>
+            </ul>
+          </div>
+
+          <div  class="flex_box width_max margin_top">
+            <ul class="width_mm height_9rem space_between">
+              <li class="width_mm flex_box_justify_spacebetween"><p>外注費</p>{{ form.costAmount1_inctax}}</li>
+              <li class="width_mm flex_box_justify_spacebetween"><p>社内リース</p>{{ form.costAmount2_inctax}}</li>
+              <li class="width_mm flex_box_justify_spacebetween"><p>その他経費</p>{{ form.costAmount3_inctax}}</li>
             </ul>
 
-            <ul class="flex_box_wrap width_mm margin_left flex_end">
-                <li class="flex_box"><p>費用合計</p>{{ form.costATotal}}</li>
+            <ul class="flex_box_wrap width_ms height_9rem space_between margin_left_l">
+              <li class="width_ms lign_height_input"></li>
+              <li class="width_ms">{{ form.costAmount2_notax}}</li>
+              <li class="width_ms">{{ form.costAmount3_notax}}</li>
+            </ul>
+
+            <ul class="width_ms height_9rem margin_left_l flex_end">
+              <li>{{ form.costTotal}}</li>
             </ul>
           </div>
 
         </dd>
       </dl>
 
-    <dl class="item_dl item14 multiple_items">
+    <dl class="item_dl item15 multiple_items">
         <dt class="height_l">画像</dt>
         <dd class="height_l multiple_items_update">
             <div class="attachment_update">
@@ -202,7 +229,7 @@
         </dd>
     </dl>
         
-    <dl class="item_dl item15 multiple_items">
+    <dl class="item_dl item16 multiple_items">
         <dt class="height_l">案件資料</dt>
         <dd class="height_l multiple_items_update">
 
@@ -223,7 +250,7 @@
         </dd>
     </dl>
 
-    <dl class="item_dl item16 multiple_items_URL">
+    <dl class="item_dl item17 multiple_items_URL">
         <dt class="height_l">URL</dt>
         <dd class="height_l">
           <div class="flex_box">
@@ -242,25 +269,22 @@
     </dl>
     
   
-    <dl class="item_dl item17">
-        <dt class="height_l">見積書</dt>
-        <dd class="height_l">
-        </dd>
-    </dl>
-
     <dl class="item_dl item18">
-        <dt class="height_l">請求書</dt>
-        <dd class="height_l">
-        </dd>
+        <dt class="height_l">見積書</dt>
+        <dd class="height_l">-</dd>
     </dl>
 
     <dl class="item_dl item19">
+        <dt class="height_l">請求書</dt>
+        <dd class="height_l">-</dd>
+    </dl>
+
+    <dl class="item_dl item20">
         <dt class="height_l">領収書</dt>
-        <dd class="height_l">
-        </dd>
+        <dd class="height_l">-</dd>
     </dl>
   
-    <dl class="item_dl item20">
+    <dl class="item_dl item21">
         <dt>支払情報</dt>
         <dd>-</dd>
     </dl>
@@ -273,140 +297,11 @@
       <dt></dt> <dd></dd>
     </dl>
   
-  </div>
+  </form>
   <hr>
   
-  
-  {% load static %}
-  <script src="{% static 'procurement/js/create_order_request.js' %}"></script>
-  
-  
-  {% block extrajs %}
-  <script>
-  
-  /*ajax起動用*/
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-  }
-  
-  var csrftoken = getCookie('csrftoken');
-  
-  function csrfSafeMethod(method) {
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-  }
-  
-  $.ajaxSetup({
-    beforeSend: function (xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-  });
-  /*----------*/
-  
-  
-  
-  // 管理者
-  
-  let staffNumberElement = document.getElementById('orderStaffNumber').children[0];
-  let staffdbElement = document.getElementById('orderStaffNumber').children[1];
-  
-  console.log(staffNumberElement)
-  console.log(staffNumberElement.value)
-  console.log(staffdbElement)
-  
-  const inputOrderStaffNumber = (select) => {
-   
-    for (let i = staffdbElement.childElementCount-1 ; i >= 0; i--) {  
-      staffdbElement.remove(i);
-    };
-  
-    $.ajax({
-        url: "{% url 'procurement:ajax_get_orderStaff' %}",
-        type: 'GET',
-        data: {'orderStaffNumber': staffNumberElement.value},
-    }).done(response => {
-  
-      // 選択肢を作成
-      
-      let items_staffdb = response.staffList
-      console.log(items_staffdb)
-      console.log(items_staffdb.length)
-  
-      for (let i = 0; i < items_staffdb.length; i++) {  
-        let option = document.createElement('option')
-        option.setAttribute('value', items_staffdb[i]['pk']);
-        option.innerHTML = items_staffdb[i]['fullName'];
-  
-        staffdbElement.appendChild(option); 
-        };
-    });
-    console.log(staffdbElement)  
-  };
-  
-  
-  
-  staffdbElement.addEventListener('focus', () => {
-    console.log("test");
-    inputOrderStaffNumber();
-  });
-  
-  
-  
-  // スタイリスト
-  
-  let requetStaffNumberElement = document.getElementById('requestStaffNumber').children[0];
-  let requetStaffdbElement = document.getElementById('requestStaffNumber').children[1];
-  
-  const inputRequestStaffNumber = (select) => {
-   
-    for (let i = requetStaffdbElement.childElementCount-1 ; i >= 0; i--) {  
-      requetStaffdbElement.remove(i);
-    };
-  
-    $.ajax({
-        url: "{% url 'procurement:ajax_get_requestStaff' %}",
-        type: 'GET',
-        data: {'requestStaffNumber': requetStaffNumberElement.value},
-    }).done(response => {
-  
-      // 選択肢を作成
-      
-      let items_staffdb = response.staffList
-      console.log(items_staffdb)
-      console.log(items_staffdb.length)
-  
-      for (let i = 0; i < items_staffdb.length; i++) {  
-        let option = document.createElement('option')
-        option.setAttribute('value', items_staffdb[i]['pk']);
-        option.innerHTML = items_staffdb[i]['fullName'];
-  
-        requetStaffdbElement.appendChild(option); 
-        };
-    });
-    console.log(requetStaffdbElement)  
-  };
-  
-  
-  requetStaffdbElement.addEventListener('focus', () => {
-    console.log("test2");
-    inputRequestStaffNumber();
-  });
-  
-  
-  </script>
-  {% endblock extrajs %}
+{% load static %}
+<script src="{% static 'stylistdivision/js/create_project.js' %}"></script>
 
 {% endblock content%}
 
