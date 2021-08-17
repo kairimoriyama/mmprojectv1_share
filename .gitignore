@@ -2,7 +2,7 @@
 nano.save
 *.pyc
 media/
-migrations/
+
 
 
 # Byte-compiled / optimized / DLL files
