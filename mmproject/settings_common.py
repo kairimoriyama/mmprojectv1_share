@@ -10,7 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l!@oqrwyn(lxw3)hw5ii_xlds-)4c5d+kb0o!b4^%(3hgaevgl'
+# 暫定（for share）
+SECRET_KEY = 'SECRET_KEY'
 
 # ログインできるemailのドメインを制限（adapter.pyで管理）
 SOCIALACCOUNT_ADAPTER = 'mmproject.adapter.CustomSocialAccountAdapter'
